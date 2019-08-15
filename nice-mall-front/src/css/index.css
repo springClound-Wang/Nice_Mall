@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding:0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+/*登录注册*/
+.form-inline{
+    width: 80%;
+    min-height:260px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+/*登录注册按钮*/
+.form-inline .btn{
+    background:  #889fcc;
+    border: none;
+    padding: 6px 14px;
+    margin-top: 5px;
+    color: white;
+}
+.form-inline .btn:hover{
+    color: white;
+}
+.form-inline .iconfont{
+    position: absolute;
+    left: 0;
+    top:0;
+    font-size: 25px;
+    color: white;
+    width: 40px;
+    height: 45px;
+    padding: 0;
+    line-height: 45px;
+    display: inline-block;
+    background: #889fcc;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.form-inline label{
+    position: relative;
+    height: 42px;
+    margin-top: 10px;
+
+}
+label input{
+    margin-left: 30px;
+    border: none;
+    outline: none;
+    height: 45px !important;
+}
+
+/*组件切换动画*/
+.myactive{
+    text-decoration: none;
+    cursor: pointer;
+}
+a {
+    text-decoration: none !important;
+}
+.router-link-active{
+    text-decoration: none;
+}
+.v-enter,.v-leave-to{
+    opacity: 0;
+    transform: rotateX(180deg);
+}
+.v-enter-active,.v-leave-active{
+    transition: all .5s ease-in;
+}
+
+
+/*下拉菜单*/
+.item{
+    position: absolute;
+    width: 90px;
+    height: auto;
+    background-color:white;
+    margin: 2px 0;
+    display: none;
+}
+.itemHover{
+    position: absolute;
+    top: 40px;
+    width: 90px;
+    height: auto;
+    border-top: none;
+    background: linear-gradient(to right, #f1366d, #fe5745);
+    margin: 8px 0;
+    display: block;
+    z-index: 100;
+}
+.list{
+    list-style-type: none;
+    width: 90px;
+    text-align: left;
+    float: left;
+    display:block;
+    position: relative;
+}
+.list li{
+    padding: 0 5px;
+    height: 3em;
+    color: white;
+}
+
+
+/*连接样式*/
+ul{
+    list-style: none;
+}
+/*商品样式*/
