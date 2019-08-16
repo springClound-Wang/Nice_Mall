@@ -1,0 +1,26 @@
+server:
+  port: 8086
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/nice_mall?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: tian787604
+#mybatis plus 设置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*/*.xml
+
+
+shiro:
+  #后端免认证url
+  anonUrl: /login,/register,/logout/**
+  #token有效期，单位秒
+  jwtTimeOut: 3600
+
+#开启驼峰命名匹配规则
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+debug: true

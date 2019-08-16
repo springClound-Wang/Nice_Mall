@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.User">
+        <id column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="user_password" property="userPassword" />
+        <result column="user_sex" property="userSex" />
+        <result column="user_telephone" property="userTelephone" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+    </resultMap>
+    <select id="findByName" resultMap="BaseResultMap">
+        select * from m_user where user_name = #{username}
+    </select>
+    <select id="selectAllName" resultType="java.lang.String">
+        select user_name from m_user
+    </select>
+    <insert id="insertsave">
+        insert into m_user values(NUll,#{userName},#{userPassword},#{userSex},#{userTelephone},#{userAvatar},NOW(),NOW())
+    </insert>
+
+</mapper>

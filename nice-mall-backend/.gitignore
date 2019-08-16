@@ -39,3 +39,11 @@ nice-mall-backend.iml
 mvnw
 mvnw.cmd
 nice-mall-backend.iml
+target/
+.attach_pid6817
+.attach_pid6926
+.attach_pid10213
+.attach_pid11264
+generator/
+generator/
+nice_sql/
