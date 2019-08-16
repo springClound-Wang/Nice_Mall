@@ -22,5 +22,7 @@
     <insert id="insertsave">
         insert into m_user values(NUll,#{userName},#{userPassword},#{userSex},#{userTelephone},#{userAvatar},NOW(),NOW())
     </insert>
-
+    <select id="findByPhone" resultMap="BaseResultMap">
+        select * from m_user where user_telephone = #{telephone}
+    </select>
 </mapper>

@@ -1,11 +1,9 @@
 package com.fdj.nicemallbackend.common.authenication;
 
 import com.fdj.nicemallbackend.common.properties.ShiroProperties;
-import com.fdj.nicemallbackend.common.utils.EncryptUtil;
 import com.fdj.nicemallbackend.common.utils.SpringContextUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -68,7 +66,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             getSubject(request, response).login(jwtToken);
             return true;
         } catch (Exception e) {
-//            log.error(e.getMessage());
+            log.error(e.getMessage());
             return false;
         }
     }
@@ -93,7 +91,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean sendChallenge(ServletRequest request, ServletResponse response) {
-//        log.debug("Authentication required: sending 401 Authentication challenge response.");
+        log.debug("Authentication required: sending 401 Authentication challenge response.");
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpResponse.setCharacterEncoding("utf-8");
@@ -103,7 +101,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             String responseJson = "{\"message\":\"" + message + "\"}";
             out.print(responseJson);
         } catch (IOException e) {
-//            log.error("sendChallenge error：", e);
+            log.error("sendChallenge error：", e);
         }
         return false;
     }

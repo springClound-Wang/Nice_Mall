@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.mapper;
 import com.fdj.nicemallbackend.system.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,5 +35,12 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username
      * @return
      */
-    User findByName(String username);
+    User findByName(@Param("username") String username);
+
+    /**
+     * By phone 查询
+     * @param telephone
+     * @return
+     */
+    User findByPhone(@Param("telephone") String telephone);
 }

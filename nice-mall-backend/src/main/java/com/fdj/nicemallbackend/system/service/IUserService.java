@@ -28,4 +28,11 @@ public interface IUserService{
      * @return
      */
     Boolean regist(String telephone, String password,String code);
+
+    /**
+     * 通过phone查人
+     * @param telephone
+     * @return
+     */
+    User getUserByphone(String telephone);
 }

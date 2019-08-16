@@ -51,4 +51,9 @@ public class UserServiceImpl implements IUserService {
         userMapper.insertsave(user);
         return flag;
     }
+
+    @Override
+    public User getUserByphone(String telephone) {
+        return userMapper.findByPhone(telephone);
+    }
 }

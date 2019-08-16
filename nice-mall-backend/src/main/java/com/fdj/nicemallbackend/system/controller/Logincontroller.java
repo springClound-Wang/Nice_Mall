@@ -1,6 +1,11 @@
 package com.fdj.nicemallbackend.system.controller;
 
+import com.fdj.nicemallbackend.common.authenication.JWTToken;
+import com.fdj.nicemallbackend.common.authenication.JWTUtil;
+import com.fdj.nicemallbackend.common.properties.ShiroProperties;
+import com.fdj.nicemallbackend.common.utils.TokenUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.User;
 import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +29,9 @@ public class Logincontroller {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private ShiroProperties shiroProperties;
 
     /**
      * 请求发送验证码
@@ -53,5 +63,30 @@ public class Logincontroller {
         else{
             return new Result().fail("验证码错误");
         }
+    }
+
+    /**
+     *telephone+password登录
+     */
+    @ResponseStatus
+    @PostMapping("/login")
+    public Result telephonelogin(@RequestBody Map<String,String> map){
+        String telephone = map.get("telephone");
+        String password = map.get("password");
+        User user = userService.getUserByphone(telephone);
+        if (user == null) {
+            return new Result().fail("用户名不存在!!!");
+        }
+        if(!user.getUserPassword().equals(password)){
+            return new Result().fail("密码错误!!!");
+        }
+        String token = TokenUtil.encryptToken(JWTUtil.sign(telephone,password));
+        LocalDateTime expireTime = LocalDateTime.now().plusSeconds(shiroProperties.getJwtTimeOut());
+        JWTToken jwtToken = new JWTToken(token,expireTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 hh:mm:ss")));
+        Map<String,Object> resInfo = new HashMap<>();
+        resInfo.put("userid",user.getUserId());
+        resInfo.put("username",user.getUserName());
+        resInfo.put("token",token);
+        return new Result().success(resInfo);
     }
 }

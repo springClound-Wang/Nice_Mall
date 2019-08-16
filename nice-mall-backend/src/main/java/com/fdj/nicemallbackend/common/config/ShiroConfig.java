@@ -1,5 +1,7 @@
-package com.fdj.nicemallbackend.common.authenication;
+package com.fdj.nicemallbackend.common.config;
 
+import com.fdj.nicemallbackend.common.authenication.JWTFilter;
+import com.fdj.nicemallbackend.common.authenication.ShiroRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
