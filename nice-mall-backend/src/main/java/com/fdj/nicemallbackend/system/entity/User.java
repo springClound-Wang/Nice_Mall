@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 
 /**
@@ -38,7 +39,7 @@ public class User extends Model<User> {
 
     private String userAvatar;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 }

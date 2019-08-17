@@ -74,7 +74,7 @@ public class UserServiceImpl implements IUserService {
         List<User> users = new ArrayList<>();
         users = userMapper.selectAll();
         for(int i=0;i<users.size();i++){
-            users.get(0).setUserPassword("---------");
+            users.get(i).setUserPassword("---------");
         }
         return users;
     }
