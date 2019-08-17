@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.common.utils;
 
+import com.fdj.nicemallbackend.common.domain.VerifyConsts;
 import com.fdj.nicemallbackend.common.function.CacheSelector;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,10 +50,10 @@ public class TokenUtil {
 
     public static String encryptToken(String token) {
         try {
-            EncryptUtil encryptUtil = new EncryptUtil("febs.cache.token.");
+            EncryptUtil encryptUtil = new EncryptUtil(VerifyConsts.TOKEN_CACHE_PREFIX);
             return encryptUtil.encrypt(token);
         } catch (Exception e) {
-//            log.info("token加密失败：", e);
+            log.info("token加密失败：", e);
             return null;
         }
     }
@@ -65,10 +66,10 @@ public class TokenUtil {
      */
     public static String decryptToken(String encryptToken) {
         try {
-            EncryptUtil encryptUtil = new EncryptUtil("febs.cache.token.");
+            EncryptUtil encryptUtil = new EncryptUtil(VerifyConsts.TOKEN_CACHE_PREFIX);
             return encryptUtil.decrypt(encryptToken);
         } catch (Exception e) {
-//            log.info("token解密失败：", e);
+            log.info("token解密失败：", e);
             return null;
         }
     }

@@ -25,4 +25,7 @@
     <select id="findByPhone" resultMap="BaseResultMap">
         select * from m_user where user_telephone = #{telephone}
     </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from m_user
+    </select>
 </mapper>

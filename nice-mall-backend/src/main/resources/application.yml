@@ -7,6 +7,18 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/nice_mall?useUnicode=true&characterEncoding=utf-8
     username: root
     password: tian787604
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: tian2189543
+    jedis:
+      pool:
+        min-idle: 8
+        max-idle: 500
+        max-active: 2000
+        max-wait: 10000
+    timeout: 0
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath:mapper/*/*.xml
@@ -14,9 +26,9 @@ mybatis-plus:
 
 shiro:
   #后端免认证url
-  anonUrl: /login,/register,/logout/**
+  anonUrl: /login/**,/register,/logout/**
   #token有效期，单位秒
-  jwtTimeOut: 3600
+  jwtTimeOut: 300
 
 #开启驼峰命名匹配规则
 mybatis:

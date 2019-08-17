@@ -27,7 +27,7 @@ import java.io.PrintWriter;
  */
 @Slf4j
 public class JWTFilter extends BasicHttpAuthenticationFilter {
-    private static final String TOKEN = "Authentication";
+    private static final String TOKEN = "Authorization";
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 

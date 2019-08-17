@@ -1,11 +1,16 @@
 package com.fdj.nicemallbackend.common.authenication;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fdj.nicemallbackend.common.utils.HttpContextUtil;
 import com.fdj.nicemallbackend.common.utils.IPUtil;
 import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
+import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.service.IRolelistService;
 import com.fdj.nicemallbackend.system.service.IUserService;
+import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -39,6 +44,9 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private IRolelistService iRolelistService;
+
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JWTToken;
@@ -58,11 +66,11 @@ public class ShiroRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        /*// 获取用户角色集
-        Set<String> roleSet = userManager.getUserRoles(username);
+        // 获取用户角色集
+        Set<String> roleSet = iRolelistService.getUserRoles(username);
         simpleAuthorizationInfo.setRoles(roleSet);
 
-        // 获取用户权限集
+       /* // 获取用户权限集
         Set<String> permissionSet = userManager.getUserPermissions(username);
         simpleAuthorizationInfo.setStringPermissions(permissionSet);*/
         return simpleAuthorizationInfo;
@@ -92,7 +100,7 @@ public class ShiroRealm extends AuthorizingRealm {
             /**
              * 改过
              */
-            encryptTokenInRedis = (String) redisUtil.get(VerifyConsts.TOKEN_CACHE_PREFIX + encryptToken + "." + ip);
+            encryptTokenInRedis = (String) redisUtil.get(VerifyConsts.TOKEN_CACHE_PREFIX + encryptToken + StringPool.DOT+ ip);
         } catch (Exception ignore) {
         }
         // 如果找不到，说明已经失效

@@ -1,12 +1,15 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.common.utils.RandomUtil;
+import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.mapper.RolelistMapper;
 import com.fdj.nicemallbackend.system.mapper.UserMapper;
 import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +26,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    RolelistMapper rolelistMapper;
 
     /**
      * 通过用户名查询信息
@@ -49,11 +55,27 @@ public class UserServiceImpl implements IUserService {
         user.setUserTelephone(telephone);
         user.setUserAvatar(User.DEFAULT_AVATAR);
         userMapper.insertsave(user);
+
+        Rolelist roleuser = new Rolelist();
+        roleuser.setRoleId(2);
+        user = userMapper.findByPhone(telephone);
+        roleuser.setUserId(user.getUserId());
+        rolelistMapper.insert(roleuser);
         return flag;
     }
 
     @Override
     public User getUserByphone(String telephone) {
         return userMapper.findByPhone(telephone);
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        List<User> users = new ArrayList<>();
+        users = userMapper.selectAll();
+        for(int i=0;i<users.size();i++){
+            users.get(0).setUserPassword("---------");
+        }
+        return users;
     }
 }

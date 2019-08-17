@@ -43,4 +43,10 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     User findByPhone(@Param("telephone") String telephone);
+
+    /**
+     * 查询所有用户信息
+     * @return
+     */
+    List<User> selectAll();
 }
