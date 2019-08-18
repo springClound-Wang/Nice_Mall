@@ -15,19 +15,29 @@ import './font/font3/iconfont.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 
-//轮播图 组件
-import { Swipe, SwipeItem } from 'mint-ui';
+//轮播图 复选框 组件
+import { Swipe, SwipeItem,Checklist } from 'mint-ui';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Checklist.name, Checklist);
+import { Cell } from 'mint-ui';
+
+Vue.component(Cell.name, Cell);
 
 // 手动安装VueRouter
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 import routerObj from "./router";
 
+//发送请求
 import app from './App.vue';
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
+Axios.defaults.baseURL='http://localhost:3030';
+//跳转到页面顶部
+routerObj.afterEach((to,from,next) => {
+    window.scrollTo(0,0);
+});
 const vm = new Vue({
     el: '#app',
     data: {},

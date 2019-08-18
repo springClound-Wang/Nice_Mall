@@ -166,7 +166,7 @@ export default {
     methods:{
         //立即购买
         handleBuy(){
-           this.$http.post('http://localhost:3030/buy',{
+           this.$http.post('/buy',{
                userId:1,
                goodsId:this.$route.query.id,
                goodsNum:this.goods_num,
@@ -179,7 +179,7 @@ export default {
         },
         //加入购物车
         handleAddCar(){
-            this.$http.post('http://localhost:3030/addcar',{
+            this.$http.post('/addcar',{
                 userId:1,
                 goodsId:this.$route.query.id,
                 goodsNum:this.goods_num,

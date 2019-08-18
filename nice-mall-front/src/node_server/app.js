@@ -215,42 +215,50 @@ let select_data = {
     goodsSelect:[
         {
             goods_type_id:1,
-            type_name:'精选女装 心动价格，等你来选',
+            all_type_name:'女装',
+            type_title:'精选女装 心动价格，等你来选',
             type_desc:'3'
         },
         {
             goods_type_id:2,
-            type_name:'精选男装 热销专场',
+            all_type_name:'男装',
+            type_title:'精选男装 热销专场',
             type_desc:'5'
         },
         {
             goods_type_id:3,
-            type_name:'母婴用品 颜值与质量共存',
+            all_type_name:'母婴',
+            type_title:'母婴用品 颜值与质量共存',
             type_desc:'4.2'
         },
         {
             goods_type_id:4,
-            type_name:'鞋子包包 做时尚的弄潮儿',
+            all_type_name:'鞋包',
+            type_title:'鞋子包包 做时尚的弄潮儿',
             type_desc:'7.5'
         },
         {
             goods_type_id:5,
-            type_name:'运动潮品 运动魅力无限',
+            all_type_name:'运动',
+            type_title:'运动潮品 运动魅力无限',
             type_desc:'5.3'
         },
         {
             goods_type_id:6,
-            type_name:'零食大礼包 想吃的 我们应有尽有',
+            all_type_name:'食品',
+            type_title:'零食大礼包 想吃的 我们应有尽有',
             type_desc:'3'
         },
         {
             goods_type_id:7,
-            type_name:'居家 为生活加一抹色彩',
+            all_type_name:'居家',
+            type_title:'居家 为生活加一抹色彩',
             type_desc:'6.3'
         },
         {
             goods_type_id:8,
-            type_name:'更多精品 发现身边的美丽 ',
+            all_type_name:'更多',
+            type_title:'更多精品 发现身边的美丽 ',
             type_desc:'4'
         }
 
@@ -410,6 +418,52 @@ let type_data = {
         }
     ]
 };
+
+//购物车列表
+let car_data = [
+    {
+        car_goods_id:1,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
+        car_goods_price:'45',
+        car_goods_num:2
+    },
+    {
+        car_goods_id:2,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '香影新款很仙的印花裙子夏款流行',
+        car_goods_price:'49',
+        car_goods_num:1
+    },
+    {
+        car_goods_id:3,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
+        car_goods_price:'75',
+        car_goods_num:1
+    },
+    {
+        car_goods_id:4,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
+        car_goods_price:'112',
+        car_goods_num:1
+    },
+    {
+        car_goods_id:5,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
+        car_goods_price:'45',
+        car_goods_num:2
+    },
+    {
+        car_goods_id:6,
+        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_name: '香影新款很仙的印花裙子超仙雪纺连衣裙',
+        car_goods_price:'98',
+        car_goods_num:3
+    }
+];
 app.get('/',function (req,res) {
     res.send(type_data);
 });
@@ -427,6 +481,10 @@ app.get('/gettypegoodslist',function (req,res) {
         res.send(man_data);
     }
 });
+app.get('/getgoodslist',function (req,res) {
+    console.log(req.query.goodsname);
+    res.send(woman_data);
+});
 app.post('/buy',function (req,res) {
    console.log(req.body);
    res.send('buy_ok');
@@ -436,6 +494,12 @@ app.post('/addcar',function (req,res) {
     res.send('car_ok');
 });
 
+app.get('/goods_car',function (req,res) {
+   res.end('ok')
+});
+app.get('/getcarlist',function (req,res) {
+   res.send(car_data)
+});
 app.listen(3030,function () {
     console.log("http://localhost:3030");
 });

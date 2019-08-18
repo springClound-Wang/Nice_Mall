@@ -9,12 +9,17 @@
                 <li><span class="iconfont icon-baozhuanhuan"></span>年轻人的潮流</li>
             </ul>
             <label>
-                <input type="text" value="" name="search" placeholder="连衣裙"/>
-                <span class="iconfont icon-sousuo"></span>
+                <input type="text" value="" name="search" placeholder="连衣裙" v-model="search" @keydown.enter="handletoSearch"/>
+                <!--搜索框-->
+                <router-link :to="'/goods_item?goodsname='+search">
+                    <span class="iconfont icon-sousuo"></span>
+                </router-link>
             </label>
             <div class="car">
                 <span class="iconfont icon-erweima" title="二维码" style="font-size:32px"></span>
-                <span class="iconfont icon-gouwuchekong" title="去购物车"></span>
+                <router-link to="/other_container/goods_car">
+                    <span class="iconfont icon-gouwuchekong" title="去购物车"></span>
+                </router-link>
             </div>
         </div>
         <div class="bottom-nav">
@@ -26,10 +31,13 @@
                                 <li @mouseenter="show_goods" @mouseleave="hide_goods" v-for="goods_item in goods_type_list">
                                     <span>{{goods_item.name_list}}</span>
                                     <div class="all_goods_list">
-                                       <div v-for="(item,index) in goods_item.goods_list" :key="index" class="all_goods_list_item">
+                                       <div v-for="(item,index) in goods_item.goods_list"
+                                            :key="index" class="all_goods_list_item">
                                            <div class="goods_list_name">{{item.goods_list_name}} ></div>
                                            <div class="goods_list_item">
-                                               <span v-for="val in item.goods_all" class="val_item">{{val}}</span>
+                                               <span v-for="val in item.goods_all" class="val_item">
+                                                   <router-link :to="'/goods_item?goodsname='+val">{{val}}</router-link>
+                                               </span>
                                            </div>
                                        </div>
 
@@ -102,6 +110,7 @@
     export default {
         data() {
             return {
+                search:'',
                 routerAlive:true,
                 goods_type_list:'' //类型列表
              }
@@ -117,9 +126,13 @@
                     this.routerAlive = true;
                 });
             },
+            //回车请求
+            handletoSearch(){
+                this.$router.push({ path: '/goods_item?goodsname='+this.search })
+            },
             //发出请求
             getTypeGoodsList(){
-                this.$http.get('http://localhost:3030/').then(res=>{
+                this.$http.get('/').then(res=>{
                     this.goods_type_list = res.data.goods_type_list;
                 }).catch(err=>{
                     console.log(err);
@@ -232,9 +245,9 @@
         color: #ff5125;
     }
     .hide-con div{
-        width: 80px;
-        height: 50px;
-        line-height: 50px;
+        width: 70px;
+        height: 40px;
+        line-height: 40px;
         font-size: 14px;
         border-right: 1px solid #cccccc;
         display: inline-block;
@@ -250,7 +263,7 @@
     /*商品分类下拉菜单*/
     .all_goods_list{
         width: 1220px;
-        height: 483px;
+        height: 450px;
         position: absolute;
         border-top: 1px solid #cccccc;
         background: #fff5ee url("../../image/list_bg.png") no-repeat 100% 100%;
@@ -289,6 +302,7 @@
         position: relative;
         height: 100px;
         margin: 10px auto;
+
     }
     .middle-nav img{
         width: 170px;
@@ -351,6 +365,11 @@
     }
     /*底部导航*/
     .bottom-nav{
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        background-color: white;
+        z-index: 1000;
         width: 90%;
         height: 48px;
         margin: 15px auto;
@@ -392,7 +411,7 @@
     #list{
         border: none;
         width:100%;
-        height: 483px;
+        height: 454px;
         color: white;
         background: linear-gradient(to right, #f1487f, #fe6e5a);
     }

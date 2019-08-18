@@ -37,12 +37,15 @@ export  default {
                 alert('请填入完整信息');
             }
             else{
-                this.$http.post('https://localhsot:8080/signUp',{
+                this.$http.post('/signup',{
                     phoneNum:this.phoneNum,
                     password:this.password,
                     code:this.code
                 }).then(res => {                   //请求成功后的处理函数
                     console.log(res);
+                    if(res.data.status === 0){
+                        alert('登录成功');
+                    }
                 }).catch(err => {                 //请求失败后的处理函数
                     console.log(err)
                 })
@@ -50,7 +53,9 @@ export  default {
         },
         //验证码
         handleCode(){
-            this.$http.post('https://localhsot:8080/code').then(res => {
+            this.$http.post('/code',{
+                phoneNum:this.phoneNum
+            }).then(res => {
                 console.log(res);
             }).catch(err => {
                 console.log(err)

@@ -10,7 +10,7 @@
                 <mt-swipe-item><img src="../../image/bg5.jpg"/></mt-swipe-item>
             </mt-swipe>
         </div>
-        <hr>
+        <!--<hr>-->
         <!--首页主体推荐-->
         <div class="content">
             <div class="con">
@@ -21,26 +21,30 @@
                 <span class="goods-title"> 今日推荐 Nice好物</span>
                 <div class="goods-item"  v-for="item in goods" :key="item.goods_id"
                      @mouseenter="item_enter" @mouseleave="item_leave">
-                    <img src="../../image/goods1.jpg" class="goods-img"/>
-                    <div class="goods-desc">
-                        <span class="goods-name">{{item.goods_name}}</span><br>
-                        <span class="price-desc">心动价</span>
-                        <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                        <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
-                    </div>
+                    <router-link :to="'/goods_detail?id='+item.goods_id" >
+                        <img src="../../image/goods1.jpg" class="goods-img"/>
+                        <div class="goods-desc">
+                            <span class="goods-name">{{item.goods_name}}</span><br>
+                            <span class="price-desc">心动价</span>
+                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
+                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                        </div>
+                    </router-link>
                 </div>
             </div>
             <div class="goods-two">
                 <span class="goods-title"> 最后疯抢 3折封顶</span>
                 <div class="goods-item"  v-for="item in goods" :key="item.goods_id"
                      @mouseenter="item_enter" @mouseleave="item_leave">
-                    <img src="../../image/goods2.jpg" class="goods-img"/>
-                    <div class="goods-desc">
-                        <span class="goods-name">{{item.goods_name}}</span><br>
-                        <span class="price-desc">心动价</span>
-                        <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                        <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
-                    </div>
+                    <router-link :to="'/goods_detail?id='+item.goods_id" >
+                        <img src="../../image/goods2.jpg" class="goods-img"/>
+                        <div class="goods-desc">
+                            <span class="goods-name">{{item.goods_name}}</span><br>
+                            <span class="price-desc">心动价</span>
+                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
+                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                        </div>
+                    </router-link>
                 </div>
             </div>
 
@@ -49,16 +53,19 @@
                 <p>精选专区</p>
             </div>
 
-            <div class="goods-select" v-for="item in goodsSelect" :key="item.goods_type_id" >
-                <div>
-                    <img :src="'../src/image/select'+item.goods_type_id+'.jpg'" @mouseenter="enter" @mouseleave="leave"/>
-                    <div class="select-into">
-                        <span class="iconfont icon-xinbaniconshangchuan-"></span>
-                        <span>进入选购</span>
+            <div class="goods-select" v-for="item in goodsSelect" :key="item.goods_type_id">
+                <router-link :to="'/goods_list?type='+item.all_type_name">
+                    <div>
+                        <img :src="'../src/image/select'+item.goods_type_id+'.jpg'" @mouseenter="enter"
+                             @mouseleave="leave"/>
+                        <div class="select-into">
+                            <span class="iconfont icon-xinbaniconshangchuan-"></span>
+                            <span>进入选购</span>
+                        </div>
                     </div>
-                </div>
-                <div class="select_name">{{item.type_name}}</div>
-                <span class="select_desc">{{item.type_desc}}</span><span>折封顶</span>
+                    <div class="select_name">{{item.type_title}}</div>
+                    <span class="select_desc">{{item.type_desc}}</span><span>折封顶</span>
+                </router-link>
             </div>
         </div>
 
@@ -81,7 +88,7 @@
         methods:{
             //发请求
             getTypeGoodsList(){
-                this.$http.get('http://localhost:3030/home').then(res=>{
+                this.$http.get('/home').then(res=>{
                     this.goodsSelect = res.data.goodsSelect;
                     this.goods = res.data.goods;
                 }).catch(err=>{
@@ -130,7 +137,7 @@
         position:relative;
         height:30px;
         line-height: 30px;
-        margin:30px auto;
+        margin:40px auto;
         text-align: center;
     }
     .con i{
@@ -264,11 +271,23 @@
     }
     .mint-swipe img{
         width: 92%;
-        height: 470px;
+        height: 440px;
         position: absolute;
         left:4.5%;
         border: 10px solid #ffffff;
         z-index: 100;
+    }
+    .mint-swipe-indicator {
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        border-radius: 100%;
+        background: #b5b5b5 !important;
+         opacity: 1 !important;
+        margin: 0 3px;
+    }
+    .mint-swipe-indicator .is-active {
+        background: #ee6168 !important;
     }
     .content{
         position: relative;

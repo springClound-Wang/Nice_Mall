@@ -41,12 +41,15 @@ export  default {
                 alert('请填入完整信息')
             }
             else{
-                this.$http.post('https://localhsot:8080/login',{
+                this.$http.post('/login',{
                     //参数
                     phoneNum:this.phoneNum,
-                    password:this.password,
+                    password:this.password
                 }).then(res => {                   //请求成功后的处理函数
                     console.log(res);
+                    if(res.data.status === 0){
+                        alert('登录成功');
+                    }
                 }).catch(err => {                 //请求失败后的处理函数
                     console.log(err)
                 })

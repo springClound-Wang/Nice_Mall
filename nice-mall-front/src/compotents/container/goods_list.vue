@@ -49,7 +49,7 @@ export default {
     methods:{
         //发请求：
         getTypeGoodsList(){
-         this.$http.get('http://localhost:3030/gettypegoodslist?type='+this.$route.query.type).then(res=>{
+         this.$http.get('/gettypegoodslist?type='+this.$route.query.type).then(res=>{
              this.hot_type = res.data.hot_type;
              this.goods = res.data.goods;
              this.hot_head_img = res.data.hot_head_img;

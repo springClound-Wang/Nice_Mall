@@ -12,6 +12,7 @@
                     </li>
                 </ul>
                 <ul class="second">
+                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 20px"></span></router-link></li>
                     <li @mouseenter="show(4)" @mouseleave="hide">
                         <span class="iconfont icon-daohang"></span>更多
                         <span class="iconfont icon-jiantouxia"></span>
@@ -59,15 +60,20 @@
                             </ul>
                         </div>
                     </li>
-
                     <li>
-                        <a href="#"><span class="iconfont icon-gouwuchekong"></span>购物车</a>
+                        <router-link to="/other_container/goods_car"><span class="iconfont icon-gouwuchekong"></span>购物车</router-link>
                         <span class="iconfont icon-jiantou"></span>
                     </li>
-                    <li>
+                    <li @mouseenter="show(5)" @mouseleave="hide">
                         <router-link to="/login_sign/login" class="link">
                             <span class="iconfont icon-user"></span>
-                            <span style="font-size: 17px">请登录</span></router-link>
+                            <span style="font-size: 17px">请登录</span>
+                        </router-link>
+                        <div class="item" :class="{itemHover:itemIndex===5}">
+                            <ul class="list" style="width: 100px">
+                                <a href="#"><li>退出登录</li></a>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </nav>
