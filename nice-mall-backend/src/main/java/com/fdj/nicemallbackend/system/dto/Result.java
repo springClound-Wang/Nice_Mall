@@ -24,7 +24,7 @@ public class Result {
     }
 
     public Result success(String message){
-        return setResult(true,message,null);
+        return setResult(true,message,"无数据");
     }
 
     public Result success(Object data){
@@ -36,7 +36,7 @@ public class Result {
     }
 
     public Result fail(String message){
-        return setResult(false,message,null);
+        return setResult(false,message,"无数据");
     }
 
 }

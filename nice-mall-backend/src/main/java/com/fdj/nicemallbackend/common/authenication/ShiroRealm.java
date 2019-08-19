@@ -116,9 +116,11 @@ public class ShiroRealm extends AuthorizingRealm {
 
         // 通过用户名查询用户信息
         User user = iUserService.getUser(username);
-
+        if(user == null){
+            user = iUserService.getUserByphone(username);
+        }
         if (user == null) {
-            throw new AuthenticationException("用户名或密码错误");
+            throw new AuthenticationException("电话号或密码错误");
         }
         if (!JWTUtil.verify(token, username, user.getUserPassword())) {
             throw new AuthenticationException("token校验不通过");

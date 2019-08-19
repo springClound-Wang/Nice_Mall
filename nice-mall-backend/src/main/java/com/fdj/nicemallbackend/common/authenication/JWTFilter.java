@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.common.authenication;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fdj.nicemallbackend.common.properties.ShiroProperties;
 import com.fdj.nicemallbackend.common.utils.SpringContextUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
@@ -35,10 +36,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         ShiroProperties shiroProperties = SpringContextUtil.getBean(ShiroProperties.class);
-        String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(shiroProperties.getAnonUrl(), ",");
+        String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(shiroProperties.getAnonUrl(), StringPool.COMMA);
 
         boolean match = false;
         for (String u : anonUrl) {
+            System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
             if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
                 match = true;
             }
@@ -78,9 +80,10 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization,If-Modified-Since");
+        httpServletResponse.setContentType("application/json");
         // 跨域时会首先发送一个 option请求，这里我们给 option请求直接返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
@@ -90,7 +93,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     @Override
-    protected boolean sendChallenge(ServletRequest request, ServletResponse response) {
+    protected boolean sendChallenge(ServletRequest request,ServletResponse response) {
         log.debug("Authentication required: sending 401 Authentication challenge response.");
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());

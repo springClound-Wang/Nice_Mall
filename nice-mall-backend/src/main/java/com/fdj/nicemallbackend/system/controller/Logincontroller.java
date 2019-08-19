@@ -61,10 +61,14 @@ public class Logincontroller {
      * 验证验证码并保存信息
      * @throws Exception
      */
-    @ResponseStatus
     @PostMapping("/register")
     public Result register(@RequestBody Map<String,String> map) throws Exception {
         Map<String,Object> result = new HashMap<>();
+        System.out.println(map.get("telephone")+"**"+map.get("password")+"*****"+map.get("code")+"  ");
+        User user = userService.getUserByphone("telephone");
+        if(user!=null){
+            return new Result().fail("此电话已经被注册咯！换一个吧!");
+        }
         Boolean flag = userService.regist(map.get("telephone"),map.get("password"),map.get("code"));
         if(flag == true){
             return new Result().success("注册成功!!!");
@@ -77,7 +81,6 @@ public class Logincontroller {
     /**
      *telephone+password登录
      */
-    @ResponseStatus
     @PostMapping("/login/phone")
     public Result telephonelogin(@RequestBody Map<String,String> map,HttpServletRequest request) throws Exception {
         String telephone = map.get("telephone");
@@ -105,7 +108,6 @@ public class Logincontroller {
     /**
      *telephone+password登录
      */
-    @ResponseStatus
     @PostMapping("/login/name")
     public Result userNamelogin(@RequestBody Map<String,String> map,HttpServletRequest request) throws Exception {
         String username = map.get("username");
