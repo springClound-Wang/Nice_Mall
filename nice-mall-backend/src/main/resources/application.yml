@@ -29,7 +29,7 @@ mybatis-plus:
 
 shiro:
   #后端免认证url
-  anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/logout/**
+  anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/nice-mall-backend/register/verifycode
   #token有效期，单位秒
   jwtTimeOut: 300
 
