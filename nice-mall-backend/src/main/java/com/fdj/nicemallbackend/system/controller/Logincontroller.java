@@ -14,7 +14,6 @@ import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +64,7 @@ public class Logincontroller {
     public Result register(@RequestBody Map<String,String> map) throws Exception {
         Map<String,Object> result = new HashMap<>();
         System.out.println(map.get("telephone")+"**"+map.get("password")+"*****"+map.get("code")+"  ");
-        User user = userService.getUserByphone("telephone");
+        User user = userService.getUserByphone(map.get("telephone"));
         if(user!=null){
             return new Result().fail("此电话已经被注册咯！换一个吧!");
         }
@@ -93,6 +92,7 @@ public class Logincontroller {
         if(!user.getUserPassword().equals(password)){
             return new Result().fail("密码错误!!!");
         }
+        //获取header.payload.signature形式的token,并进行加密。
         String token = TokenUtil.encryptToken(JWTUtil.sign(telephone,password));
         LocalDateTime expireTime = LocalDateTime.now().plusSeconds(shiroProperties.getJwtTimeOut());
         JWTToken jwtToken = new JWTToken(token,expireTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 hh:mm:ss")));
@@ -102,11 +102,11 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo);
+        return new Result().success(resInfo,"登录成功!!!");
     }
 
     /**
-     *telephone+password登录
+     *name+password登录
      */
     @PostMapping("/login/name")
     public Result userNamelogin(@RequestBody Map<String,String> map,HttpServletRequest request) throws Exception {
@@ -128,7 +128,7 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo);
+        return new Result().success(resInfo,"登录成功!!!");
     }
 
     private void savetoRedis(JWTToken token, HttpServletRequest request) throws Exception{

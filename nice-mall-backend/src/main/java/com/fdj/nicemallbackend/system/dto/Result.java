@@ -31,6 +31,10 @@ public class Result {
         return setResult(true,"成功",data);
     }
 
+    public Result success(Object data,String message){
+        return setResult(true,message,data);
+    }
+
     public Result fail(Object data,String message){
         return setResult(false,message,data);
     }

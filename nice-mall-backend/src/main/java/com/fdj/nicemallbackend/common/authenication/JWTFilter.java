@@ -39,6 +39,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(shiroProperties.getAnonUrl(), StringPool.COMMA);
 
         boolean match = false;
+        /**
+         * 如果匹配到设置的免认证url,则放行不用验证token
+         */
         for (String u : anonUrl) {
             System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
             if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
@@ -46,6 +49,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             }
         }
         if (match){ return true;}
+        /**
+         * 查看是否携带验证token,若携带，则验证token
+         */
         if (isLoginAttempt(request, response)) {
             return executeLogin(request, response);
         }
@@ -59,10 +65,19 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         return token != null;
     }
 
+    /**
+     * 验证token
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader(TOKEN);
+        /**
+         * 解密token
+         */
         JWTToken jwtToken = new JWTToken(TokenUtil.decryptToken(token));
         try {
             getSubject(request, response).login(jwtToken);
