@@ -3,7 +3,7 @@ package com.fdj.nicemallbackend.system.service.impl;
 import com.fdj.nicemallbackend.common.utils.RandomUtil;
 import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.entity.User;
-import com.fdj.nicemallbackend.system.mapper.RolelistMapper;
+import com.fdj.nicemallbackend.system.mapper.UserroleMapper;
 import com.fdj.nicemallbackend.system.mapper.UserMapper;
 import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserService {
     UserMapper userMapper;
 
     @Autowired
-    RolelistMapper rolelistMapper;
+    UserroleMapper userroleMapper;
 
     /**
      * 通过用户名查询信息
@@ -60,7 +60,7 @@ public class UserServiceImpl implements IUserService {
         roleuser.setRoleId(2);
         user = userMapper.findByPhone(telephone);
         roleuser.setUserId(user.getUserId());
-        rolelistMapper.insert(roleuser);
+        userroleMapper.insert(roleuser);
         return flag;
     }
 

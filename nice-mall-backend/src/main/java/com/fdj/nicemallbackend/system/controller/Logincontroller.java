@@ -131,8 +131,9 @@ public class Logincontroller {
         return new Result().success(resInfo,"登录成功!!!");
     }
 
+
     private void savetoRedis(JWTToken token, HttpServletRequest request) throws Exception{
         String ip = IPUtil.getIpAddr(request);
-        redisUtil.set(VerifyConsts.TOKEN_CACHE_PREFIX+token.getToken()+ StringPool.DOT+ip,token.getToken(),shiroProperties.getJwtTimeOut()*1000);
+        redisUtil.set(VerifyConsts.TOKEN_CACHE_PREFIX+token.getToken()+ StringPool.DOT+ip,token.getToken(),shiroProperties.getJwtTimeOut());
     }
 }

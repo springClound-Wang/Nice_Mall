@@ -2,15 +2,13 @@ package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.mapper.RoleMapper;
-import com.fdj.nicemallbackend.system.mapper.RolelistMapper;
+import com.fdj.nicemallbackend.system.mapper.UserroleMapper;
 import com.fdj.nicemallbackend.system.mapper.UserMapper;
 import com.fdj.nicemallbackend.system.service.IRolelistService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jdk.nashorn.internal.ir.IdentNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,10 +21,10 @@ import java.util.Set;
  * @since 2019-08-17
  */
 @Service
-public class RolelistServiceImpl extends ServiceImpl<RolelistMapper, Rolelist> implements IRolelistService {
+public class RolelistServiceImpl extends ServiceImpl<UserroleMapper, Rolelist> implements IRolelistService {
 
     @Autowired
-    RolelistMapper rolelistMapper;
+    UserroleMapper rolelistMapper;
 
     @Autowired
     RoleMapper roleMapper;
