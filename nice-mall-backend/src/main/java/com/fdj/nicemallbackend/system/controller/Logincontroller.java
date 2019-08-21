@@ -136,7 +136,7 @@ public class Logincontroller {
      * @return
      */
     @DeleteMapping("/logout")
-    public Result logoutByid(@PathVariable Integer id,HttpServletRequest request){
+    public Result logoutByid(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         String ip = IPUtil.getIpAddr(request);
         String now = DateUtil.formatFullTime(LocalDateTime.now());

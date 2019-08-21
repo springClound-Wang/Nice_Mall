@@ -1,12 +1,10 @@
 package com.fdj.nicemallbackend.common.authenication;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fdj.nicemallbackend.common.utils.HttpContextUtil;
 import com.fdj.nicemallbackend.common.utils.IPUtil;
 import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
-import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.entity.User;
 import com.fdj.nicemallbackend.system.service.IRolelistService;
 import com.fdj.nicemallbackend.system.service.IUserService;
