@@ -33,7 +33,23 @@ import routerObj from "./router";
 import app from './App.vue';
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
+
+// Axios.defaults.headers.common['Authorization'] = window.localStorage.getItem('token');
+// console.log(Axios.defaults.headers.common['Authorization']);
 Axios.defaults.baseURL='http://localhost:3030';
+
+// http request 拦截器
+Axios.interceptors.request.use(
+    config => {
+        config.headers = {
+            'Content-Type': 'application/json' // 设置很关键
+        };
+        return config
+    },
+    err => {
+        return Promise.reject(err)
+    }
+);
 //跳转到页面顶部
 routerObj.afterEach((to,from,next) => {
     window.scrollTo(0,0);

@@ -2,28 +2,31 @@
     <div id="car_container">
         <table>
             <thead>
-            <tr>
-                <th>商品信息</th>
-                <th>单价</th>
-                <th>数量</th>
-                <th>小计</th>
-                <th>操作</th>
+            <tr id="title">
+                <td>商品信息</td>
+                <td>单价</td>
+                <td>数量</td>
+                <td>小计</td>
+                <td>操作</td>
             </tr>
             </thead>
             <tbody>
             <tr v-for="item in car_data " :key="item.car_goods_id">
                 <td>
-                    <label :for="item.car_goods_id" class="select">
-                        <input type="checkbox" v-model="selected" :value="item.car_goods_num*item.car_goods_price" :id="item.car_goods_id">
+                    <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
+                        <input type="checkbox" v-model="selected" class="checked"
+                               :value="item.car_goods_id" :id="item.car_goods_id">
                         <img :src="item.car_goods_img"/>
-                        <div class="car_goods_name">{{item.car_goods_name}}</div>
+                        <div class="car_goods_name">
+                            {{item.car_goods_name}}
+                            <div style="margin-top: 10px">尺码：M</div>
+                        </div>
                     </label>
                 </td>
                 <td>￥{{item.car_goods_price}}</td>
                 <td>
-                    <div class="goods_details_num" :goods_num ='item.car_goods_num'>
-                        <span style="width: 0"></span>
-                        <span @click="handleCountAdd">+</span><span>{{item.car_goods_num}}</span><span @click="handleCountLess">-</span>
+                    <div class="goods_details_num" >
+                        <span @click="handleCountAdd(item)">+</span><span v-model="item.car_goods_num">{{item.car_goods_num}}</span><span @click="handleCountLess(item)">-</span>
                     </div>
                 </td>
                 <td>￥{{item.car_goods_num*item.car_goods_price}}</td>
@@ -34,7 +37,7 @@
         <div class="account">
             <ul>
                 <li>
-                    <label for="check_all" >
+                    <label for="check_all" @click="checkedAll" >
                         <input type="checkbox" id="check_all" class="check_all" ><span style="display: inline-block;margin: 2px 30px">全选</span>
                     </label>
                 </li>
@@ -42,8 +45,8 @@
                 <li>移入收藏夹</li>
             </ul>
             <div class="account_all">
-                <span>合计：{{selected}}</span>
-                <button>结算</button>
+                <span>合计：￥{{all_money}}</span>
+                <router-link to="/other_container/goods_order"><button>结算</button></router-link>
             </div>
         </div>
     </div>
@@ -53,36 +56,69 @@ export default {
     data(){
       return{
           selected:[],
-          goods_num:'',
           car_data:'',
           all_money:0.00
       }
+    },
+    computed:{
+
     },
     created(){
       this.getCarGoodsList();
     },
     methods:{
+        //结算总金额
+        selectedMoney(){
+            let checkObj = document.querySelectorAll('.checked'); // 获取所有checkbox项
+            let sum = 0;
+            this.all_money = 0.00;
+            checkObj.forEach((item,index)=>{
+                if(item.checked){ // 将未勾选的checkbox选项push到绑定数组中
+                    sum += parseInt(this.car_data[index].car_goods_price )* this.car_data[index].car_goods_num;
+                }
+            });
+            this.all_money = sum;
+        },
+        //全选
+        checkedAll(e){
+            let checkObj = document.querySelectorAll('.checked'); // 获取所有checkbox项
+            if(e.target.checked){ // 判定全选checkbox的勾选状态
+                for(let i=0;i<checkObj.length;i++){
+                    if(!checkObj[i].checked){ // 将未勾选的checkbox选项push到绑定数组中
+                        this.selected.push(checkObj[i].value);
+                    }
+                }
+                //全选结算价钱
+                let sum =0;
+                for(let i=0;i<this.selected.length;i++){
+                    sum+= parseInt(this.car_data[i].car_goods_price )* this.car_data[i].car_goods_num
+                }
+                this.all_money = sum;
 
+            }else { // 如果是去掉全选则清空checkbox选项绑定数组
+                this.selected = [];
+                this.all_money = 0.00;
+            }
 
+        },
         //发出请求：
         getCarGoodsList() {
             this.$http.get('/getcarlist?userId=1').then(res => {
                 this.car_data = res.data;
-                console.log(res.data)
             }).catch(err => {
                 console.log(err);
             })
         },
         //数量++
-        handleCountAdd(){
-            console.log(this.goods_num);
-            if(this.goods_num <5) this.goods_num++;
-            else {this.goods_num =5; alert("限购5件");}
+        handleCountAdd(item){
+            console.log(item.car_goods_num);
+            if(item.car_goods_num <5) item.car_goods_num++;
+            else {item.car_goods_num =5; alert("限购5件");}
         },
         //数量--
-        handleCountLess(){
-            if(this.goods_num >0) this.goods_num--;
-            else this.goods_num = 0;
+        handleCountLess(item){
+            if(item.car_goods_num >0) item.car_goods_num--;
+            else item.car_goods_num = 0;
         }
     }
 }
@@ -96,7 +132,7 @@ export default {
         width: 100%;
     }
     table{
-        width:80%;
+        width:86%;
         margin: 0 auto;
         border: none;
     }
@@ -105,27 +141,24 @@ export default {
     }
     thead tr:nth-child(1){
         background:linear-gradient(to right, #fe7e61, #f15e85);
+        color: white;
         height: 50px;
     }
-    tr{
-        height: 100px;
-        border-bottom:1px solid #dddddd;
-        border-left:1px solid #dddddd;
-        border-right:1px solid #dddddd;
-
+    tr {
+        height: 115px;
+        border-bottom: 1px solid #dddddd;
+        border-left: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
     }
-    th{
-        text-align: center !important;
-        height: 40px;
-        font-size:17px;
-        line-height: 40px;
+    #title td{
+        padding-left:6%;
     }
-    tbody thead tr th,tbody tr td{
+    tbody thead tr td,tbody tr td{
         text-align: center;
         position: relative;
         width: 12%;
     }
-    tbody thead tr th:nth-child(1),tbody tr td:nth-child(1){
+    tbody thead tr td:nth-child(1),tbody tr td:nth-child(1){
         width: 35%;
     }
     .select img{
@@ -134,7 +167,7 @@ export default {
         display: inline-block;
         position: absolute;
         right: 300px;
-        top:10px;
+        top:27px;
     }
     .select input{
         position: absolute;
@@ -157,6 +190,7 @@ export default {
         right: 18%;
         top: 25%;
         padding: 5px;
+        font-weight: 500;
     }
 
     /*结算*/
@@ -165,8 +199,9 @@ export default {
         top: 10px;
     }
     .account{
-        position: sticky; bottom: 10px;
-        width: 80%;
+        position: sticky;
+        bottom: 0;
+        width: 86%;
         margin: 10px auto;
         height: 70px;
         line-height: 70px;
@@ -199,5 +234,10 @@ export default {
         color: white;
         font-weight: bolder;
         background:linear-gradient(to right, #fe7e61, #f15e85) ;
+    }
+    .goods_details_num span{
+        display: inline-block;
+        padding: 1px 6px;
+        border: 1px solid #cccccc;
     }
 </style>

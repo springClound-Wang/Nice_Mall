@@ -1,5 +1,7 @@
 server:
   port: 8086
+  servlet:
+    context-path: /nice-mall-backend
 
 spring:
   datasource:
@@ -19,6 +21,7 @@ spring:
         max-active: 2000
         max-wait: 10000
     timeout: 0
+
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath:mapper/*/*.xml
@@ -26,7 +29,7 @@ mybatis-plus:
 
 shiro:
   #后端免认证url
-  anonUrl: /login/**,/register,/logout/**
+  anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/nice-mall-backend/register/verifycode
   #token有效期，单位秒
   jwtTimeOut: 300
 
@@ -36,3 +39,4 @@ mybatis:
     map-underscore-to-camel-case: true
 
 debug: true
+

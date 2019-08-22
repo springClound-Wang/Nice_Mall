@@ -54,13 +54,16 @@ public class EncryptUtil {
         Security.addProvider(new com.sun.crypto.provider.SunJCE());
         Key key = getKey(strKey.getBytes());
 
+        //创建加密对象,采用DES加密算法
         encryptCipher = Cipher.getInstance("DES");
+        //用密钥进行初始化
         encryptCipher.init(Cipher.ENCRYPT_MODE, key);
 
         decryptCipher = Cipher.getInstance("DES");
         decryptCipher.init(Cipher.DECRYPT_MODE, key);
     }
 
+    //加密
     private byte[] encrypt(byte[] arrB) throws Exception {
         return encryptCipher.doFinal(arrB);
     }
@@ -69,6 +72,7 @@ public class EncryptUtil {
         return byteArr2HexStr(encrypt(strIn.getBytes()));
     }
 
+    //解密
     private byte[] decrypt(byte[] arrB) throws Exception {
         return decryptCipher.doFinal(arrB);
     }

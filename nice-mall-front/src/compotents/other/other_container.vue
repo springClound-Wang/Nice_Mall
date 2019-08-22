@@ -16,7 +16,12 @@
     </div>
 </template>
 <script>
-
+export default {
+    data(){
+        return{
+        }
+    }
+}
 </script>
 <style scoped>
     /*中间导航*/

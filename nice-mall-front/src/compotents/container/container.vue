@@ -11,7 +11,7 @@
             <label>
                 <input type="text" value="" name="search" placeholder="连衣裙" v-model="search" @keydown.enter="handletoSearch"/>
                 <!--搜索框-->
-                <router-link :to="'/goods_item?goodsname='+search">
+                <router-link :to="'/goods_item?goodsname='+search" @click.native="flushCom">
                     <span class="iconfont icon-sousuo"></span>
                 </router-link>
             </label>
@@ -25,8 +25,7 @@
         <div class="bottom-nav">
             <ul>
                 <li class="list-all" @mouseenter="show" @mouseleave="hide"><span class="iconfont icon-daohang"></span>&nbsp;&nbsp;商品分类
-                    <transition name="fade">
-                        <div class="itemHover">
+                    <div class="itemHover">
                             <ul id="list">
                                 <li @mouseenter="show_goods" @mouseleave="hide_goods" v-for="goods_item in goods_type_list">
                                     <span>{{goods_item.name_list}}</span>
@@ -36,7 +35,7 @@
                                            <div class="goods_list_name">{{item.goods_list_name}} ></div>
                                            <div class="goods_list_item">
                                                <span v-for="val in item.goods_all" class="val_item">
-                                                   <router-link :to="'/goods_item?goodsname='+val">{{val}}</router-link>
+                                                   <router-link :to="'/goods_item?goodsname='+val" @click.native="flushCom">{{val}}</router-link>
                                                </span>
                                            </div>
                                        </div>
@@ -45,18 +44,17 @@
                                 </li>
                             </ul>
                         </div>
-                    </transition>
                 </li>
-                <li><router-link to="/home" @click.native="routerRefresh" >首页</router-link></li>
+                <li><router-link to="/home" @click.native="flushCom" >首页</router-link></li>
                 <li>最后疯抢</li>
-                <li><router-link to="/goods_list?type=女装" @click.native="routerRefresh">女装</router-link></li>
-                <li><router-link to="/goods_list?type=男装" @click.native="routerRefresh">男装</router-link></li>
-                <li><router-link to="/goods_list?type=母婴" @click.native="routerRefresh">母婴</router-link></li>
-                <li><router-link to="/goods_list?type=居家" @click.native="routerRefresh">居家</router-link></li>
-                <li><router-link to="/goods_list?type=美妆" @click.native="routerRefresh">美妆</router-link></li>
-                <li><router-link to="/goods_list?type=鞋包" @click.native="routerRefresh">鞋包</router-link></li>
-                <li><router-link to="/goods_list?type=食品" @click.native="routerRefresh">食品</router-link></li>
-                <li><router-link to="/goods_list?type=运动" @click.native="routerRefresh">运动</router-link></li>
+                <li><router-link to="/goods_list?type=女装" @click.native="flushCom">女装</router-link></li>
+                <li><router-link to="/goods_list?type=男装" @click.native="flushCom">男装</router-link></li>
+                <li><router-link to="/goods_list?type=母婴" @click.native="flushCom">母婴</router-link></li>
+                <li><router-link to="/goods_list?type=居家" @click.native="flushCom">电子产品</router-link></li>
+                <li><router-link to="/goods_list?type=美妆" @click.native="flushCom">男鞋</router-link></li>
+                <li><router-link to="/goods_list?type=鞋包" @click.native="flushCom">包包</router-link></li>
+                <li><router-link to="/goods_list?type=食品" @click.native="flushCom">女鞋</router-link></li>
+                <li><router-link to="/goods_list?type=运动" @click.native="flushCom">更多</router-link></li>
             </ul>
         </div>
         <!--右侧导航条-->
@@ -71,7 +69,7 @@
                         <div style="margin-top: 20px;">
                             <img src="../../image/head.jpg" style="border: 1px solid #cccccc;border-radius:5px;width: 50px;height: 50px "/>
                         </div>
-                        <span><router-link to="/login_sign/login">登录/注册</router-link></span>
+                        <router-link :to="url"><span v-text="isLogin" @click="isLoginTo"></span></router-link>
                         <div class="hide-con">
                             <div>我的订单</div>
                             <div>我的消息</div>
@@ -108,9 +106,12 @@
 </template>
 <script>
     export default {
+        inject:['reload'],
         data() {
             return {
-                search:'',
+                isLogin:window.localStorage.getItem('username') ?window.localStorage.getItem('username'):'登录/注册',
+                url:'/login_sign/login', //登录
+                search:'', //搜索
                 routerAlive:true,
                 goods_type_list:'' //类型列表
              }
@@ -119,16 +120,21 @@
             this.getTypeGoodsList(); //得到这个页面请求的所有数据
         },
         methods:{
-            //切换路由 刷新页面
-            routerRefresh(){
-                this.routerAlive = false;
-                this.$nextTick(()=>{
-                    this.routerAlive = true;
-                });
+            //切换路由参数  刷新当前页面
+            flushCom:function(){
+                this.reload();
+            },
+            //个人中心
+            isLoginTo(){
+                if(this.isLogin === window.localStorage.getItem('username')){
+                    //个人中心
+                    this.url='#'
+                }
             },
             //回车请求
             handletoSearch(){
-                this.$router.push({ path: '/goods_item?goodsname='+this.search })
+                this.$router.push({ path: '/goods_item?goodsname='+this.search });
+                this.flushCom();
             },
             //发出请求
             getTypeGoodsList(){

@@ -46,7 +46,7 @@
             </div>
             <div class="goods_details_buy">
                 <button @click="handleAddCar">加入购物车</button>
-                <button @click="handleBuy" >立即购买</button>
+                <router-link to="/other_container/goods_order"><button>立即购买</button></router-link>
             </div>
             <hr>
             <div class="goods_details_other">
@@ -164,31 +164,24 @@ export default {
         }
     },
     methods:{
-        //立即购买
-        handleBuy(){
-           this.$http.post('/buy',{
-               userId:1,
-               goodsId:this.$route.query.id,
-               goodsNum:this.goods_num,
-               goodsSize:this.goods_size
-           }).then(res=>{
-               console.log(res)
-           }).catch(err=>{
-               console.log(err)
-           })
-        },
+
         //加入购物车
         handleAddCar(){
-            this.$http.post('/addcar',{
-                userId:1,
-                goodsId:this.$route.query.id,
-                goodsNum:this.goods_num,
-                goodsSize:this.goods_size
-            }).then(res=>{
-                console.log(res)
-            }).catch(err=>{
-                console.log(err)
-            })
+            if(!this.goods_size){
+                alert('请先选择商品尺码！');
+            }
+            else{
+                this.$http.post('/addcar',{
+                    userId:1,
+                    goodsId:this.$route.query.id,
+                    goodsNum:this.goods_num,
+                    goodsSize:this.goods_size
+                }).then(res=>{
+                    console.log(res)
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
         },
         //选择规格尺寸
         chooseSize(e){
@@ -282,7 +275,7 @@ export default {
         }
 }
 </script>
-<style>
+<style scoped>
     #detail-container{
         width: 80%;
         margin: 0 auto;
@@ -329,6 +322,7 @@ export default {
     .first_table tr th{
         font-size: 15px;
         padding: 10px 0;
+        text-align: center;
         background-color: #dddddd;
     }
     .second_table tr th{

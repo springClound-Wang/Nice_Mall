@@ -16,12 +16,12 @@ import java.util.List;
  * @since 2019-08-17
  */
 @Mapper
-public interface RolelistMapper extends BaseMapper<Rolelist> {
+public interface UserroleMapper extends BaseMapper<Rolelist> {
 
     /**
      * 查询某一个用户的所有角色
      * @param userId
      * @return
      */
-    List<Integer> selectRolesByuid(Integer userId);
+    List<Integer> selectRolesByuid(Long userId);
 }

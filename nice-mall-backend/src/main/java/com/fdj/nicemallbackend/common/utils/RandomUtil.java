@@ -1,9 +1,6 @@
 package com.fdj.nicemallbackend.common.utils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @Classname Random
@@ -40,7 +37,7 @@ public class RandomUtil {
      * 随机获取一个字母
      */
     public static char getLetter(){
-        char c=(char)getRandomInt(65,122);
+        char c=(char)getRandomInt(97,122);
         return c;
     }
 
@@ -77,15 +74,20 @@ public class RandomUtil {
      * 生成一个默认的用户名
      */
     public static String achName() {
+        List list = new ArrayList();
        StringBuffer sb = new StringBuffer();
        for(int i=1;i<=6;i++){
            if(i<=3){
-               sb.append(getLetter());
+               list.add(getLetter());
            }
            else{
-               sb.append(getNum());
+               list.add(getNum());
            }
        }
+       Collections.shuffle(list);
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+        }
        String userName = sb.toString();
        return userName;
     }

@@ -7,12 +7,10 @@
                     <li>
                         <router-link to="/" class="link">Nice 商城</router-link>
                     </li>
-                    <li >
-                       随心所欲
-                    </li>
+                    <li v-text="user_shop"></li>
                 </ul>
                 <ul class="second">
-                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 20px"></span></router-link></li>
+                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 20px" title="首页"></span></router-link></li>
                     <li @mouseenter="show(4)" @mouseleave="hide">
                         <span class="iconfont icon-daohang"></span>更多
                         <span class="iconfont icon-jiantouxia"></span>
@@ -36,11 +34,13 @@
                         </div>
                     </li>
                     <li @mouseenter="show(2)" @mouseleave="hide">
-                        <span>买家中心</span>
+                        <span>卖家中心</span>
                         <span class="iconfont icon-jiantouxia"></span>
                         <div class="item" :class="{itemHover:itemIndex===2}">
                             <ul class="list" style="width: 100px">
-                                <a href="#"><li>免费开店</li></a>
+                                <router-link :to="other_url" >
+                                    <li @click="myShop">我的店铺</li>
+                                </router-link>
                                 <a href="#"><li>已卖出的宝贝</li></a>
                                 <a href="#"><li>出售中的宝贝</li></a>
                                 <a href="#"><li>问商友</li></a>
@@ -65,13 +65,13 @@
                         <span class="iconfont icon-jiantou"></span>
                     </li>
                     <li @mouseenter="show(5)" @mouseleave="hide">
-                        <router-link to="/login_sign/login" class="link">
+                        <router-link :to="url" class="link" >
                             <span class="iconfont icon-user"></span>
-                            <span style="font-size: 17px">请登录</span>
+                            <span style="font-size: 17px" v-text="isLogin" @click="isLoginTo"></span>
                         </router-link>
-                        <div class="item" :class="{itemHover:itemIndex===5}">
+                        <div class="item" :class="{itemHover:itemIndex===5}" v-if="isExit">
                             <ul class="list" style="width: 100px">
-                                <a href="#"><li>退出登录</li></a>
+                                <li @click="exitLogin">退出登录</li>
                             </ul>
                         </div>
                     </li>
@@ -80,7 +80,7 @@
 
         </div>
         <!--中间内容-->
-        <router-view></router-view>
+        <router-view v-if="isRouterAlive"></router-view>
 
         <!--底部内容-->
         <footer>
@@ -94,12 +94,68 @@
 
 <script>
     export default {
+        //页面组件重新加载
+        provide (){
+            return {
+                reload:this.reload
+            }
+        },
         data(){
             return {
-                itemIndex:null
+                isRouterAlive:true,
+                isExit:false,
+                itemIndex:null,
+                user_shop:'随心所欲',
+                url:'/login_sign/login_phone',
+                other_url:'',
+                isLogin:window.localStorage.getItem('username') ?window.localStorage.getItem('username'):'请登录',
             }
         },
         methods:{
+            //组件重载方法
+            reload (){
+                this.isRouterAlive = false;
+                this.$nextTick(function(){
+                    this.isRouterAlive = true
+                })
+            },
+            //登陆后切换导航
+            isLoginTo(){
+              if(this.isLogin === window.localStorage.getItem('username')){
+                  this.isExit = true;
+                  //个人中心
+                  this.url='#'
+              }
+            },
+            //退出登录
+            exitLogin(){
+                this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/logout',{
+                    headers: {'Authorization': window.localStorage.getItem('token')}//设置header信息
+                }).then(res =>{
+                    console.log(res);
+                    if(res.data.status === true){
+                        window.localStorage.removeItem('userId');
+                        window.localStorage.removeItem('token');
+                        window.localStorage.removeItem('username');
+                        this.$router.push({path:'/login_sign/login_phone'});
+                        window.location.reload()
+                    }
+                }).catch(err=>{
+                        console.log(err);
+                });
+
+            },
+            //我的店铺
+            myShop(){
+                if(!window.localStorage.getItem('token')){
+                    this.other_url = '/login_sign/login_shop_phone';
+                }
+                else{
+                    //店铺路径
+                    this.other_url= '/shop_home';
+                    this.user_shop = '>  我的店铺'
+                }
+            },
             show(index){
                 this.itemIndex = index;
             },

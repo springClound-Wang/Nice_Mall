@@ -425,45 +425,79 @@ let car_data = [
         car_goods_id:1,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'45',
-        car_goods_num:2
+        car_goods_price:'10',
+        car_goods_num:1
     },
     {
         car_goods_id:2,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行',
-        car_goods_price:'49',
+        car_goods_price:'10',
         car_goods_num:1
     },
     {
         car_goods_id:3,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'75',
+        car_goods_price:'10',
         car_goods_num:1
     },
     {
         car_goods_id:4,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'112',
+        car_goods_price:'10',
         car_goods_num:1
     },
     {
         car_goods_id:5,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'45',
-        car_goods_num:2
+        car_goods_price:'10',
+        car_goods_num:1
     },
     {
         car_goods_id:6,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子超仙雪纺连衣裙',
-        car_goods_price:'98',
-        car_goods_num:3
+        car_goods_price:'10',
+        car_goods_num:1
     }
 ];
+
+//推荐
+let goods_order ={
+    goods:[
+        {
+            goods_id:1,
+            goods_name:'日韩风木耳边不卷边日韩风木耳边不卷边',
+            goods_price:'45',
+            goods_img:'../src/image/goods1.jpg',
+            goods_orgprice:'99',
+        },
+        {
+            goods_id:2,
+            goods_name:'华为P30 高清大屏',
+            goods_price:'8500',
+            goods_img:'../src/image/goods2.jpg',
+            goods_orgprice:'9999',
+        },
+        {
+            goods_id:3,
+            goods_name:'日韩风木耳边不卷边日韩风木耳边不卷边',
+            goods_price:'45',
+            goods_img:'../src/image/goods1.jpg',
+            goods_orgprice:'99',
+        },
+        {
+            goods_id:4,
+            goods_name:'华为 荣耀 畅玩4X 白色 移动4G手机 双卡双待',
+            goods_price:'4500',
+            goods_img:'../src/image/goods3.jpg',
+            goods_orgprice:'4999',
+        }
+    ]
+};
 app.get('/',function (req,res) {
     res.send(type_data);
 });
@@ -471,6 +505,14 @@ app.get('/home',function (req,res) {
     res.send(select_data);
 });
 
+app.post('/login',function (req,res) {
+   console.log(req.body);
+   res.send('ok');
+});
+app.post('/signup',function (req,res) {
+    console.log(req.body);
+    res.send('ok');
+});
 //根据类型 获得数据
 app.get('/gettypegoodslist',function (req,res) {
     if(req.query.type === '女装'){
@@ -495,10 +537,13 @@ app.post('/addcar',function (req,res) {
 });
 
 app.get('/goods_car',function (req,res) {
-   res.end('ok')
+   res.send('ok')
 });
 app.get('/getcarlist',function (req,res) {
    res.send(car_data)
+});
+app.get('/getgoodsorder',function (req,res) {
+   res.send(goods_order)
 });
 app.listen(3030,function () {
     console.log("http://localhost:3030");

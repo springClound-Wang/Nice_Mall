@@ -1,12 +1,10 @@
 package com.fdj.nicemallbackend.common.authenication;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fdj.nicemallbackend.common.utils.HttpContextUtil;
 import com.fdj.nicemallbackend.common.utils.IPUtil;
 import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
-import com.fdj.nicemallbackend.system.entity.Rolelist;
 import com.fdj.nicemallbackend.system.entity.User;
 import com.fdj.nicemallbackend.system.service.IRolelistService;
 import com.fdj.nicemallbackend.system.service.IUserService;
@@ -62,7 +60,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection token) {
-        String username = JWTUtil.getUsername(token.toString());
+        String username = JWTUtil.getLoginperson(token.toString());
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
@@ -87,11 +85,12 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        // 这里的 token是从 JWTFilter 的 executeLogin 方法传递过来的，已经经过了解密
+        // 这里的token是从JWTFilter的executeLogin方法传递过来的，已经经过了解密,简直藏的太深了，看源码要耐心
         String token = (String) authenticationToken.getCredentials();
 
-        // 从 redis里获取这个 token
+        // 从redis里获取这个 token
         HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
+        //获取请求的用户的ip
         String ip = IPUtil.getIpAddr(request);
 
         String encryptToken = TokenUtil.encryptToken(token);
@@ -108,19 +107,21 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new AuthenticationException("token已经过期");
         }
 
-        String username = JWTUtil.getUsername(token);
+        String loginperson = JWTUtil.getLoginperson(token);
 
-        if (StringUtils.isBlank(username)) {
+        if (StringUtils.isBlank(loginperson)) {
             throw new AuthenticationException("token校验不通过");
         }
 
         // 通过用户名查询用户信息
-        User user = iUserService.getUser(username);
-
-        if (user == null) {
-            throw new AuthenticationException("用户名或密码错误");
+        User user = iUserService.getUser(loginperson);
+        if(user == null){
+            user = iUserService.getUserByphone(loginperson);
         }
-        if (!JWTUtil.verify(token, username, user.getUserPassword())) {
+        if (user == null) {
+            throw new AuthenticationException("token中用户信息错误");
+        }
+        if (!JWTUtil.verify(token, loginperson, user.getUserPassword())) {
             throw new AuthenticationException("token校验不通过");
         }
         return new SimpleAuthenticationInfo(token, token, "nice_shiro_realm");

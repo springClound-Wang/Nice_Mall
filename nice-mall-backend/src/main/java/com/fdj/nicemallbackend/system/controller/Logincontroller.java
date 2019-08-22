@@ -5,17 +5,16 @@ import com.fdj.nicemallbackend.common.authenication.JWTToken;
 import com.fdj.nicemallbackend.common.authenication.JWTUtil;
 import com.fdj.nicemallbackend.common.domain.VerifyConsts;
 import com.fdj.nicemallbackend.common.properties.ShiroProperties;
+import com.fdj.nicemallbackend.common.utils.DateUtil;
 import com.fdj.nicemallbackend.common.utils.IPUtil;
 import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -41,6 +40,8 @@ public class Logincontroller {
     @Autowired
     private ShiroProperties shiroProperties;
 
+    @Autowired
+    private IBusinessService iBusinessService;
 
     /**
      * 请求发送验证码
@@ -61,10 +62,14 @@ public class Logincontroller {
      * 验证验证码并保存信息
      * @throws Exception
      */
-    @ResponseStatus
     @PostMapping("/register")
     public Result register(@RequestBody Map<String,String> map) throws Exception {
         Map<String,Object> result = new HashMap<>();
+        System.out.println(map.get("telephone")+"**"+map.get("password")+"*****"+map.get("code")+"  ");
+        User user = userService.getUserByphone(map.get("telephone"));
+        if(user!=null){
+            return new Result().fail("此电话已经被注册咯！换一个吧!");
+        }
         Boolean flag = userService.regist(map.get("telephone"),map.get("password"),map.get("code"));
         if(flag == true){
             return new Result().success("注册成功!!!");
@@ -77,7 +82,6 @@ public class Logincontroller {
     /**
      *telephone+password登录
      */
-    @ResponseStatus
     @PostMapping("/login/phone")
     public Result telephonelogin(@RequestBody Map<String,String> map,HttpServletRequest request) throws Exception {
         String telephone = map.get("telephone");
@@ -90,6 +94,7 @@ public class Logincontroller {
         if(!user.getUserPassword().equals(password)){
             return new Result().fail("密码错误!!!");
         }
+        //获取header.payload.signature形式的token,并进行加密。
         String token = TokenUtil.encryptToken(JWTUtil.sign(telephone,password));
         LocalDateTime expireTime = LocalDateTime.now().plusSeconds(shiroProperties.getJwtTimeOut());
         JWTToken jwtToken = new JWTToken(token,expireTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 hh:mm:ss")));
@@ -99,13 +104,19 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo);
+        if(iBusinessService.isshop(user.getUserId())) {
+            resInfo.put("isshop",true);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
+        else{
+            resInfo.put("isshop",false);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
     }
 
     /**
-     *telephone+password登录
+     *name+password登录
      */
-    @ResponseStatus
     @PostMapping("/login/name")
     public Result userNamelogin(@RequestBody Map<String,String> map,HttpServletRequest request) throws Exception {
         String username = map.get("username");
@@ -126,11 +137,37 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo);
+        if(iBusinessService.isshop(user.getUserId())) {
+            resInfo.put("isshop",true);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
+        else{
+            resInfo.put("isshop",false);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
     }
+
+    /**
+     * 登出
+     * @return
+     */
+    @DeleteMapping("/logout")
+    public Result logoutByid(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        String ip = IPUtil.getIpAddr(request);
+        String now = DateUtil.formatFullTime(LocalDateTime.now());
+        if(redisUtil.hasKey(VerifyConsts.TOKEN_CACHE_PREFIX+token+ StringPool.DOT+ip)) {
+            redisUtil.del(VerifyConsts.TOKEN_CACHE_PREFIX + token + StringPool.DOT + ip);
+            return new Result().success("登出成功!!!");
+        }
+        else{
+            return new Result().fail("您当前未登录，您看到的是假象，请刷新!!!");
+        }
+    }
+
 
     private void savetoRedis(JWTToken token, HttpServletRequest request) throws Exception{
         String ip = IPUtil.getIpAddr(request);
-        redisUtil.set(VerifyConsts.TOKEN_CACHE_PREFIX+token.getToken()+ StringPool.DOT+ip,token.getToken(),shiroProperties.getJwtTimeOut()*1000);
+        redisUtil.set(VerifyConsts.TOKEN_CACHE_PREFIX+token.getToken()+ StringPool.DOT+ip,token.getToken(),shiroProperties.getJwtTimeOut());
     }
 }

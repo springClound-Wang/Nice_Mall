@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fdj.nicemallbackend.system.mapper.RolelistMapper">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.UserroleMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Rolelist">
@@ -8,7 +8,7 @@
         <result column="role_id" property="roleId" />
     </resultMap>
     <select id="selectRolesByuid" resultType="java.lang.Integer">
-        select * from m_rolelist where user_id = #{userId}
+        select * from m_user_role where user_id = #{userId}
     </select>
 
 </mapper>
