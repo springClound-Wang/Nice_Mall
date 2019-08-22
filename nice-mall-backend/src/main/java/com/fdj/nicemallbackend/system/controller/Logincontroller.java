@@ -11,6 +11,7 @@ import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TokenUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.fdj.nicemallbackend.system.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,8 @@ public class Logincontroller {
     @Autowired
     private ShiroProperties shiroProperties;
 
+    @Autowired
+    private IBusinessService iBusinessService;
 
     /**
      * 请求发送验证码
@@ -101,7 +104,14 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo,"登录成功!!!");
+        if(iBusinessService.isshop(user.getUserId())) {
+            resInfo.put("isshop",true);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
+        else{
+            resInfo.put("isshop",false);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
     }
 
     /**
@@ -127,12 +137,18 @@ public class Logincontroller {
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
-        return new Result().success(resInfo,"登录成功!!!");
+        if(iBusinessService.isshop(user.getUserId())) {
+            resInfo.put("isshop",true);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
+        else{
+            resInfo.put("isshop",false);
+            return new Result().success(resInfo, "登录成功!!!");
+        }
     }
 
     /**
      * 登出
-     * @param id
      * @return
      */
     @DeleteMapping("/logout")

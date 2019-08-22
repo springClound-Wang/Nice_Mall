@@ -99,7 +99,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization,If-Modified-Since");
         httpServletResponse.setContentType("application/json");
-        // 跨域时会首先发送一个 option请求，这里我们给 option请求直接返回正常状态
+        // 跨域时会首先发送一个 option请求，这里我们给 option请求返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
@@ -114,7 +114,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpResponse.setCharacterEncoding("utf-8");
         httpResponse.setContentType("application/json; charset=utf-8");
-        final String message = "未认证，请在前端系统进行认证";
+        final String message = "登录已失效，请重新登录!!!";
         try (PrintWriter out = httpResponse.getWriter()) {
             String responseJson = "{\"message\":\"" + message + "\"}";
             out.print(responseJson);
