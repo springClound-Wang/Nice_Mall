@@ -3,7 +3,7 @@
         <form class="form-inline">
             <label>
                 <span class="iconfont icon-yonghuming"></span>
-                <input type="text" name="phoneNum"  value="" placeholder="请输入您的手机号" class="form-control" v-model="phoneNum">
+                <input type="text" name="username"  value="" placeholder="请输入用户名" class="form-control" v-model="username">
             </label>
             <br>
             <label>
@@ -13,7 +13,7 @@
             <br>
             <div id="footer">
                 <div class="other-login">
-                    <span>其他方式：</span>
+                    <span><router-link to="/login_sign/login_phone">手机号登录</router-link></span>
                 </div>
                 <div class="sign">
                     <router-link to="/login_sign/forget" id="forget-password">忘记密码?</router-link>
@@ -28,39 +28,47 @@
     </div>
 </template>
 <script>
-export  default {
-    data(){
-      return{
-          phoneNum:'',
-          password:'',
-      }
-    },
-    methods:{
-        handleLogin(){
-            if(this.phoneNum === '' || this.password === ''){
-                alert('请填入完整信息')
+    export  default {
+        data(){
+            return{
+                username:'',
+                password:''
             }
-            else{
-                this.$http.post('/login',{
-                    //参数
-                    phoneNum:this.phoneNum,
-                    password:this.password
-                }).then(res => {                   //请求成功后的处理函数
-                    console.log(res);
-                    if(res.data.status === 0){
-                        alert('登录成功');
-                    }
-                }).catch(err => {                 //请求失败后的处理函数
-                    console.log(err)
-                })
-            }
+        },
+        methods:{
+            handleLogin(){
+                let datas ={
+                    username: this.username,
+                    password: this.password
+                };
+                if(this.username === '' || this.password === ''){
+                    alert('请填入完整信息')
+                }
+                else{
+                    this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/name',datas).then(res => {                   //请求成功后的处理函数
+                        alert(res.data.message);
+                        if(res.data.status === true){
+                            //检测token
+                            window.localStorage["token"] = res.data.data.token;
+                            window.localStorage["userId"] = res.data.data.userid;
+                            window.localStorage["username"] = res.data.data.username;
+                            this.$router.push({path:'/home'});
+                            window.location.reload();
+                        }
+                        else{
+                            alert('登录失败，请重新登录 !')
+                        }
+                    }).catch(err => {                 //请求失败后的处理函数
+                        console.log(err)
+                    })
+                }
 
+            }
         }
     }
-}
 </script>
 
-<style scoped>
+<style>
     form label:nth-child(1){
         margin-top: 28px !important;
     }
