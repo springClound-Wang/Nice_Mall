@@ -57,5 +57,5 @@ public interface BusinessMapper extends BaseMapper<Business> {
      * @param business
      * @return
      */
-    Business insertShop(Business business);
+    void insertShop(Business business);
 }

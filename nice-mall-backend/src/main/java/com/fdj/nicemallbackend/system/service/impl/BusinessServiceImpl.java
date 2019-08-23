@@ -59,7 +59,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         if(businessMapper.selectByAddress(business.getBusinessAddress())!=null){
             map.put("AddressError","店铺地址已有对应店铺,请慎重");
         }
-        if(map == null){
+        if(map.isEmpty()){
             businessMapper.insertShop(business);
             return new Result().success("店铺创建成功!!!");
         }

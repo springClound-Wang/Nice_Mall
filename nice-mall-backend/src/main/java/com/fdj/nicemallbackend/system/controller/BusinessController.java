@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
-import java.util.Map;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import java.util.Map;
  * @author xns
  * @since 2019-08-22
  */
-@Controller
+@RestController
 @RequestMapping("/business")
 public class BusinessController {
 
@@ -27,6 +26,7 @@ public class BusinessController {
 
     @PostMapping("/createshop")
     public Result createShop(@RequestBody Business business){
+        System.out.println(business.getBusinessAddress()+"****"+business.getBusinessIdentityNumber());
         Result result = iBusinessService.registerShop(business);
         return result;
     }
