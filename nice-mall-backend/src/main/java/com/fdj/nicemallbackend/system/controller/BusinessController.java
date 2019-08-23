@@ -1,9 +1,14 @@
 package com.fdj.nicemallbackend.system.controller;
 
-
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.Business;
+import com.fdj.nicemallbackend.system.service.IBusinessService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -17,5 +22,13 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/business")
 public class BusinessController {
 
+    @Autowired
+    IBusinessService iBusinessService;
+
+    @PostMapping("/createshop")
+    public Result createShop(@RequestBody Business business){
+        Result result = iBusinessService.registerShop(business);
+        return result;
+    }
 }
 

@@ -22,5 +22,40 @@ public interface BusinessMapper extends BaseMapper<Business> {
      * @param userId
      * @return
      */
-    Business selectByuserrId(@Param("userId") Long userId);
+    Business selectByuserId(@Param("userId") Long userId);
+
+    /**
+     * 通过店名查询
+     * @param storeName
+     * @return
+     */
+    Business selectByStoreName(@Param("storeName") String storeName);
+
+    /**
+     * 通过身份证查询
+     * @param businessIdentityNumber
+     * @return
+     */
+    Business selectByIdentityNumber(String businessIdentityNumber);
+
+    /**
+     * 通过电话号码查询
+     * @param businessPhone
+     * @return
+     */
+    Business selectByPhone(String businessPhone);
+
+    /**
+     * 通过地址查询
+     * @param businessAddress
+     * @return
+     */
+    Business selectByAddress(String businessAddress);
+
+    /**
+     * 插入店家
+     * @param business
+     * @return
+     */
+    Business insertShop(Business business);
 }

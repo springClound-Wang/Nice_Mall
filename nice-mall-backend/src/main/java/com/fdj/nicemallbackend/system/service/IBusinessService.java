@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Business;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,4 +20,12 @@ public interface IBusinessService extends IService<Business> {
      * @return
      */
     boolean isshop(Long userId);
+
+    /**
+     * 判断店铺信息是否满足创建条件，然后创建店铺
+     * @param business
+     * @return
+     */
+    Result registerShop(Business business);
+
 }

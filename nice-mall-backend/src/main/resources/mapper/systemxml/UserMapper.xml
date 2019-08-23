@@ -4,28 +4,35 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.User">
-        <id column="user_id" property="userId" />
-        <result column="user_name" property="userName" />
-        <result column="user_password" property="userPassword" />
-        <result column="user_sex" property="userSex" />
-        <result column="user_telephone" property="userTelephone" />
-        <result column="user_avatar" property="userAvatar" />
-        <result column="create_time" property="createTime" />
-        <result column="modify_time" property="modifyTime" />
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_sex" property="userSex"/>
+        <result column="user_telephone" property="userTelephone"/>
+        <result column="user_avatar" property="userAvatar"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
     </resultMap>
     <select id="findByName" resultMap="BaseResultMap">
-        select * from m_user where user_name = #{username}
+        select *
+        from m_user
+        where user_name = #{username}
     </select>
     <select id="selectAllName" resultType="java.lang.String">
-        select user_name from m_user
+        select user_name
+        from m_user
     </select>
     <insert id="insertsave">
-        insert into m_user values(NUll,#{userName},#{userPassword},#{userSex},#{userTelephone},#{userAvatar},NOW(),NOW())
+        insert into m_user
+        values (NUll, #{userName}, #{userPassword}, #{userSex}, #{userTelephone}, #{userAvatar}, NOW(), NOW())
     </insert>
     <select id="findByPhone" resultMap="BaseResultMap">
-        select * from m_user where user_telephone = #{telephone}
+        select *
+        from m_user
+        where user_telephone = #{telephone}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from m_user
+        select *
+        from m_user
     </select>
 </mapper>

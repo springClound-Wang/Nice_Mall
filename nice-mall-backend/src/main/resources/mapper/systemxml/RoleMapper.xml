@@ -4,14 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Role">
-        <id column="role_id" property="roleId" />
-        <result column="role_name" property="roleName" />
-        <result column="role_mark" property="roleMark" />
-        <result column="create_time" property="createTime" />
-        <result column="modify_time" property="modifyTime" />
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_mark" property="roleMark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
     </resultMap>
     <select id="selectByroleId" resultType="java.lang.String">
-        select role_name from m_role where role_id = #{role_id}
+        select role_name
+        from m_role
+        where role_id = #{role_id}
     </select>
 
 </mapper>

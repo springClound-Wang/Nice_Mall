@@ -4,11 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Rolelist">
-        <result column="user_id" property="userId" />
-        <result column="role_id" property="roleId" />
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
     </resultMap>
     <select id="selectRolesByuid" resultType="java.lang.Integer">
-        select * from m_user_role where user_id = #{userId}
+        select *
+        from m_user_role
+        where user_id = #{userId}
     </select>
 
 </mapper>

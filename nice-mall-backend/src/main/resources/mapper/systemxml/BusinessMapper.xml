@@ -4,17 +4,43 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Business">
-        <id column="business_id" property="businessId" />
-        <result column="user_id" property="userId" />
-        <result column="store_name" property="storeName" />
-        <result column="business_true_name" property="businessTrueName" />
-        <result column="business_identity_number" property="businessIdentityNumber" />
-        <result column="business_phone" property="businessPhone" />
-        <result column="business_address" property="businessAddress" />
-        <result column="create_time" property="createTime" />
+        <id column="business_id" property="businessId"/>
+        <result column="user_id" property="userId"/>
+        <result column="store_name" property="storeName"/>
+        <result column="business_true_name" property="businessTrueName"/>
+        <result column="business_identity_number" property="businessIdentityNumber"/>
+        <result column="business_phone" property="businessPhone"/>
+        <result column="business_address" property="businessAddress"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
-    <select id="selectByuserrId" resultMap="BaseResultMap">
-        select * from m_business where user_id = #{userId}
+    <select id="selectByuserId" resultMap="BaseResultMap">
+        select *
+        from m_business
+        where user_id = #{userId}
     </select>
-
+    <select id="selectByStoreName" resultMap="BaseResultMap">
+        select *
+        from m_business
+        where store_name = #{storeName}
+    </select>
+    <select id="selectByIdentityNumber" resultMap="BaseResultMap">
+        select *
+        from m_business
+        where business_identity_number = #{businessIdentityNumber}
+    </select>
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        select *
+        from m_business
+        where business_phone = #{businessPhone}
+    </select>
+    <select id="selectByAddress" resultMap="BaseResultMap">
+        select *
+        from m_business
+        where business_address = #{businessAddress}
+    </select>
+    <insert id="insertShop">
+        insert into m_business
+        values (NULL, #{userId}, #{storeName}, #{businessTrueName}, #{businessIdentityNumber}, #{businessPhone},
+                #{businessAddress}, NOW())
+    </insert>
 </mapper>
