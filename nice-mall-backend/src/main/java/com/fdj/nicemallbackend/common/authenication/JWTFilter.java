@@ -96,10 +96,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-control-Allow-Origin", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization,If-Modified-Since");
-        httpServletResponse.setContentType("application/json");
-        // 跨域时会首先发送一个 option请求，这里我们给 option请求返回正常状态
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization");
+        // 如果是OPTIONS则结束请求，
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
