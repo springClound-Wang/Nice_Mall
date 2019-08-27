@@ -154,6 +154,7 @@ public class Logincontroller {
     @DeleteMapping("/logout")
     public Result logoutByid(HttpServletRequest request){
         String token = request.getHeader("Authorization");
+        System.out.println("%%%%"+token);
         String ip = IPUtil.getIpAddr(request);
         String now = DateUtil.formatFullTime(LocalDateTime.now());
         if(redisUtil.hasKey(VerifyConsts.TOKEN_CACHE_PREFIX+token+ StringPool.DOT+ip)) {

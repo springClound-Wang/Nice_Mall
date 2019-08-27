@@ -43,6 +43,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
          * 如果匹配到设置的免认证url,则放行不用验证token
          */
         for (String u : anonUrl) {
+            System.out.println("&&&&"+httpServletRequest.getHeader("Authorization"));
             System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
             if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
                 match = true;
@@ -95,12 +96,13 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setHeader("Access-control-Allow-Origin", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization");
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,OPTIONS,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type, Accept,Authorization,token");
         // 如果是OPTIONS则结束请求，
-        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            httpServletResponse.setStatus(HttpStatus.OK.value());
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.toString())) {
+            httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
             return false;
         }
         return super.preHandle(request, response);
@@ -108,7 +110,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean sendChallenge(ServletRequest request,ServletResponse response) {
-        log.debug("Authentication required: sending 401 Authentication challenge response.");
+        log.debug("Authorization required: sending 401 Authorization challenge response.");
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpResponse.setCharacterEncoding("utf-8");

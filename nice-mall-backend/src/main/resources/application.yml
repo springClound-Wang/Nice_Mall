@@ -29,9 +29,9 @@ mybatis-plus:
 
 shiro:
   #后端免认证url
-  anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/nice-mall-backend/register/verifycode
+  anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/nice-mall-backend/register/verifycode,/nice-mall-backend/aliyun/oss/**
   #token有效期，单位秒
-  jwtTimeOut: 300
+  jwtTimeOut: 43200
 
 #开启驼峰命名匹配规则
 mybatis:
