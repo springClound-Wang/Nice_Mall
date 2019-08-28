@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 /**
  * @Classname JWTFilter
@@ -34,16 +35,31 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletRequest httpServletRequest =  (HttpServletRequest) request;
         ShiroProperties shiroProperties = SpringContextUtil.getBean(ShiroProperties.class);
         String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(shiroProperties.getAnonUrl(), StringPool.COMMA);
 
         boolean match = false;
+
+        if (httpServletRequest.getMethod().toUpperCase().equals(RequestMethod.OPTIONS.name())){
+            System.out.println(httpServletRequest.getMethod()+"*&^^&&"+RequestMethod.OPTIONS.name());
+            return true;
+        }
+
         /**
          * 如果匹配到设置的免认证url,则放行不用验证token
          */
+        Enumeration e = httpServletRequest.getHeaderNames();
+        while (e.hasMoreElements()) {
+
+            Object o= e.nextElement();
+
+            System.out.println(o);
+
+        }
+        System.out.println(httpServletRequest.getMethod()+"*&^^&&"+RequestMethod.OPTIONS.name());
         for (String u : anonUrl) {
-            System.out.println("&&&&"+httpServletRequest.getHeader("Authorization"));
+            System.out.println("&&&&"+httpServletRequest.getHeader(TOKEN));
             System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
             if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
                 match = true;
@@ -96,13 +112,14 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("origin"));
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,OPTIONS,DELETE");
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
+        httpServletResponse.setHeader("Access-Control-Request-Method", "PUT,POST,GET,DELETE,OPTIONS");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type, Accept,Authorization,token");
-        // 如果是OPTIONS则结束请求，
-        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.toString())) {
-            httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        // 如果是OPTIONS则结束请求
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
         return super.preHandle(request, response);
