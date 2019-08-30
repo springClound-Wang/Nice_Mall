@@ -49,3 +49,4 @@ generator/
 nice_sql/
 nice_sql/
 application.properties
+OSSClientUtil.java
