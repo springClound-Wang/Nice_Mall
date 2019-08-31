@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Goods">
+        <id column="goods_id" property="goodsId" />
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_desc" property="goodsDesc" />
+        <result column="goods_pre_price" property="goodsPrePrice" />
+        <result column="goods_cur_price" property="goodsCurPrice" />
+        <result column="goods_brand" property="goodsBrand" />
+        <result column="goods_place" property="goodsPlace" />
+        <result column="image_main" property="imageMain" />
+    </resultMap>
+    <insert id="save" useGeneratedKeys="true" keyProperty="goodsId" keyColumn="goods_id">
+        insert into m_goods values(NULL,#{goodsName} ,#{goodsDesc} ,#{goodsPrePrice} ,#{goodsCurPrice} ,#{goodsBrand} ,#{goodsPlace} ,#{imageMain})
+    </insert>
+</mapper>

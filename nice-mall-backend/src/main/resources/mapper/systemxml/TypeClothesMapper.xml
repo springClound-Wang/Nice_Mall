@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.TypeClothesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeClothes">
+        <id column="clothes_id" property="clothesId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="clothes_size" property="clothesSize" />
+        <result column="clothes_season" property="clothesSeason" />
+        <result column="clothes_person" property="clothesPerson" />
+        <result column="image_show" property="imageShow" />
+        <result column="image_detail" property="imageDetail" />
+    </resultMap>
+    <insert id="save" useGeneratedKeys="true" keyProperty="clothesId" keyColumn="clothes_id">
+        insert into type_clothes values(NULL,#{goodsId} ,#{clothesSize} ,#{clothesSeason} ,#{clothesPerson} ,#{imageShow} ,#{imageDetail})
+    </insert>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.TypeShoesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeShoes">
+        <id column="shoes_id" property="shoesId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="shoes_size" property="shoesSize" />
+        <result column="shoes_color" property="shoesColor" />
+        <result column="shoes_season" property="shoesSeason" />
+        <result column="shoes_place" property="shoesPlace" />
+        <result column="shoes_material" property="shoesMaterial" />
+        <result column="image_show" property="imageShow" />
+        <result column="image_detail" property="imageDetail" />
+    </resultMap>
+    <insert id="save">
+        insert into type_shoes values(NULL,#{goodsId} ,#{shoesSize} ,#{shoesColor} ,#{shoesSeason} ,#{shoesPlace} ,#{shoesMaterial},#{imageShow} ,#{imageDetail}  )
+    </insert>
+
+</mapper>

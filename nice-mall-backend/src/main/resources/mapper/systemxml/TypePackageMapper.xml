@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.TypePackageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypePackage">
+        <id column="package_id" property="packageId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="package_size" property="packageSize" />
+        <result column="package_color" property="packageColor" />
+        <result column="package_sash" property="packageSash" />
+        <result column="package_sex" property="packageSex" />
+        <result column="package_season" property="packageSeason" />
+        <result column="package_weight" property="packageWeight" />
+        <result column="package_material" property="packageMaterial" />
+        <result column="image_show" property="imageShow" />
+        <result column="image_detail" property="imageDetail" />
+    </resultMap>
+    <insert id="save">
+        insert into type_package values (NULL,#{goodsId} ,#{packageSize} ,#{packageColor} ,#{packageSash} ,#{packageSex} ,#{packageSeason} ,#{packageWeight} ,#{packageMaterial},#{imageShow} ,#{imageDetail} )
+    </insert>
+
+</mapper>

@@ -1,12 +1,12 @@
 package com.fdj.nicemallbackend.system.controller;
 
-import com.fdj.nicemallbackend.common.utils.Base64tTransformUtil;
+import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.system.dto.Result;
-import com.fdj.nicemallbackend.system.service.IOssService;
+import com.fdj.nicemallbackend.system.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,20 +18,26 @@ import java.util.Map;
 @RestController
 public class CommodityController {
 
+
     @Autowired
-    IOssService iOssService;
+    IGoodsService iGoodsService;
 
-    @PostMapping("/addcommdity")
-    public Result Addcommdity(@RequestBody Map<String,String> map){
-        MultipartFile file = Base64tTransformUtil.base64ToMultipart(map.get("base64Str"));
-        try {
-            String url = iOssService.updateHead(file);
-            System.out.println("图片路径:== "+url);
-            return new Result().success(url,"图片上传成功");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result().fail("图片上传失败!!!");
+    @PostMapping("/addgoods")
+    public Result Addcommdity(@RequestBody Map<String,Object> map){
+        List type = (List) map.get("goodsType");
+        Result result = new Result();
+        if(TypeConsts.TYPE_CLOTHES.equals(type.get(0))){
+            result = iGoodsService.saveToclothes(map);
         }
+        else if(TypeConsts.TYPE_SHOES.equals(type.get(0))){
+            result = iGoodsService.saveToshoes(map);
+        }
+        else if(TypeConsts.TYPE_PACKAGE.equals(type.get(0))){
+            result = iGoodsService.saveTopackage(map);
+        }
+        else if(TypeConsts.TYPE_ELECTRONIC.equals(type.get(0))){
+            result = iGoodsService.saveToelectr(map);
+        }
+        return result;
     }
 }
