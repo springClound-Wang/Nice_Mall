@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.controller;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
+import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,15 @@ public class CommodityController {
     @Autowired
     IGoodsService iGoodsService;
 
+    @Autowired
+    ITypeGoodsService iTypeGoodsService;
+
     @PostMapping("/addgoods")
     public Result Addcommdity(@RequestBody Map<String,Object> map){
         List type = (List) map.get("goodsType");
         Result result = new Result();
         if(TypeConsts.TYPE_CLOTHES.equals(type.get(0))){
+            iTypeGoodsService.recoderTye(type);
             result = iGoodsService.saveToclothes(map);
         }
         else if(TypeConsts.TYPE_SHOES.equals(type.get(0))){
