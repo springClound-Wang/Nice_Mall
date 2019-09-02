@@ -60,7 +60,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public long saveTOGoods(Map<String,Object> map){
         Long index = 0L;
         OssuploadUtil ossuploadUtil = new OssuploadUtil();
-        Result imageMain = ossuploadUtil.oneuploadReturnUrl((String)map.get("imageMain"));
+        Result imageMain = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageMain"));
         if(imageMain.isStatus()) {
             Goods goods = new Goods((String) map.get("goodsName"), (String) map.get("goodsDesc"), new BigDecimal((String) map.get("goodsPrePrice")), new BigDecimal((String) map.get("goodsCurPrice")), (String) map.get("goodsBrand"), (String) map.get("goodsPlace"), (String) imageMain.getData());
             goodsMapper.save(goods);

@@ -44,7 +44,7 @@ public class CommodityController {
             result = iGoodsService.saveToelectr(map);
         }
         if(result.isStatus()){
-            iTypeGoodsService.linked(Long.valueOf((String) result.getData()),listId);
+            iTypeGoodsService.linked((Long)result.getData(),listId);
         }
         return result;
     }

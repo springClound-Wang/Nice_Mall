@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SortListTypeMapper extends BaseMapper<SortListType> {
 
-    SortListType save(SortListType sortListType1);
+    void save(SortListType sortListType1);
 
     SortListType selectId(String sortListTypeName);
 }

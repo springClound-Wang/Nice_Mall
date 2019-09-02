@@ -52,7 +52,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
             Sort sort = sortMapper.selectId((String) type.get(0));
             listId.put("sortId", sort.getSortId());
             sortListName1 = new SortListName(sort.getSortId(), (String) type.get(1));
-            sortListName = sortListNameMapper.save(sortListName1);
+            sortListNameMapper.save(sortListName1);
         } catch (DuplicateKeyException e) {
             sortListName = sortListNameMapper.selectId((String) type.get(1));
             log.error("此二阶级类型已经添加过");
@@ -65,7 +65,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
                     listId.put("sortListNameId",sortListName1.getSortListId());
                     sortListType1 = new SortListType(sortListName1.getSortListId(), (String) type.get(2));
                 }
-                sortListType = sortListTypeMapper.save(sortListType1);
+                sortListTypeMapper.save(sortListType1);
                 listId.put("sortListTypeId",sortListType1.getSortListId());
             } catch (DuplicateKeyException e) {
                 sortListType = sortListTypeMapper.selectId((String)type.get(2));

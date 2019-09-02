@@ -18,5 +18,5 @@ public interface SortListNameMapper extends BaseMapper<SortListName> {
 
     SortListName selectId(String sortListName);
 
-    SortListName save(SortListName sortListName1);
+    void save(SortListName sortListName1);
 }
