@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -12,8 +14,9 @@ import java.io.Serializable;
  * </p>
  *
  * @author xns
- * @since 2019-09-01
+ * @since 2019-09-02
  */
+@Data
 @TableName("m_sort")
 public class Sort extends Model<Sort> {
 
@@ -30,33 +33,14 @@ public class Sort extends Model<Sort> {
      */
     private String sortName;
 
+    /**
+     * 英文名称
+     */
+    private String sortEnglishName;
 
-    public Integer getSortId() {
-        return sortId;
-    }
+    /**
+     * 有无数据
+     */
+    private Integer sortHave;
 
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
-    }
-
-    public String getSortName() {
-        return sortName;
-    }
-
-    public void setSortName(String sortName) {
-        this.sortName = sortName;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.sortId;
-    }
-
-    @Override
-    public String toString() {
-        return "Sort{" +
-        "sortId=" + sortId +
-        ", sortName=" + sortName +
-        "}";
-    }
 }

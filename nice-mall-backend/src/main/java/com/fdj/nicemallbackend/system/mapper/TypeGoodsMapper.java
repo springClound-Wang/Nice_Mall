@@ -10,9 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author xns
- * @since 2019-09-01
+ * @since 2019-09-02
  */
 @Mapper
 public interface TypeGoodsMapper extends BaseMapper<TypeGoods> {
 
+    void save(TypeGoods typeGoods);
 }

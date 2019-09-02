@@ -2,6 +2,8 @@ package com.fdj.nicemallbackend.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -10,12 +12,23 @@ import java.io.Serializable;
  * </p>
  *
  * @author xns
- * @since 2019-09-01
+ * @since 2019-09-02
  */
+@Data
 @TableName("m_type_goods")
 public class TypeGoods extends Model<TypeGoods> {
 
     private static final long serialVersionUID=1L;
+
+    /**
+     * 商品一阶分类id
+     */
+    private Integer sortId;
+
+    /**
+     * 商品二阶分类id
+     */
+    private Integer sortListNameId;
 
     /**
      * 商品三阶分类id
@@ -27,33 +40,10 @@ public class TypeGoods extends Model<TypeGoods> {
      */
     private Long goodsId;
 
-
-    public Integer getSortListTypeId() {
-        return sortListTypeId;
-    }
-
-    public void setSortListTypeId(Integer sortListTypeId) {
+    public TypeGoods(Integer sortId, Integer sortListNameId, Integer sortListTypeId, Long goodsId) {
+        this.sortId = sortId;
+        this.sortListNameId = sortListNameId;
         this.sortListTypeId = sortListTypeId;
-    }
-
-    public Long getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "TypeGoods{" +
-        "sortListTypeId=" + sortListTypeId +
-        ", goodsId=" + goodsId +
-        "}";
     }
 }

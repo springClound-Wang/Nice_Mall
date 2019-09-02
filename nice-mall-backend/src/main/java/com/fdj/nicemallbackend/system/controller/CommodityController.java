@@ -30,8 +30,8 @@ public class CommodityController {
     public Result Addcommdity(@RequestBody Map<String,Object> map){
         List type = (List) map.get("goodsType");
         Result result = new Result();
+        Map<String,Integer> listId = iTypeGoodsService.recoderType(type);
         if(TypeConsts.TYPE_CLOTHES.equals(type.get(0))){
-            iTypeGoodsService.recoderTye(type);
             result = iGoodsService.saveToclothes(map);
         }
         else if(TypeConsts.TYPE_SHOES.equals(type.get(0))){
@@ -42,6 +42,9 @@ public class CommodityController {
         }
         else if(TypeConsts.TYPE_ELECTRONIC.equals(type.get(0))){
             result = iGoodsService.saveToelectr(map);
+        }
+        if(result.isStatus()){
+            iTypeGoodsService.linked(Long.valueOf((String) result.getData()),listId);
         }
         return result;
     }

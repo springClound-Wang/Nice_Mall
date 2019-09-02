@@ -3,6 +3,8 @@ package com.fdj.nicemallbackend.system.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,7 @@ import java.io.Serializable;
  * @author xns
  * @since 2019-09-01
  */
+@Data
 public class SortListName extends Model<SortListName> {
 
     private static final long serialVersionUID=1L;
@@ -33,42 +36,8 @@ public class SortListName extends Model<SortListName> {
      */
     private String sortListName;
 
-
-    public Integer getSortListId() {
-        return sortListId;
-    }
-
-    public void setSortListId(Integer sortListId) {
-        this.sortListId = sortListId;
-    }
-
-    public Integer getSortId() {
-        return sortId;
-    }
-
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
-    }
-
-    public String getSortListName() {
-        return sortListName;
-    }
-
-    public void setSortListName(String sortListName) {
-        this.sortListName = sortListName;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.sortListId;
-    }
-
-    @Override
-    public String toString() {
-        return "SortListName{" +
-        "sortListId=" + sortListId +
-        ", sortId=" + sortId +
-        ", sortListName=" + sortListName +
-        "}";
+    public SortListName(Integer sortId, String sortListName) {
+        this.sortId=sortId;
+        this.sortListName=sortListName;
     }
 }

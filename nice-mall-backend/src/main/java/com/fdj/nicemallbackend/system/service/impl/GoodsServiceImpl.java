@@ -96,7 +96,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 return new Result().fail("添加失败!!!");
             }
         }
-        return new Result().success("添加成功!!!");
+        return new Result().success(res,"添加成功!!!");
     }
 
     /**
@@ -128,7 +128,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 return new Result().fail("添加失败!!!");
             }
         }
-        return new Result().success("添加成功!!!");
+        return new Result().success(res,"添加成功!!!");
     }
 
     /**
@@ -161,7 +161,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 return new Result().fail("添加失败!!!");
             }
         }
-        return new Result().success("添加成功!!!");
+        return new Result().success(res,"添加成功!!!");
     }
 
     /**
@@ -194,6 +194,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 return new Result().fail("添加失败!!!");
             }
         }
-        return new Result().success("添加成功!!!");
+        return new Result().success(res,"添加成功!!!");
     }
 }

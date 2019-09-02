@@ -8,5 +8,11 @@
         <result column="sort_list_id" property="sortListId" />
         <result column="sort_list_name" property="sortListName" />
     </resultMap>
+    <insert id="save" useGeneratedKeys="true" keyProperty="sortListTypeId" keyColumn="sort_list_type_id">
+        insert into sort_list_type values(NULL,#{sortListId},#{sortListName})
+    </insert>
+    <select id="selectId" resultMap="BaseResultMap">
+        select * from sort_list_type where sort_list_name = #{sortListTypeName}
+    </select>
 
 </mapper>

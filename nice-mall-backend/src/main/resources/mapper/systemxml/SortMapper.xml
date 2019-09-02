@@ -6,6 +6,11 @@
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Sort">
         <id column="sort_id" property="sortId" />
         <result column="sort_name" property="sortName" />
+        <result column="sort_english_name" property="sortEnglishName" />
+        <result column="sort_have" property="sortHave" />
     </resultMap>
+    <select id="selectId" resultType="com.fdj.nicemallbackend.system.entity.Sort">
+        select * from m_sort where sort_english_name = #{name}
+    </select>
 
 </mapper>
