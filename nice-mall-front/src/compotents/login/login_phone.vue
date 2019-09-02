@@ -37,29 +37,27 @@ export  default {
     },
     methods:{
         handleLogin(){
-            let datas ={
-                telephone: this.phoneNum,
-                password: this.password
-            };
             if(this.phoneNum === '' || this.password === ''){
-                alert('请填入完整信息')
+                this.$message.warning('请填入完整信息')
             }
             else{
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/phone',datas).then(res => {                   //请求成功后的处理函数
+                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/phone',{
+                    telephone: this.phoneNum,
+                    password: this.password
+                }).then(res => {                   //请求成功后的处理函数
                     alert(res.data.message);
                     if(res.data.status === true){
                         //检测token
                         window.localStorage["token"] = res.data.data.token;
                         window.localStorage["userId"] = res.data.data.userid;
                         window.localStorage["username"] = res.data.data.username;
+                        window.localStorage['isshop'] = res.data.data.isshop;
+                        window.localStorage['logintime'] = new Date().getTime();
                         this.$router.push({path: '/home'});
                         window.location.reload()
                     }
-                    else{
-                        alert('登录失败，请重新登录 !')
-                    }
                 }).catch(err => {                 //请求失败后的处理函数
-                    console.log(err)
+                    alert(err)
                 })
             }
 

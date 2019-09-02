@@ -58,14 +58,12 @@ export default {
          })
         },
         change(e){
-            e.target.style.border = '1px solid #aea6a6';
+            e.target.style.boxShadow = 'rgb(192, 190, 190) 0px 0px 11px 4px';
             e.target.style.borderRadius = '5px';
-            e.target.style.transform = 'scale(1.02)';
             e.target.lastChild.style.background = 'linear-gradient(to top,#a8edea,#fed6e3)';
         },
         nochange(e){
-            e.target.style.border = '';
-            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '';
             e.target.lastChild.style.background = '';
         },
         list_change(e){

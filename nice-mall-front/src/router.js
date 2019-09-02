@@ -21,7 +21,14 @@ import goods_car from './compotents/other/goods_car.vue'//购物车
 import goods_pay from './compotents/other/goods_pay.vue'; //提交    .
 import goods_order from './compotents/other/goods_order.vue'; //结算
 
-import shop_home from './compotents/shop/shop_create.vue';
+
+import shop_home from './compotents/shop/shop_home.vue';
+import shop_create from './compotents/shop/shop_create.vue'; //创建店铺
+import shop_curd from './compotents/shop/shop_curd.vue'; //添加商品
+import shop_index from  './compotents/shop/shop_index.vue'; //首页
+
+import goods_sel from './compotents/container/goods_sel.vue';
+
 // 创建路由对象
 let routerObj = new VueRouter({
     routes: [
@@ -40,9 +47,10 @@ let routerObj = new VueRouter({
             path:'/other_container',
             component:other_container,
             children:[
-                {path:'goods_car',component:goods_car},
-                {path:'goods_order',component:goods_order},
-                {path:'goods_pay',component:goods_pay},
+                {path:'goods_car',component:goods_car},//购物车
+                {path:'goods_order',component:goods_order}, //结算
+                {path:'goods_pay',component:goods_pay}, //去支付
+                {path:'goods_sel',component:goods_sel}, //订单
             ]
         },
         //用户
@@ -69,10 +77,17 @@ let routerObj = new VueRouter({
                 {path:'forget',component:forget} //忘记密码
             ]
         },
+        {path:'/shop_create', component:shop_create},//创建店铺
         {
             path:'/shop_home',
-            component:shop_home
-        }
+            component:shop_home,
+            children:[
+                {path:'/',redirect:'/shop_home/shop_index'},
+                {path:'shop_curd',component:shop_curd},//店铺管理
+                {path:'shop_index',component:shop_index},//店铺首页
+            ]
+        },
+
 
     ],
     linkActiveClass:'myactive', //自定义路由切换的类

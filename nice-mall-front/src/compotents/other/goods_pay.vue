@@ -99,7 +99,7 @@
     </div>
 </template>
 <script>
-import popup from '../other/popup.vue';
+import popup from '../tools/popup.vue';
 export default {
     components: {
         popup

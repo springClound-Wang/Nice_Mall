@@ -10,7 +10,7 @@
                     <li v-text="user_shop"></li>
                 </ul>
                 <ul class="second">
-                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 20px" title="首页"></span></router-link></li>
+                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 18px"></span>首页</router-link></li>
                     <li @mouseenter="show(4)" @mouseleave="hide">
                         <span class="iconfont icon-daohang"></span>更多
                         <span class="iconfont icon-jiantouxia"></span>
@@ -48,7 +48,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">我的订单</a>
+                        <router-link to="/other_container/goods_sel" >我的订单</router-link>
                     </li>
                     <li @mouseenter="show(1)" @mouseleave="hide">
                         <span class="iconfont icon-shoucangxing2"></span>我的Nice
@@ -94,73 +94,99 @@
 
 <script>
     export default {
+
         //页面组件重新加载
-        provide (){
+        provide() {
             return {
-                reload:this.reload
+                reload: this.reload
             }
         },
-        data(){
+        data() {
             return {
-                isRouterAlive:true,
-                isExit:false,
-                itemIndex:null,
-                user_shop:'随心所欲',
-                url:'/login_sign/login_phone',
-                other_url:'',
-                isLogin:window.localStorage.getItem('username') ?window.localStorage.getItem('username'):'请登录',
+                isRouterAlive: true,
+                isExit: false,
+                itemIndex: null,
+                user_shop: '随心所欲',
+                url: '/login_sign/login_phone',
+                other_url: '',
+                isLogin: window.localStorage.getItem('username') ? window.localStorage.getItem('username') : '请登录',
             }
         },
-        methods:{
+        created(){
+           this.isLoginTime();
+        },
+        methods: {
             //组件重载方法
-            reload (){
+            reload() {
                 this.isRouterAlive = false;
-                this.$nextTick(function(){
+                this.$nextTick(function () {
                     this.isRouterAlive = true
                 })
             },
             //登陆后切换导航
-            isLoginTo(){
-              if(this.isLogin === window.localStorage.getItem('username')){
-                  this.isExit = true;
-                  //个人中心
-                  this.url='#'
-              }
+            isLoginTo() {
+                if (this.isLogin === window.localStorage.getItem('username')) {
+                    this.isExit = true;
+                    //个人中心
+                    this.url = '#'
+                }
             },
             //退出登录
-            exitLogin(){
-                this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/logout',{
-                    headers: {'Authorization': window.localStorage.getItem('token')}//设置header信息
-                }).then(res =>{
-                    console.log(res);
-                    if(res.data.status === true){
+            exitLogin() {
+                let token = window.localStorage.getItem('token');
+                this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/logout', {
+                    params: {},
+                    headers: {Authorization: token}
+                }).then(res => {
+                    if (res.data.status === true) {
                         window.localStorage.removeItem('userId');
                         window.localStorage.removeItem('token');
                         window.localStorage.removeItem('username');
-                        this.$router.push({path:'/login_sign/login_phone'});
+                        window.localStorage.removeItem('isshop');
+                        window.localStorage.removeItem('logintime');
+                        this.$router.push({path: '/login_sign/login_phone'});
                         window.location.reload()
                     }
-                }).catch(err=>{
-                        console.log(err);
+                }).catch(err => {
+                    console.log(err);
                 });
-
             },
             //我的店铺
-            myShop(){
-                if(!window.localStorage.getItem('token')){
+            myShop() {
+                if (!window.localStorage.getItem('token')) {
                     this.other_url = '/login_sign/login_shop_phone';
                 }
-                else{
-                    //店铺路径
-                    this.other_url= '/shop_home';
+                else {
+                    if (window.localStorage.getItem('isshop') === 'false') {
+                        //创建店铺路径
+                        this.other_url = '/shop_create';
+                    } else {
+                        this.other_url = '/shop_home';
+                    }
+
                     this.user_shop = '>  我的店铺'
                 }
             },
-            show(index){
+            show(index) {
                 this.itemIndex = index;
             },
-            hide(){
+            hide() {
                 this.itemIndex = null;
+            },
+            isLoginTime(){
+                if(window.localStorage.getItem('logintime')){
+                    if(new Date().getTime() - window.localStorage.getItem('logintime') >86400000){
+                        this.$message.error('登录过期');
+                        window.localStorage.removeItem('userId');
+                        window.localStorage.removeItem('token');
+                        window.localStorage.removeItem('username');
+                        window.localStorage.removeItem('isshop');
+                        window.localStorage.removeItem('logintime');
+                        this.$router.push({path: '/login_sign/login_phone'});
+                        window.location.reload()
+                    }
+                }
+
             }
         }
     }
@@ -187,6 +213,7 @@
     }
     #header-container{
         width: 100%;
+
     }
     .first{
         margin-left: 40px;

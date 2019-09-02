@@ -97,11 +97,11 @@
             },
             //进入
             item_enter(e){
-                e.target.style.transform = 'scale(1.03)';
+                e.target.style.boxShadow = 'rgb(241, 234, 234) 0px 0px 11px 4px';
             },
             //离开
             item_leave(e){
-                e.target.style.transform = 'scale(1)';
+                e.target.style.boxShadow = '';
             },
             //进入
             enter(e){
