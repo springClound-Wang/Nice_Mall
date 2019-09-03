@@ -16,10 +16,10 @@ import goods_detail from './compotents/container/goods_detail.vue'; //商品详�
 import goods_item from  './compotents/container/goods_item.vue';//商品小类型
 
 
-import other_container from './compotents/other/other_container.vue'//新导航内容
-import goods_car from './compotents/other/goods_car.vue'//购物车
-import goods_pay from './compotents/other/goods_pay.vue'; //提交    .
-import goods_order from './compotents/other/goods_order.vue'; //结算
+import other_container from './compotents/car/other_container.vue'//新导航内容
+import goods_car from './compotents/car/goods_car.vue'//购物车
+import goods_pay from './compotents/car/goods_pay.vue'; //提交    .
+import goods_order from './compotents/car/goods_order.vue'; //结算
 
 
 import shop_home from './compotents/shop/shop_home.vue';

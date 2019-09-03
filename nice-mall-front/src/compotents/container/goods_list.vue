@@ -1,3 +1,4 @@
+<!--分类商品-->
 <template>
     <div id="goods_container">
         <img :src="hot_head_img"/>

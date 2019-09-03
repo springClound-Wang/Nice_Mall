@@ -55,7 +55,7 @@
                             window.localStorage['isshop'] = res.data.data.isshop;
                             window.localStorage['logintime'] = new Date();
                             this.$router.push({path:'/home'});
-                            window.location.reload();
+                            // window.location.reload();
                         }
                     }).catch(err => {                 //请求失败后的处理函数
                         console.log(err);

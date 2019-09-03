@@ -128,3 +128,9 @@ ul{
     margin-left: 50px;
     margin-top: -10px;
 }
+
+.el-col-5 {
+    width: 20.83333%;
+    float: left;
+    margin: 10px 21px;
+}
