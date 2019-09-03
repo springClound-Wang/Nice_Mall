@@ -113,4 +113,18 @@ a {
 ul{
     list-style: none;
 }
-/*商品样式*/
+.el-input {
+    position: relative;
+    font-size: 14px;
+    height: 35px;
+    display: inline-block;
+    width: 100%;
+}
+.el-button.is-circle {
+    border-radius: 50%;
+    padding: 7px !important;
+    width: 30px;
+    height: 30px;
+    margin-left: 50px;
+    margin-top: -10px;
+}

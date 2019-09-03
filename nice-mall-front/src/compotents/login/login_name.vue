@@ -42,7 +42,7 @@
                     password: this.password
                 };
                 if(this.username === '' || this.password === ''){
-                    alert('请填入完整信息')
+                    this.$message.warning('请填入完整信息')
                 }
                 else{
                     this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/name',datas).then(res => {                   //请求成功后的处理函数
@@ -52,14 +52,13 @@
                             window.localStorage["token"] = res.data.data.token;
                             window.localStorage["userId"] = res.data.data.userid;
                             window.localStorage["username"] = res.data.data.username;
+                            window.localStorage['isshop'] = res.data.data.isshop;
+                            window.localStorage['logintime'] = new Date();
                             this.$router.push({path:'/home'});
                             window.location.reload();
                         }
-                        else{
-                            alert('登录失败，请重新登录 !')
-                        }
                     }).catch(err => {                 //请求失败后的处理函数
-                        console.log(err)
+                        console.log(err);
                     })
                 }
 

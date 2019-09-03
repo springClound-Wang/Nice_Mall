@@ -52,13 +52,12 @@
                 <div class="goods-item" v-for="item in goods" :key="item.goods_id">
                     <!--点击跳到详情-->
                     <router-link :to="'/goods_detail?id='+item.goods_id" >
-                        <div @mouseenter="change" @mouseleave="nochange">
+                        <div @mouseenter="change" @mouseleave="nochange" class="goods_item_every">
                             <img :src="item.goods_img" class="goods-img"/>
                             <div class="goods-desc">
                                 <span class="goods-name">{{item.goods_name}}</span><br>
                                 <span class="price-desc">心动价</span>
-                                <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                                <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                                <span>￥{{item.goods_price}}</span>
                             </div>
                         </div>
                     </router-link>
@@ -109,7 +108,7 @@ export default {
         this. getOrderGoodsList();
     },
     methods:{
-        //发请求：
+        //发请求：推荐
         getOrderGoodsList() {
             this.$http.get('/getgoodsorder?goodsname').then(res => {
                 this.goods = res.data.goods;
@@ -254,6 +253,7 @@ export default {
         line-height: 40px;
         margin-top: 10px;
         border: 1px solid #dddddd;
+        border-left: 2px solid #fe6e5a;
         background-color: #f9f9f9;
         padding-left: 15px;
     }
@@ -261,14 +261,40 @@ export default {
         width: 100% !important;
     }
     .goods-item {
-        width: 22% !important;
+        width: 16% !important;
         background: #ffffff;
-        display: inline-block;
         position: relative;
-        top: 0;
         margin: 20px 14px 20px 10px;
         border-radius: 5px;
         border: 1px solid #e2e2e2;
         box-shadow: 0 0 4px 1px #dedede;
+    }
+    .goods_item_every{
+        float: left;
+        width: 100%;
+    }
+    .goods_item_every:after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+    .goods-img {
+        width: 100%;
+        height: 180px;
+        padding: 5px 10px;
+    }
+    .goods-desc {
+        width: 100%;
+        height: 60px;
+        z-index: 200;
+        padding: 5px 10px;
+        border-top: 1px solid #cccccc;
+    }
+    .price-desc {
+        display: inline-block;
+        padding: 2px;
+        background-color: #fa5f62;
+        margin: 0 43px 0 2px;
+        color: white;
     }
 </style>

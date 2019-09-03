@@ -52,11 +52,10 @@
                             window.localStorage["token"] = res.data.data.token;
                             window.localStorage["userId"] = res.data.data.userid;
                             window.localStorage["username"] = res.data.data.username;
+                            window.localStorage['isshop'] = res.data.data.isshop;
+                            window.localStorage['logintime'] = new Date();
                             this.$router.push({path:'/shop_home'});
                             window.location.reload();
-                        }
-                        else{
-                            alert('登录失败，请重新登录 !')
                         }
                     }).catch(err => {                 //请求失败后的处理函数
                         console.log(err)

@@ -394,7 +394,7 @@
         z-index: 200;
     }
     .bottom-nav li{
-        line-height: 48px;
+        line-height: 47px;
         list-style: none;
         margin-right: 4%;
         font-size: 17px;
@@ -431,5 +431,11 @@
     }
     #list li:nth-child(1){
         margin-top: 20px;
+    }
+    .iconfont {
+        display: inline-block;
+        margin-right: 0;
+        font-size: 21px;
+        color: #f5fcfc
     }
 </style>

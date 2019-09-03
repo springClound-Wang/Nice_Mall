@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded());
 //允许跨域访问
 app.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
+    //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
@@ -478,9 +479,9 @@ let goods_order ={
         {
             goods_id:2,
             goods_name:'华为P30 高清大屏',
-            goods_price:'8500',
+            goods_price:'4300',
             goods_img:'../src/image/goods2.jpg',
-            goods_orgprice:'9999',
+            goods_orgprice:'3300',
         },
         {
             goods_id:3,
@@ -523,27 +524,41 @@ app.get('/gettypegoodslist',function (req,res) {
         res.send(man_data);
     }
 });
+//根据商品名字 获得数据
 app.get('/getgoodslist',function (req,res) {
     console.log(req.query.goodsname);
     res.send(woman_data);
 });
+//购买结算
 app.post('/buy',function (req,res) {
    console.log(req.body);
    res.send('buy_ok');
 });
+//加入购物车
 app.post('/addcar',function (req,res) {
     console.log(req.body);
     res.send('car_ok');
 });
-
+//
 app.get('/goods_car',function (req,res) {
    res.send('ok')
 });
+//得到购物车列表
 app.get('/getcarlist',function (req,res) {
    res.send(car_data)
 });
+////得到订单部分  推荐
 app.get('/getgoodsorder',function (req,res) {
    res.send(goods_order)
+});
+//得到全部商品
+app.get('/getallgoods',function (req,res) {
+    res.send(goods_order)
+});
+//添加商品
+app.get('/addgoods',function (req,res) {
+    console.log(req.body);
+    res.send('ok')
 });
 app.listen(3030,function () {
     console.log("http://localhost:3030");

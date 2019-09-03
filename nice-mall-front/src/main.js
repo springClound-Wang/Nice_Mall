@@ -14,44 +14,83 @@ import './font/font2/iconfont.css'
 import './font/font3/iconfont.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
-
+import '../node_modules/jquery/dist/jquery.min.js'
 //轮播图 复选框 组件
-import { Swipe, SwipeItem,Checklist } from 'mint-ui';
+import { Swipe, SwipeItem, Lazyload,Cell } from 'mint-ui';
+Vue.use(Lazyload); //懒加载
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Checklist.name, Checklist);
-import { Cell } from 'mint-ui';
+//引入 ElementUI组件
+import ElementUI from 'element-ui';
+Vue.use(ElementUI);
 
+//切换框
+import { TabContainer, TabContainerItem } from 'mint-ui';
+Vue.component(TabContainer.name, TabContainer);
+Vue.component(TabContainerItem.name, TabContainerItem);
 Vue.component(Cell.name, Cell);
+
 
 // 手动安装VueRouter
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 import routerObj from "./router";
 
+// // 消息提示
+import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.component(Message.name, Message);
+Vue.prototype.$message = Message;
+
+
 //发送请求
 import app from './App.vue';
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
-
-// Axios.defaults.headers.common['Authorization'] = window.localStorage.getItem('token');
-// console.log(Axios.defaults.headers.common['Authorization']);
 Axios.defaults.baseURL='http://localhost:3030';
-
 // http request 拦截器
-Axios.interceptors.request.use(
-    config => {
-        config.headers = {
-            'Content-Type': 'application/json' // 设置很关键
-        };
-        return config
-    },
-    err => {
-        return Promise.reject(err)
+// Axios.interceptors.request.use(
+//     config => {
+//         let token = window.localStorage.getItem('token');
+//         console.log(token.length);
+//         if (token) {
+//             config.headers.common['Authorization'] = token;
+//         }
+//         config.headers = {
+//             'Content-Type': 'application/json'
+//         };
+//         return config;
+//     },
+//     err => {
+//         return Promise.reject(err)
+//     }
+// );
+
+//返回状态判断(添加响应拦截器)
+Axios.interceptors.response.use(res =>{
+    //对响应数据做些事
+    if(!res.data.status){
+        // return Promise.reject(res)
     }
-);
+    return res
+}, error => {
+    if(error.response.status === 401) {
+        // 401 说明 token 验证失败
+        // 可以直接跳转到登录页面，重新登录获取 token
+        window.location.herf = './login_sign/login_phone'
+    } else if (error.response.status === 500) {
+        // 服务器错误
+        // do something
+        return Promise.reject(error.response.data)
+    }
+    // 返回 response 里的错误信息
+    return Promise.reject(error.response.data)
+});
+
+
+
 //跳转到页面顶部
-routerObj.afterEach((to,from,next) => {
+routerObj.afterEach(() => {
     window.scrollTo(0,0);
 });
 const vm = new Vue({
