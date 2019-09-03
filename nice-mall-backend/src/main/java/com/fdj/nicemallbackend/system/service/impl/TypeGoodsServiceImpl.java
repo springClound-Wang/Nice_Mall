@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
+import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Sort;
 import com.fdj.nicemallbackend.system.entity.SortListName;
 import com.fdj.nicemallbackend.system.entity.SortListType;
@@ -41,6 +42,11 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
     @Autowired
     TypeGoodsMapper typeGoodsMapper;
 
+    /**
+     * 保存各种类型
+     * @param type
+     * @return
+     */
     @Override
     public Map<String, Integer> recoderType(List type) {
         Map<String, Integer> listId = new HashMap<>();
@@ -76,9 +82,19 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         return listId;
     }
 
+    /**
+     * 将货物和商品类型联系起来
+     * @param goodsId
+     * @param listId
+     */
     @Override
     public void linked(Long goodsId, Map<String, Integer> listId) {
         TypeGoods typeGoods = new TypeGoods(listId.get("sortId"),listId.get("sortListNameId"),listId.get("sortListTypeId"),goodsId);
         typeGoodsMapper.save(typeGoods);
+    }
+
+    @Override
+    public Result getSort() {
+        return new Result().success("成功!!");
     }
 }

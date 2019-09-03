@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.TypeGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,5 +20,7 @@ public interface ITypeGoodsService extends IService<TypeGoods> {
     Map<String,Integer> recoderType(List type);
 
     void linked(Long goodsId, Map<String, Integer> listId);
+
+    Result getSort();
 
 }

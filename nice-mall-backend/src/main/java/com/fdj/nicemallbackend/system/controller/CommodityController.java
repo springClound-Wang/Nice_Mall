@@ -26,6 +26,11 @@ public class CommodityController {
     @Autowired
     ITypeGoodsService iTypeGoodsService;
 
+    /**
+     * 添加商品
+     * @param map
+     * @return
+     */
     @PostMapping("/addgoods")
     public Result Addcommdity(@RequestBody Map<String,Object> map){
         List type = (List) map.get("goodsType");
