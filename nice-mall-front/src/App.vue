@@ -174,8 +174,9 @@
                 this.itemIndex = null;
             },
             isLoginTime(){
+                console.log(window.localStorage.getItem('logintime'));//1567516436291
                 if(window.localStorage.getItem('logintime')){
-                    if(new Date().getTime() - window.localStorage.getItem('logintime') >86400000){
+                    if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
                         this.$message.error('登录过期');
                         window.localStorage.removeItem('userId');
                         window.localStorage.removeItem('token');

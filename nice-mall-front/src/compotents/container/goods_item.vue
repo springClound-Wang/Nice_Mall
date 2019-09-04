@@ -1,3 +1,4 @@
+<!--搜索单个商品-->
 <template>
     <div id="goods-container">
         <div class="goods_type_header">全部商品 > <span style="color: #fe5745;">{{goodsname}}</span></div>

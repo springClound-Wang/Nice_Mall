@@ -1,3 +1,4 @@
+<!--商品详情-->
 <template>
     <div id="detail-container">
         <div class="goods_details_img">
@@ -163,9 +164,22 @@ export default {
             goods_size:''
         }
     },
+    created(){
+        this.getGoodsDetails();
+    },
     methods:{
-
-        //加入购物车
+        // TODO 请求当前商品的详情数据
+        getGoodsDetails(){
+          this.$http.get('/getgoodsdetails',{
+                params: {goodsid:this.$route.query.id},
+                headers: {Authorization: window.localStorage.getItem('token')}
+            }).then(res=>{
+              alert(res.data);
+          }).catch(err=>{
+              alert(res.err);
+          })
+        },
+        // TODO  加入购物车
         handleAddCar(){
             if(!this.goods_size){
                 alert('请先选择商品尺码！');

@@ -272,13 +272,13 @@ let type_data = {
             name_list: '女装/男装/内衣',
             goods_list: [{
                 goods_list_name: '人气美衣',
-                goods_all: ['T恤', '衬衫', '连衣裙', '外套', ' 短外套', '卫衣', '防晒衣', '雪纺衫', '针织衫', '小西装', '风衣', '马甲', '羽绒', '棉衣', '毛衣', '大衣', '羊绒/羊毛衫', '皮衣/皮草', '套装']
+                goods_all: ['T恤', '衬衫', '连衣裙', '外套', ' 短外套', '卫衣', '防晒衣', '雪纺衫', '针织衫', '小西装', '风衣', '马甲', '羊绒/羊毛衫', '皮衣/皮草', '套装']
             }, {
                 goods_list_name: '女下装',
                 goods_all: ['休闲裤', '半身裙', '打底裤', '西装裤', '牛仔裤', '阔腿裤', '短裤', '连体/背带裤', '哈伦裤', '牛仔裙']
             }, {
                 goods_list_name: '男下装',
-                goods_all: ['短袖T恤', '棉衣', '大衣', '棒球服', '毛衣', '羽绒服', '皮衣', '马甲/背心', '风衣', '长袖T恤', '外套', '皮肤衣', '针织衫', 'Polo衫', '夹克', '西装', '卫衣', '衬衫', '羊绒/羊毛衫']
+                goods_all: ['短袖T恤', '棉衣', '大衣', '棒球服', '毛衣', '羽绒服', '皮衣', '马甲/背心', '风衣', '长袖T恤', '夹克', '西装', '卫衣', '衬衫', '羊绒/羊毛衫']
             }, {
                 goods_list_name: '女士内衣',
                 goods_all: ['聚拢文胸', '无钢圈文胸', '文胸套装', '薄杯文胸', '运动文胸', '调整型文胸', '美背文胸', '睡衣/家居服', '纯棉睡衣', '女士内裤', '丝袜/裤袜', '吊带']
@@ -424,45 +424,51 @@ let type_data = {
 let car_data = [
     {
         car_goods_id:1,
-        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_img:'../src/image/cloth3.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
         car_goods_price:'10',
-        car_goods_num:1
+        car_goods_num:1,
+        car_goods_size:'M'
     },
     {
         car_goods_id:2,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行',
-        car_goods_price:'10',
-        car_goods_num:1
+        car_goods_price:'30',
+        car_goods_num:2,
+        car_goods_size:'M'
     },
     {
         car_goods_id:3,
-        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_img:'../src/image/cloth2.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'10',
-        car_goods_num:1
+        car_goods_price:'40',
+        car_goods_num:1,
+        car_goods_size:'L'
     },
     {
         car_goods_id:4,
         car_goods_img:'../src/image/cloth1.jpg',
         car_goods_name: '印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
-        car_goods_price:'10',
-        car_goods_num:1
+        car_goods_price:'50',
+        car_goods_num:1,
+        car_goods_size:'M'
     },
     {
         car_goods_id:5,
-        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_img:'../src/image/cloth2.jpg',
         car_goods_name: '香影新款很仙的印花裙子夏款流行荷叶边裙超仙雪纺连衣裙',
         car_goods_price:'10',
-        car_goods_num:1
+        car_goods_num:3,
+        car_goods_size:'M'
     },
     {
         car_goods_id:6,
-        car_goods_img:'../src/image/cloth1.jpg',
+        car_goods_img:'../src/image/cloth3.jpg',
         car_goods_name: '香影新款很仙的印花裙子超仙雪纺连衣裙',
         car_goods_price:'10',
-        car_goods_num:1
+        car_goods_num:2,
+        car_goods_size:'L'
     }
 ];
 

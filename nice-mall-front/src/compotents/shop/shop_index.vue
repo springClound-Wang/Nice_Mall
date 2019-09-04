@@ -158,7 +158,7 @@
                 </div>
             </el-row>
             <el-row>
-                <el-col :span="5" v-for="(item, index) in goods" :key="index" style="margin:21px">
+                <el-col :span="5" v-for="(item, index) in goods" :key="index">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover">
                         <img src="../../image/goods1.jpg" class="image">
                         <div style="padding: 14px;">
