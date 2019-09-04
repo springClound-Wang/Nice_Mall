@@ -14,5 +14,8 @@
     <select id="selectId" resultMap="BaseResultMap">
         select * from sort_list_type where sort_list_name = #{sortListTypeName}
     </select>
+    <select id="selectBysortListNametId" resultType="java.lang.String">
+        select sort_list_name from sort_list_type where sort_list_id = #{sortListId}
+    </select>
 
 </mapper>

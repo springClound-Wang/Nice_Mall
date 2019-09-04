@@ -14,5 +14,11 @@
     <select id="selectId" resultMap="BaseResultMap">
         select * from sort_list_name where sort_list_name = #{sortListName}
     </select>
+    <select id="select" resultMap="BaseResultMap">
+        select * from sort_list_name
+    </select>
+    <select id="selectBysortId" resultMap="BaseResultMap">
+        select * from sort_list_name where sort_id = #{sortId}
+    </select>
 
 </mapper>

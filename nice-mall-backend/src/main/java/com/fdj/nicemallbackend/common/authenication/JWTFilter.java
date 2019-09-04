@@ -10,6 +10,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.support.incrementer.HanaSequenceMaxValueIncrementer;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Classname JWTFilter
@@ -132,10 +135,12 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpResponse.setCharacterEncoding("utf-8");
         httpResponse.setContentType("application/json; charset=utf-8");
-        final String message = "登录已失效，请重新登录!!!";
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",100);
+        map.put("message","登录失效!!!");
         try (PrintWriter out = httpResponse.getWriter()) {
-            String responseJson = "{\"message\":\"" + message + "\"}";
-            out.print(responseJson);
+            /*String responseJson = "{\"status\":\"" + status + "\"}";*/
+            out.print(map);
         } catch (IOException e) {
             log.error("sendChallenge error：", e);
         }

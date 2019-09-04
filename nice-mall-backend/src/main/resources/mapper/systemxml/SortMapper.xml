@@ -12,5 +12,8 @@
     <select id="selectId" resultType="com.fdj.nicemallbackend.system.entity.Sort">
         select * from m_sort where sort_english_name = #{name}
     </select>
+    <select id="selectAll" resultType="com.fdj.nicemallbackend.system.entity.Sort">
+        select * from m_sort
+    </select>
 
 </mapper>

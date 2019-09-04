@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -20,4 +22,7 @@ public interface SortListTypeMapper extends BaseMapper<SortListType> {
     void save(SortListType sortListType1);
 
     SortListType selectId(String sortListTypeName);
+
+
+    List<String> selectBysortListNametId(Integer sortListId);
 }

@@ -1,6 +1,8 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.Sort2;
+import com.fdj.nicemallbackend.system.dto.Sort3;
 import com.fdj.nicemallbackend.system.entity.Sort;
 import com.fdj.nicemallbackend.system.entity.SortListName;
 import com.fdj.nicemallbackend.system.entity.SortListType;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
 
     /**
      * 保存各种类型
+     *
      * @param type
      * @return
      */
@@ -52,7 +56,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         Map<String, Integer> listId = new HashMap<>();
         SortListName sortListName = null;
         SortListName sortListName1 = null;
-        SortListType sortListType=null;
+        SortListType sortListType = null;
         SortListType sortListType1 = null;
         try {
             Sort sort = sortMapper.selectId((String) type.get(0));
@@ -65,17 +69,17 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         } finally {
             try {
                 if (sortListName != null) {
-                    listId.put("sortListNameId",sortListName.getSortListId());
+                    listId.put("sortListNameId", sortListName.getSortListId());
                     sortListType1 = new SortListType(sortListName.getSortListId(), (String) type.get(2));
                 } else {
-                    listId.put("sortListNameId",sortListName1.getSortListId());
+                    listId.put("sortListNameId", sortListName1.getSortListId());
                     sortListType1 = new SortListType(sortListName1.getSortListId(), (String) type.get(2));
                 }
                 sortListTypeMapper.save(sortListType1);
-                listId.put("sortListTypeId",sortListType1.getSortListId());
+                listId.put("sortListTypeId", sortListType1.getSortListId());
             } catch (DuplicateKeyException e) {
-                sortListType = sortListTypeMapper.selectId((String)type.get(2));
-                listId.put("sortListTypeId",sortListType.getSortListId());
+                sortListType = sortListTypeMapper.selectId((String) type.get(2));
+                listId.put("sortListTypeId", sortListType.getSortListId());
                 log.error("此三阶类型已经添加过");
             }
         }
@@ -84,17 +88,38 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
 
     /**
      * 将货物和商品类型联系起来
+     *
      * @param goodsId
      * @param listId
      */
     @Override
     public void linked(Long goodsId, Map<String, Integer> listId) {
-        TypeGoods typeGoods = new TypeGoods(listId.get("sortId"),listId.get("sortListNameId"),listId.get("sortListTypeId"),goodsId);
+        TypeGoods typeGoods = new TypeGoods(listId.get("sortId"), listId.get("sortListNameId"), listId.get("sortListTypeId"), goodsId);
         typeGoodsMapper.save(typeGoods);
     }
 
+    /**
+     * 返回类型
+     * @return
+     */
     @Override
     public Result getSort() {
-        return new Result().success("成功!!");
+        List<String> goodsAll = new ArrayList<>();
+        List<Sort3> goodsList = new ArrayList<>();
+        List<Sort2> goodsTypeList = new ArrayList<>();
+        List<Sort> sorts = sortMapper.selectAll();
+        for (int i = 0; i < sorts.size(); i++) {
+            List<SortListName> sortListNames = sortListNameMapper.selectBysortId(sorts.get(i).getSortId());
+            for (int j = 0; j < sortListNames.size(); j++) {
+                goodsAll = sortListTypeMapper.selectBysortListNametId(sortListNames.get(j).getSortListId());
+                Sort3 sort3 = new Sort3(sortListNames.get(j).getSortListName(),goodsAll);
+                goodsList.add(sort3);
+            }
+            Sort2 sort2 = new Sort2(sorts.get(i).getSortName(),goodsList);
+            goodsTypeList.add(sort2);
+        }
+       /* Map<String,List<Sort2>> map = new HashMap<>();
+        map.put("goodsTypeList",goodsTypeList);*/
+        return new Result().success(goodsTypeList,"成功!!");
     }
 }
