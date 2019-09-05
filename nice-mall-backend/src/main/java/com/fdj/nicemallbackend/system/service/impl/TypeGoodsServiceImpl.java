@@ -105,11 +105,11 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
     @Override
     public Result getSort() {
         List<String> goodsAll = new ArrayList<>();
-        List<Sort3> goodsList = new ArrayList<>();
         List<Sort2> goodsTypeList = new ArrayList<>();
         List<Sort> sorts = sortMapper.selectAll();
         for (int i = 0; i < sorts.size(); i++) {
             List<SortListName> sortListNames = sortListNameMapper.selectBysortId(sorts.get(i).getSortId());
+            List<Sort3> goodsList = new ArrayList<>();
             for (int j = 0; j < sortListNames.size(); j++) {
                 goodsAll = sortListTypeMapper.selectBysortListNametId(sortListNames.get(j).getSortListId());
                 Sort3 sort3 = new Sort3(sortListNames.get(j).getSortListName(),goodsAll);
