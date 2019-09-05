@@ -2,6 +2,7 @@ package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.common.utils.Base64tTransformUtil;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.*;
 import com.fdj.nicemallbackend.system.mapper.*;
@@ -195,5 +196,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
         return new Result().success(res,"添加成功!!!");
+    }
+
+    /**
+     * 根据字段模糊查询商品
+     * @param field
+     * @return
+     */
+    @Override
+    public List<Findgoods> findByField(String field) {
+        List<Findgoods> goods = goodsMapper.selectFuzzyByfiled(field);
+        return goods;
     }
 }

@@ -118,8 +118,6 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
             Sort2 sort2 = new Sort2(sorts.get(i).getSortName(),goodsList);
             goodsTypeList.add(sort2);
         }
-       /* Map<String,List<Sort2>> map = new HashMap<>();
-        map.put("goodsTypeList",goodsTypeList);*/
         return new Result().success(goodsTypeList,"成功!!");
     }
 }

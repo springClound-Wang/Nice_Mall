@@ -1,9 +1,11 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,4 +42,11 @@ public interface IGoodsService extends IService<Goods> {
      * @param map
      */
     Result saveToelectr(Map<String, Object> map);
+
+    /**
+     * 根据字段模糊查询商品
+     * @param field
+     * @return
+     */
+    List<Findgoods> findByField(String field);
 }

@@ -1,12 +1,16 @@
 package com.fdj.nicemallbackend.system.mapper;
 
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author xns
@@ -16,4 +20,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface GoodsMapper extends BaseMapper<Goods> {
 
     void save(Goods goods);
+
+    List<Findgoods> selectFuzzyByfiled(@Param("field") String field);
 }

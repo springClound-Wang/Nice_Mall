@@ -31,7 +31,7 @@ shiro:
   #后端免认证url
   anonUrl: /nice-mall-backend/login/**,/nice-mall-backend/register,/nice-mall-backend/register/verifycode,/nice-mall-backend/home/**
   #token有效期，单位秒
-  jwtTimeOut: 240
+  jwtTimeOut: 86400
 
 #开启驼峰命名匹配规则
 mybatis:
