@@ -40,11 +40,11 @@ public class HomeController {
     @GetMapping("/{field}")
     public Result fuzzyQuery(@PathVariable String field){
         List<Findgoods> goods = goodsService.findByField(field);
-        if(goods!=null) {
-            return new Result().success(goods, "查询成功!!!");
+        if(goods.isEmpty()) {
+            return new Result().fail("查询失败,无对应的数据!!!");
         }
         else{
-            return new Result().success("查询失败,无对应的数据!!!");
+            return new Result().success(goods, "查询成功!!!");
         }
     }
 
