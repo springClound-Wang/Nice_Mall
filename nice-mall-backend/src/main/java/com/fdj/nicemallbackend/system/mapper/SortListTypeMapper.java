@@ -21,8 +21,10 @@ public interface SortListTypeMapper extends BaseMapper<SortListType> {
 
     void save(SortListType sortListType1);
 
-    SortListType selectId(String sortListTypeName);
+    SortListType selectId(@Param("sortListNameId") Integer sortListNameId,@Param("sortListTypeName") String sortListTypeName);
 
 
     List<String> selectBysortListNametId(Integer sortListId);
+
+    List<Integer> selectPartId(String field);
 }

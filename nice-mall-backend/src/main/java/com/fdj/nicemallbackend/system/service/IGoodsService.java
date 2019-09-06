@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -48,5 +49,5 @@ public interface IGoodsService extends IService<Goods> {
      * @param field
      * @return
      */
-    List<Findgoods> findByField(String field);
+    Set<Findgoods> findByField(String field);
 }

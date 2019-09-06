@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Classname HomeController
@@ -39,7 +40,7 @@ public class HomeController {
 
     @GetMapping("/{field}")
     public Result fuzzyQuery(@PathVariable String field){
-        List<Findgoods> goods = goodsService.findByField(field);
+        Set<Findgoods> goods = goodsService.findByField(field);
         if(goods.isEmpty()) {
             return new Result().fail("查询失败,无对应的数据!!!");
         }
@@ -48,4 +49,8 @@ public class HomeController {
         }
     }
 
+//    @GetMapping("/{type}")
+//    public Result typeQuery(@PathVariable String type){
+//
+//    }
 }

@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -51,6 +50,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Autowired
     StoreGoodsMapper storeGoodsMapper;
+
+    @Autowired
+    SortListTypeMapper sortListTypeMapper;
+
+    @Autowired
+    TypeGoodsMapper typeGoodsMapper;
 
 
     /**
@@ -204,8 +209,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
-    public List<Findgoods> findByField(String field) {
-        List<Findgoods> goods = goodsMapper.selectFuzzyByfiled(field);
+    public Set<Findgoods> findByField(String field) {
+        List<Integer> type = sortListTypeMapper.selectPartId(field);
+        List<Long> goodsIds = new ArrayList<>();
+        Set<Findgoods> goods = new HashSet<>();
+        if(!type.isEmpty()) {
+            for(int i=0;i<type.size();i++) {
+                goodsIds = typeGoodsMapper.selectBytypeId(type.get(i));
+            }
+            for(int j=0;j<goodsIds.size();j++){
+                goods = goodsMapper.selectById(goodsIds.get(j));
+            }
+        }
+        List<Findgoods> goodspart = goodsMapper.selectFuzzyByfiled(field);
+        for(int i=0;i<goodspart.size();i++){
+            goods.add(goodspart.get(i));
+        }
         return goods;
     }
 }

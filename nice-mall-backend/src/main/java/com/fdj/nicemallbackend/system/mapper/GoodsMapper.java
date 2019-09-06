@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -22,4 +23,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     void save(Goods goods);
 
     List<Findgoods> selectFuzzyByfiled(@Param("field") String field);
+
+    Set<Findgoods> selectById(Long goodsId);
 }

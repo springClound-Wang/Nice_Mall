@@ -12,5 +12,7 @@
     <insert id="save">
         insert into m_type_goods values (#{sortId} ,#{sortListNameId} ,#{sortListTypeId} ,#{goodsId})
     </insert>
-
+    <select id="selectBytypeId" resultType="java.lang.Long">
+        select goods_id from m_type_goods where sort_list_type_id = #{listTypeId}
+    </select>
 </mapper>

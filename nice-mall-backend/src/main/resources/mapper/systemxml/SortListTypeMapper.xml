@@ -12,10 +12,13 @@
         insert into sort_list_type values(NULL,#{sortListId},#{sortListName})
     </insert>
     <select id="selectId" resultMap="BaseResultMap">
-        select * from sort_list_type where sort_list_name = #{sortListTypeName}
+        select * from sort_list_type where sort_list_id = #{sortListNameId} and sort_list_name = #{sortListTypeName}
     </select>
     <select id="selectBysortListNametId" resultType="java.lang.String">
         select sort_list_name from sort_list_type where sort_list_id = #{sortListId}
+    </select>
+    <select id="selectPartId" resultType="java.lang.Integer">
+        select sort_list_type_id from sort_list_type where sort_list_name = #{field,jdbcType=VARCHAR}
     </select>
 
 </mapper>

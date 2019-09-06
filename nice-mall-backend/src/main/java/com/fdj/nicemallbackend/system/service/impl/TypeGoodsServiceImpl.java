@@ -76,10 +76,10 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
                     sortListType1 = new SortListType(sortListName1.getSortListId(), (String) type.get(2));
                 }
                 sortListTypeMapper.save(sortListType1);
-                listId.put("sortListTypeId", sortListType1.getSortListId());
+                listId.put("sortListTypeId", sortListType1.getSortListTypeId());
             } catch (DuplicateKeyException e) {
-                sortListType = sortListTypeMapper.selectId((String) type.get(2));
-                listId.put("sortListTypeId", sortListType.getSortListId());
+                sortListType = sortListTypeMapper.selectId(listId.get("sortListNameId"),(String) type.get(2));
+                listId.put("sortListTypeId", sortListType.getSortListTypeId());
                 log.error("此三阶类型已经添加过");
             }
         }
