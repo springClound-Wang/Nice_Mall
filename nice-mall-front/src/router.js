@@ -22,12 +22,12 @@ import goods_pay from './compotents/car/goods_pay.vue'; //提交    .
 import goods_order from './compotents/car/goods_order.vue'; //结算
 
 
-import shop_home from './compotents/shop/shop_home.vue';
+import shop_home from './compotents/shop/shop_home.vue'; //店铺首页导航
 import shop_create from './compotents/shop/shop_create.vue'; //创建店铺
 import shop_curd from './compotents/shop/shop_curd.vue'; //添加商品
-import shop_index from  './compotents/shop/shop_index.vue'; //首页
+import shop_index from  './compotents/shop/shop_index.vue'; //店铺首页
 
-import goods_sel from './compotents/container/goods_sel.vue';
+import goods_sel from './compotents/car/goods_sel.vue'; //订单
 
 // 创建路由对象
 let routerObj = new VueRouter({

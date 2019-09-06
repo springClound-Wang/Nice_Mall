@@ -28,13 +28,13 @@
                     <div class="itemHover">
                             <ul id="list">
                                 <li @mouseenter="show_goods" @mouseleave="hide_goods" v-for="goods_item in goods_type_list">
-                                    <span>{{goods_item.name_list}}</span>
+                                    <span>{{goods_item.nameList}}</span>
                                     <div class="all_goods_list">
-                                       <div v-for="(item,index) in goods_item.goods_list"
+                                       <div v-for="(item,index) in goods_item.goodsList"
                                             :key="index" class="all_goods_list_item">
-                                           <div class="goods_list_name">{{item.goods_list_name}} ></div>
+                                           <div class="goods_list_name">{{item.goodsListName}} ></div>
                                            <div class="goods_list_item">
-                                               <span v-for="val in item.goods_all" class="val_item">
+                                               <span v-for="val in item.goodsAll" class="val_item">
                                                    <router-link :to="'/goods_item?goodsname='+val" @click.native="flushCom">{{val}}</router-link>
                                                </span>
                                            </div>
@@ -138,8 +138,9 @@
             },
             //发出请求
             getTypeGoodsList(){
-                this.$http.get('/').then(res=>{
-                    this.goods_type_list = res.data.goods_type_list;
+                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort').then(res=>{
+                    this.goods_type_list = res.data.data;
+                    console.log(this.goods_type_list);
                 }).catch(err=>{
                     console.log(err);
                 })

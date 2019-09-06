@@ -2,21 +2,24 @@
 <template>
     <div id="goods-container">
         <div class="goods_type_header">全部商品 > <span style="color: #fe5745;">{{goodsname}}</span></div>
-        <div id="all_goods_list">
-            <div class="goods-item" v-for="item in goods" :key="item.goods_id">
+        <div id="all_goods_list" v-if="status">
+            <div class="goods-item" v-for="item in goods" :key="item.goodsId">
                 <!--点击跳到详情-->
-                <router-link :to="'/goods_detail?id='+item.goods_id" >
+                <router-link :to="'/goods_detail?id='+item.goodsId" >
                     <div @mouseenter="change" @mouseleave="nochange">
-                        <img :src="item.goods_img" class="goods-img"/>
+                        <img :src="item.imageMain" class="goods-img"/>
                         <div class="goods-desc">
-                            <span class="goods-name">{{item.goods_name}}</span><br>
+                            <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                            <span style="margin: 0 10px">￥{{item.goodsPrePrice}}</span>
+                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsCurPrice}}</span>
                         </div>
                     </div>
                 </router-link>
             </div>
+        </div>
+        <div v-if="!status" class="not_found">
+            <span>!暂无此类商品</span>
         </div>
     </div>
 </template>
@@ -27,8 +30,7 @@
             return {
                 goodsname: this.$route.query.goodsname,
                 goods: '', //所有商品
-                hot_type: '',//商品类别
-                hot_head_img: ''//商品大图
+                status:true
             }
         },
         created() {
@@ -37,10 +39,12 @@
         methods: {
             //发请求：
             getTypeGoodsList() {
-                this.$http.get('/getgoodslist?goodsname=' + this.$route.query.goodsname).then(res => {
-                    this.hot_type = res.data.hot_type;
-                    this.goods = res.data.goods;
-                    this.hot_head_img = res.data.hot_head_img;
+                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/'+this.$route.query.goodsname ).then(res => {
+                    this.status = res.data.status;
+                    if(res.data.status === true) {
+                        this.goods = res.data.data;
+                    }
+
                 }).catch(err => {
                     console.log(err);
                 })
@@ -68,5 +72,13 @@
         padding: 10px;
         border-bottom: 1px solid #cccccc;
         font-size: 17px;
+    }
+    .not_found{
+        width: 80%;
+        height: 300px;
+        margin: 10px auto;
+        text-align: center;
+        font-size: 18px;
+        color: #6d6d72;
     }
 </style>

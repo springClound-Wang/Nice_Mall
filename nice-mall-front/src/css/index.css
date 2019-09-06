@@ -72,8 +72,19 @@ a {
 .v-enter-active,.v-leave-active{
     transition: all .5s ease-in;
 }
-
-
+/*轮播图*/
+.mint-swipe-indicator.is-active {
+    background: #ff2a23;
+}
+.mint-swipe-indicator {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.5;
+    margin: 0 3px;
+}
 /*下拉菜单*/
 .item{
     position: absolute;
@@ -81,29 +92,30 @@ a {
     height: auto;
     background-color:white;
     margin: 2px 0;
+    padding: 5px;
     display: none;
 }
 .itemHover{
     position: absolute;
     top: 40px;
-    width: 90px;
+    width:100px;
     height: auto;
     border-top: none;
-    background: linear-gradient(to right, #f1366d, #fe5745);
+    background: linear-gradient(to bottom, #f1366d, #fe5745);
     margin: 8px 0;
     display: block;
     z-index: 100;
 }
 .list{
     list-style-type: none;
-    width: 90px;
+    width: 100px;
     text-align: left;
     float: left;
     display:block;
     position: relative;
 }
 .list li{
-    padding: 0 5px;
+    padding: 0 8px;
     height: 3em;
     color: white;
 }
@@ -133,4 +145,44 @@ ul{
     width: 20.83333%;
     float: left;
     margin: 10px 21px;
+}
+
+/*购物车选择框*/
+.el-checkbox-group {
+    font-size: 0;
+    text-align: left;
+    margin-left: 5%;
+}
+.el-checkbox__label {
+    display: none;
+    padding-left: 10px;
+    line-height: 19px;
+    font-size: 14px;
+}
+/*订单*/
+.el-tabs__item {
+    padding: 0 20px;
+    height: 45px;
+    text-align: center;
+    width: 25% !important;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 40px;
+    display: inline-block;
+    list-style: none;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #303133;
+    position: relative;
+}
+.el-button--danger {
+    color: #FFF;
+    background-color: #F56C6C;
+    border-color: #F56C6C;
+    margin-top: 40px !important;
+    margin-left: 20px !important;
+}
+.el-tabs__header .is-top{
+    width: 76%;
+    margin: 0 auto;
 }

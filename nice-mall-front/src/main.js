@@ -51,11 +51,6 @@ Axios.defaults.baseURL='http://localhost:3030';
 // http request 拦截器
 // Axios.interceptors.request.use(
 //     config => {
-//         let token = window.localStorage.getItem('token');
-//         console.log(token.length);
-//         if (token) {
-//             config.headers.common['Authorization'] = token;
-//         }
 //         config.headers = {
 //             'Content-Type': 'application/json'
 //         };
@@ -69,7 +64,9 @@ Axios.defaults.baseURL='http://localhost:3030';
 //返回状态判断(添加响应拦截器)
 Axios.interceptors.response.use(res =>{
     //对响应数据做些事
+    console.log(res.data.status);
     if(!res.data.status){
+        console.log('ok'+res.data.message);
         // return Promise.reject(res)
     }
     return res
@@ -77,7 +74,7 @@ Axios.interceptors.response.use(res =>{
     if(error.response.status === 401) {
         // 401 说明 token 验证失败
         // 可以直接跳转到登录页面，重新登录获取 token
-        window.location.herf = './login_sign/login_phone'
+        console.log(error.response.data.message);
     } else if (error.response.status === 500) {
         // 服务器错误
         // do something
