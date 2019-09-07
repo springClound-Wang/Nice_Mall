@@ -243,6 +243,7 @@
     .select-into{
         position: absolute;
         top:-1px;
+        left: 0;
         display: inline-block;
         padding: 5px;
         font-size: 19px;

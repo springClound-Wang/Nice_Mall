@@ -40,6 +40,13 @@
                 <button class="btn btn-default" @click="chooseSize">M</button>
                 <button class="btn btn-default" @click="chooseSize">L</button>
             </div>
+            <div class="goods_details_size">
+                <span>颜色</span>
+                <button class="btn btn-default" @click="chooseSize">红色</button>
+                <button class="btn btn-default" @click="chooseSize">黄色</button>
+                <button class="btn btn-default" @click="chooseSize">绿色</button>
+                <button class="btn btn-default" @click="chooseSize">蓝色</button>
+            </div>
             <br>
             <div class="goods_details_num">
                <span>数量</span>
@@ -66,41 +73,137 @@
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品尺码  SIZE</span>
             </div>
             <div class="goods_details_size_table">
+                <div style="font-size: 14px">
+                    TIPS:<br>
+                    1. 选购时，请综合参考尺码表中各项参数，有助于你选择到更合适的尺码。<br>
+                    2.（只适用服装）平铺测量自己的合身服装尺寸作参考，对比选购更准确！<br>
+                    3. 请放心挑选尺码，唯品7天退货无忧替你保驾护航。<br>
+                </div>
+                <hr>
                 <span style="margin-bottom: 10px;display: block">尺码对照表:</span>
+                <!--女装上衣-->
                 <table border="1" class="first_table">
                     <thead>
                     <tr>
-                        <th>尺码</th><th>号型	</th><th>胸围</th><th>下摆围</th><th>衣长</th><th>袖长</th>
+                        <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>下摆围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>XS</td><td>155/76A</td><td>125</td><td>122</td><td>60</td><td>26.5</td>
+                        <td>XS</td><td>155/76A</td><td>125</td><td>122</td><td>60</td><td>56.5</td>
                     </tr>
                     <tr>
-                        <td>S</td><td>160/80A</td><td>129</td><td>126</td><td>61.5</td><td>27</td>
+                        <td>S</td><td>160/80A</td><td>129</td><td>126</td><td>61.5</td><td>56.7</td>
                     </tr>
                     <tr>
-                        <td>M</td><td>165/84A</td><td>133</td><td>130</td><td>63</td><td>27.5</td>
+                        <td>M</td><td>165/84A</td><td>133</td><td>130</td><td>63</td><td>56.9</td>
                     </tr>
                     <tr>
-                        <td>L</td><td>170/88A</td><td>137</td><td>134</td><td>64.5</td><td>28</td>
+                        <td>L</td><td>170/88A</td><td>137</td><td>134</td><td>64.5</td><td>60.1</td>
                     </tr>
                     <tr>
-                        <td>XL</td><td>175/92A</td><td>141</td><td>138</td><td>66</td><td>28.5</td>
+                        <td>XL</td><td>175/92A</td><td>141</td><td>138</td><td>66</td><td>60.3</td>
                     </tr>
                     <tr>
-                        <td colspan="6">温馨提示： 平铺测量尺寸，没有拉伸，不考虑把弹性范围内的数据，误差范围1-2cm，敬请谅解。
+                        <td colspan="6"  style="text-align: left">温馨提示： 平铺测量尺寸，没有拉伸，不考虑把弹性范围内的数据，误差范围1-2cm，敬请谅解。
                             【因个人体型差异及穿衣习惯的不同，请参照尺码表和自身习惯选择，如有疑问请联系客服。】</td>
                     </tr>
                     </tbody>
                 </table>
+                <!--女装裤子-->
+                <table border="1" class="first_table">
+                    <thead>
+                    <tr>
+                        <th>尺码</th><th>号型	</th><th>腰围(cm)</th><th>臀围(cm)</th><th>大腿围(cm)</th><th>裤长(cm)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>S</td><td>155/88B</td><td>76</td><td>78</td><td>42</td><td>88</td>
+                    </tr>
+                    <tr>
+                        <td>M</td><td>160/92B</td><td>78</td><td>80</td><td>44</td><td>90</td>
+                    </tr>
+                    <tr>
+                        <td>L</td><td>165/96B</td><td>80</td><td>82</td><td>46</td><td>92</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td><td>170/100B</td><td>82</td><td>84</td><td>48</td><td>94</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"  style="text-align: left">温馨提示： 平铺测量尺寸，没有拉伸，不考虑把弹性范围内的数据，误差范围1-2cm，敬请谅解。
+                            【因个人体型差异及穿衣习惯的不同，请参照尺码表和自身习惯选择，如有疑问请联系客服。】</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--男装上衣-->
+                <table border="1" class="first_table">
+                    <thead>
+                    <tr>
+                        <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th><th>胸围(cm)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>M</td><td>170/88A</td><td>96</td><td>61.5</td><td>52.5</td><td>94</td>
+                    </tr>
+                    <tr>
+                        <td>L</td><td>175/92A</td><td>100</td><td>63.5</td><td>54</td><td>98</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td><td>180/96A</td><td>104</td><td>65.5</td><td>55.5</td><td>102</td>
+                    </tr>
+                    <tr>
+                        <td>XXL</td><td>185/100A</td><td>108</td><td>67.5</td><td>57</td><td>106</td>
+                    </tr>
+                    <tr>
+                        <td>XXXL</td><td>190/104A</td><td>112</td><td>69.5</td><td>58.5</td><td>110</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"  style="text-align: left">温馨提示： 平铺测量尺寸，没有拉伸，不考虑把弹性范围内的数据，误差范围1-2cm，敬请谅解。
+                            【因个人体型差异及穿衣习惯的不同，请参照尺码表和自身习惯选择，如有疑问请联系客服。】</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--鞋子-->
+                <table border="1" class="first_table">
+                    <thead>
+                    <tr>
+                        <th>尺码</th><th>鞋码	</th><th>欧洲码</th><th>美国码</th><th>脚长(mm)</th><th>中国码</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>35</td><td>35</td><td>35</td><td>5</td><td>22.5</td><td>35</td>
+                    </tr>
+                    <tr>
+                        <td>36</td><td>36</td><td>36</td><td>6</td><td>23</td><td>36</td>
+                    </tr>
+                    <tr>
+                        <td>37</td><td>37</td><td>37</td><td>7</td><td>23.5</td><td>37</td>
+                    </tr>
+                    <tr>
+                        <td>38</td><td>38</td><td>38</td><td>8</td><td>24</td><td>38</td>
+                    </tr>
+                    <tr>
+                        <td>39</td><td>39</td><td>39</td><td>9</td><td>25</td><td>39</td>
+                    </tr>
+                    <tr>
+                        <td>40</td><td>40</td><td>40</td><td>10</td><td>25.5</td><td>40</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align: left">温馨提示： 平铺测量尺寸，没有拉伸，不考虑把弹性范围内的数据，误差范围1-2cm，敬请谅解。
+                            【因个人体型差异及穿衣习惯的不同，请参照尺码表和自身习惯选择，如有疑问请联系客服。】</td>
+                    </tr>
+                    </tbody>
+                </table>
+
             </div>
             <div class="goods_details_title">
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品参数 DETAIL</span>
             </div>
+            <!--衣服-->
             <table border="1" class="second_table">
-
                 <tr>
                     <th>适用季节:</th><td>春</td><th>款式：</th><td>开衫</td>
                 </tr>
@@ -113,9 +216,55 @@
                 <tr>
                     <th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td><th>产地：</th><td>中国</td>
                 </tr>
-
             </table>
-
+            <!--鞋子-->
+            <table border="1" class="second_table">
+                <tr>
+                    <th>适用季节:</th><td>春</td><th>品牌：</th><td>无</td>
+                </tr>
+                <tr>
+                    <th>适用场合：</th><td>青年</td><th>产地：</th><td>中国</td>
+                </tr>
+                <tr>
+                   <th>材质：</th><td>pu</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                </tr>
+            </table>
+            <!--包包-->
+            <table border="1" class="second_table">
+                <tr>
+                    <th>适用季节:</th><td>春</td><th>品牌：</th><td>无</td>
+                </tr>
+                <tr>
+                    <th>适用性别：</th><td>女</td><th>产地：</th><td>中国</td>
+                </tr>
+                <tr>
+                    <th>材质：</th><td>pu</td> <th>重量：</th><td>200g</td>
+                </tr>
+                <tr>
+                    <th>商品编号：</th><td>100000</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                </tr>
+            </table>
+            <!--电子产品-->
+            <table border="1" class="second_table">
+                <tr>
+                    <th>规格:</th><td>春</td><th>品牌：</th><td>无</td>
+                </tr>
+                <tr>
+                    <th>系统：</th><td>女</td><th>产地：</th><td>中国</td>
+                </tr>
+                <tr>
+                    <th>是否支持双卡：</th><td>pu</td> <th>分辨率：</th><td>200g</td>
+                </tr>
+                <tr>
+                    <th>前置像素：</th><td>pu</td> <th>后置像素：</th><td>200g</td>
+                </tr>
+                <tr>
+                    <th>屏幕尺寸：</th><td>pu</td> <th>配件：</th><td>非师范计算机覅舒服舒服华为U狐尾花如合肥的父事件返回数据福建省部分</td>
+                </tr>
+                <tr>
+                    <th>商品编号：</th><td>100000</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                </tr>
+            </table>
             <div class="goods_details_title">
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品展示  IMAGE</span>
             </div>
@@ -470,7 +619,7 @@ export default {
 
     /*加入购物车 立即购买*/
     .goods_details_buy{
-        margin-top: 87px;
+        margin-top: 60px;
     }
     .goods_details_buy button{
         width: 150px;

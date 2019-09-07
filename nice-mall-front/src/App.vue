@@ -17,7 +17,6 @@
                         <div class="item" :class="{itemHover:itemIndex===4}">
                             <ul class="list">
                                 <a href="#"><li>合作专区</li></a>
-                                <hr>
                                 <a href="#"><li>关于我们</li></a>
                             </ul>
                         </div>
@@ -145,10 +144,17 @@
                         window.localStorage.removeItem('isshop');
                         window.localStorage.removeItem('logintime');
                         this.$router.push({path: '/login_sign/login_phone'});
-                        window.location.reload()
+                        this.location.reload()
                     }
                 }).catch(err => {
-                    console.log(err);
+                    console.log(err); //登录过期提示
+                    window.localStorage.removeItem('userId');
+                    window.localStorage.removeItem('token');
+                    window.localStorage.removeItem('username');
+                    window.localStorage.removeItem('isshop');
+                    window.localStorage.removeItem('logintime');
+                    this.$router.push({path: '/login_sign/login_phone'});
+                    this.location.reload()
                 });
             },
             //我的店铺
@@ -174,7 +180,7 @@
                 this.itemIndex = null;
             },
             isLoginTime(){
-                console.log(window.localStorage.getItem('logintime'));//1567516436291
+                // console.log(window.localStorage.getItem('logintime'));//1567516436291
                 if(window.localStorage.getItem('logintime')){
                     if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
                         this.$message.error('登录过期');

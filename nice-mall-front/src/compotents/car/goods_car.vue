@@ -14,6 +14,9 @@
             <tr v-for="item in car_data " :key="item.car_goods_id">
                 <td>
                     <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
+                        <!--<el-checkbox-group v-model="selected">-->
+                            <!--<el-checkbox  :label="item.car_goods_id" :key="item.car_goods_id">goods</el-checkbox>-->
+                        <!--</el-checkbox-group>-->
                         <input type="checkbox" v-model="selected" class="checked"
                                :value="item.car_goods_id" :id="item.car_goods_id">
                         <img :src="item.car_goods_img"/>
@@ -21,6 +24,7 @@
                             {{item.car_goods_name}}
                             <div style="margin-top: 10px">尺码：{{item.car_goods_size}}</div>
                         </div>
+
                     </label>
                 </td>
                 <td>￥{{item.car_goods_price}}</td>
@@ -49,6 +53,7 @@
                 <span>合计：￥{{all_money}}</span>
                 <button @click="handleToCount">结算</button>
             </div>
+            <p>{{selected}}</p>
         </div>
     </div>
 </template>
@@ -58,7 +63,7 @@ export default {
       return{
           selected:[],
           car_data:'',
-          all_money:0.00
+          all_money:0.00,
       }
     },
     computed:{
@@ -139,14 +144,14 @@ export default {
 </script>
 <style scoped>
     #car_container{
-        width: 86%;
+        width: 85%;
         margin: 10px auto;
     }
     .select{
         width: 100%;
     }
     table{
-        width:86%;
+        width:92%;
         margin: 0 auto;
         border: none;
     }
@@ -160,9 +165,9 @@ export default {
     }
     tr {
         height: 115px;
-        border-bottom: 1px solid #dddddd;
-        border-left: 1px solid #dddddd;
-        border-right: 1px solid #dddddd;
+        border-bottom: 1px solid #d6d6d6;
+        border-left: 1px solid #d6d6d6;
+        border-right: 1px solid #d6d6d6;
     }
     #title td{
         padding-left:6%;
@@ -187,7 +192,7 @@ export default {
         position: absolute;
         left: 20px;
         top:30%;
-        border: 1px solid #333;
+        border: 1px solid #d6d6d6;
         border-radius: 50%;
         outline: none;
         width: 16px;
@@ -215,11 +220,11 @@ export default {
     .account{
         position: sticky;
         bottom: 0;
-        width: 86%;
+        width: 92%;
         margin: 10px auto;
         height: 70px;
         line-height: 70px;
-        border: 1px solid #cccccc;
+        border: 1px solid #d6d6d6;
         background-color: white;
         z-index: 100;
     }
@@ -252,6 +257,6 @@ export default {
     .goods_details_num span{
         display: inline-block;
         padding: 1px 6px;
-        border: 1px solid #cccccc;
+        border: 1px solid #d6d6d6;
     }
 </style>
