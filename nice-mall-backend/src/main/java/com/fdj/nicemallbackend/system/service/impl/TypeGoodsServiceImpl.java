@@ -1,5 +1,7 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
+import com.fdj.nicemallbackend.common.domain.SortConsts;
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.Sort2;
 import com.fdj.nicemallbackend.system.dto.Sort3;
@@ -7,10 +9,8 @@ import com.fdj.nicemallbackend.system.entity.Sort;
 import com.fdj.nicemallbackend.system.entity.SortListName;
 import com.fdj.nicemallbackend.system.entity.SortListType;
 import com.fdj.nicemallbackend.system.entity.TypeGoods;
-import com.fdj.nicemallbackend.system.mapper.SortListNameMapper;
-import com.fdj.nicemallbackend.system.mapper.SortListTypeMapper;
-import com.fdj.nicemallbackend.system.mapper.SortMapper;
-import com.fdj.nicemallbackend.system.mapper.TypeGoodsMapper;
+import com.fdj.nicemallbackend.system.mapper.*;
+import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +45,10 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
     @Autowired
     TypeGoodsMapper typeGoodsMapper;
 
+    @Autowired
+    GoodsMapper goodsMapper;
+
+
     /**
      * 保存各种类型
      *
@@ -78,7 +82,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
                 sortListTypeMapper.save(sortListType1);
                 listId.put("sortListTypeId", sortListType1.getSortListTypeId());
             } catch (DuplicateKeyException e) {
-                sortListType = sortListTypeMapper.selectId(listId.get("sortListNameId"),(String) type.get(2));
+                sortListType = sortListTypeMapper.selectId(listId.get("sortListNameId"), (String) type.get(2));
                 listId.put("sortListTypeId", sortListType.getSortListTypeId());
                 log.error("此三阶类型已经添加过");
             }
@@ -100,6 +104,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
 
     /**
      * 返回类型
+     *
      * @return
      */
     @Override
@@ -112,12 +117,91 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
             List<Sort3> goodsList = new ArrayList<>();
             for (int j = 0; j < sortListNames.size(); j++) {
                 goodsAll = sortListTypeMapper.selectBysortListNametId(sortListNames.get(j).getSortListId());
-                Sort3 sort3 = new Sort3(sortListNames.get(j).getSortListName(),goodsAll);
+                Sort3 sort3 = new Sort3(sortListNames.get(j).getSortListName(), goodsAll);
                 goodsList.add(sort3);
             }
-            Sort2 sort2 = new Sort2(sorts.get(i).getSortName(),goodsList);
+            Sort2 sort2 = new Sort2(sorts.get(i).getSortName(), goodsList);
             goodsTypeList.add(sort2);
         }
-        return new Result().success(goodsTypeList,"成功!!");
+        return new Result().success(goodsTypeList, "成功!!");
+    }
+
+    public List<Findgoods> getClothes(String temp) {
+        List<Findgoods> goods = new ArrayList<>();
+        List<Integer> listNameIds = sortListNameMapper.selectByPartName(temp);
+        if (!listNameIds.isEmpty()) {
+            for (int i = 0; i < listNameIds.size(); i++) {
+                List<Long> goodsIds = typeGoodsMapper.selectByListNameId(listNameIds.get(i));
+                for (int j = 0; j < goodsIds.size(); j++) {
+                    Findgoods goodsOne = goodsMapper.findById(goodsIds.get(j));
+                    goods.add(goodsOne);
+                }
+            }
+        }
+        return goods;
+    }
+
+    public List<Findgoods> getShoes(String temp) {
+        List<Findgoods> goods = new ArrayList<>();
+        List<Integer> listNameIds = sortListNameMapper.selectByPartNames(temp);
+        if (!listNameIds.isEmpty()) {
+            for (int i = 0; i < listNameIds.size(); i++) {
+                List<Long> goodsIds = typeGoodsMapper.selectByListNameId(listNameIds.get(i));
+                for (int j = 0; j < goodsIds.size(); j++) {
+                    Findgoods goodsOne = goodsMapper.findById(goodsIds.get(j));
+                    goods.add(goodsOne);
+                }
+            }
+        }
+        return goods;
+    }
+
+
+    /**
+     * 按首页横条分类查询
+     *
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Findgoods> getSortGoods(String type) {
+        List<Findgoods> goods = new ArrayList<>();
+        if (SortConsts.SORT_CLOTHES_WOMEN.equals(type)) {
+            String temp = "女";
+            goods = getClothes(temp);
+        }
+        if (SortConsts.SORT_CLOTHES_MEN.equals(type)) {
+            String temp = "男";
+            goods = getClothes(temp);
+        }
+        if (SortConsts.SORT_SHOES_WOMEN.equals(type)) {
+            String temp = "女";
+            goods = getShoes(temp);
+        }
+        if (SortConsts.SORT_SHOES_MEN.equals(type)) {
+            String temp = "男";
+            goods = getShoes(temp);
+        }
+        if (SortConsts.SORT_ELECTRONIC.equals(type) || SortConsts.SORT_PACKAGE.equals(type)) {
+            Integer sortId = sortMapper.selectByName(type);
+            List<Long> goodsIds = typeGoodsMapper.selectBySortId(sortId);
+            for (int j = 0; j < goodsIds.size(); j++) {
+                Findgoods goodsOne = goodsMapper.findById(goodsIds.get(j));
+                goods.add(goodsOne);
+            }
+        }
+        if (SortConsts.SORT_MATERNAL_BABY.equals(type)) {
+            List<Integer> listNameIds = sortListNameMapper.selectByName(type);
+            if (!listNameIds.isEmpty()) {
+                for (int i = 0; i < listNameIds.size(); i++) {
+                    List<Long> goodsIds = typeGoodsMapper.selectByListNameId(listNameIds.get(i));
+                    for (int j = 0; j < goodsIds.size(); j++) {
+                        Findgoods goodsOne = goodsMapper.findById(goodsIds.get(j));
+                        goods.add(goodsOne);
+                    }
+                }
+            }
+        }
+        return goods;
     }
 }

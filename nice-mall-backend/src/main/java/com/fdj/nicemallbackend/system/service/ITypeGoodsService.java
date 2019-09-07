@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.TypeGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -23,4 +24,5 @@ public interface ITypeGoodsService extends IService<TypeGoods> {
 
     Result getSort();
 
+    List<Findgoods> getSortGoods(String type);
 }

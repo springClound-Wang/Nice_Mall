@@ -25,4 +25,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<Findgoods> selectFuzzyByfiled(@Param("field") String field);
 
     Set<Findgoods> selectById(Long goodsId);
+
+    Findgoods findById(Long goodsId);
+
 }

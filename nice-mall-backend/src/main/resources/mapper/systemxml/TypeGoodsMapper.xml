@@ -15,4 +15,10 @@
     <select id="selectBytypeId" resultType="java.lang.Long">
         select goods_id from m_type_goods where sort_list_type_id = #{listTypeId}
     </select>
+    <select id="selectByListNameId" resultType="java.lang.Long">
+        select goods_id from m_type_goods where sort_list_name_id  = #{listNameId}
+    </select>
+    <select id="selectBySortId" resultType="java.lang.Long">
+        select goods_id from m_type_goods where sort_id = #{sortId}
+    </select>
 </mapper>

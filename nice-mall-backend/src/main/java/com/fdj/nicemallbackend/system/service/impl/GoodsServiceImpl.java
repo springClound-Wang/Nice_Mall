@@ -117,8 +117,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             List<String> list = (List<String>)map.get("shoesSize");
             String size = StringUtils.join(list.toArray(),",");
 
-            List<String> listc = (List<String>)map.get("shoesColor");
-            String color = StringUtils.join(listc.toArray(),",");
+           /* List<String> listc = (List<String>)map.get("shoesColor");
+            String color = StringUtils.join(listc.toArray(),",");*/
+
+            String color = (String)map.get("shoesColor");
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
             Result imageShow = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageShow"));
             Result imageDetail = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageDetail"));
@@ -149,8 +151,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             List<String> list = (List<String>)map.get("packageSize");
             String size = StringUtils.join(list.toArray(),",");
 
-            List<String> listc = (List<String>)map.get("packageColor");
-            String color = StringUtils.join(listc.toArray(),",");
+//            List<String> listc = (List<String>)map.get("packageColor");
+//            String color = StringUtils.join(listc.toArray(),",");
+            String color = (String)map.get("packageColor");
 
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
             Result imageShow = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageShow"));
@@ -182,8 +185,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             List<String> list = (List<String>)map.get("electronicFormat");
             String format = StringUtils.join(list.toArray(),",");
 
-            List<String> listc = (List<String>)map.get("electronicColor");
-            String color = StringUtils.join(listc.toArray(),",");
+//            List<String> listc = (List<String>)map.get("electronicColor");
+//            String color = StringUtils.join(listc.toArray(),",");
+
+            String color = (String)map.get("electronicColor");
 
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
             Result imageShow = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageShow"));

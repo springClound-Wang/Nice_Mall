@@ -25,4 +25,10 @@ public interface SortListNameMapper extends BaseMapper<SortListName> {
     List<SortListName> select();
 
     List<SortListName> selectBysortId(Integer sortId);
+
+    List<Integer> selectByPartName(String partName);
+
+    List<Integer> selectByPartNames(String temp);
+
+    List<Integer> selectByName(String sortListName);
 }

@@ -38,6 +38,11 @@ public class HomeController {
         return result;
     }
 
+    /**
+     * 搜索查询
+     * @param field
+     * @return
+     */
     @GetMapping("/{field}")
     public Result fuzzyQuery(@PathVariable String field){
         Set<Findgoods> goods = goodsService.findByField(field);
@@ -49,8 +54,19 @@ public class HomeController {
         }
     }
 
-//    @GetMapping("/{type}")
-//    public Result typeQuery(@PathVariable String type){
-//
-//    }
+    /**
+     * 首页中根据分类获取数据
+     * @param type
+     * @return
+     */
+    @GetMapping("/{type}")
+    public Result typeQuery(@PathVariable String type){
+        List<Findgoods> typeGoods = iTypeGoodsService.getSortGoods(type);
+        if(typeGoods.isEmpty()) {
+            return new Result().fail("查询失败,无对应的数据!!!");
+        }
+        else{
+            return new Result().success(typeGoods, "查询成功!!!");
+        }
+    }
 }

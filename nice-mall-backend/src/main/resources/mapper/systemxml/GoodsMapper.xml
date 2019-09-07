@@ -22,4 +22,7 @@
     <select id="selectById" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
         select goods_id,goods_name,image_main,goods_pre_price,goods_cur_price from m_goods where goods_id = #{goodsId}
     </select>
+    <select id="findById" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id,goods_name,image_main,goods_pre_price,goods_cur_price from m_goods where goods_id = #{goodsId}
+    </select>
 </mapper>

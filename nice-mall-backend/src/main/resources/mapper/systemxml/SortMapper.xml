@@ -15,5 +15,8 @@
     <select id="selectAll" resultType="com.fdj.nicemallbackend.system.entity.Sort">
         select * from m_sort
     </select>
+    <select id="selectByName" resultType="java.lang.Integer">
+        select sort_id from m_sort where sort_name = #{sortName}
+    </select>
 
 </mapper>

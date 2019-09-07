@@ -20,5 +20,14 @@
     <select id="selectBysortId" resultMap="BaseResultMap">
         select * from sort_list_name where sort_id = #{sortId}
     </select>
+    <select id="selectByPartName" resultType="java.lang.Integer">
+        select sort_list_id from sort_list_name where sort_list_name like concat('%',#{partName} ,'%')
+    </select>
+    <select id="selectByPartNames" resultType="java.lang.Integer">
+        select sort_list_id from sort_list_name where sort_list_name like concat(#{partName} ,'%鞋')
+    </select>
+    <select id="selectByName" resultType="java.lang.Integer">
+        select sort_list_id from sort_list_name where sort_list_name = #{sortListName}
+    </select>
 
 </mapper>

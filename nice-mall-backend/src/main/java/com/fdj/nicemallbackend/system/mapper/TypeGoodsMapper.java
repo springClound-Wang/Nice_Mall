@@ -20,4 +20,8 @@ public interface TypeGoodsMapper extends BaseMapper<TypeGoods> {
     void save(TypeGoods typeGoods);
 
     List<Long> selectBytypeId(Integer listTypeId);
+
+    List<Long> selectByListNameId(Integer listNameId);
+
+    List<Long> selectBySortId(Integer sortId);
 }
