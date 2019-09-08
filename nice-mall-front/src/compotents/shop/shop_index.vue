@@ -164,9 +164,15 @@
                         <div style="padding: 14px;">
                             <div class="goods_name">{{item.goods_name}}</div>
                             <div class="bottom clearfix">
-                                <time class="time">￥{{item.goods_price}}</time>
-                                <el-button type="primary" icon="el-icon-edit" circle @click="handleModifyGoods(item.goods_id)"></el-button>
-                                <el-button  type="danger" icon="el-icon-delete" circle @click="handleDeleteGoods(item.goods_id)"></el-button>
+                                <el-tag type="info" class="time">￥{{item.goods_price}}</el-tag>
+                                <div class="btn_all">
+                                    <el-button type="primary" icon="el-icon-edit" circle @click="handleModifyGoods(item.goods_id)"></el-button>
+                                    <el-button  type="danger" icon="el-icon-delete"
+                                                style="margin-top: -10px !important;
+                                                margin-left: 15% !important;"
+                                                circle
+                                                @click="handleDeleteGoods(item.goods_id)"></el-button>
+                                </div>
                             </div>
                         </div>
                     </el-card>
@@ -276,6 +282,7 @@
         margin-top: 40px;
         margin-left: 120px;
         margin-right: 120px;
+        min-width: 1036px;
     }
     .total-layout {
         margin-top: 20px;
@@ -340,8 +347,8 @@
         border: 1px solid #DCDFE6;
     }
     .time {
-        font-size: 15px;
-        color: #fe0e09;
+        font-size: 16px;
+        color: #fe0e09 !important;
     }
     .bottom {
         margin-top: 13px;
@@ -373,5 +380,12 @@
     .el-button+.el-button {
         margin-left: 10px;
         margin-right: 10px;
+    }
+    .btn_all{
+        width: 80%;
+        height: auto;
+        position: relative;
+        margin-left: 20%;
+        margin-top: -13%;
     }
 </style>

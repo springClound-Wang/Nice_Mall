@@ -50,12 +50,12 @@ export default {
     methods:{
         //发请求：
         getTypeGoodsList(){
-         this.$http.get('/gettypegoodslist?type='+this.$route.query.type).then(res=>{
+         this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort/'+this.$route.query.type).then(res=>{
              this.hot_type = res.data.hot_type;
              this.goods = res.data.goods;
              this.hot_head_img = res.data.hot_head_img;
          }).catch(err=>{
-             console.log(err);
+             this.$router.push('/not_found');
          })
         },
         change(e){

@@ -54,7 +54,7 @@
                 <li><router-link to="/goods_list?type=美妆" @click.native="flushCom">男鞋</router-link></li>
                 <li><router-link to="/goods_list?type=鞋包" @click.native="flushCom">包包</router-link></li>
                 <li><router-link to="/goods_list?type=食品" @click.native="flushCom">女鞋</router-link></li>
-                <li><router-link to="/goods_list?type=运动" @click.native="flushCom">更多</router-link></li>
+                <li><router-link to="/not_found" @click.native="flushCom">更多</router-link></li>
             </ul>
         </div>
         <!--右侧导航条-->
@@ -94,7 +94,9 @@
                 </li>
             </ul>
             <div class="last-icon" @mouseenter="show" @mouseleave="hide">
-                <span class="iconfont icon-tubiaozhizuo- "></span>
+                <a href="#top" style="color: white">
+                    <span class="iconfont icon-tubiaozhizuo- "></span>
+                </a>
                 <div class="hide-icon">回到顶部</div>
             </div>
 
@@ -131,7 +133,7 @@
                     this.url='#'
                 }
             },
-            //回车请求
+            //回车请求 搜索框
             handletoSearch(){
                 this.$router.push({ path: '/goods_item?goodsname='+this.search });
                 this.flushCom();
@@ -140,7 +142,6 @@
             getTypeGoodsList(){
                 this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort').then(res=>{
                     this.goods_type_list = res.data.data;
-                    console.log(this.goods_type_list);
                 }).catch(err=>{
                     console.log(err);
                 })

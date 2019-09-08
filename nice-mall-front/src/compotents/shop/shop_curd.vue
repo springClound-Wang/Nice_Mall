@@ -659,8 +659,8 @@ export default {
                                 label: '短袖T恤'
                             }]
                     }, {
-                        value: '孕妈专区',
-                        label: '孕妈专区',
+                        value: '母婴',
+                        label: '母婴',
                         children: [
                             {
                                 value: '孕妇上装',
@@ -1329,86 +1329,82 @@ export default {
         },
         // 上传主图片事件
         changeMainImage() {
-                    let files = this.$refs.avatarInputMain.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageMain.indexOf(this.result) === -1) {
-                                    that.imageMain.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputMain.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageMain.indexOf(this.result) === -1) {
+                            that.imageMain.push(this.result);
                         }
-                    }
-
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         changeShowImage() {
-                    let files = this.$refs.avatarInputShow.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageShow.indexOf(this.result) === -1) {
-                                    that.imageShow.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputShow.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageShow.indexOf(this.result) === -1) {
+                            that.imageShow.push(this.result);
                         }
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
 
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         changeDetailImage() {
-                    let files = this.$refs.avatarInputDetail.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageDetail.indexOf(this.result) === -1) {
-                                    that.imageDetail.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputDetail.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageDetail.indexOf(this.result) === -1) {
+                            that.imageDetail.push(this.result);
                         }
-                    }
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         // 触发上传图片按钮
         upLoadMain() {
-                    this.$refs.avatarInputMain.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputMain.dispatchEvent(new MouseEvent("click"));
         },
         upLoadShow() {
-                    this.$refs.avatarInputShow.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputShow.dispatchEvent(new MouseEvent("click"));
         },
         upLoadDetail() {
-                    this.$refs.avatarInputDetail.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputDetail.dispatchEvent(new MouseEvent("click"));
         },
         //删除图片
         deleteImg(index, objImgArray) {
-                    objImgArray.splice(index, 1);
+            objImgArray.splice(index, 1);
         }
 
         }

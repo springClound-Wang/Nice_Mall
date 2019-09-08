@@ -3,6 +3,7 @@
         <table>
             <thead>
             <tr id="title">
+                <td style="width:5%"></td>
                 <td>商品信息</td>
                 <td>单价</td>
                 <td>数量</td>
@@ -11,31 +12,34 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in car_data " :key="item.car_goods_id">
-                <td>
-                    <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
-                        <!--<el-checkbox-group v-model="selected">-->
-                            <!--<el-checkbox  :label="item.car_goods_id" :key="item.car_goods_id">goods</el-checkbox>-->
-                        <!--</el-checkbox-group>-->
-                        <input type="checkbox" v-model="selected" class="checked"
-                               :value="item.car_goods_id" :id="item.car_goods_id">
-                        <img :src="item.car_goods_img"/>
-                        <div class="car_goods_name">
-                            {{item.car_goods_name}}
-                            <div style="margin-top: 10px">尺码：{{item.car_goods_size}}</div>
-                        </div>
+                <tr v-for="item in car_data " :key="item.car_goods_id" >
+                    <div class="shop_con">
+                        <span class="iconfont icon-icon4" style="font-size: 15px"></span>
+                        <span>的敬爱的旧爱店铺</span>
+                    </div><br>
 
-                    </label>
-                </td>
-                <td>￥{{item.car_goods_price}}</td>
-                <td>
-                    <div class="goods_details_num" >
-                        <span @click="handleCountAdd(item)">+</span><span v-model="item.car_goods_num">{{item.car_goods_num}}</span><span @click="handleCountLess(item)">-</span>
+                    <div class="car_content">
+                        <td>
+                            <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
+                                <input type="checkbox" v-model="selected" class="checked"
+                                       :value="item.car_goods_id" :id="item.car_goods_id">
+                                <img :src="item.car_goods_img"/>
+                                <div class="goods_name">
+                                    <div class="car_goods_name">{{item.car_goods_name}}</div>
+                                    <div class="car_goods_size">尺码：{{item.car_goods_size}}</div>
+                                </div>
+                            </label>
+                        </td>
+                        <td>￥{{item.car_goods_price}}</td>
+                        <td>
+                            <div class="goods_details_num" >
+                                <span @click="handleCountAdd(item)">+</span><span v-model="item.car_goods_num">{{item.car_goods_num}}</span><span @click="handleCountLess(item)">-</span>
+                            </div>
+                        </td>
+                        <td>￥{{item.car_goods_num*item.car_goods_price}}</td>
+                        <td>删除</td>
                     </div>
-                </td>
-                <td>￥{{item.car_goods_num*item.car_goods_price}}</td>
-                <td>删除</td>
-            </tr>
+                </tr>
             </tbody>
         </table>
         <div class="account">
@@ -53,7 +57,6 @@
                 <span>合计：￥{{all_money}}</span>
                 <button @click="handleToCount">结算</button>
             </div>
-            <p>{{selected}}</p>
         </div>
     </div>
 </template>
@@ -147,6 +150,31 @@ export default {
         width: 85%;
         margin: 10px auto;
     }
+    .car_content {
+        width: 92%;
+        display: contents;
+        position: relative;
+        margin: 10px auto;
+        border: none;
+    }
+    .shop_con{
+        display: block;
+        position: relative;
+        width: 200px;
+        height: 40px;
+        left: 25px;
+        top: -47px;
+        line-height: 15px;
+    }
+    .shop_con span:nth-child(2){
+        display: inline-block;
+        width: 100px;
+        margin-top: 2px;
+        white-space: nowrap;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
     .select{
         width: 100%;
     }
@@ -158,13 +186,17 @@ export default {
     tbody{
         width: 100% ;
     }
+    thead{
+        width: 100%;
+    }
     thead tr:nth-child(1){
-        background:linear-gradient(to right, #fe7e61, #f15e85);
+        background:linear-gradient(to right, #fe957b, #f17374);
         color: white;
         height: 50px;
     }
     tr {
-        height: 115px;
+        height: 130px;
+        position: relative;
         border-bottom: 1px solid #d6d6d6;
         border-left: 1px solid #d6d6d6;
         border-right: 1px solid #d6d6d6;
@@ -176,27 +208,30 @@ export default {
         text-align: center;
         position: relative;
         width: 12%;
+        line-height: 130px;
     }
-    tbody thead tr td:nth-child(1),tbody tr td:nth-child(1){
-        width: 35%;
+    tbody thead tr td:nth-child(1),.car_content td:nth-child(1){
+        width: 18%;
+        position: relative;
+        /*left: -11%;*/
     }
     .select img{
         width: 80px;
         height: 80px;
         display: inline-block;
         position: absolute;
-        right: 300px;
-        top:27px;
+        top: 20%;
+        left: -20%;
     }
     .select input{
         position: absolute;
-        left: 20px;
+        left: -35%;
         top:30%;
         border: 1px solid #d6d6d6;
         border-radius: 50%;
         outline: none;
-        width: 16px;
-        height: 16px !important;
+        width: 18px;
+        height: 18px !important;
     }
     .checkBox input[type=checkbox]:checked{
         background-color: red;
@@ -215,7 +250,9 @@ export default {
     /*结算*/
     .check_all{
         position: absolute;
-        top: 10px;
+        top: 23px;
+        width: 18px;
+        height: 18px !important;
     }
     .account{
         position: sticky;
@@ -257,6 +294,28 @@ export default {
     .goods_details_num span{
         display: inline-block;
         padding: 1px 6px;
+        height: 32px;
+        width: 30px;
+        line-height: 30px;
         border: 1px solid #d6d6d6;
+    }
+    .car_goods_name{
+        height: 50px;
+        position: absolute;
+        line-height: 27px;
+        top: 25px;
+    }
+    .car_goods_size{
+        position: relative;
+        display: inline-block;
+        height: 30px;
+        top: 30px;
+        left: -17px;
+        font-weight: 500;
+    }
+    .goods_name{
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 </style>

@@ -46,7 +46,7 @@
                     }
 
                 }).catch(err => {
-                    console.log(err);
+                    this.$router.push('/not_found');
                 })
             },
             change(e) {

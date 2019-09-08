@@ -19,8 +19,11 @@
                     </template>
                     <el-menu-item index="2-1"><i class="iconfont icon-liebiao"></i>商品列表</el-menu-item>
                     <el-menu-item index="2-2">
-                        <router-link to="/shop_home/shop_curd"><i class="iconfont icon-new"></i>添加商品</router-link></el-menu-item>
-                    <el-menu-item index="2-3"><i class="iconfont icon-leimupinleifenleileibie"></i>商品分类</el-menu-item>
+                        <router-link to="/shop_home/shop_curd"><i class="iconfont icon-new"></i>添加商品</router-link>
+                    </el-menu-item>
+                    <el-menu-item index="2-3">
+                        <router-link to="/shop_home/shop_hot"><i class="iconfont icon-leimupinleifenleileibie"></i>热门分类</router-link>
+                    </el-menu-item>
                 </el-submenu>
                 <el-submenu index="3">
                     <template slot="title">
@@ -108,6 +111,7 @@
         width: 85%;
         float: left;
         margin: 10px;
+        min-width: 1036px;
     }
     .nav_list{
         margin-bottom: 10px;

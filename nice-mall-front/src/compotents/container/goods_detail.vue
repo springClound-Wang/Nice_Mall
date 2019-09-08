@@ -325,7 +325,7 @@ export default {
             }).then(res=>{
               alert(res.data);
           }).catch(err=>{
-              alert(res.err);
+              this.$router.push('/not_found');
           })
         },
         // TODO  加入购物车

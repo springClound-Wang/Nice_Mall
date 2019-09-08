@@ -7,7 +7,7 @@
                     <li>
                         <router-link to="/" class="link">Nice 商城</router-link>
                     </li>
-                    <li v-text="user_shop"></li>
+                    <li>随心所欲</li>
                 </ul>
                 <ul class="second">
                     <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 18px"></span>首页</router-link></li>
@@ -105,7 +105,6 @@
                 isRouterAlive: true,
                 isExit: false,
                 itemIndex: null,
-                user_shop: '随心所欲',
                 url: '/login_sign/login_phone',
                 other_url: '',
                 isLogin: window.localStorage.getItem('username') ? window.localStorage.getItem('username') : '请登录',
@@ -113,6 +112,7 @@
         },
         created(){
            this.isLoginTime();
+           this.isLoginTo();
         },
         methods: {
             //组件重载方法
@@ -127,7 +127,7 @@
                 if (this.isLogin === window.localStorage.getItem('username')) {
                     this.isExit = true;
                     //个人中心
-                    this.url = '#'
+                    this.url = '/personal_home/person_info'
                 }
             },
             //退出登录
@@ -169,8 +169,6 @@
                     } else {
                         this.other_url = '/shop_home';
                     }
-
-                    this.user_shop = '>  我的店铺'
                 }
             },
             show(index) {
@@ -180,7 +178,6 @@
                 this.itemIndex = null;
             },
             isLoginTime(){
-                // console.log(window.localStorage.getItem('logintime'));//1567516436291
                 if(window.localStorage.getItem('logintime')){
                     if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
                         this.$message.error('登录过期');
@@ -248,7 +245,7 @@
         border: none;
         font-size: 14px;
         color: white;
-        background: linear-gradient(to right, #fe5745, #f1366d);
+        background: linear-gradient(to right, #fe3a42, #f1366d);
         z-index: 1000;
     }
     .iconfont{
@@ -276,5 +273,38 @@
     a:hover{
         color: #030303;
     }
-
+    /*下拉菜单*/
+    .item{
+        position: absolute;
+        width: 90px;
+        height: auto;
+        background-color:white;
+        margin: 2px 0;
+        padding: 5px;
+        display: none;
+    }
+    .itemHover{
+        position: absolute;
+        top: 40px;
+        width:100px;
+        height: auto;
+        border-top: none;
+        background: linear-gradient(to bottom, #f1366d, #fe5745);
+        margin: 8px 0;
+        display: block;
+        z-index: 1100;
+    }
+    .list{
+        list-style-type: none;
+        width: 100px;
+        text-align: left;
+        float: left;
+        display:block;
+        position: relative;
+    }
+    .list li{
+        padding: 0 8px;
+        height: 3em;
+        color: white;
+    }
 </style>
