@@ -25,4 +25,6 @@ public interface ITypeGoodsService extends IService<TypeGoods> {
     Result getSort();
 
     List<Findgoods> getSortGoods(String type);
+
+    Result getPoupularSort(String type);
 }

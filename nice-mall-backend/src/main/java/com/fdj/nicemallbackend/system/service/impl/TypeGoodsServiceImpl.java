@@ -1,14 +1,8 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.common.domain.SortConsts;
-import com.fdj.nicemallbackend.system.dto.Findgoods;
-import com.fdj.nicemallbackend.system.dto.Result;
-import com.fdj.nicemallbackend.system.dto.Sort2;
-import com.fdj.nicemallbackend.system.dto.Sort3;
-import com.fdj.nicemallbackend.system.entity.Sort;
-import com.fdj.nicemallbackend.system.entity.SortListName;
-import com.fdj.nicemallbackend.system.entity.SortListType;
-import com.fdj.nicemallbackend.system.entity.TypeGoods;
+import com.fdj.nicemallbackend.system.dto.*;
+import com.fdj.nicemallbackend.system.entity.*;
 import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
@@ -47,6 +41,13 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
 
     @Autowired
     GoodsMapper goodsMapper;
+
+    @Autowired
+    SortImageMapper sortImageMapper;
+
+    @Autowired
+    PopularSortMapper popularSortMapper;
+
 
 
     /**
@@ -126,6 +127,11 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         return new Result().success(goodsTypeList, "成功!!");
     }
 
+    /**
+     * 获取衣服类型的分类，男装和女装
+     * @param temp
+     * @return
+     */
     public List<Findgoods> getClothes(String temp) {
         List<Findgoods> goods = new ArrayList<>();
         List<Integer> listNameIds = sortListNameMapper.selectByPartName(temp);
@@ -141,6 +147,11 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         return goods;
     }
 
+    /**
+     * 获取鞋子，男鞋子和女鞋子
+     * @param temp
+     * @return
+     */
     public List<Findgoods> getShoes(String temp) {
         List<Findgoods> goods = new ArrayList<>();
         List<Integer> listNameIds = sortListNameMapper.selectByPartNames(temp);
@@ -155,6 +166,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         }
         return goods;
     }
+
 
 
     /**
@@ -203,5 +215,22 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
             }
         }
         return goods;
+    }
+
+    /**
+     * 获取热门分类及主图片
+     * @return
+     */
+    @Override
+    public Result getPoupularSort(String type) {
+        SortImage sortImage = sortImageMapper.selectByUploadType(type);
+        if(sortImage == null){
+            return new Result().fail("您所查询的大分类不存在!");
+        }
+        Map<String,Object> map = new HashMap<>();
+        List<HotSort> hotSort = popularSortMapper.selectByImageMainId(sortImage.getImageMainId());
+        map.put("hotHeadImg",sortImage.getImageMains());
+        map.put("hotTypeImage",hotSort);
+        return new Result().success(map,"查到");
     }
 }

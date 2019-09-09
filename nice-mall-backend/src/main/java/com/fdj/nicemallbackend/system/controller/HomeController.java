@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,14 +60,20 @@ public class HomeController {
      * @param type
      * @return
      */
-    @GetMapping("/{type}")
+    @GetMapping("/sort/{type}")
     public Result typeQuery(@PathVariable String type){
-        List<Findgoods> typeGoods = iTypeGoodsService.getSortGoods(type);
-        if(typeGoods.isEmpty()) {
-            return new Result().fail("查询失败,无对应的数据!!!");
+        Result res = iTypeGoodsService.getPoupularSort(type);
+        if(res.isStatus()) {
+            Map<String,Object> map = (Map<String,Object>)res.getData();
+            List<Findgoods> typeGoods = iTypeGoodsService.getSortGoods(type);
+            if (typeGoods.isEmpty()) {
+                return new Result().fail("有主图片,但是无对应的货物数据!");
+            }
+            map.put("goods",typeGoods);
+            return new Result().success(map, "查询成功!");
         }
         else{
-            return new Result().success(typeGoods, "查询成功!!!");
+            return new Result().fail("未查询到主图片信息!");
         }
     }
 }

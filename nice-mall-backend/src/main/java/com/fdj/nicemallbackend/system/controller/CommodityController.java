@@ -1,8 +1,12 @@
 package com.fdj.nicemallbackend.system.controller;
 
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
+import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.PopularSort;
+import com.fdj.nicemallbackend.system.entity.SortImage;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
+import com.fdj.nicemallbackend.system.service.IPopularSortService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +29,10 @@ public class CommodityController {
 
     @Autowired
     ITypeGoodsService iTypeGoodsService;
+
+    @Autowired
+    IPopularSortService iPopularSortService;
+
 
     /**
      * 添加商品
@@ -51,6 +59,17 @@ public class CommodityController {
         if(result.isStatus()){
             iTypeGoodsService.linked((Long)result.getData(),listId);
         }
+        return result;
+    }
+
+    /**
+     * 添加热门分类
+     * @param map
+     * @return
+     */
+    @PostMapping("/addpopular")
+    public Result addPopularSort(@RequestBody Map<String,Object> map){
+        Result result = iPopularSortService.saveData(map);
         return result;
     }
 }

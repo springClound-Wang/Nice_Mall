@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.PopularSortMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.PopularSort">
+        <id column="popular_id" property="popularId" />
+        <result column="image_main_id" property="imageMainId" />
+        <result column="type_name" property="typeName" />
+        <result column="image_details" property="imageDetails" />
+    </resultMap>
+    <insert id="save">
+        insert into m_popular_sort values (#{imageMainId} ,#{typeName} ,#{imageDetails} )
+    </insert>
+    <select id="selectByImageMainId" resultType="com.fdj.nicemallbackend.system.dto.HotSort">
+        select type_name,image_details from m_popular_sort where image_main_id=#{imageMainId}
+    </select>
+
+
+</mapper>
