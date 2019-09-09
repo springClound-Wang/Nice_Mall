@@ -1,7 +1,9 @@
 <template>
     <div id="shop_home_container">
         <div  class="nav_list">
-            <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+            <el-menu default-active="1-4-1"
+                     style="min-height: 1200px;"
+                     class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
                 <el-menu-item index="1" >
                     <template>
                         <!--<el-radio-group v-model="isCollapse">-->
@@ -17,7 +19,9 @@
                         <i class="iconfont icon-shangpin"></i>
                         <span slot="title">商品</span>
                     </template>
-                    <el-menu-item index="2-1"><i class="iconfont icon-liebiao"></i>商品列表</el-menu-item>
+                    <el-menu-item index="2-1">
+                        <router-link to="/shop_home/shop_goods"><i class="iconfont icon-liebiao"></i>商品列表</router-link>
+                    </el-menu-item>
                     <el-menu-item index="2-2">
                         <router-link to="/shop_home/shop_curd"><i class="iconfont icon-new"></i>添加商品</router-link>
                     </el-menu-item>
@@ -115,6 +119,7 @@
     }
     .nav_list{
         margin-bottom: 10px;
+        border-right: solid 1px #d7dfdb;
         color: #404040;
         cursor: pointer;
         transition: all .28s;

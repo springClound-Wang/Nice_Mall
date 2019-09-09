@@ -20,7 +20,7 @@
             </el-form-item>
             <el-form-item style="margin-top: 20px">
                 <el-button type="primary" @click="submitForm('ruleForm')" style="float:left;">保存</el-button>
-                <el-checkbox v-model="tacitAddress" style="margin-left: 50%;">设为默认地址</el-checkbox>
+                <el-checkbox v-model="tacitAddress" style="margin-left: 33%;position: absolute;">设为默认地址</el-checkbox>
             </el-form-item>
         </el-form>
         <el-alert
@@ -164,5 +164,12 @@
     .el-alert__title {
         font-size: 14px !important;
         line-height: 18px;
+    }
+    .el-form-item__content {
+        line-height: 40px;
+        width: 300px !important;
+        position: relative;
+        font-size: 14px;
+        height: 40px;
     }
 </style>

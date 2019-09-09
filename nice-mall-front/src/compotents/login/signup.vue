@@ -41,11 +41,11 @@ export  default {
             let reg=11&& /^((13|14|15|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
             let phoneNum = this.phoneNum;
             if(!phoneNum){//未输入手机号
-                alert("请输入手机号码");
+                this.$message.warning("请输入手机号码");
                 return false;
             }
             if(!reg.test(phoneNum)){//手机号不合法
-                alert("您输入的手机号码不合法，请重新输入");
+                this.$message.error("您输入的手机号码不合法，请重新输入");
                 return false;
             }
             return true;
@@ -61,14 +61,14 @@ export  default {
                 return;
             }
             if(this.phoneNum === '' || this.password === ''|| this.code === ''){
-                alert('请填入完整信息');
+                this.$message.warning('请填入完整信息');
             }
             if(this.password.length < 6 || this.password.length >15){
-                alert('密码位数应在6~15位之间');
+                this.$message.warning('密码位数应在6~15位之间');
             }
             else{
                 this.$http.post('http://120.78.64.17:8086/nice-mall-backend/register',datas).then(res => {
-                    alert(res.data.message); //请求成功后的处理函数
+                    this.$message.success(res.data.message); //请求成功后的处理函数
                     this.$router.push({path:'/login_sign/login_phone'});
                 }).catch(err => {     //请求失败后的处理函数
                     console.log(err);
@@ -98,7 +98,7 @@ export  default {
             }
 
         },
-        //验证码
+        // TODO 获取验证码
         handleCode(){
             this.getCode();
             this.$http.post('/code',{
@@ -113,7 +113,7 @@ export  default {
 }
 </script>
 
-<style>
+<style scoped>
     .to-login{
         margin-top: 20px;
         float: left;

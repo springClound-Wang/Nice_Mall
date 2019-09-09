@@ -66,7 +66,7 @@
                     <li @mouseenter="show(5)" @mouseleave="hide">
                         <router-link :to="url" class="link" >
                             <span class="iconfont icon-user"></span>
-                            <span style="font-size: 17px" v-text="isLogin" @click="isLoginTo"></span>
+                            <span style="font-size: 17px" v-text="isLogin" ></span>
                         </router-link>
                         <div class="item" :class="{itemHover:itemIndex===5}" v-if="isExit">
                             <ul class="list" style="width: 100px">
@@ -79,8 +79,9 @@
 
         </div>
         <!--中间内容-->
-        <router-view v-if="isRouterAlive"></router-view>
-
+        <keep-alive>
+            <router-view v-if="isRouterAlive"></router-view>
+        </keep-alive>
         <!--底部内容-->
         <footer>
             阿里巴巴集团|阿里巴巴国际站|阿里巴巴中国站|全球速卖通|淘宝网|天猫|聚划算|一淘|阿里妈妈|飞猪|虾米|阿里云计算|云OS|万网|支付宝|来往 <br>
@@ -93,13 +94,13 @@
 
 <script>
     export default {
-
         //页面组件重新加载
         provide() {
             return {
                 reload: this.reload
             }
         },
+
         data() {
             return {
                 isRouterAlive: true,
@@ -107,27 +108,50 @@
                 itemIndex: null,
                 url: '/login_sign/login_phone',
                 other_url: '',
-                isLogin: window.localStorage.getItem('username') ? window.localStorage.getItem('username') : '请登录',
+                isLogin: window.localStorage.getItem('username') ?window.localStorage.getItem('username'):'请登录'
             }
         },
         created(){
-           this.isLoginTime();
-           this.isLoginTo();
+            this.isLoginTime(); //检测登录过期
+            this.isLoginTo();
+        },
+        computed:{
+
         },
         methods: {
+            show(index) {
+                this.itemIndex = index;
+            },
+            hide() {
+                this.itemIndex = null;
+            },
             //组件重载方法
             reload() {
                 this.isRouterAlive = false;
                 this.$nextTick(function () {
-                    this.isRouterAlive = true
+                    this.isRouterAlive = true;
                 })
             },
             //登陆后切换导航
             isLoginTo() {
+                //若已经登录 则导航切换到去个人中心  且 显示退出登录
                 if (this.isLogin === window.localStorage.getItem('username')) {
                     this.isExit = true;
-                    //个人中心
                     this.url = '/personal_home/person_info'
+                }
+                else {
+                    this.isExit = false;
+                    this.url = '/login_sign/login_phone'
+                }
+            },
+            //判断登录过期 时间
+            isLoginTime(){
+                if(window.localStorage.getItem('logintime')){
+                    if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
+                        alert('登录过期');
+                        this.removeStorage();
+                        window.location.reload()
+                    }
                 }
             },
             //退出登录
@@ -138,24 +162,22 @@
                     headers: {Authorization: token}
                 }).then(res => {
                     if (res.data.status === true) {
-                        window.localStorage.removeItem('userId');
-                        window.localStorage.removeItem('token');
-                        window.localStorage.removeItem('username');
-                        window.localStorage.removeItem('isshop');
-                        window.localStorage.removeItem('logintime');
-                        this.$router.push({path: '/login_sign/login_phone'});
-                        this.location.reload()
+                        this.removeStorage();
+                        this.isLogin = '请登录';
+                        this.isExit = false;
                     }
                 }).catch(err => {
-                    console.log(err); //登录过期提示
-                    window.localStorage.removeItem('userId');
-                    window.localStorage.removeItem('token');
-                    window.localStorage.removeItem('username');
-                    window.localStorage.removeItem('isshop');
-                    window.localStorage.removeItem('logintime');
-                    this.$router.push({path: '/login_sign/login_phone'});
-                    this.location.reload()
+                    alert(err); //登录过期提示
                 });
+            },
+            //清除信息
+            removeStorage(){
+                window.localStorage.removeItem('userId');
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('username');
+                window.localStorage.removeItem('isshop');
+                window.localStorage.removeItem('logintime');
+                this.$router.push({path: '/login_sign/login_phone'});
             },
             //我的店铺
             myShop() {
@@ -170,29 +192,9 @@
                         this.other_url = '/shop_home';
                     }
                 }
-            },
-            show(index) {
-                this.itemIndex = index;
-            },
-            hide() {
-                this.itemIndex = null;
-            },
-            isLoginTime(){
-                if(window.localStorage.getItem('logintime')){
-                    if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
-                        this.$message.error('登录过期');
-                        window.localStorage.removeItem('userId');
-                        window.localStorage.removeItem('token');
-                        window.localStorage.removeItem('username');
-                        window.localStorage.removeItem('isshop');
-                        window.localStorage.removeItem('logintime');
-                        this.$router.push({path: '/login_sign/login_phone'});
-                        window.location.reload()
-                    }
-                }
-
             }
-        }
+        },
+
     }
 </script>
 

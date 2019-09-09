@@ -1,5 +1,5 @@
 <template>
-    <form class="form-inline">
+    <form class="form-inline" action="" method="post">
         <label>
             <span class="iconfont icon-yonghuming"></span>
             <input type="text" name="phoneNum"  value="" placeholder="请输入您的手机号" class="form-control" v-model="phoneNum">
@@ -47,11 +47,11 @@ export default {
             let reg=11&& /^((13|14|15|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
             let phoneNum = this.phoneNum;
             if(!phoneNum){//未输入手机号
-                alert("请输入手机号码");
+                this.$message.warning("请输入手机号码");
                 return false;
             }
             if(!reg.test(phoneNum)){//手机号不合法
-                alert("您输入的手机号码不合法，请重新输入");
+                this.$message.err("您输入的手机号码不合法，请重新输入");
                 return false;
             }
             return true;
@@ -62,10 +62,11 @@ export default {
                 return;
             }
             if(this.phoneNum === '' || this.code ===''){
-                alert("请填入完整信息")
+                this.$message.warning("请填入完整信息");
+                return;
             }
             if(this.newPassword < 6 || this.newPassword >15){
-                alert('密码位数应在6~15位之间');
+                this.$message.warning('密码位数应在6~15位之间');
                 return;
             }
             else {

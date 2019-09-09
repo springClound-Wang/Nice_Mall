@@ -658,7 +658,25 @@ export default {
                                 value: '短袖T恤',
                                 label: '短袖T恤'
                             }]
-                    }, {
+                    },
+                    {
+                        value: '男下装',
+                        label: '男下装',
+                        children: [
+                            {
+                                value: '牛仔裤',
+                                label: '牛仔裤'
+                            }, {
+                                value: '运动裤',
+                                label: '运动裤'
+                            }, {
+                                value: '短裤',
+                                label: '短裤'
+                            }, {
+                                value: '西裤',
+                                label: '西裤'
+                            }]
+                    },{
                         value: '母婴',
                         label: '母婴',
                         children: [
@@ -887,7 +905,7 @@ export default {
                     }]
                 }, {
                     value: '手机配件',
-                    label: '热销手机',
+                    label: '手机配件',
                     children: [{
                         value: '原装配件',
                         label: '原装配件'
@@ -1415,7 +1433,6 @@ export default {
         width: 80%;
         margin: 0 auto;
     }
-
     #curd_container form{
         width:90%;
         position: relative;
@@ -1423,7 +1440,8 @@ export default {
         margin: 10px auto;
         color: #3b3b3b;
         padding: 5% 1% 5% 5%;
-        border: 1px solid #cccccc;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
 
     }
     #curd_container form textarea{
@@ -1649,7 +1667,7 @@ export default {
         display: block;
         width: auto;
         position: absolute;
-        left: 35%;
+        left: 39%;
         margin-top: 10px;
         font-size: 13px;
         color: #e5384f;
@@ -1745,7 +1763,7 @@ export default {
         top:-4px !important;
     }
     .toast_img_message span:nth-child(2){
-        margin-left: 8px;
+        margin-left: 20px;
         float: left;
         width: auto !important;
         padding: 3px 2px !important;

@@ -21,15 +21,15 @@ import other_container from './compotents/car/other_container.vue'//新导航内
 import goods_car from './compotents/car/goods_car.vue'//购物车
 import goods_pay from './compotents/car/goods_pay.vue'; //提交    .
 import goods_order from './compotents/car/goods_order.vue'; //结算
-
+import goods_sel from './compotents/car/goods_sel.vue'; //订单
 
 import shop_home from './compotents/shop/shop_home.vue'; //店铺首页导航
 import shop_create from './compotents/shop/shop_create.vue'; //创建店铺
 import shop_curd from './compotents/shop/shop_curd.vue'; //添加商品
 import shop_index from  './compotents/shop/shop_index.vue'; //店铺首页
 import shop_hot from './compotents/shop/shop_hot.vue';//热门分类
+import shop_goods from  './compotents/shop/shop_goods.vue'; //商品列表
 
-import goods_sel from './compotents/car/goods_sel.vue'; //订单
 
 //个人中心
 import personal_home from './compotents/personal/personal_home.vue';
@@ -106,6 +106,7 @@ let routerObj = new VueRouter({
                 {path:'shop_curd',component:shop_curd},//店铺管理
                 {path:'shop_index',component:shop_index},//店铺首页
                 {path:'shop_hot',component:shop_hot},//热门分类
+                {path:'shop_goods',component:shop_goods},//热门分类
             ]
         },
 

@@ -1,6 +1,8 @@
 <template>
     <div id="personal_container">
-        <el-row class="tac"  style="float:left;">
+        <el-row class="tac"
+                style="float:left;
+                       border-right: solid 1px #e6e6e6;">
             <el-col :span="10">
                 <div class="block">
                     <el-image style="width: 135px;height: 130px;margin-left: 25px;border: 1px solid #eae8e8"
@@ -89,14 +91,16 @@
 <style>
     #personal_container{
         width: 75%;
+        min-width: 1200px;
         margin: 40px auto;
      }
     .person_content{
         display: inline-block;
-        width: 80%;
+        width: 73%;
         margin: 0 20px 20px;
         position: relative;
         top: 0;
+
     }
     .h4_title{
         color: red;
@@ -104,11 +108,15 @@
         font-size: 17px;
     }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 160px;
-        min-height: 1000px;
+        width: 200px;
+        min-height: 530px;
     }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 160px;
-        min-height: 420px;
+    .el-menu {
+        border-right: none !important;
+        list-style: none;
+        position: relative;
+        margin: 0;
+        padding-left: 0;
+        background-color: #FFF;
     }
 </style>
