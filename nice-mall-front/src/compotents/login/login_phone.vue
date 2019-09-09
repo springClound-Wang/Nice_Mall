@@ -41,11 +41,16 @@ export  default {
                 this.$message.warning('请填入完整信息')
             }
             else{
+                let that = this;
                 this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/phone',{
                     telephone: this.phoneNum,
                     password: this.password
                 }).then(res => {                   //请求成功后的处理函数
-                    alert(res.data.message);
+                    that.$message({
+                        message:res.data.message,
+                        type:'success',
+                        duration:1500
+                    });
                     if(res.data.status === true){
                         //检测token
                         window.localStorage["token"] = res.data.data.token;
@@ -55,6 +60,9 @@ export  default {
                         window.localStorage['logintime'] = new Date().getTime();
                         this.$router.push({path: '/home'});
                         window.location.reload()
+                    }
+                    else {
+                        return;
                     }
                 }).catch(err => {                 //请求失败后的处理函数
                     alert(err)
@@ -67,40 +75,5 @@ export  default {
 </script>
 
 <style>
-    form label:nth-child(1){
-        margin-top: 28px !important;
-    }
-    .other-login{
-        width: 100%;
-        height: 20px;
-        left: 10px;
-        margin: 10px auto 15px;
-        text-align: left;
-        bottom: 30%;
-        color: #787671;
-        position: relative;
-    }
-    #forget-password{
-        position: absolute;
-        left: 10px;
-        top:18px;
-        color: #787671;
-    }
-    .link-to{
-        position: absolute;
-        top:5px;
-        right: 10px;
-    }
-    #footer {
-        width: 100%;
-        margin: 0 auto;
-        border-top:1px solid #cccccc;
-        position: absolute;
-        bottom: 20%;
-    }
-    .sign{
-        width: 100%;
-        margin: 15px auto;
-        position: relative;
-    }
+
 </style>

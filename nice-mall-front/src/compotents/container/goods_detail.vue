@@ -314,20 +314,20 @@ export default {
         }
     },
     created(){
-        this.getGoodsDetails();
+        // this.getGoodsDetails();
     },
     methods:{
         // TODO 请求当前商品的详情数据
-        getGoodsDetails(){
-          this.$http.get('/getgoodsdetails',{
-                params: {goodsid:this.$route.query.id},
-                headers: {Authorization: window.localStorage.getItem('token')}
-            }).then(res=>{
-              alert(res.data);
-          }).catch(err=>{
-              alert(res.err);
-          })
-        },
+        // getGoodsDetails(){
+        //   this.$http.get('/getgoodsdetails',{
+        //         params: {goodsid:this.$route.query.id},
+        //         headers: {Authorization: window.localStorage.getItem('token')}
+        //     }).then(res=>{
+        //       alert(res.data);
+        //   }).catch(err=>{
+        //       this.$router.push('/not_found');
+        //   })
+        // },
         // TODO  加入购物车
         handleAddCar(){
             if(!this.goods_size){

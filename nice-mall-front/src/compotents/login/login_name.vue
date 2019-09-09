@@ -45,16 +45,24 @@
                     this.$message.warning('请填入完整信息')
                 }
                 else{
+                    let that = this;
                     this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/name',datas).then(res => {                   //请求成功后的处理函数
-                        alert(res.data.message);
+                        that.$message({
+                            message:res.data.message,
+                            type:'success',
+                            duration:1500
+                        });
                         if(res.data.status === true){
                             //检测token
                             window.localStorage["token"] = res.data.data.token;
                             window.localStorage["userId"] = res.data.data.userid;
                             window.localStorage["username"] = res.data.data.username;
                             window.localStorage['isshop'] = res.data.data.isshop;
-                            window.localStorage['logintime'] = new Date();
-                            this.$router.push({path:'/home'});
+                            window.localStorage['logintime'] = new Date().getTime();
+                            this.$router.push({path: '/home'});
+                        }
+                        else {
+                            return;
                         }
                     }).catch(err => {                 //请求失败后的处理函数
                         console.log(err);

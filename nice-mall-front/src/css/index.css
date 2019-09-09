@@ -85,40 +85,7 @@ a {
     opacity: 0.5;
     margin: 0 3px;
 }
-/*下拉菜单*/
-.item{
-    position: absolute;
-    width: 90px;
-    height: auto;
-    background-color:white;
-    margin: 2px 0;
-    padding: 5px;
-    display: none;
-}
-.itemHover{
-    position: absolute;
-    top: 40px;
-    width:100px;
-    height: auto;
-    border-top: none;
-    background: linear-gradient(to bottom, #f1366d, #fe5745);
-    margin: 8px 0;
-    display: block;
-    z-index: 100;
-}
-.list{
-    list-style-type: none;
-    width: 100px;
-    text-align: left;
-    float: left;
-    display:block;
-    position: relative;
-}
-.list li{
-    padding: 0 8px;
-    height: 3em;
-    color: white;
-}
+
 
 
 /*连接样式*/
@@ -185,4 +152,35 @@ ul{
 .el-tabs__header .is-top{
     width: 76%;
     margin: 0 auto;
+}
+.el-button {
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #FFF;
+    border: 1px solid #DCDFE6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    -webkit-transition: .1s;
+    transition: .1s;
+    font-weight: 500;
+    padding: 10px 11px !important;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.el-input--suffix .el-input__inner {
+    padding-right: 30px;
+    width: 150px;
+    margin: 10px 0;
+}
+.el-button.is-circle {
+    border-radius: 50%;
+    padding: 12px;
+    width: 33px !important;
+    height: 33px !important;
 }

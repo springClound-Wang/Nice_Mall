@@ -658,9 +658,27 @@ export default {
                                 value: '短袖T恤',
                                 label: '短袖T恤'
                             }]
-                    }, {
-                        value: '孕妈专区',
-                        label: '孕妈专区',
+                    },
+                    {
+                        value: '男下装',
+                        label: '男下装',
+                        children: [
+                            {
+                                value: '牛仔裤',
+                                label: '牛仔裤'
+                            }, {
+                                value: '运动裤',
+                                label: '运动裤'
+                            }, {
+                                value: '短裤',
+                                label: '短裤'
+                            }, {
+                                value: '西裤',
+                                label: '西裤'
+                            }]
+                    },{
+                        value: '母婴',
+                        label: '母婴',
                         children: [
                             {
                                 value: '孕妇上装',
@@ -887,7 +905,7 @@ export default {
                     }]
                 }, {
                     value: '手机配件',
-                    label: '热销手机',
+                    label: '手机配件',
                     children: [{
                         value: '原装配件',
                         label: '原装配件'
@@ -1329,86 +1347,82 @@ export default {
         },
         // 上传主图片事件
         changeMainImage() {
-                    let files = this.$refs.avatarInputMain.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageMain.indexOf(this.result) === -1) {
-                                    that.imageMain.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputMain.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageMain.indexOf(this.result) === -1) {
+                            that.imageMain.push(this.result);
                         }
-                    }
-
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         changeShowImage() {
-                    let files = this.$refs.avatarInputShow.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageShow.indexOf(this.result) === -1) {
-                                    that.imageShow.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputShow.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageShow.indexOf(this.result) === -1) {
+                            that.imageShow.push(this.result);
                         }
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
 
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         changeDetailImage() {
-                    let files = this.$refs.avatarInputDetail.files;
-                    let that = this;
-
-                    function readAndPreview(file) {
-                        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                            let reader = new FileReader();
-                            reader.onload = function () {
-                                if (that.imageDetail.indexOf(this.result) === -1) {
-                                    that.imageDetail.push(this.result);
-                                }
-                            };
-                            reader.readAsDataURL(file);
+            let files = this.$refs.avatarInputDetail.files;
+            let that = this;
+            function readAndPreview(file) {
+                if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    let reader = new FileReader();
+                    reader.onload = function () {
+                        if (that.imageDetail.indexOf(this.result) === -1) {
+                            that.imageDetail.push(this.result);
                         }
-                    }
-                    if (files) {
-                        [].forEach.call(files, readAndPreview);
-                    }
-                    if (files.length === 0) {
-                        return;
-                    }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            if (files) {
+                [].forEach.call(files, readAndPreview);
+            }
+            if (files.length === 0) {
+                return;
+            }
         },
         // 触发上传图片按钮
         upLoadMain() {
-                    this.$refs.avatarInputMain.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputMain.dispatchEvent(new MouseEvent("click"));
         },
         upLoadShow() {
-                    this.$refs.avatarInputShow.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputShow.dispatchEvent(new MouseEvent("click"));
         },
         upLoadDetail() {
-                    this.$refs.avatarInputDetail.dispatchEvent(new MouseEvent("click"));
+            this.$refs.avatarInputDetail.dispatchEvent(new MouseEvent("click"));
         },
         //删除图片
         deleteImg(index, objImgArray) {
-                    objImgArray.splice(index, 1);
+            objImgArray.splice(index, 1);
         }
 
         }
@@ -1419,7 +1433,6 @@ export default {
         width: 80%;
         margin: 0 auto;
     }
-
     #curd_container form{
         width:90%;
         position: relative;
@@ -1427,7 +1440,8 @@ export default {
         margin: 10px auto;
         color: #3b3b3b;
         padding: 5% 1% 5% 5%;
-        border: 1px solid #cccccc;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
 
     }
     #curd_container form textarea{
@@ -1653,7 +1667,7 @@ export default {
         display: block;
         width: auto;
         position: absolute;
-        left: 35%;
+        left: 39%;
         margin-top: 10px;
         font-size: 13px;
         color: #e5384f;
@@ -1749,7 +1763,7 @@ export default {
         top:-4px !important;
     }
     .toast_img_message span:nth-child(2){
-        margin-left: 8px;
+        margin-left: 20px;
         float: left;
         width: auto !important;
         padding: 3px 2px !important;

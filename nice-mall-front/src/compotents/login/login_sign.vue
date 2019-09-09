@@ -26,6 +26,7 @@ export default {
     #content{
         width: 100%;
         height: 75%;
+        padding-bottom: 20px;
         background-color: #f4d1d2;
     }
     img{

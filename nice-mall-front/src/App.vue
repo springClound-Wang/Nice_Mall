@@ -7,7 +7,7 @@
                     <li>
                         <router-link to="/" class="link">Nice 商城</router-link>
                     </li>
-                    <li v-text="user_shop"></li>
+                    <li>随心所欲</li>
                 </ul>
                 <ul class="second">
                     <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 18px"></span>首页</router-link></li>
@@ -66,7 +66,7 @@
                     <li @mouseenter="show(5)" @mouseleave="hide">
                         <router-link :to="url" class="link" >
                             <span class="iconfont icon-user"></span>
-                            <span style="font-size: 17px" v-text="isLogin" @click="isLoginTo"></span>
+                            <span style="font-size: 17px" v-text="isLogin" ></span>
                         </router-link>
                         <div class="item" :class="{itemHover:itemIndex===5}" v-if="isExit">
                             <ul class="list" style="width: 100px">
@@ -79,8 +79,9 @@
 
         </div>
         <!--中间内容-->
-        <router-view v-if="isRouterAlive"></router-view>
-
+        <keep-alive>
+            <router-view v-if="isRouterAlive"></router-view>
+        </keep-alive>
         <!--底部内容-->
         <footer>
             阿里巴巴集团|阿里巴巴国际站|阿里巴巴中国站|全球速卖通|淘宝网|天猫|聚划算|一淘|阿里妈妈|飞猪|虾米|阿里云计算|云OS|万网|支付宝|来往 <br>
@@ -93,41 +94,64 @@
 
 <script>
     export default {
-
         //页面组件重新加载
         provide() {
             return {
                 reload: this.reload
             }
         },
+
         data() {
             return {
                 isRouterAlive: true,
                 isExit: false,
                 itemIndex: null,
-                user_shop: '随心所欲',
                 url: '/login_sign/login_phone',
                 other_url: '',
-                isLogin: window.localStorage.getItem('username') ? window.localStorage.getItem('username') : '请登录',
+                isLogin: window.localStorage.getItem('username') ?window.localStorage.getItem('username'):'请登录'
             }
         },
         created(){
-           this.isLoginTime();
+            this.isLoginTime(); //检测登录过期
+            this.isLoginTo();
+        },
+        computed:{
+
         },
         methods: {
+            show(index) {
+                this.itemIndex = index;
+            },
+            hide() {
+                this.itemIndex = null;
+            },
             //组件重载方法
             reload() {
                 this.isRouterAlive = false;
                 this.$nextTick(function () {
-                    this.isRouterAlive = true
+                    this.isRouterAlive = true;
                 })
             },
             //登陆后切换导航
             isLoginTo() {
+                //若已经登录 则导航切换到去个人中心  且 显示退出登录
                 if (this.isLogin === window.localStorage.getItem('username')) {
                     this.isExit = true;
-                    //个人中心
-                    this.url = '#'
+                    this.url = '/personal_home/person_info'
+                }
+                else {
+                    this.isExit = false;
+                    this.url = '/login_sign/login_phone'
+                }
+            },
+            //判断登录过期 时间
+            isLoginTime(){
+                if(window.localStorage.getItem('logintime')){
+                    if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
+                        alert('登录过期');
+                        this.removeStorage();
+                        window.location.reload()
+                    }
                 }
             },
             //退出登录
@@ -138,24 +162,22 @@
                     headers: {Authorization: token}
                 }).then(res => {
                     if (res.data.status === true) {
-                        window.localStorage.removeItem('userId');
-                        window.localStorage.removeItem('token');
-                        window.localStorage.removeItem('username');
-                        window.localStorage.removeItem('isshop');
-                        window.localStorage.removeItem('logintime');
-                        this.$router.push({path: '/login_sign/login_phone'});
-                        this.location.reload()
+                        this.removeStorage();
+                        this.isLogin = '请登录';
+                        this.isExit = false;
                     }
                 }).catch(err => {
-                    console.log(err); //登录过期提示
-                    window.localStorage.removeItem('userId');
-                    window.localStorage.removeItem('token');
-                    window.localStorage.removeItem('username');
-                    window.localStorage.removeItem('isshop');
-                    window.localStorage.removeItem('logintime');
-                    this.$router.push({path: '/login_sign/login_phone'});
-                    this.location.reload()
+                    alert(err); //登录过期提示
                 });
+            },
+            //清除信息
+            removeStorage(){
+                window.localStorage.removeItem('userId');
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('username');
+                window.localStorage.removeItem('isshop');
+                window.localStorage.removeItem('logintime');
+                this.$router.push({path: '/login_sign/login_phone'});
             },
             //我的店铺
             myShop() {
@@ -169,33 +191,10 @@
                     } else {
                         this.other_url = '/shop_home';
                     }
-
-                    this.user_shop = '>  我的店铺'
                 }
-            },
-            show(index) {
-                this.itemIndex = index;
-            },
-            hide() {
-                this.itemIndex = null;
-            },
-            isLoginTime(){
-                // console.log(window.localStorage.getItem('logintime'));//1567516436291
-                if(window.localStorage.getItem('logintime')){
-                    if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
-                        this.$message.error('登录过期');
-                        window.localStorage.removeItem('userId');
-                        window.localStorage.removeItem('token');
-                        window.localStorage.removeItem('username');
-                        window.localStorage.removeItem('isshop');
-                        window.localStorage.removeItem('logintime');
-                        this.$router.push({path: '/login_sign/login_phone'});
-                        window.location.reload()
-                    }
-                }
-
             }
-        }
+        },
+
     }
 </script>
 
@@ -248,7 +247,7 @@
         border: none;
         font-size: 14px;
         color: white;
-        background: linear-gradient(to right, #fe5745, #f1366d);
+        background: linear-gradient(to right, #fe3a42, #f1366d);
         z-index: 1000;
     }
     .iconfont{
@@ -276,5 +275,38 @@
     a:hover{
         color: #030303;
     }
-
+    /*下拉菜单*/
+    .item{
+        position: absolute;
+        width: 90px;
+        height: auto;
+        background-color:white;
+        margin: 2px 0;
+        padding: 5px;
+        display: none;
+    }
+    .itemHover{
+        position: absolute;
+        top: 40px;
+        width:100px;
+        height: auto;
+        border-top: none;
+        background: linear-gradient(to bottom, #f1366d, #fe5745);
+        margin: 8px 0;
+        display: block;
+        z-index: 1100;
+    }
+    .list{
+        list-style-type: none;
+        width: 100px;
+        text-align: left;
+        float: left;
+        display:block;
+        position: relative;
+    }
+    .list li{
+        padding: 0 8px;
+        height: 3em;
+        color: white;
+    }
 </style>

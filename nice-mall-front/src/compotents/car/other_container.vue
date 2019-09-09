@@ -8,8 +8,10 @@
                 <li><span class="iconfont icon-baozhuanhuan"></span>年轻人的潮流</li>
             </ul>
             <label>
-                <input type="text" value="" name="search" placeholder="搜索历史订单..."/>
-                <span class="iconfont icon-sousuo"></span>
+                <input type="text" value="" name="search" placeholder="搜索  ..." v-model="search" @keydown.enter="handletoSearch"/>
+                <router-link :to="'/goods_item?goodsname='+search" @click.native="flushCom">
+                    <span class="iconfont icon-sousuo"></span>
+                </router-link>
             </label>
         </div>
        <router-view></router-view>
@@ -19,7 +21,15 @@
 export default {
     data(){
         return{
+            search:''
         }
+    },
+    methods:{
+        //回车请求 搜索框
+        handletoSearch(){
+            this.$router.push({ path: '/goods_item?goodsname='+this.search });
+            this.flushCom();
+        },
     }
 }
 </script>
