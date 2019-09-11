@@ -5,28 +5,28 @@
             <el-tab-pane label="所有订单" name="first">
                 <div class="order_content">
                     <div class="goods">
-                            <ul class="sel_nav_list">
-                                <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
-                                <li>尺码</li>
-                                <li>单价</li>
-                                <li>数量</li>
-                                <li>实付款</li>
-                                <li>交易状态</li>
-                                <li>交易操作</li>
-                            </ul>
-                            <ul v-for="(item,index) in sel_data" class="sel_item">
-                                <li class="order_item"><span>订单号：1213232424</span></li><br>
-                                <li class="first_td">
-                                    <img :src="item.car_goods_img" class="order_img"/>
-                                    <span>{{item.car_goods_name}}</span>
-                                </li>
-                                <li>{{item.car_goods_size}}</li>
-                                <li>¥ {{item.car_goods_price}}</li>
-                                <li>{{item.car_goods_num}}</li>
-                                <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                                <li class="order_status">等待买家付款<br><el-link type="primary">订单详情</el-link></li>
-                                <li><el-button type="danger">立即付款</el-button></li>
-                            </ul>
+                        <ul class="sel_nav_list">
+                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li>尺码</li>
+                            <li>单价</li>
+                            <li>数量</li>
+                            <li>实付款</li>
+                            <li>交易状态</li>
+                            <li>交易操作</li>
+                        </ul>
+                        <ul v-for="(item,index) in sel_data" class="sel_item">
+                            <li class="order_item"><span>订单号：1213232424</span></li><br>
+                            <li class="first_td">
+                                <img :src="item.car_goods_img" class="order_img"/>
+                                <span>{{item.car_goods_name}}</span>
+                            </li>
+                            <li>{{item.car_goods_size}}</li>
+                            <li>¥ {{item.car_goods_price}}</li>
+                            <li>{{item.car_goods_num}}</li>
+                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
+                            <li class="order_status">等待买家付款<br><el-link type="primary">订单详情</el-link></li>
+                            <li><el-button type="warning" plain>立即付款</el-button></li>
+                        </ul>
                     </div>
                 </div>
             </el-tab-pane>
@@ -53,7 +53,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待付款<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger">立即付款</el-button></li>
+                            <li><el-button type="danger" plain>立即付款</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待发货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger">联系卖家</el-button></li>
+                            <li><el-button type="primary" plain>联系卖家</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待收货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger">查看物流</el-button></li>
+                            <li><el-button type="info" plain>查看物流</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待评价<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger">立即评价</el-button></li>
+                            <li><el-button  type="success" plain>立即评价</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -186,14 +186,14 @@
     .sel_item{
         height: 170px;
         margin-bottom: 20px;
-        border: 1px solid #babab4;
+        border: 1px solid #dddee1;
         border-left: 2px solid #ff2a23;
     }
     .sel_nav_list{
         height: 41px;
         line-height: 45px;
         margin-top: 40px;
-        border: 1px solid #babab4;
+        border: 1px solid #dddee1;
     }
     .sel_nav_list,.sel_item{
         list-style: none;
@@ -205,7 +205,7 @@
         height: 40px;
         float: left;
         text-align: center;
-        border-left: 1px solid #babab4;
+        border-left: 1px solid #dddee1;
     }
     .sel_item li{
         width: 10%;
@@ -215,6 +215,9 @@
         float: left;
         text-align: center;
 
+    }
+    .sel_item:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
     }
     .sel_nav_list ul li:nth-child(1){
         width: 35%;
@@ -231,16 +234,16 @@
     }
     .goods ul .order_item{
         width: 100%;
-        height: 30px;
+        height: 35px;
         position: absolute;
         top: 0;
-        line-height: 2 !important;
-        border-bottom: 1px solid #d7d7d0;
+        border-bottom:1px solid #dddee1;
     }
     .order_item span{
         display: block;
         position: absolute;
-        height: 30px;
+        height: 35px;
+        line-height: 35px !important;
         width: 300px;
         margin-left: 20px;
         text-align: left;

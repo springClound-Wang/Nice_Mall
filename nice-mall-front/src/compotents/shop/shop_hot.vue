@@ -25,7 +25,7 @@
                         <div v-for="(src,index) in imageMains" :key="index"
                              @mouseenter="delShow" @mouseleave="delHide">
                             <img :src="src" width="80" height="80" alt srcset class="img_list">
-                            <span class="del_img" @click="deleteImg(index,imageMains)">×</span>
+                            <span class="del_img" @click="deleteMainImg(index,imageMains)">×</span>
                         </div>
                         <div class="upload_img" v-show="imageMains.length < 1">
                             <span class="upload_btn" @click="upLoadMains">+</span>
@@ -40,12 +40,12 @@
                         <div v-for="(item,index) in imageDetails" :key="index">
                             <div @mouseenter="delShow" @mouseleave="delHide">
                                 <img :src="item" width="80" height="80" alt srcset class="img_list">
-                                <span class="del_img" @click="deleteImg(index,imageDetails,input)">×</span>
+                                <span class="del_img" @click="deleteImg(index,imageDetails,ruleForm.typename)">×</span>
                             </div>
                             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
                                      class="demo-ruleForm">
-                                <el-form-item label="" prop="typename" style="width: 150px !important;">
-                                    <el-input v-model="ruleForm.typename[index]" placeholder="请输入对应类型"></el-input>
+                                <el-form-item label="" prop="typename">
+                                    <el-input v-model="ruleForm.typename[index]" placeholder="请输入对应类型" style="width: 150px !important;"></el-input>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -68,7 +68,6 @@
 export default {
     data(){
         let checkInput = (rule, value, callback) => {
-            console.log(value);
             if (!value.length) {
                 return callback(new Error('对应类型不能为空'));
             }
@@ -175,6 +174,9 @@ export default {
             objImgArray.splice(index, 1);
             objInput.splice(index,1);
         },
+        deleteMainImg(index, objImgArray){
+            objImgArray.splice(index, 1);
+        },
         delShow(e) {
             e.target.lastChild.style.display = 'block';
         },
@@ -189,6 +191,18 @@ export default {
             if (this.ruleForm.typename.length <10){
                 this.$message.error('请输入完整类型')
             }
+            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addpopular',{
+                imageDetails:this.imageDetails,
+                imageMains:this.imageMains,
+                uploadType:this.uploadType,
+                typeName:this.ruleForm.typename
+            },{
+                headers: {'Authorization': window.localStorage.getItem('token')}
+            }).then(res=>{
+                alert(res.data.message);
+            }).catch(err=>{
+
+            })
         },
     }
 
@@ -244,6 +258,7 @@ export default {
         margin-left: 10px;
         position: relative;
         float: left;
+        width: 150px;
     }
     .pic_list img {
         width: 150px;
@@ -330,6 +345,6 @@ export default {
         height: 40px;
     }
     .el-input__inner {
-        width: 150px !important;
-    }
+         width: 150px;
+     }
 </style>

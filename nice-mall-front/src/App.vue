@@ -10,7 +10,7 @@
                     <li>随心所欲</li>
                 </ul>
                 <ul class="second">
-                    <li><router-link to="/"><span class="iconfont icon-icon4" style="font-size: 18px"></span>首页</router-link></li>
+                    <li><router-link to="/"><span class="iconfont icon-qiyemenhu" style="font-size: 18px"></span>首页</router-link></li>
                     <li @mouseenter="show(4)" @mouseleave="hide">
                         <span class="iconfont icon-daohang"></span>更多
                         <span class="iconfont icon-jiantouxia"></span>
