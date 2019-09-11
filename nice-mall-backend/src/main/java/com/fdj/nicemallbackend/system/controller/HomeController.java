@@ -67,7 +67,7 @@ public class HomeController {
             Map<String,Object> map = (Map<String,Object>)res.getData();
             List<Findgoods> typeGoods = iTypeGoodsService.getSortGoods(type);
             if (typeGoods.isEmpty()) {
-                return new Result().fail("有主图片,但是无对应的货物数据!");
+                return new Result().fail(map,"有主图片,但是无对应的货物数据!");
             }
             map.put("goods",typeGoods);
             return new Result().success(map, "查询成功!");
@@ -76,4 +76,10 @@ public class HomeController {
             return new Result().fail("未查询到主图片信息!");
         }
     }
+
+//    @GetMapping("/showone/{goodsId}")
+//    public Result showGoodDetail(@PathVariable Integer goodsId){
+//         = goodsService.showOneDetail(goodsId);
+//        return null;
+//    }
 }

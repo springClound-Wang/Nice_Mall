@@ -46,12 +46,12 @@ public class PopularSortServiceImpl extends ServiceImpl<PopularSortMapper, Popul
             return new Result().fail("添加的小图片中有重复哦,请慎重添加!!");
         }
         OssuploadUtil ossuploadUtil = new OssuploadUtil();
-        Result imageMains = ossuploadUtil.uploadReturnUrl((List<String>) map.get("imageMain"));
+        Result imageMains = ossuploadUtil.uploadReturnUrl((List<String>) map.get("imageMains"));
         if (imageMains.isStatus()) {
             try {
                 SortImage sortImage = new SortImage((String) map.get("uploadType"), (String) imageMains.getData());
                 sortImageMapper.save(sortImage);
-                List<String> typeNames = (List<String>) map.get("typename");
+                List<String> typeNames = (List<String>) map.get("typeName");
                 List<String> imageDetails = (List<String>) map.get("imageDetails");
                 for (int i = 0; i < typeNames.size(); i++) {
                     Result imageUrl = ossuploadUtil.oneuploadReturnUrl(imageDetails.get(i));

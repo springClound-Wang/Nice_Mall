@@ -230,7 +230,7 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
         Map<String,Object> map = new HashMap<>();
         List<HotSort> hotSort = popularSortMapper.selectByImageMainId(sortImage.getImageMainId());
         map.put("hotHeadImg",sortImage.getImageMains());
-        map.put("hotTypeImage",hotSort);
+        map.put("hotType",hotSort);
         return new Result().success(map,"查到");
     }
 }
