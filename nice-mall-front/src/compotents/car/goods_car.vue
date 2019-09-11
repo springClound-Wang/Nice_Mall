@@ -1,47 +1,38 @@
 <template>
     <div id="car_container">
-        <table>
-            <thead>
-            <tr id="title">
-                <td style="width:5%"></td>
-                <td>商品信息</td>
-                <td>单价</td>
-                <td>数量</td>
-                <td>小计</td>
-                <td>操作</td>
-            </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in car_data " :key="item.car_goods_id" >
-                    <div class="shop_con">
-                        <span class="iconfont icon-icon4" style="font-size: 15px"></span>
-                        <span>的敬爱的旧爱店铺</span>
-                    </div><br>
-
-                    <div class="car_content">
-                        <td>
-                            <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
-                                <input type="checkbox" v-model="selected" class="checked"
-                                       :value="item.car_goods_id" :id="item.car_goods_id">
-                                <img :src="item.car_goods_img"/>
-                                <div class="goods_name">
-                                    <div class="car_goods_name">{{item.car_goods_name}}</div>
-                                    <div class="car_goods_size">尺码：{{item.car_goods_size}}</div>
-                                </div>
-                            </label>
-                        </td>
-                        <td>￥{{item.car_goods_price}}</td>
-                        <td>
-                            <div class="goods_details_num" >
-                                <span @click="handleCountAdd(item)">+</span><span v-model="item.car_goods_num">{{item.car_goods_num}}</span><span @click="handleCountLess(item)">-</span>
-                            </div>
-                        </td>
-                        <td>￥{{item.car_goods_num*item.car_goods_price}}</td>
-                        <td>删除</td>
-                    </div>
-                </tr>
-            </tbody>
-        </table>
+        <div class="car_content">
+            <div class="car_goods">
+                <ul class="car_nav_list">
+                    <li style="width:29%;text-align: left">
+                        <span style="margin-left: 10px">Nice 宝贝&nbsp;&nbsp;&nbsp; 商品信息</span>
+                    </li>
+                    <li>尺码</li>
+                    <li>单价</li>
+                    <li>数量</li>
+                    <li>小计</li>
+                    <li>操作</li>
+                </ul>
+                <ul v-for="(item,index) in car_data " :key="item.car_goods_id" class="car_goods_item">
+                    <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
+                    <input type="checkbox" v-model="selected" class="checked"
+                        :value="item.car_goods_id" :id="item.car_goods_id">
+                    <li class="car_shop_title">
+                        <span class="iconfont icon-icon4" style="font-size: 18px;color: #f17374"></span>
+                        <span style="margin-left: 4%">敬爱的旧爱店铺</span>
+                    </li><br>
+                    <li class="first_td">
+                        <img :src="item.car_goods_img" class="order_img"/>
+                        <span>{{item.car_goods_name}}</span>
+                    </li>
+                    <li>{{item.car_goods_size}}</li>
+                    <li>¥ {{item.car_goods_price}}</li>
+                    <li>{{item.car_goods_num}}</li>
+                    <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
+                    <li><el-button type="primary" plain style="margin: 30% 0 0 15% !important;">删除</el-button></li>
+                    </label>
+                </ul>
+            </div>
+        </div>
         <div class="account">
             <ul>
                 <li>
@@ -147,7 +138,7 @@ export default {
 </script>
 <style scoped>
     #car_container{
-        width: 85%;
+        width: 75%;
         margin: 10px auto;
     }
     .car_content {
@@ -156,15 +147,6 @@ export default {
         position: relative;
         margin: 10px auto;
         border: none;
-    }
-    .shop_con{
-        display: block;
-        position: relative;
-        width: 200px;
-        height: 40px;
-        left: 25px;
-        top: -47px;
-        line-height: 15px;
     }
     .shop_con span:nth-child(2){
         display: inline-block;
@@ -178,56 +160,18 @@ export default {
     .select{
         width: 100%;
     }
-    table{
-        width:92%;
-        margin: 0 auto;
-        border: none;
-    }
-    tbody{
-        width: 100% ;
-    }
-    thead{
-        width: 100%;
-    }
-    thead tr:nth-child(1){
-        background:linear-gradient(to right, #fe957b, #f17374);
-        color: white;
-        height: 50px;
-    }
-    tr {
-        height: 130px;
-        position: relative;
-        border-bottom: 1px solid #d6d6d6;
-        border-left: 1px solid #d6d6d6;
-        border-right: 1px solid #d6d6d6;
-    }
-    #title td{
-        padding-left:6%;
-    }
-    tbody thead tr td,tbody tr td{
-        text-align: center;
-        position: relative;
-        width: 12%;
-        line-height: 130px;
-    }
-    tbody thead tr td:nth-child(1),.car_content td:nth-child(1){
-        width: 18%;
-        position: relative;
-        /*left: -11%;*/
-    }
     .select img{
         width: 80px;
         height: 80px;
         display: inline-block;
         position: absolute;
         top: 20%;
-        left: -20%;
     }
     .select input{
         position: absolute;
-        left: -35%;
-        top:30%;
-        border: 1px solid #d6d6d6;
+        left: 2%;
+        top: 45%;
+        border: 1px solid #dddee1;
         border-radius: 50%;
         outline: none;
         width: 18px;
@@ -236,17 +180,94 @@ export default {
     .checkBox input[type=checkbox]:checked{
         background-color: red;
     }
-    .car_goods_name{
-        width: 200px;
-        display: inline-block;
-        text-align: justify;
-        position: absolute;
-        right: 18%;
-        top: 25%;
-        padding: 5px;
-        font-weight: 500;
+    .car_content{
+        width: 96%;
+        margin: 10px auto;
+    }
+    .car_goods_item{
+        height: 160px;
+        margin-bottom: 20px;
+        border: 1px solid #dddee1;
+        border-left: 2px solid #ff2a23;
+    }
+    .car_nav_list{
+        height: 41px;
+        line-height: 45px;
+        margin-top: 40px;
+        border:1px solid #cfd0d3;
+    }
+    .car_nav_list,.car_goods_item{
+        list-style: none;
+        position: relative;
+        border-radius: 3px;
     }
 
+    .car_nav_list li{
+        width: 14%;
+        position: relative;
+        height: 40px;
+        float: left;
+        text-align: center;
+        border-left: 1px solid #cfd0d3;
+        font-weight: 500;
+
+    }
+    .car_goods_item:hover{
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+    }
+    .car_goods_item li{
+        width: 14%;
+        position: relative;
+        height: 150px;
+        line-height: 150px;
+        float: left;
+        text-align: center;
+        font-weight: 500;
+    }
+    .car_nav_list ul li:nth-child(1){
+        width: 35%;
+    }
+    .first_td{
+        width: 28% !important;
+        line-height: 0;
+        margin-left: 2% !important;
+    }
+    .first_td span{
+        width: 58%;
+        float: right;
+        margin: 8% 9% 5% 15%;
+        line-height: 30px !important;
+        text-align: left;
+    }
+    .car_goods_item{
+        width: 100%;
+    }
+    .car_shop_title{
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        top: 0;
+        line-height: 2 !important;
+        border-bottom: 1px solid #dddee1;
+    }
+    .car_shop_title span{
+        display: block;
+        position: absolute;
+        height: 30px;
+        width: 300px;
+        margin-left: 20px;
+        text-align: left;
+        top: 0;
+        left: 0;
+    }
+    .car_goods ul .car_shop_title {
+        width: 100%;
+        height: 35px;
+        line-height: 35px !important;
+        position: absolute;
+        top: 0;
+        border-bottom: 1px solid #dddee1;
+    }
     /*结算*/
     .check_all{
         position: absolute;
@@ -257,11 +278,11 @@ export default {
     .account{
         position: sticky;
         bottom: 0;
-        width: 92%;
+        width: 100%;
         margin: 10px auto;
         height: 70px;
         line-height: 70px;
-        border: 1px solid #d6d6d6;
+        border: 1px solid #dddee1;
         background-color: white;
         z-index: 100;
     }
@@ -297,25 +318,7 @@ export default {
         height: 32px;
         width: 30px;
         line-height: 30px;
-        border: 1px solid #d6d6d6;
+        border:1px solid #dddee1;
     }
-    .car_goods_name{
-        height: 50px;
-        position: absolute;
-        line-height: 27px;
-        top: 25px;
-    }
-    .car_goods_size{
-        position: relative;
-        display: inline-block;
-        height: 30px;
-        top: 30px;
-        left: -17px;
-        font-weight: 500;
-    }
-    .goods_name{
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
+
 </style>

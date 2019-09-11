@@ -142,11 +142,13 @@ ul{
     color: #303133;
     position: relative;
 }
-.el-button--danger {
+.el-button--primary.is-plain,.el-button--warning.is-plain,
+.el-button--success.is-plain,.el-button--danger.is-plain,
+.el-button--info.is-plain {
     color: #FFF;
     background-color: #F56C6C;
     border-color: #F56C6C;
-    margin-top: 40px !important;
+    margin-top: 55px !important;
     margin-left: 20px !important;
 }
 .el-tabs__header .is-top{

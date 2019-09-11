@@ -8,7 +8,7 @@
                 <li><span class="iconfont icon-baozhuanhuan"></span>年轻人的潮流</li>
             </ul>
             <label>
-                <input type="text" value="" name="search" placeholder="搜索  ..." v-model="search" @keydown.enter="handletoSearch"/>
+                <input type="text" value="" name="search" placeholder="Search  ..." v-model="search" @keydown.enter="handletoSearch"/>
                 <router-link :to="'/goods_item?goodsname='+search" @click.native="flushCom">
                     <span class="iconfont icon-sousuo"></span>
                 </router-link>

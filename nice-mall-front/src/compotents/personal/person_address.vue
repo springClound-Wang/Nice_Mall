@@ -20,7 +20,7 @@
             </el-form-item>
             <el-form-item style="margin-top: 20px">
                 <el-button type="primary" @click="submitForm('ruleForm')" style="float:left;">保存</el-button>
-                <el-checkbox v-model="tacitAddress" style="margin-left: 33%;position: absolute;">设为默认地址</el-checkbox>
+                <el-checkbox v-model="tacitAddress" style="margin-left: 33%;float:left;">设为默认地址</el-checkbox>
             </el-form-item>
         </el-form>
         <el-alert

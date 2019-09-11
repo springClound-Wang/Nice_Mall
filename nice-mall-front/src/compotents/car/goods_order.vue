@@ -140,6 +140,9 @@ export default {
         width: 80%;
         margin: 20px auto;
     }
+    #all_goods_list{
+        text-align: left;
+    }
     .carslist_name{
         width: 270px;
         display: inline-block;

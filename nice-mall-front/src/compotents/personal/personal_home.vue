@@ -119,4 +119,7 @@
         padding-left: 0;
         background-color: #FFF;
     }
+    .el-input__inner {
+        width: 280px;
+    }
 </style>

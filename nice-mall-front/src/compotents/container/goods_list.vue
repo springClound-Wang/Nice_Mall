@@ -7,24 +7,25 @@
             <ul>
                 <li v-for="(item ,index) in hot_type" :key="index"
                     @mouseenter="list_change" @mouseleave="list_nochange">
-                    <img :src="item.goods_type_img"/><br>
-                    <span>{{item.goods_type_name}}</span>
+                    <img :src="item.imageDetails"/><br>
+                    <span>{{item.typeName}}</span>
                 </li>
             </ul>
         </div>
 
         <div id="all_goods_list">
-
-            <div class="goods-item" v-for="item in goods" :key="item.goods_id">
+            <hr>
+            <div class="goods_title" v-show="!goodsStatus">！暂无商品</div>
+            <div class="goods-item" v-for="item in goods" :key="item.goodsId">
                 <!--点击跳到详情-->
-                <router-link :to="'/goods_detail?id='+item.goods_id" >
+                <router-link :to="'/goods_detail?id='+item.goodsId" >
                     <div @mouseenter="change" @mouseleave="nochange">
-                        <img :src="item.goods_img" class="goods-img"/>
+                        <img :src="item.imageMain" class="goods-img"/>
                         <div class="goods-desc">
-                            <span class="goods-name">{{item.goods_name}}</span><br>
+                            <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                            <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
                         </div>
                     </div>
                 </router-link>
@@ -39,6 +40,7 @@ export default {
     data(){
         return{
             type:this.$route.query.type,
+            goodsStatus:false,
             goods:'', //所有商品
             hot_type:'' ,//商品类别
             hot_head_img:''//商品大图
@@ -51,9 +53,10 @@ export default {
         //发请求：
         getTypeGoodsList(){
          this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort/'+this.$route.query.type).then(res=>{
-             this.hot_type = res.data.hot_type;
-             this.goods = res.data.goods;
-             this.hot_head_img = res.data.hot_head_img;
+             this.goodsStatus = res.data.status; //商品数据状态
+             this.hot_type = res.data.data.hotType;
+             this.goods = res.data.data.goods;
+             this.hot_head_img = res.data.data.hotHeadImg;
          }).catch(err=>{
              this.$router.push('/not_found');
          })
@@ -114,6 +117,7 @@ export default {
     #all_goods_list{
         width: 90%;
         margin: 20px auto;
+        text-align: center;
     }
     .goods-item{
         width:18%;
@@ -153,5 +157,10 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+    .goods_title{
+        font-size: 18px;
+        color: #6d6d72;
+        display: inline-block;
 
+    }
 </style>
