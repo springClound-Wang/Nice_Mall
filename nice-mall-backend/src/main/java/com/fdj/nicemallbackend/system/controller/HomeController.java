@@ -77,9 +77,9 @@ public class HomeController {
         }
     }
 
-//    @GetMapping("/showone/{goodsId}")
-//    public Result showGoodDetail(@PathVariable Integer goodsId){
-//         = goodsService.showOneDetail(goodsId);
-//        return null;
-//    }
+    @GetMapping("/showone/{goodsId}")
+    public Result showGoodDetail(@PathVariable Long goodsId){
+        Result res = goodsService.showOneDetail(goodsId);
+        return res;
+    }
 }

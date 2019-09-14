@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.mapper;
 
+import com.fdj.nicemallbackend.system.entity.Goods;
 import com.fdj.nicemallbackend.system.entity.StoreGoods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
 
     void save(StoreGoods storeGoods);
+
+    StoreGoods selectBygoodsId(Long goodsId);
 }

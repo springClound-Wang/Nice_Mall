@@ -21,4 +21,7 @@
     <select id="selectBySortId" resultType="java.lang.Long">
         select goods_id from m_type_goods where sort_id = #{sortId}
     </select>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select * from m_type_goods where goods_id = #{goodsId}
+    </select>
 </mapper>

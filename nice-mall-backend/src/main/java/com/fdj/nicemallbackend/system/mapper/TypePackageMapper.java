@@ -16,4 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TypePackageMapper extends BaseMapper<TypePackage> {
 
     void save(TypePackage typePackage);
+
+    TypePackage selectByGoodsId(Long goodsId);
 }

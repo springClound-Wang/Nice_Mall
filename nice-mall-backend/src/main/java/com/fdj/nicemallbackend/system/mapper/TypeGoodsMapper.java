@@ -24,4 +24,7 @@ public interface TypeGoodsMapper extends BaseMapper<TypeGoods> {
     List<Long> selectByListNameId(Integer listNameId);
 
     List<Long> selectBySortId(Integer sortId);
+
+    TypeGoods selectByGoodsId(Long goodsId);
+
 }

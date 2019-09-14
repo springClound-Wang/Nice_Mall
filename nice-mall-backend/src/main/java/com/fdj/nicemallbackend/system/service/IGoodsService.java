@@ -50,4 +50,12 @@ public interface IGoodsService extends IService<Goods> {
      * @return
      */
     Set<Findgoods> findByField(String field);
+
+    /**
+     * 获取某个商品的详细信息
+     * @param goodsId
+     * @return
+     */
+    Result showOneDetail(Long goodsId);
+
 }

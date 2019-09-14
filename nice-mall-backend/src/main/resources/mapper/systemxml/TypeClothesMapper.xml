@@ -15,4 +15,7 @@
     <insert id="save" useGeneratedKeys="true" keyProperty="clothesId" keyColumn="clothes_id">
         insert into type_clothes values(NULL,#{goodsId} ,#{clothesSize} ,#{clothesSeason} ,#{clothesPerson} ,#{imageShow} ,#{imageDetail})
     </insert>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select * from type_clothes where goods_id = #{goodsId}
+    </select>
 </mapper>

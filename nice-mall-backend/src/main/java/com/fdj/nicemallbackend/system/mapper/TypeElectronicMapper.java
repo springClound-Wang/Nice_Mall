@@ -16,4 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TypeElectronicMapper extends BaseMapper<TypeElectronic> {
 
     void save(TypeElectronic typeElectronic);
+
+    TypeElectronic selectByGoodsId(Long goodsId);
 }

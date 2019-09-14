@@ -12,5 +12,8 @@
     <insert id="save">
         insert into m_store_goods values(#{businessId} ,#{goodsId,jdbcType=BIGINT} ,#{storeGoodsNumber} ,#{goodsSalesVolume,jdbcType=BIGINT} )
     </insert>
+    <select id="selectBygoodsId" resultMap="BaseResultMap">
+        select * from m_store_goods where goods_id = #{goodsId}
+    </select>
 
 </mapper>

@@ -43,4 +43,7 @@
         values (NULL, #{userId}, #{storeName}, #{businessTrueName}, #{businessIdentityNumber}, #{businessPhone},
                 #{businessAddress}, NOW())
     </insert>
+    <select id="selectByBussinessId" resultMap="BaseResultMap">
+        select * from m_business where business_id=#{businessId}
+    </select>
 </mapper>

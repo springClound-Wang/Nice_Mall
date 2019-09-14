@@ -1,5 +1,8 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
+import com.baomidou.mybatisplus.generator.config.ITypeConvert;
+import com.fdj.nicemallbackend.common.domain.SortConsts;
+import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.utils.Base64tTransformUtil;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Findgoods;
@@ -56,6 +59,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Autowired
     TypeGoodsMapper typeGoodsMapper;
+
+    @Autowired
+    SortMapper sortMapper;
+
+    @Autowired
+    SortListNameMapper sortListNameMapper;
 
 
     /**
@@ -231,5 +240,65 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             goods.add(goodspart.get(i));
         }
         return goods;
+    }
+
+    /**
+     * 得到某商品的详细信息
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public Result showOneDetail(Long goodsId) {
+        Goods goods = goodsMapper.selectAllById(goodsId);
+        if(goods==null){
+            return new Result().fail("未查询到此商品");
+        }
+        Map <String,Object> map = new HashMap<>();
+        TypeGoods typeGoods = typeGoodsMapper.selectByGoodsId(goodsId);
+        StoreGoods storeGoods = storeGoodsMapper.selectBygoodsId(goodsId);
+        Business business = businessMapper.selectByBussinessId(storeGoods.getBusinessId());
+        Sort sort = sortMapper.selectById(typeGoods.getSortId());
+        map.put("goodsMain",goods);
+        map.put("storeGoods",business.getStoreName());
+        if(sort.getSortEnglishName().equals(TypeConsts.TYPE_SHOES)){
+            TypeShoes typeShoes = typeShoesMapper.selectByGoodsId(goodsId);
+            map.put("goodsFlag","shoes");
+            map.put("goodsDetail",typeShoes);
+        }
+        if(sort.getSortEnglishName().equals(TypeConsts.TYPE_ELECTRONIC)){
+            TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(goodsId);
+            map.put("goodsFlag","phone");
+            map.put("goodsDetail",typeElectronic);
+        }
+        if(sort.getSortEnglishName().equals(TypeConsts.TYPE_PACKAGE)){
+            TypePackage typePackage = typePackageMapper.selectByGoodsId(goodsId);
+            map.put("goodsFlag","package");
+            map.put("goodsDetail",typePackage);
+        }
+        if(sort.getSortEnglishName().equals(TypeConsts.TYPE_CLOTHES)){
+            SortListName sortListName = sortListNameMapper.selectById(typeGoods.getSortListNameId());
+            SortListType sortListType = sortListTypeMapper.selectById(typeGoods.getSortListTypeId());
+            TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(goodsId);
+            if(sortListName.getSortListName().contains(("女"))) {
+                if (sortListType.getSortListName().contains("裤")) {
+                    map.put("goodsFlag","clothesDownWoman");
+                }else if(sortListType.getSortListName().contains("裙")){
+                    map.put("goodsFlag","clothesSkirt");
+                }
+                else{
+                    map.put("goodsFlag","clothesUpWoman");
+                }
+            }
+            else{
+                if(sortListType.getSortListName().contains("裤")){
+                    map.put("goodsFlag","clothesDownMen");
+                }
+                else{
+                    map.put("goodsFlag","clothesUpMen");
+                }
+            }
+            map.put("goodsDetail",typeClothes);
+        }
+        return new Result().success(map,"查询到了!!!");
     }
 }

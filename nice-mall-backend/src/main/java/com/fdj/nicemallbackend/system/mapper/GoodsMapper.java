@@ -28,4 +28,5 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     Findgoods findById(Long goodsId);
 
+    Goods selectAllById(Long goodsId);
 }

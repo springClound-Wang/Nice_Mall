@@ -19,5 +19,8 @@
     <insert id="save">
         insert into type_package values (NULL,#{goodsId} ,#{packageSize} ,#{packageColor} ,#{packageSash} ,#{packageSex} ,#{packageSeason} ,#{packageWeight} ,#{packageMaterial},#{imageShow} ,#{imageDetail} )
     </insert>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select * from type_package where goods_id = #{goodsId}
+    </select>
 
 </mapper>
