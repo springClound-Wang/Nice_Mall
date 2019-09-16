@@ -1,9 +1,6 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
-import com.baomidou.mybatisplus.generator.config.ITypeConvert;
-import com.fdj.nicemallbackend.common.domain.SortConsts;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
-import com.fdj.nicemallbackend.common.utils.Base64tTransformUtil;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
@@ -12,11 +9,9 @@ import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.Store;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -96,11 +91,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if(res!=0){
             List<String> list = (List<String>)map.get("clothesSize");
             String size = StringUtils.join(list.toArray(),",");
+            String color = (String)map.get("clothesColor");
+
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
             Result imageShow = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageShow"));
             Result imageDetail = ossuploadUtil.uploadReturnUrl((List<String>)map.get("imageDetail"));
             if(imageShow.isStatus()&&imageDetail.isStatus()) {
-                TypeClothes typeClothes = new TypeClothes(res, size, (String) map.get("clothesSeason"), (String) map.get("clothesPerson"), (String) imageShow.getData(), (String) imageDetail.getData());
+                TypeClothes typeClothes = new TypeClothes(res, size, color,(String) map.get("clothesSeason"), (String) map.get("clothesPerson"), (String) imageShow.getData(), (String) imageDetail.getData());
                 typeClothesMapper.save(typeClothes);
                 Business business = businessMapper.selectByuserId(Long.valueOf((String)map.get("userId")));
                 StoreGoods storeGoods = new StoreGoods(business.getBusinessId(),res,Long.valueOf((String)map.get("storeGoodsNumber")),0L);
@@ -242,6 +239,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return goods;
     }
 
+
+
     /**
      * 得到某商品的详细信息
      * @param goodsId
@@ -263,40 +262,75 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_SHOES)){
             TypeShoes typeShoes = typeShoesMapper.selectByGoodsId(goodsId);
             map.put("goodsFlag","shoes");
+            List<String> imageDetail = Arrays.asList(typeShoes.getImageDetail().split(","));
+            List<String> imageShow = Arrays.asList(typeShoes.getImageShow().split(","));
+            List<String> goodsColor = Arrays.asList(typeShoes.getShoesColor().split(","));
+            List<String> goodsSize = Arrays.asList(typeShoes.getShoesSize().split(","));
             map.put("goodsDetail",typeShoes);
+            map.put("imageDetail",imageDetail);
+            map.put("imageShow",imageShow);
+            map.put("clothesColor",goodsColor);
+            map.put("goodsSize",goodsSize);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_ELECTRONIC)){
             TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(goodsId);
             map.put("goodsFlag","phone");
+            List<String> imageDetail = Arrays.asList(typeElectronic.getImageDetail().split(","));
+            List<String> imageShow = Arrays.asList(typeElectronic.getImageShow().split(","));
+            List<String> electronicColor = Arrays.asList(typeElectronic.getElectronicColor().split(","));
+            List<String> electronicFormat = Arrays.asList(typeElectronic.getElectronicFormat().split(","));
             map.put("goodsDetail",typeElectronic);
+            map.put("imageDetail",imageDetail);
+            map.put("imageShow",imageShow);
+            map.put("electronicColor",electronicColor);
+            map.put("electronicFormat",electronicFormat);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_PACKAGE)){
             TypePackage typePackage = typePackageMapper.selectByGoodsId(goodsId);
             map.put("goodsFlag","package");
+            List<String> imageDetail = Arrays.asList(typePackage.getImageDetail().split(","));
+            List<String> imageShow = Arrays.asList(typePackage.getImageShow().split(","));
+            List<String> packageColor = Arrays.asList(typePackage.getPackageColor().split(","));
+            List<String> packageSize = Arrays.asList(typePackage.getPackageSize().split(","));
+            map.put("imageDetail",imageDetail);
+            map.put("imageShow",imageShow);
+            map.put("packageColor",packageColor);
+            map.put("packageSize",packageSize);
             map.put("goodsDetail",typePackage);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_CLOTHES)){
             SortListName sortListName = sortListNameMapper.selectById(typeGoods.getSortListNameId());
             SortListType sortListType = sortListTypeMapper.selectById(typeGoods.getSortListTypeId());
             TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(goodsId);
-            if(sortListName.getSortListName().contains(("女"))) {
-                if (sortListType.getSortListName().contains("裤")) {
+            if(sortListName.getSortListName().contains(("裤"))) {
+                if (sortListType.getSortListName().contains("女")) {
                     map.put("goodsFlag","clothesDownWoman");
-                }else if(sortListType.getSortListName().contains("裙")){
+                }else if(sortListType.getSortListName().contains("男")){
+                    map.put("goodsFlag","clothesDownMen");
+                }
+            }
+            else{
+                if(sortListType.getSortListName().contains("裙")){
                     map.put("goodsFlag","clothesSkirt");
+                }
+                else if(sortListName.getSortListName().contains("女")){
+                    map.put("goodsFlag","clothesUpWoman");
+                }
+                else if(sortListName.getSortListName().contains("男")){
+                    map.put("goodsFlag","clothesUpMen");
                 }
                 else{
                     map.put("goodsFlag","clothesUpWoman");
                 }
             }
-            else{
-                if(sortListType.getSortListName().contains("裤")){
-                    map.put("goodsFlag","clothesDownMen");
-                }
-                else{
-                    map.put("goodsFlag","clothesUpMen");
-                }
-            }
+            List<String> imageDetail = Arrays.asList(typeClothes.getImageDetail().split(","));
+            List<String> imageShow = Arrays.asList(typeClothes.getImageShow().split(","));
+            List<String> clothesColor = Arrays.asList(typeClothes.getClothesColor().split(","));
+            List<String> clothesSize = Arrays.asList(typeClothes.getClothesSize().split(","));
+            map.put("imageDetail",imageDetail);
+            map.put("imageShow",imageShow);
+            map.put("clothesColor",clothesColor);
+            map.put("clothesSize",clothesSize);
             map.put("goodsDetail",typeClothes);
         }
         return new Result().success(map,"查询到了!!!");

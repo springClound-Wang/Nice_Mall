@@ -63,6 +63,9 @@ public class Goods extends Model<Goods> {
      */
     private String imageMain;
 
+    public Goods(){
+    }
+
     public Goods( String goodsName, String goodsDesc, BigDecimal goodsPrePrice, BigDecimal goodsCurPrice, String goodsBrand, String goodsPlace, String imageMain) {
         this.goodsName = goodsName;
         this.goodsDesc = goodsDesc;

@@ -37,6 +37,11 @@ public class TypeClothes extends Model<TypeClothes> {
     private String clothesSize;
 
     /**
+     * 衣服颜色
+     */
+    private String clothesColor;
+
+    /**
      * 衣服适合的季节
      */
     private String clothesSeason;
@@ -56,9 +61,10 @@ public class TypeClothes extends Model<TypeClothes> {
      */
     private String imageDetail;
 
-    public TypeClothes(Long goodsId, String clothesSize, String clothesSeason, String clothesPerson, String imageShow, String imageDetail) {
+    public TypeClothes(Long goodsId, String clothesSize,String clothesColor, String clothesSeason, String clothesPerson, String imageShow, String imageDetail) {
         this.goodsId = goodsId;
         this.clothesSize = clothesSize;
+        this.clothesColor=clothesColor;
         this.clothesSeason = clothesSeason;
         this.clothesPerson = clothesPerson;
         this.imageShow = imageShow;
