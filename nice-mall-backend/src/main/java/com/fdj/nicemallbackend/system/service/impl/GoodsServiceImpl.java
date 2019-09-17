@@ -261,6 +261,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         map.put("storeGoods",business.getStoreName());
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_SHOES)){
             TypeShoes typeShoes = typeShoesMapper.selectByGoodsId(goodsId);
+            map.put("goodsType","shoes");
             map.put("goodsFlag","shoes");
             List<String> imageDetail = Arrays.asList(typeShoes.getImageDetail().split(","));
             List<String> imageShow = Arrays.asList(typeShoes.getImageShow().split(","));
@@ -275,6 +276,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_ELECTRONIC)){
             TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(goodsId);
             map.put("goodsFlag","phone");
+            map.put("goodsType","electronic");
             List<String> imageDetail = Arrays.asList(typeElectronic.getImageDetail().split(","));
             List<String> imageShow = Arrays.asList(typeElectronic.getImageShow().split(","));
             List<String> electronicColor = Arrays.asList(typeElectronic.getElectronicColor().split(","));
@@ -288,6 +290,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_PACKAGE)){
             TypePackage typePackage = typePackageMapper.selectByGoodsId(goodsId);
             map.put("goodsFlag","package");
+            map.put("goodsType","package");
             List<String> imageDetail = Arrays.asList(typePackage.getImageDetail().split(","));
             List<String> imageShow = Arrays.asList(typePackage.getImageShow().split(","));
             List<String> packageColor = Arrays.asList(typePackage.getPackageColor().split(","));
@@ -299,6 +302,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             map.put("goodsDetail",typePackage);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_CLOTHES)){
+            map.put("goodsType","clothes");
             SortListName sortListName = sortListNameMapper.selectById(typeGoods.getSortListNameId());
             SortListType sortListType = sortListTypeMapper.selectById(typeGoods.getSortListTypeId());
             TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(goodsId);
