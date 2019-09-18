@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.TypeEntryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeEntry">
+        <id column="entry_id" property="entryId" />
+        <result column="entry_name" property="entryName" />
+        <result column="entry_title" property="entryTitle" />
+        <result column="entry_image" property="entryImage" />
+        <result column="entry_discount" property="entryDiscount" />
+    </resultMap>
+
+</mapper>
