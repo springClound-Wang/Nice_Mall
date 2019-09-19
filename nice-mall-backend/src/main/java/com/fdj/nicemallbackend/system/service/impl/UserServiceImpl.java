@@ -60,7 +60,7 @@ public class UserServiceImpl implements IUserService {
         roleuser.setRoleId(2);
         user = userMapper.findByPhone(telephone);
         roleuser.setUserId(user.getUserId());
-        userroleMapper.insert(roleuser);
+        userroleMapper.save(roleuser);
         return flag;
     }
 

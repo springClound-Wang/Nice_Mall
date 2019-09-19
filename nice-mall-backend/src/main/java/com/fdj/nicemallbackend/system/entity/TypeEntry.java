@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.io.Serializable;
 
 /**
  * <p>
@@ -46,10 +45,10 @@ public class TypeEntry extends Model<TypeEntry> {
     /**
      * 折扣
      */
-    private Float entryDiscount;
+    private String entryDiscount;
 
-    public TypeEntry(String entryName, String entryTitle, String url, Float entryDiscount) {
-        this.entryName=this.entryName;
+    public TypeEntry(String entryName, String entryTitle, String url, String entryDiscount) {
+        this.entryName=entryName;
         this.entryTitle=entryTitle;
         this.entryImage=url;
         this.entryDiscount = entryDiscount;

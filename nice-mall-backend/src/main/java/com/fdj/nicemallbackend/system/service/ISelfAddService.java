@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.TypeEntry;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISelfAddService extends IService<TypeEntry> {
 
+    /**
+     * 用测试工具添加分类入口
+     * @param typeEntry
+     * @return
+     */
+    Result addEntry(TypeEntry typeEntry);
 }

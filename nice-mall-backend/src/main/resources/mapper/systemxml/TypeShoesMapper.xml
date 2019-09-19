@@ -17,5 +17,8 @@
     <insert id="save">
         insert into type_shoes values(NULL,#{goodsId} ,#{shoesSize} ,#{shoesColor} ,#{shoesSeason} ,#{shoesPlace} ,#{shoesMaterial},#{imageShow} ,#{imageDetail}  )
     </insert>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select * from type_shoes where goods_id = #{goodsId}
+    </select>
 
 </mapper>

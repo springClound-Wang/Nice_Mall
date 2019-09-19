@@ -24,4 +24,11 @@ public interface UserroleMapper extends BaseMapper<Rolelist> {
      * @return
      */
     List<Integer> selectRolesByuid(Long userId);
+
+    /**
+     * 保存角色和用户的关系
+     * @param roleuser
+     */
+    void save(Rolelist roleuser);
+
 }
