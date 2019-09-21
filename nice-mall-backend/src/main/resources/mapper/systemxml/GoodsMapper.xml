@@ -17,7 +17,7 @@
         insert into m_goods values(NULL,#{goodsName} ,#{goodsDesc} ,#{goodsPrePrice} ,#{goodsCurPrice} ,#{goodsBrand} ,#{goodsPlace} ,#{imageMain})
     </insert>
     <select id="selectFuzzyByfiled" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
-        select goods_id,goods_name,image_main,goods_pre_price,goods_cur_price from m_goods where goods_name like concat ('%',#{field,jdbcType=VARCHAR},'%')
+        select goods_id,goods_name,image_main,goods_pre_price,goods_cur_price from m_goods where goods_name like concat ('%',${field,jdbcType=VARCHAR},'%')
     </select>
     <select id="selectById" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
         select goods_id,goods_name,image_main,goods_pre_price,goods_cur_price from m_goods where goods_id = #{goodsId}

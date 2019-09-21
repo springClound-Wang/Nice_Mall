@@ -77,9 +77,20 @@ public class HomeController {
         }
     }
 
+    /**
+     * 获取某个商品的详情
+     * @param goodsId
+     * @return
+     */
     @GetMapping("/showone/{goodsId}")
     public Result showGoodDetail(@PathVariable Long goodsId){
         Result res = goodsService.showOneDetail(goodsId);
         return res;
+    }
+
+    @GetMapping("/")
+    public Result homePage(){
+
+        return new Result().success("获取数据成功!!");
     }
 }
