@@ -56,6 +56,22 @@ public class HomeController {
     }
 
     /**
+     * 类型点击查询
+     * @param typeield
+     * @return
+     */
+    @GetMapping("/type/{typeield}")
+    public Result SortQuery(@PathVariable String typeield){
+        Set<Findgoods> goods = goodsService.findBySortType(typeield);
+        if(goods.isEmpty()) {
+            return new Result().fail("查询失败,无对应的数据!!!");
+        }
+        else{
+            return new Result().success(goods, "查询成功!!!");
+        }
+    }
+
+    /**
      * 首页中根据分类获取数据
      * @param type
      * @return

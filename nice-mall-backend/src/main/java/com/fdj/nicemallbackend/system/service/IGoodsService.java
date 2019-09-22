@@ -58,4 +58,6 @@ public interface IGoodsService extends IService<Goods> {
      */
     Result showOneDetail(Long goodsId);
 
+    Set<Findgoods> findBySortType(String typeield);
+
 }

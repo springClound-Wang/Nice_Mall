@@ -134,9 +134,9 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
      * @param temp
      * @return
      */
-    public List<Findgoods> getClothes(String temp) {
+    public List<Findgoods> getClothes(String temp,Integer id) {
         List<Findgoods> goods = new ArrayList<>();
-        List<Integer> listNameIds = sortListNameMapper.selectByPartName(temp);
+        List<Integer> listNameIds = sortListNameMapper.selectByPartName(temp,id);
         if (!listNameIds.isEmpty()) {
             for (int i = 0; i < listNameIds.size(); i++) {
                 List<Long> goodsIds = typeGoodsMapper.selectByListNameId(listNameIds.get(i));
@@ -154,9 +154,9 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
      * @param temp
      * @return
      */
-    public List<Findgoods> getShoes(String temp) {
+    public List<Findgoods> getShoes(String temp,Integer id) {
         List<Findgoods> goods = new ArrayList<>();
-        List<Integer> listNameIds = sortListNameMapper.selectByPartNames(temp);
+        List<Integer> listNameIds = sortListNameMapper.selectByPartNames(temp,id);
         if (!listNameIds.isEmpty()) {
             for (int i = 0; i < listNameIds.size(); i++) {
                 List<Long> goodsIds = typeGoodsMapper.selectByListNameId(listNameIds.get(i));
@@ -181,20 +181,24 @@ public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods
     public List<Findgoods> getSortGoods(String type) {
         List<Findgoods> goods = new ArrayList<>();
         if (SortConsts.SORT_CLOTHES_WOMEN.equals(type)) {
+            Sort sort = sortMapper.selectId("clothes");
             String temp = "女";
-            goods = getClothes(temp);
+            goods = getClothes(temp,sort.getSortId());
         }
         if (SortConsts.SORT_CLOTHES_MEN.equals(type)) {
+            Sort sort = sortMapper.selectId("clothes");
             String temp = "男";
-            goods = getClothes(temp);
+            goods = getClothes(temp,sort.getSortId());
         }
         if (SortConsts.SORT_SHOES_WOMEN.equals(type)) {
+            Sort sort = sortMapper.selectId("shoes");
             String temp = "女";
-            goods = getShoes(temp);
+            goods = getShoes(temp,sort.getSortId());
         }
         if (SortConsts.SORT_SHOES_MEN.equals(type)) {
+            Sort sort = sortMapper.selectId("shoes");
             String temp = "男";
-            goods = getShoes(temp);
+            goods = getShoes(temp,sort.getSortId());
         }
         if (SortConsts.SORT_ELECTRONIC.equals(type) || SortConsts.SORT_PACKAGE.equals(type)) {
             Integer sortId = sortMapper.selectByName(type);

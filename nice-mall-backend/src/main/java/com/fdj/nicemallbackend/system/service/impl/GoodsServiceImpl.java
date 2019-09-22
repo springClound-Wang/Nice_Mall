@@ -9,7 +9,9 @@ import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.language.bm.NameType;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.type.ListType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -344,5 +346,24 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             map.put("goodsDetail",typeClothes);
         }
         return new Result().success(map,"查询到了!!!");
+    }
+
+    /**
+     * 点击阶级类型获得商品
+     * @param typefield
+     * @return
+     */
+    @Override
+    public Set<Findgoods> findBySortType(String typefield) {
+        String[] a = StringUtils.split("/");
+        SortListName sortNameType  = sortListNameMapper.selectId(a[0]);
+        SortListType sortListType = sortListTypeMapper.selectId(sortNameType.getSortListId(),a[1]);
+        List<Long> goodsIds = new ArrayList<>();
+        Set<Findgoods> goods = new HashSet<>();
+        goodsIds = typeGoodsMapper.selectBytypeId(sortListType.getSortListTypeId());
+        for(int j=0;j<goodsIds.size();j++){
+            goods = goodsMapper.selectById(goodsIds.get(j));
+        }
+        return goods;
     }
 }
