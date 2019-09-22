@@ -57,12 +57,13 @@ public class HomeController {
 
     /**
      * 类型点击查询
-     * @param typeield
+     * @param typefield
      * @return
      */
-    @GetMapping("/type/{typeield}")
-    public Result SortQuery(@PathVariable String typeield){
-        Set<Findgoods> goods = goodsService.findBySortType(typeield);
+    @GetMapping("/type/{typefield}")
+    public Result SortQuery(@PathVariable String typefield){
+        System.out.println(typefield);
+        Set<Findgoods> goods = goodsService.findBySortType(typefield);
         if(goods.isEmpty()) {
             return new Result().fail("查询失败,无对应的数据!!!");
         }

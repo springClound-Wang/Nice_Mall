@@ -355,7 +355,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      */
     @Override
     public Set<Findgoods> findBySortType(String typefield) {
-        String[] a = StringUtils.split("/");
+        String[] a = StringUtils.split(typefield,">");
         SortListName sortNameType  = sortListNameMapper.selectId(a[0]);
         SortListType sortListType = sortListTypeMapper.selectId(sortNameType.getSortListId(),a[1]);
         List<Long> goodsIds = new ArrayList<>();
