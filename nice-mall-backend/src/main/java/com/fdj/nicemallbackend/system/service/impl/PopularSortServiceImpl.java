@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ public class PopularSortServiceImpl extends ServiceImpl<PopularSortMapper, Popul
      * @return
      */
     @Override
+    @Transactional
     public Result saveData(Map<String, Object> map) {
         if (judgeUtil.isEquals((List<String>) map.get("imageDetails"))) {
             return new Result().fail("添加的小图片中有重复哦,请慎重添加!!");

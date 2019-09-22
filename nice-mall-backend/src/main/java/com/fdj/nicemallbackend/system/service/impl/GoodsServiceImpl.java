@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -67,6 +68,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @param map
      * @return
      */
+    @Transactional
     public long saveTOGoods(Map<String,Object> map){
         Long index = 0L;
         OssuploadUtil ossuploadUtil = new OssuploadUtil();
@@ -86,6 +88,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
+    @Transactional
     public Result saveToclothes(Map<String, Object> map) {
         Long res = saveTOGoods(map);
         if(res!=0){
@@ -117,6 +120,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
+    @Transactional
     public Result saveToshoes(Map<String, Object> map) {
         Long res = saveTOGoods(map);
         if(res!=0){
@@ -151,6 +155,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
+    @Transactional
     public Result saveTopackage(Map<String, Object> map) {
         Long res = saveTOGoods(map);
         if(res!=0){
@@ -185,6 +190,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
      * @return
      */
     @Override
+    @Transactional
     public Result saveToelectr(Map<String, Object> map) {
         Long res = saveTOGoods(map);
         if(res!=0){
