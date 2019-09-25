@@ -2,10 +2,9 @@
     <div id="person_info">
         <div class="info_title">基本资料</div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="昵称" prop="petname" >
+            <el-form-item label="昵称" prop="petname" class="form_item">
                 <el-input v-model="ruleForm.petname" placeholder="请输入昵称"></el-input>
             </el-form-item>
-          <br>
             <el-form-item label="真实姓名" prop="truename" class="form_item">
                 <el-input v-model="ruleForm.truename" placeholder="请输入真实姓名"></el-input>
             </el-form-item>
@@ -23,25 +22,22 @@
                     </div>
                 </div>
             </div>
-            <el-form-item label="性别" prop="sex">
+            <el-form-item label="性别" prop="sex" class="form_item">
                 <el-radio-group v-model="ruleForm.sex">
                     <el-radio label="男"></el-radio>
                     <el-radio label="女"></el-radio>
                 </el-radio-group>
             </el-form-item>
-          <br>
-            <el-form-item label="生日" required prop="birth">
+            <el-form-item label="生日" required prop="birth" class="form_item">
                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birth" style="width: 100%;"></el-date-picker>
             </el-form-item>
-            <br>
-            <el-form-item label="居住地" prop="address" style="margin-top: 20px;">
+            <el-form-item label="居住地" prop="address"  class="form_item">
                 <el-input v-model="ruleForm.address" placeholder="省/市/ 区/县 镇/街道"></el-input>
             </el-form-item>
-            <br>
             <hr>
-            <el-form-item style="margin-top: 40px;">
-                <el-button type="primary" @click="submitForm('ruleForm')" style="float:left;width: 100px;">立即修改</el-button>
-                <el-button @click="resetForm('ruleForm')" style="position: absolute">重置</el-button>
+            <el-form-item style="margin: 40px 0 " class="form_item">
+                <el-button type="primary" @click="submitForm('ruleForm')" style="float:left;width: 100px;margin-left: 30%;">立即修改</el-button>
+                <el-button @click="resetForm('ruleForm')" style="position: absolute;top: 0;left: 70%;">重置</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -144,7 +140,7 @@
         font-size: 19px;
         border-bottom: 1px solid #e6e6e6;
     }
-    .el-form{
+    #person_info .el-form{
       margin-top: 20px;
     }
     .head_img{
@@ -221,26 +217,36 @@
       z-index: 1000;
       color: #fe0e09;
     }
-    .el-form-item__content {
+    #person_info .el-form-item__content {
         /*line-height: 98px !important;*/
         position: relative;
         font-size: 14px;
     }
-     .el-form-item {
+    #person_info .el-form-item {
          width: 50%;
          margin-bottom: 0 !important;
      }
-    .el-form-item__content {
+    #person_info .el-form-item__content {
         line-height: 40px;
         width: 400px;
-        position: relative;
+        position: absolute;
         font-size: 14px;
         height: 40px;
+        display: inline-block;
+        margin-left: 0 !important;
     }
-    .el-input__icon {
+    #person_info .el-input__icon {
       margin-top: 0px;
     }
-    .el-upload__input {
+    #person_info .el-upload__input {
         display: none !important;
     }
+    #person_info .el-input {
+      position: relative;
+      font-size: 14px;
+      height: 50px;
+      display: inline-block;
+      width: 100%;
+    }
+
 </style>

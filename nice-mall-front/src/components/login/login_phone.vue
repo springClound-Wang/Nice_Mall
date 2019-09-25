@@ -1,6 +1,6 @@
 <template id="login">
     <div>
-        <form class="form-inline">
+        <form class="form-inline" @submit.prevent="onSubmit">
             <label>
                 <span class="iconfont icon-yonghuming"></span>
                 <input type="text" name="phoneNum"  value="" placeholder="请输入您的手机号" class="form-control" v-model="phoneNum">
@@ -20,13 +20,13 @@
                     <router-link to="/login_sign/signup" class="btn" style="margin-left:20px;">注册</router-link>
                   </div>
                 </div>
-
             </div>
         </form>
     </div>
 </template>
 <script>
 export  default {
+    inject: ['reload'],
     data(){
       return{
           phoneNum:'',
@@ -34,9 +34,11 @@ export  default {
       }
     },
     methods:{
+        onSubmit(){return false;},
         handleLogin(){
             if(this.phoneNum === '' || this.password === ''){
-                this.$message.warning('请填入完整信息')
+                this.$message.warning('请填入完整信息');
+                return;
             }
             else{
                 let that = this;
@@ -47,7 +49,7 @@ export  default {
                     that.$message({
                         message:res.data.message,
                         type:'success',
-                        duration:1500
+                        duration:2500
                     });
                     if(res.data.status === true){
                         //检测token
@@ -57,7 +59,8 @@ export  default {
                         window.localStorage['isshop'] = res.data.data.isshop;
                         window.localStorage['logintime'] = new Date().getTime();
                         this.$router.push({path: '/home'});
-                        window.location.reload()
+                        // this.reload();
+                        window.location.reload();
                     }
                     else {
                         return;

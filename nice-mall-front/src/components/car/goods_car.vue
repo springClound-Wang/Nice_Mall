@@ -200,6 +200,8 @@ export default {
         line-height: 45px;
         margin-top: 40px;
         border:1px solid #cfd0d3;
+        width: 100%;
+        margin-bottom: 10px;
     }
     .car_nav_list,.car_goods_item{
         list-style: none;

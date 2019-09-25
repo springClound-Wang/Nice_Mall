@@ -1,6 +1,6 @@
 <template>
     <div id="shop_container">
-        <h4>我要开店</h4>
+        <h3>我要开店</h3>
         <p>遵循以下流程，了解开店</p>
         <hr>
         <div class="knows">
@@ -98,7 +98,7 @@
                         </div>
                         <input type="text" size="20" value="" placeholder="请填写店铺发货地址" name="businessAddress" v-model="businessAddress"/>
                     </label>
-                    <div style="margin: 30px 0">
+                    <div class="submit_btn_all">
                         <input type="button" class="sum_btn" value="上一步" @click="createShop"/>
                         <input type="button" class="sum_btn sub" value="提交信息" @click="createInfoPush" />
                     </div>
@@ -126,11 +126,30 @@ export default {
         }
     },
     methods:{
+        //验证
+        enterAsscessPhone(){
+            let reg=11&& /^((13|14|15|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
+            return reg.test(this.businessPhone);
+        },
+        enterAsscessIdentity(){
+            let reg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+          return reg.test(this.businessIdentityNumber);
+        },
         createInfoPush(){
             if(!this.storeName || !this.businessTrueName || ! this.businessIdentityNumber || !this.businessPhone ||!this.businessAddress){
                 this.toastMsg = '请输入内容';
                 this.icon_show = true;
                 return;
+            }
+            if(!this.enterAsscessPhone()){
+              this.$message.error("您输入的手机号码不合法，请重新输入");
+              this.businessPhone = '';
+              return;
+            }
+            if(!this.enterAsscessIdentity()){
+              this.$message.error("您输入的身份证不合法，请重新输入");
+              this.businessIdentityNumber = '';
+              return;
             }
             else {
                 this.toastMsg = '';
@@ -151,8 +170,8 @@ export default {
                 ).then(res=>{
                     if(res.data.status === true){
                         this.$message.success(res.data.message);
-                        window.localStorage.getItem['isshop'] = true;
-                        this.$router.push('/shop_home/shop_curd');
+                        window.localStorage.setItem('isshop','true');
+                        this.$router.push('/shop_home/shop_index');
                     }
                     else {
                         console.log(res.data.data.storeNameError);
@@ -222,15 +241,17 @@ export default {
         border: 1px solid #cccccc;
         margin: 10px auto;
     }
-    #shop_container h4{
+    #shop_container h3{
         padding: 10px 20px 3px;
     }
     #shop_container p{
         padding: 3px 20px;
+        margin-bottom: 20px;
     }
     .knows{
         width: 82%;
         margin-left:14%;
+        margin-top: 5%;
     }
     .knows:after{
         content: '';
@@ -250,13 +271,18 @@ export default {
         width: 28%;
     }
     .shop-one h1,.shop-two h1,.shop-three h1{
-        display: inline-block;
-        margin-right: 10px;
-        margin-left: 22%;
+      display: inline-block;
+      margin-right: 10px;
+      position: absolute;
+      left: 20%;
+      top: 10px;
     }
     .shop-one div,.shop-two div,.shop-three div{
-        width: 60%;
-        display: inline-block;
+      width: 66%;
+      display: inline-block;
+      margin-top: 12px;
+      position: absolute;
+      left: 32%;
     }
     .shop-two:before,.shop-three:before{
         content: '';
@@ -287,7 +313,7 @@ export default {
 
     }
     .one_shop{
-        width: 43%;
+        width: 41%;
         display: inline-block;
         margin: 6% 0 20px 4%;
         text-align: center;
@@ -315,6 +341,7 @@ export default {
         font-size: 16px;
         color: white;
         background-color:#75B0DF;
+        border: none;
     }
     /*开店通知*/
     #shop_container section{
@@ -345,21 +372,23 @@ export default {
     .choose_shop_type form {
         width: 100%;
         color: #3b3b3b;
-        text-align: center;
+        margin-top: 7%;
     }
     .choose_shop_type label{
         position: relative;
         display: block;
         width: 80%;
-        margin: 8px auto;
         font-weight: 500 !important;
+        margin: 10px auto 15px;
     }
     .choose_shop_type input[type='text']{
         width: 50%;
         height: 38px !important;
     }
     #shop_container label input{
-        margin-left: -2px;
+        position: relative;
+        border-radius: 3px;
+        margin-left: 0;
     }
     label span i{
         color: #fe6139;
@@ -368,14 +397,18 @@ export default {
         margin-right: 5px;
     }
     .sum_btn{
-        padding: 9px 5% !important;
+        padding: 9px 4% !important;
         margin-top: 20px;
         margin-bottom: 20px;
         background-color: #e5e5e5;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+
     }
     .sub{
         background-color: rgb(107, 162, 203);
         color: #f8f7f5;
+        margin-left: 20px;
     }
     fieldset{
         border: none;
@@ -390,27 +423,32 @@ export default {
         cursor: pointer;
         display: inline-block;
         text-align: right;
-        width: 150px;
+        width: 170px;
         vertical-align: top;
     }
     .toast_message{
         display: inline-block;
         position: absolute;
-        top: -18px;
-        left: 35%;
+        left: 79%;
         font-size: 13px;
         color: #e5384f;
     }
     .toast_message span:nth-child(2){
-        margin-left: -65px;
+        text-align: left;
+        margin-left: 22px;
+        margin-top: -14px;
     }
     .icon-jinggao{
         font-size: 22px;
         display: inline-block;
         width: 0 !important;
         position: relative;
-        top: -6px;
+        top: 7px;
         padding: 0;
     }
-
+    .submit_btn_all{
+        width: 100%;
+        margin: 30px auto;
+        text-align: center;
+    }
 </style>

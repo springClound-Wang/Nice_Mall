@@ -1,5 +1,5 @@
 <template id="signup">
-    <form class="form-inline">
+    <form class="form-inline" @submit.prevent="onSubmit">
         <label>
             <span class="iconfont icon-yonghuming"></span>
             <input type="text" name="phoneNum" value="" placeholder="请输入手机号" class="form-control" v-model="phoneNum">
@@ -22,6 +22,7 @@
 <script>
 
 export  default {
+   inject: ['reload'],
     data(){
         return {
             phoneNum:'',
@@ -33,6 +34,7 @@ export  default {
         }
     },
     methods:{
+        onSubmit(){return false;},
         //输入检测
         enterAsscess(){
             let reg=11&& /^((13|14|15|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
@@ -59,9 +61,11 @@ export  default {
             }
             if(this.phoneNum === '' || this.password === ''|| this.code === ''){
                 this.$message.warning('请填入完整信息');
+                return;
             }
             if(this.password.length < 6 || this.password.length >15){
                 this.$message.warning('密码位数应在6~15位之间');
+                return;
             }
             else{
                 this.$http.post('http://120.78.64.17:8086/nice-mall-backend/register',datas).then(res => {
@@ -75,7 +79,7 @@ export  default {
         //验证码计时
         getCode(){
             if(!this.enterAsscess()){
-                return ;
+                return;
             }
             else {
                 if (!this.timer) {
@@ -132,8 +136,8 @@ export  default {
         border-radius: 5px;
     }
     .code-time{
-        width: 78px;
-        margin-left: 12px;
+        width: 90px;
+        margin-left: 56%;
         height: 42px;
         font-size: 16px;
     }

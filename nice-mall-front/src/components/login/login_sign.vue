@@ -5,7 +5,7 @@
             <div class="title">欢迎进入</div>
             <transition mode="out-in">
                 <!--放置登录注册 忘记密码组件-->
-                <router-view ></router-view>
+                <router-view></router-view>
             </transition>
         </div>
     </div>
@@ -13,13 +13,10 @@
 <script>
 
 export default {
+    inject: ['reload'],
     data(){
-      return{
-
-      }
+      return{}
     },
-    methods: {
-    }
 }
 </script>
 <style scoped>

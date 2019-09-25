@@ -1,6 +1,6 @@
 <template id="login">
     <div>
-        <form class="form-inline">
+        <form class="form-inline" @submit.prevent="onSubmit">
             <label>
                 <span class="iconfont icon-yonghuming"></span>
                 <input type="text" name="username"  value="" placeholder="请输入用户名" class="form-control" v-model="username">
@@ -23,10 +23,12 @@
 
             </div>
         </form>
+
     </div>
 </template>
 <script>
     export  default {
+        inject: ['reload'],
         data(){
             return{
                 username:'',
@@ -34,13 +36,15 @@
             }
         },
         methods:{
+            onSubmit(){return false;},
             handleLogin(){
                 let datas ={
                     username: this.username,
                     password: this.password
                 };
                 if(this.username === '' || this.password === ''){
-                    this.$message.warning('请填入完整信息')
+                    this.$message.warning('请填入完整信息');
+                    return;
                 }
                 else{
                     let that = this;
@@ -57,7 +61,8 @@
                             window.localStorage["username"] = res.data.data.username;
                             window.localStorage['isshop'] = res.data.data.isshop;
                             window.localStorage['logintime'] = new Date().getTime();
-                            this.$router.push({path: '/home'});
+                            this.$router.push({path: '/#/home'});
+                          window.location.reload();
                         }
                         else {
                             return;

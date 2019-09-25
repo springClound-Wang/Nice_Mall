@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router);
-import container from '../components/container/container.vue'
+import container from '../components/container/container'
 //用户登录注册 忘记密码
-import login_phone from '../components/login/login_phone.vue';
-import login_name from '../components/login/login_name.vue';
-import signup from '../components/login/signup.vue';
-import login_sign from '../components/login/login_sign.vue';
+import login_phone from '../components/login/login_phone';
+import login_name from '../components/login/login_name';
+import signup from '../components/login/signup';
+import login_sign from '../components/login/login_sign';
 import forget from '../components/login/forget';
 
 //商家 登录注册
@@ -41,11 +41,16 @@ import person_address from '../components/personal/person_address'
 
 //404
 import not_found from '../components/404';
+
+
+
+import hello from '../components/HelloWorld';
 export default new Router({
+  mode: 'history',
   routes: [
+    {path:'/hello',name:'hello',component:hello},
     {
       path:'/',
-      name:'container',
       component:container,
       children:[
         {path:'/',redirect:'/home'},
@@ -58,21 +63,20 @@ export default new Router({
     },
     {
       path:'/other_container',
-      name:'other_container',
       component:other_container,
       children:[
-        {path:'goods_car',name:'goods_list',component:goods_car},//购物车
-        {path:'goods_order',name:'goods_list',component:goods_order}, //结算
-        {path:'goods_pay',name:'goods_list',component:goods_pay}, //去支付
-        {path:'goods_sel',name:'goods_list',component:goods_sel}, //订单
+        {path:'goods_car',name:'goods_car',component:goods_car},//购物车
+        {path:'goods_order',name:'goods_order',component:goods_order}, //结算
+        {path:'goods_pay',name:'goods_pay',component:goods_pay}, //去支付
+        {path:'goods_sel',component:goods_sel}, //订单
         {
           path:'/personal_home',
-          name:'goods_list',
+          name:'personal_home',
           component: personal_home,
           children:[
             {path:'person_info',name:'person_info',component:person_info},
             {path:'person_address',name:'person_address',component:person_address},
-            {path:'not_found',name:'not_found',component:not_found} //404
+            {path:'not_found',component:not_found} //404
           ]
         }, //个人中心
       ]
@@ -80,25 +84,13 @@ export default new Router({
     //用户
     {
       path:'/login_sign', //登录注册
-      name:'login_sign',
       component:login_sign,
       children:[
         {path:'/',redirect:'/login_sign/login_phone'},
         {path:'login_phone',name:'login_phone', component:login_phone}, //手机号登录
         {path:'login_name',name:'login_name', component:login_name}, //用户名登录
-        {path:'signup',name:'signup',component:signup}, //注册
-        {path:'forget',name:'forget',component:forget} //忘记密码
-      ]
-    },
-    //商家
-    {
-      path:'/login_sign', //登录注册
-      name:'login_sign',
-      component:login_sign,
-      children:[
-        {path:'/',redirect:'/login_sign/login_shopphone'},
-        {path:'login_shop_phone', name:'login_shop_phone',component:login_shop_phone}, //手机号登录
-        {path:'login_shop_name',name:'login_shop_name', component:login_shop_name}, //用户名登录
+        {path:'login_shop_phone', name:'login_shop_phone',component:login_shop_phone}, //商家手机号登录
+        {path:'login_shop_name',name:'login_shop_name', component:login_shop_name}, //商家用户名登录
         {path:'signup',name:'signup',component:signup}, //注册
         {path:'forget',name:'forget',component:forget} //忘记密码
       ]
@@ -106,7 +98,6 @@ export default new Router({
     {path:'/shop_create', name:'shop_create',component:shop_create},//创建店铺
     {
       path:'/shop_home',
-      name:'shop_home',
       component:shop_home,
       children:[
         {path:'/',redirect:'/shop_home/shop_index'},

@@ -18,7 +18,7 @@
         </div>
         <mt-tab-container v-model="active_public" class="tab">
             <mt-tab-container-item id="public">
-               <form>
+               <form class="form" @submit.prevent="onSubmit">
                    <fieldset>
                        <div class="clothes_info">
                            <div class="text_item">
@@ -91,7 +91,7 @@
                </form>
             </mt-tab-container-item>
             <mt-tab-container-item id="sort">
-                <form>
+                <form class="form" @submit.prevent="onSubmit">
                     <fieldset>
                         <mt-tab-container v-model="active">
                             <mt-tab-container-item id="clothes">
@@ -113,7 +113,6 @@
                                             <el-checkbox label="XXL"></el-checkbox>
                                         </el-checkbox-group>
                                     </div>
-                                    <!--<hr>-->
                                     <div class="text_item">
                                         <div class="toast_more_message" v-show="clothesColor.length <= 0">
                                             <span class="iconfont icon-jinggao" v-if="icon_show"></span>
@@ -154,7 +153,6 @@
                                         </el-select>
                                     </div>
                                   <br>
-                                    <!--<hr>-->
                                     <div class="toast_check_message" v-show="!clothesPerson">
                                         <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -7px;"></span>
                                         <span v-text="toastMsg" style="margin-left: 7px;"></span>
@@ -405,6 +403,7 @@
                                         <span>补充颜色：</span>
                                         <input type="text" value="" v-model="electronicColor" placeholder="补充输入颜色"/>
                                     </div>
+                                  <br>
                                     <div class="text_item">
                                         <div class="toast_more_message" v-show="electronicFormat.length <= 0">
                                             <span class="iconfont icon-jinggao" v-if="icon_show"></span>
@@ -572,8 +571,8 @@ export default {
                 label: '衣服',
                 children: [
                     {
-                        value: '人气美衣',
-                        label: '人气美衣',
+                        value: '女上装',
+                        label: '女上装',
                         children: [
                             {
                                 value: 'T恤',
@@ -723,8 +722,8 @@ export default {
                         value: '高跟鞋',
                         label: '高跟鞋'
                     }, {
-                        value: '厚底鞋',
-                        label: '厚底鞋'
+                        value: '尖头鞋',
+                        label: '尖头鞋'
                     }, {
                         value: '平底鞋',
                         label: '平底鞋'
@@ -797,6 +796,9 @@ export default {
                     }, {
                         value: '豆豆鞋',
                         label: '豆豆鞋'
+                    }, {
+                      value: '运动鞋',
+                      label: '运动鞋'
                     }]
                 }, {
                     value: '女童鞋',
@@ -1156,11 +1158,10 @@ export default {
             phoneFitting: ''
         }
     },
-    created(){
-
-    },
     methods: {
-
+        onSubmit(){
+          return false;
+        },
         handleSelect(e) {
             console.log(e[0]);
             this.sel_active = e[0];
@@ -1180,6 +1181,7 @@ export default {
             if (!this.goodsType || !this.goodsDesc || !this.goodsName || !this.goodsPrePrice || !this.goodsPlace ||!this.goodsCurPrice) {
                 this.toastMsg = '请输入内容';
                 this.icon_show = true;
+                return;
             }
             else {
                 this.active_public = 'sort';
@@ -1212,13 +1214,16 @@ export default {
                     if(!this.imageDetail || !this.imageMain ||!this.imageShow){
                         this.toastMsg = '请选择内容';
                         this.icon_show = true;
+                        return;
                     }
                     if (this.active === 'clothes') {
                         if (!this.clothesColor || !this.clothesPerson || !this.clothesSeason || !this.clothesSize) {
                             this.toastMsg = '请选择内容';
                             this.icon_show = true;
+                            return;
                         }else {
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addgoods', {
+                            this.$message.success('正在添加，请耐心等候...');
+                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
                                 userId:window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1238,7 +1243,7 @@ export default {
                             }, {
                                 headers: {'Authorization': window.localStorage.getItem('token')}
                             }).then(res => {
-                                alert(res.data.message);
+                                this.$message.success(res.data.message);
                                 this.$router.push('/shop_home/shop_curd');
                             }).catch(res => {
                                 alert(res.data.message);
@@ -1250,8 +1255,10 @@ export default {
                         if (!this.shoesColor || !this.shoesMaterial || !this.shoesPlace || !this.shoesSeason || !this.shoesSize) {
                             this.toastMsg = '请选择内容';
                             this.icon_show = true;
+                            return;
                         }else {
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addgoods', {
+                            this.$message.success('正在添加，请耐心等候...');
+                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1272,7 +1279,7 @@ export default {
                             }, {
                                 headers: {'Authorization': window.localStorage.getItem('token')}
                             }).then(res => {
-                                alert(res.data.message);
+                                this.$message.success(res.data.message);
                                 this.$router.push('/shop_home/shop_curd');
                             }).catch(res => {
                                 alert(res.data.message);
@@ -1283,8 +1290,10 @@ export default {
                         if (!this.packageMaterial || !this.packageColor || !this.packageSash || !this.packageSeason || !this.packageSex) {
                             this.toastMsg = '请选择内容';
                             this.icon_show = true;
+                            return;
                         }else {
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addgoods', {
+                            this.$message.success('正在添加，请耐心等候...');
+                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1307,7 +1316,7 @@ export default {
                             }, {
                                 headers: {'Authorization': window.localStorage.getItem('token')}
                             }).then(res => {
-                                alert(res.data.message);
+                                this.$message.success(res.data.message);
                                 this.$router.push('/shop_home/shop_curd');
                             }).catch(res => {
                                 alert(res.data.message);
@@ -1319,8 +1328,10 @@ export default {
                         || !this.electronicResolution || !this.electronicScreenSize || !this.electronicSystem) {
                             this.toastMsg = '请选择内容';
                             this.icon_show = true;
+                            return;
                         }else {
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addgoods', {
+                            this.$message.success('正在添加，请耐心等候...');
+                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1346,7 +1357,7 @@ export default {
                             }, {
                                 headers: {'Authorization': window.localStorage.getItem('token')}
                             }).then(res => {
-                                alert(res.data.message);
+                                this.$message.success(res.data.message);
                                 this.$router.push('/shop_home/shop_curd');
                             }).catch(res => {
                                 alert(res.data.message);
@@ -1442,7 +1453,7 @@ export default {
         width: 80%;
         margin: 0 auto;
     }
-    #curd_container form{
+    #curd_container .form{
         width:90%;
         position: relative;
         font-size: 14px;
@@ -1453,13 +1464,13 @@ export default {
         border-radius: 5px;
 
     }
-    #curd_container form textarea{
+    #curd_container .form textarea{
         font-size: 13px;
         margin-bottom: 13px;
         font-family: 'Arial';
         padding-top: 5px;
     }
-    #curd_container form fieldset{
+    #curd_container .form fieldset{
         border: none;
         border-radius: 2px;
         margin-bottom: 12px;
@@ -1467,10 +1478,10 @@ export default {
         padding: 0 .625em;
     }
 
-    #curd_container form >div{
+    #curd_container .form >div{
         position: relative;
     }
-    #curd_container form .clothes_info div span,
+    #curd_container .form .clothes_info div span,
     .phone_fitting {
         cursor: pointer;
         display: inline-block;
@@ -1483,29 +1494,31 @@ export default {
         margin-bottom: 10px;
     }
 
-    #curd_container form label span{
+    #curd_container .form label span
+    {
         position: absolute;
         top: 12px;
         margin: 0 6px;
     }
-    #curd_container form input{
+    #curd_container .form input{
         height: 35px !important;
         font-size: 13px;
     }
-    #curd_container form input[type='text'],textarea, #curd_container form input[type='number']{
+    #curd_container .form input[type='text'],textarea, #curd_container .form input[type='number']
+    {
         width: 70%;
         outline: none;
         padding: 1px 5px;
         border: 1px solid #cccccc;
         border-radius: 3px;
     }
-    #curd_container form span i{
+    #curd_container .form span i{
         color: #fe6139;
         display: inline-block;
         font-size: 20px;
         margin-right: 5px;
     }
-    #curd_container form input[type='checkbox']{
+    #curd_container .form input[type='checkbox']{
         width: 16px;
         height: 16px;
         margin-left: 5px;
@@ -1623,7 +1636,7 @@ export default {
     .pic_list{
         display: inline-block;
         position: relative;
-        width: 85%;
+        width: 90%;
 
     }
     .pic_list>div{
@@ -1682,14 +1695,14 @@ export default {
         display: block;
         width: auto;
         position: absolute;
-        left: 26%;
-        margin-top: 10px;
+        left: 37%;
+        margin-top: 18px;
         font-size: 13px;
         color: #e5384f;
     }
     .toast_check_message span:nth-child(1){
         color: red;
-      top: -3px !important;
+        top: -2px !important;
     }
     .toast_check_message span:nth-child(2){
         margin-left: 8px;
@@ -1720,6 +1733,7 @@ export default {
     .text_item{
         position: relative;
         margin-bottom: 25px;
+        width: 90%;
     }
     .icon-jinggao{
         font-size: 22px;
@@ -1739,7 +1753,7 @@ export default {
         width: auto;
         position: absolute;
         left: 23%;
-        margin-top: -9px;
+        margin-top: 5px;
         font-size: 13px;
         color: #e5384f;
     }
@@ -1783,4 +1797,32 @@ export default {
         float: left;
         width: auto !important;
     }
+
+</style>
+
+<style>
+  #curd_container .el-input__suffix {
+    right: 25px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+  #curd_container .el-checkbox-group {
+    font-size: 0;
+    margin-top: 20px;
+  }
+  #curd_container .el-cascader .el-input .el-icon-arrow-down {
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    font-size: 14px;
+    margin-left: -10px;
+  }
+  #curd_container .el-input__icon {
+    height: 100%;
+    width: 25px;
+    text-align: center;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    line-height: 40px;
+  }
 </style>

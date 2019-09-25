@@ -29,6 +29,7 @@
         data() {
             return {
                 goodsname: this.$route.query.goodsname,
+                url:this.$route.query.urls,
                 goods: '', //所有商品
                 status:true
             }
@@ -39,14 +40,14 @@
         methods: {
             //发请求：
             getTypeGoodsList() {
-                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/'+this.$route.query.goodsname ).then(res => {
+                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/'+this.url+this.goodsname).then(res => {
                     this.status = res.data.status;
                     if(res.data.status === true) {
                         this.goods = res.data.data;
                     }
 
                 }).catch(err => {
-                    this.$router.push('/not_found');
+                    // this.$router.push('/not_found');
                 })
             },
             change(e) {
@@ -74,7 +75,7 @@
         font-size: 17px;
     }
     .not_found{
-        width: 80%;
+        width: 100%;
         height: 300px;
         margin: 10px auto;
         text-align: center;

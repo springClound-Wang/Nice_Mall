@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container">
+    <div id="app-container">
         <div class="total-layout">
             <el-row :gutter="20">
                 <el-col :span="6">
@@ -166,9 +166,11 @@
                             <div class="bottom clearfix">
                                 <el-tag type="info" class="time">￥{{item.goods_price}}</el-tag>
                                 <div class="btn_all">
-                                    <el-button type="primary" icon="el-icon-edit" circle @click="handleModifyGoods(item.goods_id)"></el-button>
+                                    <el-button type="primary" icon="el-icon-edit" circle
+                                               style=" float: right;margin: -10px 20px 0 10px;"
+                                               @click="handleModifyGoods(item.goods_id)"></el-button>
                                     <el-button  type="danger" icon="el-icon-delete"
-                                                style="margin-top: -10px !important;"
+                                                style="float: right;margin-top: -10px !important;"
                                                 circle
                                                 @click="handleDeleteGoods(item.goods_id)"></el-button>
                                 </div>
@@ -176,8 +178,27 @@
                         </div>
                     </el-card>
                 </el-col>
-
             </el-row>
+            <el-dialog title="修改商品信息" :visible.sync="dialogFormVisible">
+            <el-form :model="form" class="form_modify">
+              <el-form-item label="商品名称" :label-width="formLabelWidth">
+                <el-input v-model="form.goods_name" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="商品原价" :label-width="formLabelWidth">
+                <el-input v-model="form.goods_price" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="商品现价" :label-width="formLabelWidth">
+                <el-input v-model="form.goods_price" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="商品库存" :label-width="formLabelWidth">
+                <el-input v-model="form.goods_num" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="handleModifyAll">确 定</el-button>
+            </div>
+          </el-dialog>
         </div>
     </div>
 </template>
@@ -188,7 +209,15 @@
         name: 'home',
         data() {
             return {
-                pickerOptions: {
+              dialogFormVisible: false,
+              form: {
+                goods_id:null,
+                goods_name: null,
+                goods_price:null,
+                goods_num:null
+              },
+              formLabelWidth: '120px',
+              pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
                         onClick(picker) {
@@ -213,9 +242,9 @@
                         }
                     }]
                 },
-                orderCountDate: '',
-
-                goods:''
+              orderCountDate: '',
+              goods:'',
+              modifyList:[],
             }
         },
         created(){
@@ -270,14 +299,26 @@
             },
             //修改商品
             handleModifyGoods(goods_id){
-
+              this.dialogFormVisible = true;
+              for(let i=0;i<this.goods.length;i++){
+                if(this.goods[i].goods_id=== goods_id){
+                  this.form = this.goods[i];
+                }
+              }
+            },
+            //确认修改商品信息
+            handleModifyAll(){
+              this.dialogFormVisible = false;
+              this.modifyList.push(this.form);
+              console.log(this.modifyList)
             }
         }
     }
 </script>
 
 <style scoped>
-    .app-container {
+
+    #app-container {
         margin-top: 40px;
         margin-left: 120px;
         margin-right: 120px;
@@ -353,10 +394,6 @@
         margin-top: 13px;
         line-height: 12px;
     }
-    .button {
-        padding: 0;
-        float: right;
-    }
     .image {
         width: 100%;
         height: 220px;
@@ -376,10 +413,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    .el-button+.el-button {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
+
     .btn_all{
         width: 80%;
         height: auto;
@@ -387,4 +421,50 @@
         margin-left: 28%;
         margin-top: -13%;
     }
+    .form_modify{
+      width: 100%;
+    }
+
+</style>
+<style>
+  #app-container  .el-button+.el-button {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  #app-container  .form_modify .el-input__inner {
+    -webkit-appearance: none;
+    background-color: #FFF;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 85%;
+  }
+  #app-container .el-form-item__content {
+    line-height: 40px;
+    position: relative;
+    font-size: 14px;
+  }
+  #app-container .el-button.is-circle {
+    border-radius: 50%;
+    padding: 7px !important;
+    width: 30px;
+    height: 30px;
+    margin-left: 50px;
+    margin-top: -10px;
+  }
+  #app-container .el-col-5 {
+    width: 20.83333%;
+    margin: 15px 21px;
+  }
 </style>
