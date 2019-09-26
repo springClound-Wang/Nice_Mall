@@ -7,7 +7,7 @@
             <ul style="padding: 10px;">
                 <li v-for="(item ,index) in hot_type" :key="index"
                     @mouseenter="list_change" @mouseleave="list_nochange">
-                    <img :src="item.imageDetails"/><br>
+                    <img :src="item.imageDetails" width="120" height="90"/><br>
                     <span>{{item.typeName}}</span>
                 </li>
             </ul>
@@ -24,7 +24,7 @@
                         <div class="goods-desc">
                             <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                            <span style="margin: 0 8px">￥{{item.goodsCurPrice}}</span>
                             <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ export default {
             e.target.lastChild.style.background = '';
         },
         list_change(e){
-            e.target.style.transform = 'scale(1.1)';
+            e.target.style.transform = 'scale(1.05)';
         },
         list_nochange(e){
             e.target.style.transform = 'scale(1)';
@@ -82,12 +82,12 @@ export default {
 <style>
     #goods_container{
         width: 90%;
-        margin: 0 auto;
+        margin: 10px auto;
         border: 1px solid #dddddd;
     }
     #goods_container >img{
         width: 100%;
-        height: 330px;
+        height: 370px;
     }
     /*分类列表*/
     #hot-type-sort{
@@ -117,7 +117,8 @@ export default {
     #all_goods_list{
         width: 90%;
         margin: 20px auto;
-        text-align: center;
+        /*text-align: center;*/
+        min-height: 200px;
     }
     .goods-item{
         width:18%;
@@ -136,17 +137,18 @@ export default {
         /*padding: 5px 10px;*/
     }
     .goods-desc{
-      width: 100%;
+      width: 96%;
       height: 80px;
       z-index: 200;
       padding: 5px;
+      margin-top: -5px;
       border-top: 1px solid #cccccc;
     }
     .price-desc{
         display: inline-block;
         padding: 5px;
         background-color: #fa5f62;
-        margin: 0 10px 10px 2px;
+        margin: 10px 10px 10px 2px;
         color: white;
     }
     .goods-name{
@@ -160,6 +162,8 @@ export default {
         font-size: 18px;
         color: #6d6d72;
         display: inline-block;
-
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
     }
 </style>

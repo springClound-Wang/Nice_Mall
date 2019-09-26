@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="goods-two">
-                <span class="goods-title"> 最后疯抢 3折封顶</span>
+                <span class="goods-title"> 超级秒杀 3折封顶</span>
                 <div class="goods-item"  v-for="item in goods" :key="item.goods_id"
                      @mouseenter="item_enter" @mouseleave="item_leave">
                     <router-link :to="'/goods_detail?id='+item.goods_id" >
@@ -53,11 +53,11 @@
                 <p>精选专区</p>
             </div>
 
-            <div class="goods-select" v-for="item in goodsSelect" :key="item.goods_type_id">
+            <div class="goods-select" v-for="(item,index) in goodsSelect" :key="item.goods_type_id">
                 <router-link :to="'/goods_list?type='+item.all_type_name">
                     <div>
-                        <img :src="'../src/image/select'+item.goods_type_id+'.jpg'" @mouseenter="enter"
-                             @mouseleave="leave"/>
+                        <img :src="goods_type_img[index]" @mouseenter="enter"
+                             @mouseleave="leave" class="type_img"/>
                         <div class="select-into">
                             <span class="iconfont icon-xinbaniconshangchuan-"></span>
                             <span>进入选购</span>
@@ -79,7 +79,17 @@
         data(){
             return{
                 goodsSelect:'',
-                goods:''
+                goods:'',
+                goods_type_img:[
+                  '@/assets/image/select1.jpg',
+                  '@/assets/image/select2.jpg',
+                  '../../../src/assets/image/select3.jpg',
+                  '../../../src/assets/image/select4.jpg',
+                  '../../../src/assets/image/select5.jpg',
+                  '../../../src/assets/image/select6.jpg',
+                  '../../../src/assets/image/select7.jpg',
+                  '../../../src/assets/image/select8.jpg',
+                ]
             }
         },
         created(){
@@ -228,9 +238,9 @@
         display: inline-block;
         margin-left: 3%;
     }
-    .goods-select img{
-        width: 100%;
-        height: 100%;
+    .type_img{
+      width: 100%;
+      height:280px;
     }
     .select_name{
         font-size: 18px;
@@ -274,7 +284,7 @@
         height: 100%;
     }
     .mint-swipe img{
-        width: 92%;
+        width: 90%;
         height: 440px;
         position: absolute;
         left:4.5%;

@@ -156,6 +156,7 @@ export default {
         display: inline-block;
         padding: 1px 6px;
         border: 1px solid #cccccc;
+        cursor: pointer;
     }
     table{
         width:86%;
@@ -308,4 +309,5 @@ export default {
         margin: 4px 43px 0 2px;
         color: white;
     }
+
 </style>

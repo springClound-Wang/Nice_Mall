@@ -52,7 +52,7 @@
             </el-menu>
         </div>
         <div class="shop_home_content">
-            <div>
+            <div style="padding: 20px;">
                 <!--<el-radio-group v-model="isCollapse" style="display: inline-block">-->
                     <!--<el-radio-button :label="true">首页</el-radio-button>-->
                 <!--</el-radio-group>-->
@@ -85,7 +85,7 @@
     }
     .el-submenu__title {
         font-size: 14px;
-        color: #e7eaef;
+        color: #4d4f51;
         padding: 0 20px;
         cursor: pointer;
         -webkit-transition: border-color .3s,background-color .3s,color .3s;
@@ -143,10 +143,10 @@
         },
         methods: {
             handleOpen(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
             }
         }
     }

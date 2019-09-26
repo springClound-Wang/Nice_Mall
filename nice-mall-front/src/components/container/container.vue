@@ -12,7 +12,7 @@
                 <input type="text" value="" name="search" placeholder="连衣裙" style="border-radius: 3px;"
                        v-model="search" @keydown.enter="handletoSearch"/>
                 <!--搜索框-->
-                <router-link :to="'/goods_item?goodsname='+search" @click.native="flushCom">
+                <router-link :to="{path:'/goods_item',query: {goodsname:search,urls:'home/'}}" @click.native="flushCom">
                     <span class="iconfont icon-sousuo"></span>
                 </router-link>
             </label>
@@ -36,7 +36,7 @@
                                            <div class="goods_list_name">{{item.goodsListName}} ></div>
                                            <div class="goods_list_item">
                                                <span v-for="val in item.goodsAll" class="val_item">
-                                                   <router-link :to="'/goods_item?goodsname='+val" @click.native="flushCom">{{val}}</router-link>
+                                                   <router-link :to="{name:'goods_item',path:'/goods_item',query:{goodsname:item.goodsListName+'>'+val,urls:'home/type/'}}" @click.native="flushCom">{{val}}</router-link>
                                                </span>
                                            </div>
                                        </div>
@@ -47,7 +47,7 @@
                         </div>
                 </li>
                 <li><router-link to="/home" @click.native="flushCom" >首页</router-link></li>
-                <li>最后疯抢</li>
+                <li>秒杀</li>
                 <li><router-link to="/goods_list?type=女装" @click.native="flushCom">女装</router-link></li>
                 <li><router-link to="/goods_list?type=男装" @click.native="flushCom">男装</router-link></li>
                 <li><router-link to="/goods_list?type=母婴" @click.native="flushCom">母婴</router-link></li>
@@ -131,12 +131,14 @@
             isLoginTo(){
                 if(this.isLogin === window.localStorage.getItem('username')){
                     //个人中心
-                    this.url='#'
-                }
+                    this.url='/personal_home/person_info'
+                } else {
+                this.url = '/login_sign/login_phone'
+              }
             },
             //回车请求 搜索框
             handletoSearch(){
-                this.$router.push({ path: '/goods_item?goodsname='+this.search });
+                this.$router.push({ path: '/goods_item',query:{goodsname:this.search,urls:'home/' }});
                 this.flushCom();
             },
             //发出请求
@@ -249,6 +251,7 @@
         border-bottom: 1px solid #cccccc;
         display: block;
         padding: 10px 0 5px 0;
+        color: #c84b4b;
     }
     .hide-right-nav span:hover{
         color: #ff5125;
@@ -271,8 +274,8 @@
     }
     /*商品分类下拉菜单*/
     .all_goods_list{
-        width: 1220px;
-        height: 450px;
+        width: 1210px;
+        height: 470px;
         position: absolute;
         border-top: 1px solid #cccccc;
         background: #fff5ee url("../../assets/image/list_bg.png") no-repeat 100% 100%;
@@ -348,6 +351,7 @@
         height:40px !important;
         margin-right: 10px;
         border: 2px solid  #fa5f62;
+        font-size: 14px;
     }
     label .icon-sousuo{
         position: relative;
@@ -420,7 +424,7 @@
     #list{
         border: none;
         width:100%;
-        height: 454px;
+        height: 475px;
         color: white;
         background: linear-gradient(to right, #f1487f, #fe6e5a);
     }

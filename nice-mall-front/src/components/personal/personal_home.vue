@@ -94,6 +94,22 @@
         min-width: 1200px;
         margin: 40px auto;
      }
+    #personal_container .form_item{
+      display:block;
+      margin-top: 15px;
+    }
+    #personal_container .form_item.el-input__icon {
+      height: 100%;
+      width: 25px;
+      text-align: center;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+      line-height: 28px;
+      position: absolute;
+      top: -45px !important;
+      left: 100px;
+    }
+
     .person_content{
         display: inline-block;
         width: 73%;
@@ -111,7 +127,7 @@
         width: 200px;
         min-height: 530px;
     }
-    .el-menu {
+    #personal_container .el-menu {
         border-right: none !important;
         list-style: none;
         position: relative;
@@ -119,7 +135,7 @@
         padding-left: 0;
         background-color: #FFF;
     }
-    .el-input__inner {
+    #personal_container .el-input__inner {
         width: 280px;
     }
 </style>

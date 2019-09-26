@@ -187,11 +187,13 @@ export default {
             if(!this.uploadType){
                 this.toastMsg='请选择类型';
                 this.icon_show =true;
+                return;
             }
             if (this.ruleForm.typename.length <10){
-                this.$message.error('请输入完整类型')
+                this.$message.error('请输入完整类型');
+                return;
             }
-            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addpopular',{
+            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addpopular',{
                 imageDetails:this.imageDetails,
                 imageMains:this.imageMains,
                 uploadType:this.uploadType,
@@ -199,7 +201,7 @@ export default {
             },{
                 headers: {'Authorization': window.localStorage.getItem('token')}
             }).then(res=>{
-                alert(res.data.message);
+              this.$message.success(res.data.message);
             }).catch(err=>{
 
             })
@@ -297,7 +299,7 @@ export default {
         top: 4px;
         margin-right: 0;
     }
-    .el-input {
+    #hot_container .el-input {
         position: relative;
         font-size: 14px;
         height: 50px;
@@ -305,46 +307,46 @@ export default {
         width: 100%;
     }
 
-    .el-select>.el-input {
+    #hot_container .el-select>.el-input {
         display: block;
         width: 100%;
     }
-    .el-button--primary {
+    #hot_container .el-button--primary {
         color: #FFF;
         background-color: #409EFF;
         border-color: #409EFF;
         margin-top: 20px;
         float: right;
     }
-    .el-input__icon {
+    #hot_container .el-input__icon {
         height: 100%;
         width: 25px;
         margin-top: 6px;
         text-align: center;
     }
-    .el-input--suffix .el-input__inner {
+    #hot_container .el-input--suffix .el-input__inner {
         padding-right: 30px;
         width: 250px;
         height: 35px;
         margin: 10px 0;
     }
-    .el-input__prefix, .el-input__suffix {
+    #hot_container .el-input__prefix, .el-input__suffix {
       position: absolute;
       top: 0 !important;
     }
-    .el-form-item {
+    #hot_container .el-form-item {
         margin-bottom: 22px;
         width: 150px;
         margin-top: 15px;
     }
-    .el-form-item__content {
+    #hot_container .el-form-item__content {
         line-height: 40px;
         width:150px !important;
         position: relative;
         font-size: 14px;
         height: 40px;
     }
-    .el-input__inner {
+    #hot_container .el-input__inner {
          width: 150px;
      }
 </style>

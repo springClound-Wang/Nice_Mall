@@ -105,6 +105,7 @@ export default {
   },
   data(){
     return{
+      count: 0,
       isRouterAlive:true,
       isExit: false,
       itemIndex: null,
@@ -116,8 +117,14 @@ export default {
   created(){
     this.isLoginTime(); //检测登录过期
     this.isLoginTo();
+    this.countADD();
   },
   methods:{
+    countADD(){
+      setInterval(()=>{
+        this.count++;
+      },1000)
+    },
     reload () {
       this.isRouterAlive = false;
       this.$nextTick(function () {
@@ -151,6 +158,7 @@ export default {
         if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
           this.$message.warning('登录过期');
           this.removeStorage();
+          this.isLogin = '请登录';
           window.location.reload()
         }
       }
@@ -168,7 +176,7 @@ export default {
           this.isExit = false;
         }
       }).catch(err => {
-        alert(err); //登录过期提示
+        alert("退出登录"+err); //退出登录错误
       });
     },
     //清除信息
@@ -308,5 +316,6 @@ export default {
     padding: 0 8px;
     height: 3em;
     color: white;
+    cursor: pointer;
   }
 </style>

@@ -9,12 +9,12 @@
                 </div>
             </header>
             <div class="popup-body">
-                <form name="body">
+                <form name="body" @submit.prevent="onSubmit">
                     <span><i>*</i>收货人: </span>
                     <input type="text" size="15" value="" name="name" placeholder="收货人姓名"/><br>
                     <span><i>*</i>手机号码: </span>
-                    <input type="text" class="phone" size="15" value="" name="telephone" placeholder="请填写手机号码"/>
-                    <span>备用号码: </span>
+                    <input type="text" class="phone" size="15" value="" name="telephone" placeholder="请填写手机号码"/><br>
+                    <span><i>&nbsp;&nbsp;</i>备用号码: </span>
                     <input type="text" class="phone" size="15" value="" name="othertelephone" placeholder="手机号/固定号码"/><br>
                     <span><i>*</i>收货时间: </span>
                     <select name="time">
@@ -26,13 +26,15 @@
                     <input type="text" name="address" value="" placeholder="省/直辖市 市 县/区 乡镇/街道"><br>
                     <span><i>*</i>详细地址: </span>
                     <input type="text" name="addressinfo" value="" placeholder="请填写详细地址"><br>
-                    <span><i>*</i>地址类型: </span>
-                    <input type="radio" name="addresstype" value="家庭" checked>家庭
-                    <input type="radio" name="addresstype" value="公司">公司
-                    <input type="radio" name="addresstype" value="其他">其他
-                    <hr>
+                    <div class="radio_item">
+                      <span><i>*</i>地址类型: </span>
+                      <input type="radio" name="addresstype" value="家庭" checked>家庭
+                      <input type="radio" name="addresstype" value="公司">公司
+                      <input type="radio" name="addresstype" value="其他">其他
+                    </div>
+
                     <div class="btn-submit">
-                        <button class="btn-green">保存</button>
+                        <button class="btn-green" @click="addAddress">保存</button>
                         <button class="btn-green" @click="close">取消</button>
                     </div>
                 </form>
@@ -46,7 +48,14 @@
         name: 'popup',
         methods:{
             close (){
-                this.$emit('close')
+                this.$emit('close');
+            },
+            onSubmit(){
+              return false;
+            },
+            // TODO  发送请求  添加地址 然后 关闭弹框  刷新页面
+            addAddress(){
+
             }
         }
 
@@ -72,9 +81,9 @@
     .popup {
         background: #FFFFFF;
         position: relative;
-        top:19%;
+        top:15%;
         margin: 0 auto;
-        height: 500px;
+        height: 540px;
         width: 800px;
         box-shadow: 2px 2px 20px 1px;
         overflow-x: auto;
@@ -91,7 +100,7 @@
     .popup-body {
         position: relative;
         margin-left: 10%;
-        padding: 20px 10px;
+        padding:  10px;
     }
     .btn-green {
         color: white;
@@ -123,6 +132,14 @@
         width: 50%;
         color: #2a2a2a;
         height: 35px;
+        margin: 10px 0;
+        border-radius: 4px;
+        padding-left: 20px;
+        border:1px solid #cccccc;
+        -webkit-appearance:none;/*去除阴影边框*/
+        outline: none;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);/*点击高亮的颜色*/
+
     }
     input[type='radio']{
         margin-right: 10px;
@@ -141,6 +158,8 @@
         color: #2a2a2a;
         border: 1px solid #c4c4c6 !important;
         margin-bottom: 10px;
+        margin-left: 2px;
+        border-radius: 4px;
     }
     .btn-submit button:nth-child(1){
         margin-left: 30%;
@@ -150,5 +169,11 @@
     .btn-submit button:nth-child(2){
         background-color: white;
         color: #6d6d72;
+        margin: 20px 0;
+    }
+    .radio_item{
+      margin: 10px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #cccccc;
     }
 </style>

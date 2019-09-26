@@ -5,47 +5,42 @@
             <div id="container"  @mouseenter="viewImage">
                 <div class="leftView">
                     <div class="mask"></div>
-                    <img class="small" :src="showImg">
+                    <img class="small" :src="this.imageMain">
                 </div>
                 <div class="rightView">
-                    <img class="big" :src="showImg">
+                    <img class="big" :src="this.imageMain">
                 </div>
             </div>
             <div class="goods_details_img_list">
-                <img src="../../assets/image/goods_img1.jpg" @click="changeImg"/>
-                <img src="../../assets/image/goods_img2.jpg" @click="changeImg"/>
-                <img src="../../assets/image/goods_img3.jpg" @click="changeImg"/>
-                <img src="../../assets/image/goods_img4.jpg" @click="changeImg"/>
-                <img src="../../assets/image/goods_img5.jpg" @click="changeImg"/>
+                <img  v-for="item in imageShow" :src="item" @click="changeImg"/>
             </div>
         </div>
         <div class="goods_details_desc">
             <div class="goods_details_desc_title">
-                <span>仙女店</span>
-                <span>betu修身显瘦时尚百搭纯色女式休闲裤黑色小脚裤哈伦裤九分裤</span>
-                <span>显瘦版型简单百搭 时视觉上显瘦显腿长</span>
+                <span>{{goodsMain.goodsBrand}}</span>
+                <span>{{goodsName}}</span>
+                <span>{{goodsDesc}}</span>
             </div>
             <div class="goods_details_price">
                 <div>
-                    <span style="margin-left: 20px">疯抢价</span> <span style="font-size: 32px">￥159</span>
+                    <span style="margin-left: 20px">疯抢价</span> <span style="font-size: 32px">￥{{goodsCurPrice}}</span>
                 </div>
                 <div>
-                    <span style="margin:0  20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥189</span>
+                    <span style="margin:0  20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsPrePrice}}</span>
                 </div>
             </div>
-            <div class="goods_details_size">
+            <div class="goods_details_size" v-if="this.size">
                 <span>尺码</span>
-                <button class="btn btn-default" @click="chooseSize">XS</button>
-                <button class="btn btn-default" @click="chooseSize">S</button>
-                <button class="btn btn-default" @click="chooseSize">M</button>
-                <button class="btn btn-default" @click="chooseSize">L</button>
+                <button  v-for="item in size" class="btn btn-default" @click="chooseSize">{{item}}</button>
             </div>
-            <div class="goods_details_size">
+            <div class="goods_details_size" v-if="this.color">
                 <span>颜色</span>
-                <button class="btn btn-default" @click="chooseSize">红色</button>
-                <button class="btn btn-default" @click="chooseSize">黄色</button>
-                <button class="btn btn-default" @click="chooseSize">绿色</button>
-                <button class="btn btn-default" @click="chooseSize">蓝色</button>
+                <button v-for="item in color" class="btn btn-default" @click="chooseSize">{{item}}</button>
+            </div>
+            <br>
+            <div class="goods_details_size" v-if="this.electronic_format">
+              <span>规格</span>
+              <button v-for="item in electronic_format" class="btn btn-default" @click="chooseSize">{{item}}</button>
             </div>
             <br>
             <div class="goods_details_num">
@@ -54,7 +49,7 @@
             </div>
             <div class="goods_details_buy">
                 <button @click="handleAddCar">加入购物车</button>
-                <router-link to="/other_container/goods_order"><button>立即购买</button></router-link>
+                <button @click="handleBuy">立即购买</button>
             </div>
             <hr>
             <div class="goods_details_other">
@@ -81,8 +76,13 @@
                 </div>
                 <hr>
                 <span style="margin-bottom: 10px;display: block">尺码对照表:</span>
+                <table border="1" class="first_table" v-show="this.goodsFlag === 'phone' || this.goodsFlag === 'package'">
+                  <tr style="background-color: white">
+                    <th>无尺码对照</th>
+                  </tr>
+                </table>
                 <!--女装上衣-->
-                <table border="1" class="first_table">
+                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesUpWoman'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>下摆围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th>
@@ -111,7 +111,7 @@
                     </tbody>
                 </table>
                 <!--女装裤子-->
-                <table border="1" class="first_table">
+                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesDownWomen'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>腰围(cm)</th><th>臀围(cm)</th><th>大腿围(cm)</th><th>裤长(cm)</th>
@@ -137,7 +137,7 @@
                     </tbody>
                 </table>
                 <!--男装上衣-->
-                <table border="1" class="first_table">
+                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesUpMen'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th><th>胸围(cm)</th>
@@ -166,7 +166,7 @@
                     </tbody>
                 </table>
                 <!--鞋子-->
-                <table border="1" class="first_table">
+                <table border="1" class="first_table" v-show="this.goodsFlag === 'shoes'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>鞋码	</th><th>欧洲码</th><th>美国码</th><th>脚长(mm)</th><th>中国码</th>
@@ -203,84 +203,79 @@
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品参数 DETAIL</span>
             </div>
             <!--衣服-->
-            <table border="1" class="second_table">
+            <table border="1" class="second_table" v-show="this.goodsType === 'clothes'">
                 <tr>
-                    <th>适用季节:</th><td>春</td><th>款式：</th><td>开衫</td>
+                    <th>适用季节:</th><td>{{goodsDetail.clothesSeason}}</td><th>款式：</th><td>正常</td>
                 </tr>
                 <tr>
-                    <th>适用人群：</th><td>青年</td><th>衣长：</th><td>常规</td>
+                    <th>适用人群：</th><td>{{goodsDetail.clothesPerson}}</td><th>衣长：</th><td>常规</td>
                 </tr>
                 <tr>
                     <th>版型：</th><td>宽松</td><th>面料：</th><td>棉</td>
                 </tr>
                 <tr>
-                    <th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td><th>产地：</th><td>中国</td>
+                    <th>商品名称：</th><td>{{goodsName}}</td><th>产地：</th><td>{{goodsPlace}}</td>
                 </tr>
-            </table>
+            </table >
             <!--鞋子-->
-            <table border="1" class="second_table">
+            <table border="1" class="second_table" v-show="this.goodsType === 'shoes'">
                 <tr>
-                    <th>适用季节:</th><td>春</td><th>品牌：</th><td>无</td>
+                    <th>适用季节:</th><td>{{goodsDetail.shoesSeason}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
                 </tr>
                 <tr>
-                    <th>适用场合：</th><td>青年</td><th>产地：</th><td>中国</td>
+                    <th>适用场合：</th><td>{{goodsDetail.shoesPlace}}</td><th>产地：</th><td>{{goodsPlace}}</td>
                 </tr>
                 <tr>
-                   <th>材质：</th><td>pu</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                   <th>材质：</th><td>{{goodsDetail.shoesMaterial}}</td><th>商品名称：</th><td>{{goodsName}}</td>
                 </tr>
             </table>
             <!--包包-->
-            <table border="1" class="second_table">
+            <table border="1" class="second_table" v-show="this.goodsType=== 'package'">
                 <tr>
                     <th>适用季节:</th><td>春</td><th>品牌：</th><td>无</td>
                 </tr>
                 <tr>
-                    <th>适用性别：</th><td>女</td><th>产地：</th><td>中国</td>
+                    <th>适用性别：</th><td>{{goodsDetail.packageSex}}</td><th>产地：</th><td>{{goodsPlace}}</td>
                 </tr>
                 <tr>
-                    <th>材质：</th><td>pu</td> <th>重量：</th><td>200g</td>
+                    <th>材质：</th><td>{{goodsDetail.packageMaterial}}</td> <th>重量：</th><td>{{goodsDetail.packageWeight}}</td>
                 </tr>
                 <tr>
-                    <th>商品编号：</th><td>100000</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                    <th>商品编号：</th><td>121232300{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsName}}</td>
                 </tr>
             </table>
             <!--电子产品-->
-            <table border="1" class="second_table">
+            <table border="1" class="second_table" v-show="this.goodsType === 'electronic'">
                 <tr>
-                    <th>规格:</th><td>春</td><th>品牌：</th><td>无</td>
+                    <th>规格:</th><td>{{goodsMain.electronicFormat}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
                 </tr>
                 <tr>
-                    <th>系统：</th><td>女</td><th>产地：</th><td>中国</td>
+                    <th>系统：</th><td>{{goodsMain.electronicSystem}}</td><th>产地：</th><td>{{goodsPlace}}</td>
                 </tr>
                 <tr>
-                    <th>是否支持双卡：</th><td>pu</td> <th>分辨率：</th><td>200g</td>
+                    <th>是否支持双卡：</th><td>{{goodsMain.electronicDoubleCard}}</td> <th>分辨率：</th><td>{{goodsMain.electronicResolution}}</td>
                 </tr>
                 <tr>
-                    <th>前置像素：</th><td>pu</td> <th>后置像素：</th><td>200g</td>
+                    <th>前置像素：</th><td>{{goodsMain.electronicFront}}</td> <th>后置像素：</th><td>{{goodsMain.electronicBackend}}</td>
                 </tr>
                 <tr>
-                    <th>屏幕尺寸：</th><td>pu</td> <th>配件：</th><td>非师范计算机覅舒服舒服华为U狐尾花如合肥的父事件返回数据福建省部分</td>
+                    <th>屏幕尺寸：</th><td>{{goodsMain.electronicScreenSize}}</td> <th>配件：</th><td>{{goodsMain.phoneFitting}}</td>
                 </tr>
                 <tr>
-                    <th>商品编号：</th><td>100000</td><th>商品名称：</th><td>2019新品纯棉开襟樱花刺绣牛仔和服外套女装</td>
+                    <th>商品编号：</th><td>100332322{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsName}}</td>
                 </tr>
             </table>
             <div class="goods_details_title">
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品展示  IMAGE</span>
             </div>
             <div class="goods_details_show_img">
-                <img src="../../assets/image/show_img1.jpg"/>
-                <img src="../../assets/image/show_img2.jpg"/>
-                <img src="../../assets/image/show_img3.jpg"/>
-                <img src="../../assets/image/show_img4.jpg"/>
-                <img src="../../assets/image/show_img5.jpg"/>
+                <img  v-for="item in imageDetail" :src="item"/>
             </div>
             <div class="goods_details_title">
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>售后说明  INSTRUCTIONS</span>
             </div>
             <div class="goods_details_instruct">
                 <div style="font-size: 15px;margin: 20px 0">防盗扣请勿剪断，凭此退货</div>
-                <hr>
                 <div style="background-color: #eae8eb">售后说明</div>
                 <div>
                     <div><span class="iconfont icon-yduizhengquekongxin"></span><span>Nice自营</span></div>
@@ -308,9 +303,26 @@ export default {
     name:'goods_detail.vue',
     data(){
         return{
-            showImg:'../src/image/goods_img1.jpg',//默认展示图片
+            electronic_format:'',
+
+            imageMain:'',
+            goodsName:'',
+            goodsDesc:'',
+            goodsPlace:'',
+            goodsCurPrice:'',
+            goodsPrePrice:'',
             goods_num:1,
-            goods_size:''
+            goodsDetail:null,
+            goodsMain:null,
+            goods_size:'',
+            goodsFlag:'clothesUpWoman',
+            goodsType:'clothes',
+            color :[],
+            size:[],
+            imageDetail:[],
+            imageShow:[],
+            storeGoods:'',
+
         }
     },
     created(){
@@ -323,7 +335,21 @@ export default {
                 params: {},
                 headers: {Authorization: window.localStorage.getItem('token')}
             }).then(res=>{
-              alert(res.data);
+              this.imageMain = res.data.data.goodsMain.imageMain;
+              this.goodsName = res.data.data.goodsMain.goodsName;
+              this.goodsDesc = res.data.data.goodsMain.goodsDesc;
+              this.goodsPlace = res.data.data.goodsMain.goodsPlace;
+              this.goodsCurPrice = res.data.data.goodsMain.goodsCurPrice;
+              this.goodsPrePrice = res.data.data.goodsMain.goodsPrePrice;
+              this.goodsFlag = res.data.data.goodsFlag;
+              this.goodsType = res.data.data.goodsType;
+              this.goodsDetail= res.data.data.goodsDetail;
+              this.goodsMain = res.data.data.goodsMain;
+              this.color = res.data.data.color;
+              this.size = res.data.data.size;
+              this.imageDetail = res.data.data.imageDetail;
+              this.imageShow = res.data.data.imageShow;
+              this.storeGoods = res.data.data.storeGoods
           }).catch(err=>{
               // this.$router.push('/not_found');
           })
@@ -345,6 +371,20 @@ export default {
                     console.log(err)
                 })
             }
+        },
+
+        //ToDO 立即购买
+        handleBuy(){
+          let data = [{
+            user_id:1,
+            car_goods_id:this.$route.query.id,
+            car_goods_num:this.goods_num,
+            car_goods_size:this.goods_size,
+            car_goods_img :this.imageMain,
+            car_goods_name:this.goodsName,
+            car_goods_price:this.goodsCurPrice
+          }];
+          this.$router.push({path:'/other_container/goods_order',query:{select_data:JSON.stringify(data)}});
         },
         //选择规格尺寸
         chooseSize(e){
@@ -371,7 +411,7 @@ export default {
         },
         //点击切换图片
         changeImg(e){
-            this.showImg = e.target.src;
+            this.imageMain = e.target.src;
         },
         //鼠标放大 查看图
         viewImage(){
@@ -541,7 +581,7 @@ export default {
     }
     .goods_details_img_list img{
         width: 69px;
-        margin-left: 10px;
+        margin-left: 11px;
         height: 68px;
         border: 1px solid #dedede;
     }

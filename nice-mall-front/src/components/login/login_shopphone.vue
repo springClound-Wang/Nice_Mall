@@ -1,6 +1,6 @@
 <template id="login">
     <div>
-        <form class="form-inline">
+        <form class="form-inline" @submit.prevent="onSubmit">
             <label>
                 <span class="iconfont icon-yonghuming"></span>
                 <input type="text" name="phoneNum"  value="" placeholder="请输入您的手机号" class="form-control" v-model="phoneNum">
@@ -27,6 +27,7 @@
 </template>
 <script>
     export  default {
+        inject: ['reload'],
         data(){
             return{
                 phoneNum:'',
@@ -34,13 +35,15 @@
             }
         },
         methods:{
+            onSubmit(){return false;},
             handleLogin(){
                 let datas ={
                     telephone: this.phoneNum,
                     password: this.password
                 };
                 if(this.phoneNum === '' || this.password === ''){
-                    alert('请填入完整信息')
+                    alert('请填入完整信息');
+                    return
                 }
                 else{
                     let that =this;
@@ -57,7 +60,8 @@
                             window.localStorage["username"] = res.data.data.username;
                             window.localStorage['isshop'] = res.data.data.isshop;
                             window.localStorage['logintime'] = new Date().getTime();
-                            this.$router.push({path: '/home'});
+                            this.$router.push({path: '/shop_home/shop_index'});
+                            window.location.reload();
 
                         }
                         else {

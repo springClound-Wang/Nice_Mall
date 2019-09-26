@@ -25,7 +25,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">等待买家付款<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="warning" plain>立即付款</el-button></li>
+                            <li><el-button type="warning" plain style="margin-left: 20px">查看详情</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待付款<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger" plain>立即付款</el-button></li>
+                            <li><el-button type="danger" plain style="margin-left: 20px">立即付款</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待发货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="primary" plain>联系卖家</el-button></li>
+                            <li><el-button type="primary" plain style="margin-left: 20px">联系卖家</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待收货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="info" plain>查看物流</el-button></li>
+                            <li><el-button type="info" plain style="margin-left: 20px">查看物流</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                             <li>{{item.car_goods_num}}</li>
                             <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
                             <li class="order_status">待评价<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button  type="success" plain>立即评价</el-button></li>
+                            <li><el-button  type="success" plain style="margin-left: 20px">立即评价</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -191,9 +191,11 @@
     }
     .sel_nav_list{
         height: 41px;
+        width: 100%;
         line-height: 45px;
         margin-top: 40px;
         border: 1px solid #dddee1;
+        margin-bottom: 10px;
     }
     .sel_nav_list,.sel_item{
         list-style: none;
@@ -214,7 +216,7 @@
         line-height: 150px;
         float: left;
         text-align: center;
-
+        margin-left: 3px;
     }
     .sel_item:hover{
         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
@@ -230,7 +232,7 @@
     .order_img{
         width: 80px;
         height: 80px;
-        margin: 10px 15px;
+        margin: 30px 15px;
     }
     .goods ul .order_item{
         width: 100%;
@@ -264,4 +266,27 @@
     .sel_item{
         width: 100%;
     }
+</style>
+<style>
+  .el-tabs__nav-wrap {
+    overflow: hidden;
+    position: relative;
+    width: 58%;
+    margin: 20px auto;
+  }
+  .el-tabs__item {
+    padding: 0 20px;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 40px;
+    display: inline-block;
+    list-style: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: #303133;
+    position: relative;
+    width: 30%;
+    text-align: center;
+  }
 </style>

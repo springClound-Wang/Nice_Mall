@@ -1,5 +1,5 @@
 <template>
-    <form class="form-inline" action="" method="post">
+    <form class="form-inline" action="" method="post" @submit.prevent="onSubmit">
         <label>
             <span class="iconfont icon-yonghuming"></span>
             <input type="text" name="phoneNum"  value="" placeholder="请输入您的手机号" class="form-control" v-model="phoneNum">
@@ -40,6 +40,7 @@ export default {
         }
     },
     methods:{
+        onSubmit(){return false;},
         //输入检测
         enterAsscess(){
             let reg=11&& /^((13|14|15|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
@@ -150,9 +151,11 @@ export default {
         margin-left: 56%;
         border: none;
         background: #889fcc;
-        padding: 11px;
+        padding: 12px;
         margin-top: 2px;
         color: #ffffff;
         border-radius: 5px;
+        width: 91px;
+        font-size: 13px;
     }
 </style>
