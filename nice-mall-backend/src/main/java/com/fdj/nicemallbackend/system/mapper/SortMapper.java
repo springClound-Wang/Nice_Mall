@@ -22,4 +22,6 @@ public interface SortMapper extends BaseMapper<Sort> {
     List<Sort> selectAll();
 
     Integer selectByName(String sortName);
+
+    Sort selectBySortId(Integer sortId);
 }

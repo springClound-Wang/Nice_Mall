@@ -1,15 +1,18 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.system.dto.Result;
-import com.fdj.nicemallbackend.system.entity.Business;
-import com.fdj.nicemallbackend.system.mapper.BusinessMapper;
+import com.fdj.nicemallbackend.system.dto.goodsList;
+import com.fdj.nicemallbackend.system.entity.*;
+import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +28,19 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 
     @Autowired
     BusinessMapper businessMapper;
+
+    @Autowired
+    StoreGoodsMapper storeGoodsMapper;
+
+    @Autowired
+    GoodsMapper goodsMapper;
+
+    @Autowired
+    TypeGoodsMapper typeGoodsMapper;
+
+    @Autowired
+    SortMapper sortMapper;
+
 
     /**
      * 查看某用户是否拥有商铺
@@ -66,5 +82,26 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         else{
             return new Result().fail(map,"店铺创建失败!!!");
         }
+    }
+
+    /**
+     * 某店家获取自己店铺的所有商品
+     * @param id
+     * @return
+     */
+    @Override
+    public List<goodsList> getGoodsList(Long id) {
+        Map<String,Object> map = new HashMap<>();
+        Business business = businessMapper.selectByuserId(id);
+        List<goodsList> lists = new ArrayList<>();
+        List<StoreGoods> storeGoods = storeGoodsMapper.selectBybusinessId(business.getBusinessId());
+        for(int i=0;i<storeGoods.size();i++) {
+            Goods goods = goodsMapper.selectAllById(storeGoods.get(i).getGoodsId());
+            TypeGoods typeGoods = typeGoodsMapper.selectByGoodsId(storeGoods.get(i).getGoodsId());
+            Sort sort = sortMapper.selectBySortId(typeGoods.getSortId());
+            goodsList goodslist = new goodsList(sort.getSortName(),goods.getGoodsId(), goods.getGoodsName(), goods.getImageMain(), goods.getGoodsPrePrice(), goods.getGoodsCurPrice(), goods.getGoodsBrand(), storeGoods.get(i).getStoreGoodsNumber(),false,false);
+            lists.add(goodslist);
+        }
+        return lists;
     }
 }

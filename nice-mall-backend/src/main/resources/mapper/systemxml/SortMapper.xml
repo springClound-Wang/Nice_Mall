@@ -18,5 +18,8 @@
     <select id="selectByName" resultType="java.lang.Integer">
         select sort_id from m_sort where sort_name = #{sortName}
     </select>
+    <select id="selectBySortId" resultMap="BaseResultMap">
+        select * from m_sort where sort_id = #{sortId}
+    </select>
 
 </mapper>

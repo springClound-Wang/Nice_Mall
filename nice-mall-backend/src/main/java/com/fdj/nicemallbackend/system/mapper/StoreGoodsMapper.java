@@ -5,6 +5,8 @@ import com.fdj.nicemallbackend.system.entity.StoreGoods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -19,4 +21,6 @@ public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
     void save(StoreGoods storeGoods);
 
     StoreGoods selectBygoodsId(Long goodsId);
+
+    List<StoreGoods> selectBybusinessId(Long id);
 }

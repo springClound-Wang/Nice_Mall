@@ -230,14 +230,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public Set<Findgoods> findByField(String field) {
         List<Integer> type = sortListTypeMapper.selectPartId(field);
-        List<Long> goodsIds = new ArrayList<>();
         Set<Findgoods> goods = new HashSet<>();
         if(!type.isEmpty()) {
             for(int i=0;i<type.size();i++) {
+                List<Long> goodsIds = new ArrayList<>();
                 goodsIds = typeGoodsMapper.selectBytypeId(type.get(i));
-            }
-            for(int j=0;j<goodsIds.size();j++){
-                goods = goodsMapper.selectById(goodsIds.get(j));
+                for(int j=0;j<goodsIds.size();j++){
+                    Findgoods good = goodsMapper.selectById(goodsIds.get(j));
+                    goods.add(good);
+                }
             }
         }
         List<Findgoods> goodspart = goodsMapper.selectFuzzyByfiled(field);
@@ -278,8 +279,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             map.put("goodsDetail",typeShoes);
             map.put("imageDetail",imageDetail);
             map.put("imageShow",imageShow);
-            map.put("clothesColor",goodsColor);
-            map.put("goodsSize",goodsSize);
+            map.put("color",goodsColor);
+            map.put("size",goodsSize);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_ELECTRONIC)){
             TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(goodsId);
@@ -292,8 +293,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             map.put("goodsDetail",typeElectronic);
             map.put("imageDetail",imageDetail);
             map.put("imageShow",imageShow);
-            map.put("electronicColor",electronicColor);
-            map.put("electronicFormat",electronicFormat);
+            map.put("color",electronicColor);
+            map.put("size",electronicFormat);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_PACKAGE)){
             TypePackage typePackage = typePackageMapper.selectByGoodsId(goodsId);
@@ -305,8 +306,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             List<String> packageSize = Arrays.asList(typePackage.getPackageSize().split(","));
             map.put("imageDetail",imageDetail);
             map.put("imageShow",imageShow);
-            map.put("packageColor",packageColor);
-            map.put("packageSize",packageSize);
+            map.put("color",packageColor);
+            map.put("size",packageSize);
             map.put("goodsDetail",typePackage);
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_CLOTHES)){
@@ -341,8 +342,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             List<String> clothesSize = Arrays.asList(typeClothes.getClothesSize().split(","));
             map.put("imageDetail",imageDetail);
             map.put("imageShow",imageShow);
-            map.put("clothesColor",clothesColor);
-            map.put("clothesSize",clothesSize);
+            map.put("color",clothesColor);
+            map.put("size",clothesSize);
             map.put("goodsDetail",typeClothes);
         }
         return new Result().success(map,"查询到了!!!");
@@ -362,7 +363,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         Set<Findgoods> goods = new HashSet<>();
         goodsIds = typeGoodsMapper.selectBytypeId(sortListType.getSortListTypeId());
         for(int j=0;j<goodsIds.size();j++){
-            goods = goodsMapper.selectById(goodsIds.get(j));
+            Findgoods findgoods = goodsMapper.selectById(goodsIds.get(j));
+            goods.add(findgoods);
         }
         return goods;
     }

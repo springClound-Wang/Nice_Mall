@@ -15,5 +15,7 @@
     <select id="selectBygoodsId" resultMap="BaseResultMap">
         select * from m_store_goods where goods_id = #{goodsId}
     </select>
-
+    <select id="selectBybusinessId" resultMap="BaseResultMap">
+        select * from m_store_goods where business_id = #{id}
+    </select>
 </mapper>

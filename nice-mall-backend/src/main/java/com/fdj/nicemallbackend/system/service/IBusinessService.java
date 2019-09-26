@@ -1,8 +1,12 @@
 package com.fdj.nicemallbackend.system.service;
 
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.goodsList;
 import com.fdj.nicemallbackend.system.entity.Business;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,5 +31,11 @@ public interface IBusinessService extends IService<Business> {
      * @return
      */
     Result registerShop(Business business);
+
+    /**
+     *
+     * @return
+     */
+    List<goodsList> getGoodsList(Long id);
 
 }

@@ -3,11 +3,14 @@ package com.fdj.nicemallbackend.system.controller;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.goodsList;
 import com.fdj.nicemallbackend.system.entity.PopularSort;
 import com.fdj.nicemallbackend.system.entity.SortImage;
+import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.fdj.nicemallbackend.system.service.IPopularSortService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
+import com.fdj.nicemallbackend.system.service.impl.BusinessServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,7 @@ import java.util.Map;
  * @Created by xns
  */
 @RestController
+@RequestMapping("/buss")
 public class CommodityController {
 
 
@@ -32,6 +36,9 @@ public class CommodityController {
 
     @Autowired
     IPopularSortService iPopularSortService;
+
+    @Autowired
+    IBusinessService ibusinessService;
 
 
     /**
@@ -71,5 +78,21 @@ public class CommodityController {
     public Result addPopularSort(@RequestBody Map<String,Object> map){
         Result result = iPopularSortService.saveData(map);
         return result;
+    }
+
+    /**
+     * 店家获取自己店铺的所有数据
+     * @param id
+     * @return
+     */
+    @GetMapping("/getgoods/{id}")
+    public Result getGoods(@PathVariable Long id){
+        List<goodsList> goodsLists= ibusinessService.getGoodsList(id);
+        if(goodsLists.isEmpty()){
+            return new Result().fail("店铺暂时没有商品，快去添加吧!!");
+        }
+        else{
+            return new Result().success(goodsLists,"数据查询成功!!");
+        }
     }
 }
