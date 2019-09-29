@@ -95,4 +95,6 @@ public class CommodityController {
             return new Result().success(goodsLists,"数据查询成功!!");
         }
     }
+
+
 }
