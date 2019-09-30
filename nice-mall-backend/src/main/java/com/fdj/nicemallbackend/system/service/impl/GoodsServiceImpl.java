@@ -96,6 +96,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         if(res!=0){
             List<String> list = (List<String>)map.get("clothesSize");
             String size = StringUtils.join(list.toArray(),",");
+
             String color = (String)map.get("clothesColor");
 
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
