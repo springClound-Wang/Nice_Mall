@@ -10,4 +10,7 @@ public class VerifyConsts {
 
     // token缓存前缀
     public static final String TOKEN_CACHE_PREFIX = "nice.cache.token.";
+
+    //秒杀商品缓存前缀
+    public static final String SPIKE_CACHE_PREFIX = "nice.spike";
 }

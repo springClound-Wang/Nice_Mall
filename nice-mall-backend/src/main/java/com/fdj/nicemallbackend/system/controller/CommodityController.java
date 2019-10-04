@@ -6,10 +6,8 @@ import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.goodsList;
 import com.fdj.nicemallbackend.system.entity.PopularSort;
 import com.fdj.nicemallbackend.system.entity.SortImage;
-import com.fdj.nicemallbackend.system.service.IBusinessService;
-import com.fdj.nicemallbackend.system.service.IGoodsService;
-import com.fdj.nicemallbackend.system.service.IPopularSortService;
-import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
+import com.fdj.nicemallbackend.system.entity.Spike;
+import com.fdj.nicemallbackend.system.service.*;
 import com.fdj.nicemallbackend.system.service.impl.BusinessServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +37,9 @@ public class CommodityController {
 
     @Autowired
     IBusinessService ibusinessService;
+
+    @Autowired
+    ISpikeService iSpikeService;
 
 
     /**
@@ -96,5 +97,11 @@ public class CommodityController {
         }
     }
 
+
+    @PostMapping("/Spike")
+    public Result addSpike(@RequestBody Map<String,Object> map){
+        Result result = iSpikeService.addSpikes(map);
+        return null;
+    }
 
 }

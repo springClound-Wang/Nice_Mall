@@ -2,6 +2,7 @@ package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
+import com.fdj.nicemallbackend.common.utils.TypeJudgeUtil;
 import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.*;
@@ -313,30 +314,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
         if(sort.getSortEnglishName().equals(TypeConsts.TYPE_CLOTHES)){
             map.put("goodsType","clothes");
+            TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(goodsId);
             SortListName sortListName = sortListNameMapper.selectById(typeGoods.getSortListNameId());
             SortListType sortListType = sortListTypeMapper.selectById(typeGoods.getSortListTypeId());
-            TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(goodsId);
-            if(sortListName.getSortListName().contains(("裤"))) {
-                if (sortListType.getSortListName().contains("女")) {
-                    map.put("goodsFlag","clothesDownWoman");
-                }else if(sortListType.getSortListName().contains("男")){
-                    map.put("goodsFlag","clothesDownMen");
-                }
-            }
-            else{
-                if(sortListType.getSortListName().contains("裙")){
-                    map.put("goodsFlag","clothesSkirt");
-                }
-                else if(sortListName.getSortListName().contains("女")){
-                    map.put("goodsFlag","clothesUpWoman");
-                }
-                else if(sortListName.getSortListName().contains("男")){
-                    map.put("goodsFlag","clothesUpMen");
-                }
-                else{
-                    map.put("goodsFlag","clothesUpWoman");
-                }
-            }
+            map.put("goodsFlag",TypeJudgeUtil.judgeType(sortListName,sortListType));
             List<String> imageDetail = Arrays.asList(typeClothes.getImageDetail().split(","));
             List<String> imageShow = Arrays.asList(typeClothes.getImageShow().split(","));
             List<String> clothesColor = Arrays.asList(typeClothes.getClothesColor().split(","));
