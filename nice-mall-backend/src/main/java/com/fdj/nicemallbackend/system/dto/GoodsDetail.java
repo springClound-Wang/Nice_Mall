@@ -32,9 +32,13 @@ public class GoodsDetail<T> {
 
     T goodsDetail;
 
+    Long storeGoodsNumber;
+
+    Long stockGoodsNumber;
+
     LocalDateTime endTime;
 
-    public GoodsDetail(Goods goodsMain,String storeGoods,String goodsType, String goodsFlag, List<String> imageDetail, List<String> imageShow, List<String> color, List<String> size, T goodsDetail, LocalDateTime endTime){
+    public GoodsDetail(Goods goodsMain,String storeGoods,String goodsType, String goodsFlag, List<String> imageDetail, List<String> imageShow, List<String> color, List<String> size, T goodsDetail,Long storeGoodsNumber,Long stockGoodsNumber, LocalDateTime endTime){
         this.goodsMain=goodsMain;
         this.storeGoods=storeGoods;
         this.goodsType=goodsType;
@@ -44,6 +48,8 @@ public class GoodsDetail<T> {
         this.color=color;
         this.size=size;
         this.goodsDetail=goodsDetail;
+        this.storeGoodsNumber=storeGoodsNumber;
+        this.stockGoodsNumber=stockGoodsNumber;
         this.endTime=endTime;
     }
 

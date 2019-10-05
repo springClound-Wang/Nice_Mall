@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.controller;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.dto.goodsList;
 import com.fdj.nicemallbackend.system.entity.PopularSort;
 import com.fdj.nicemallbackend.system.entity.SortImage;
@@ -98,10 +99,21 @@ public class CommodityController {
     }
 
 
-    @PostMapping("/Spike")
-    public Result addSpike(@RequestBody Map<String,Object> map){
-        Result result = iSpikeService.addSpikes(map);
-        return null;
+    /**
+     * 商品疯抢
+     * @param lists
+     * @return
+     */
+    @PostMapping("/spike")
+    public Result addSpike(@RequestBody List<Spikes> lists){
+        Result result = iSpikeService.addSpikes(lists);
+        return result;
     }
 
+
+//    @GetMapping("/spike/{goodsId}")
+//    public Result getNew(@PathVariable Long goodsId){
+//        Result result = iSpikeService.getPartNews(goodsId);
+//        return result;
+//    }
 }

@@ -7,6 +7,7 @@ import com.fdj.nicemallbackend.common.utils.RedisUtil;
 import com.fdj.nicemallbackend.common.utils.TypeJudgeUtil;
 import com.fdj.nicemallbackend.system.dto.GoodsDetail;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.entity.*;
 import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.ISpikeService;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -69,62 +71,78 @@ public class SpikeServiceImpl extends ServiceImpl<SpikeMapper, Spike> implements
     @Autowired
     SortListTypeMapper sortListTypeMapper;
 
+
+
+
+
+
+
     /**
      * 添加秒杀商品,默认为当天内的秒杀
-     * @param map
+     * @param lists
      * @return
      */
     @Transactional
     @Override
-    public Result addSpikes(Map<String, Object> map) {
-        List<Long> crazyGoodsId = (List<Long>)map.get("goodsCrazyList");
+    public Result addSpikes(List <Spikes> lists) {
         RedisUtil redisUtil = new RedisUtil();
-        for(int i=0;i<crazyGoodsId.size();i++){
-            Goods goods = goodsMapper.selectAllById(crazyGoodsId.get(i));
-            StoreGoods storeGoods = storeGoodsMapper.selectBygoodsId(crazyGoodsId.get(i));
+        for(int i=0;i<lists.size();i++){
+            Goods goods = goodsMapper.selectAllById(Long.valueOf(String.valueOf(lists.get(i).getGoodsId())));
+            StoreGoods storeGoods = storeGoodsMapper.selectBygoodsId(Long.valueOf(String.valueOf(lists.get(i).getGoodsId())));
             Business business = businessMapper.selectByBussinessId(storeGoods.getBusinessId());
-            TypeGoods typeGoods = typeGoodsMapper.selectByGoodsId(crazyGoodsId.get(i));
+            TypeGoods typeGoods = typeGoodsMapper.selectByGoodsId(Long.valueOf(String.valueOf(lists.get(i).getGoodsId())));
             Sort sort = sortMapper.selectBySortId(typeGoods.getSortId());
             LocalDateTime start = LocalDateTime.now();
-            Duration duration = Duration.between(start,(LocalDateTime) map.get("endTime"));
+            Duration duration = Duration.between(start,(lists.get(i)).getEndTime());
+            System.out.println("*%&&&&%*"+duration.toMinutes()*60+"秒过期");
             if(TypeConsts.TYPE_CLOTHES.equals(sort.getSortEnglishName())){
-                TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(crazyGoodsId.get(i));
+                TypeClothes typeClothes = typeClothesMapper.selectByGoodsId(Long.valueOf(String.valueOf(lists.get(i).getGoodsId())));
                 SortListName sortListName = sortListNameMapper.selectById(typeGoods.getSortListNameId());
                 SortListType sortListType = sortListTypeMapper.selectById(typeGoods.getSortListTypeId());
                 List<String> imageDetail = Arrays.asList(typeClothes.getImageDetail().split(","));
                 List<String> imageShow = Arrays.asList(typeClothes.getImageShow().split(","));
                 List<String> color = Arrays.asList(typeClothes.getClothesColor().split(","));
                 List<String> size = Arrays.asList(typeClothes.getClothesSize().split(","));
-                GoodsDetail<TypeClothes> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"clothes", TypeJudgeUtil.judgeType(sortListName,sortListType),imageDetail,imageShow,color,size,typeClothes,(LocalDateTime)map.get("endTime"));
-                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+crazyGoodsId.get(i),goodsAll,duration.toMinutes()*60);
+                GoodsDetail<TypeClothes> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"clothes", TypeJudgeUtil.judgeType(sortListName,sortListType),imageDetail,imageShow,color,size,typeClothes,lists.get(i).getStoreGoodsNumber(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getEndTime());
+                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+lists.get(i).getGoodsId(),goodsAll,duration.toMinutes()*60);
             }else if(TypeConsts.TYPE_SHOES.equals(sort.getSortEnglishName())){
-                TypeShoes typeShoes = typeShoesMapper.selectByGoodsId(crazyGoodsId.get(i));
+                TypeShoes typeShoes = typeShoesMapper.selectByGoodsId(Long.valueOf(String.valueOf(String.valueOf(lists.get(i).getGoodsId()))));
                 List<String> imageDetail = Arrays.asList(typeShoes.getImageDetail().split(","));
                 List<String> imageShow = Arrays.asList(typeShoes.getImageShow().split(","));
                 List<String> color = Arrays.asList(typeShoes.getShoesColor().split(","));
                 List<String> size = Arrays.asList(typeShoes.getShoesSize().split(","));
-                GoodsDetail<TypeShoes> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"shoes","shoes" ,imageDetail,imageShow,color,size,typeShoes,(LocalDateTime)map.get("endTime"));
-                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+crazyGoodsId.get(i),goodsAll,duration.toMinutes()*60);
+                GoodsDetail<TypeShoes> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"shoes","shoes" ,imageDetail,imageShow,color,size,typeShoes,lists.get(i).getStoreGoodsNumber(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getEndTime());
+                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+String.valueOf(lists.get(i).getGoodsId()),goodsAll,duration.toMinutes()*60);
             }else if(TypeConsts.TYPE_PACKAGE.equals(sort.getSortEnglishName())){
-                TypePackage typePackage = typePackageMapper.selectByGoodsId(crazyGoodsId.get(i));
+                TypePackage typePackage = typePackageMapper.selectByGoodsId(Long.valueOf(String.valueOf(String.valueOf(lists.get(i).getGoodsId()))));
                 List<String> imageDetail = Arrays.asList(typePackage.getImageDetail().split(","));
                 List<String> imageShow = Arrays.asList(typePackage.getImageShow().split(","));
                 List<String> color = Arrays.asList(typePackage.getPackageColor().split(","));
                 List<String> size = Arrays.asList(typePackage.getPackageSize().split(","));
-                GoodsDetail<TypePackage> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"package","package" ,imageDetail,imageShow,color,size,typePackage,(LocalDateTime)map.get("endTime"));
-                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+crazyGoodsId.get(i),goodsAll,duration.toMinutes()*60);
+                GoodsDetail<TypePackage> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"package","package" ,imageDetail,imageShow,color,size,typePackage,lists.get(i).getStoreGoodsNumber(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getEndTime());
+                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+String.valueOf(lists.get(i).getGoodsId()),goodsAll,duration.toMinutes()*60);
             }else if(TypeConsts.TYPE_ELECTRONIC.equals(sort.getSortEnglishName())){
-                TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(crazyGoodsId.get(i));
+                TypeElectronic typeElectronic = typeElectronicMapper.selectByGoodsId(Long.valueOf(String.valueOf(String.valueOf(lists.get(i).getGoodsId()))));
                 List<String> imageDetail = Arrays.asList(typeElectronic.getImageDetail().split(","));
                 List<String> imageShow = Arrays.asList(typeElectronic.getImageShow().split(","));
                 List<String> color = Arrays.asList(typeElectronic.getElectronicColor().split(","));
                 List<String> size = Arrays.asList(typeElectronic.getElectronicFormat().split(","));
-                GoodsDetail<TypeElectronic> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"shoes","shoes" ,imageDetail,imageShow,color,size,typeElectronic,(LocalDateTime)map.get("endTime"));
-                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+crazyGoodsId.get(i),goodsAll,duration.toMinutes()*60);
+                GoodsDetail<TypeElectronic> goodsAll = new GoodsDetail<>(goods,business.getStoreName(),"shoes","shoes" ,imageDetail,imageShow,color,size,typeElectronic,lists.get(i).getStoreGoodsNumber(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getEndTime());
+                redisUtil.set(VerifyConsts.SPIKE_CACHE_PREFIX+Long.valueOf(String.valueOf(String.valueOf(lists.get(i).getGoodsId()))),goodsAll,duration.toMinutes()*60);
             }
-            Spike spike = new Spike(crazyGoodsId.get(i),sort.getSortId(),storeGoods.getBusinessId(),goods.getGoodsPrePrice(),BigDecimal.valueOf((Long)map.get("goodsCurPrice")),(Long)map.get("storeGoodsNumber"),(Long)map.get("storeGoodsNUmber"),(LocalDateTime)map.get("startTime"),(LocalDateTime)map.get("endTime"));
+            Spike spike = new Spike(Long.valueOf(String.valueOf(String.valueOf(lists.get(i).getGoodsId()))),sort.getSortId(),storeGoods.getBusinessId(),goods.getGoodsPrePrice(),lists.get(i).getGoodsCurPrice(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getStoreGoodsNumber(),lists.get(i).getStartTime(),lists.get(i).getEndTime());
             spikeMapper.save(spike);
         }
         return new Result().success("添加成功!!!");
     }
+
+    /**
+     *
+     * @param goodsId
+     * @return
+     */
+ /*   @Override
+    public Result getPartNews(Long goodsId) {
+        goodsMapper.selectPart();
+    }*/
 }
