@@ -4,15 +4,18 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.SortImage">
-        <id column="image_main_id" property="imageMainId" />
-        <result column="upload_type" property="uploadType" />
-        <result column="image_mains" property="imageMains" />
+        <id column="image_main_id" property="imageMainId"/>
+        <result column="upload_type" property="uploadType"/>
+        <result column="image_mains" property="imageMains"/>
     </resultMap>
     <insert id="save" useGeneratedKeys="true" keyProperty="imageMainId" keyColumn="image_main_id">
-          insert into m_sort_image values(NULL,#{uploadType} ,#{imageMains} )
+        insert into m_sort_image
+        values (NULL, #{uploadType}, #{imageMains})
     </insert>
     <select id="selectByUploadType" resultMap="BaseResultMap">
-        select * from m_sort_image where upload_type = #{type}
+        select *
+        from m_sort_image
+        where upload_type = #{type}
     </select>
 
 </mapper>

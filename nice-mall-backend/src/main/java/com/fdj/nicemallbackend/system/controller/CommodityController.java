@@ -111,9 +111,9 @@ public class CommodityController {
     }
 
 
-//    @GetMapping("/spike/{goodsId}")
-//    public Result getNew(@PathVariable Long goodsId){
-//        Result result = iSpikeService.getPartNews(goodsId);
-//        return result;
-//    }
+    @GetMapping("/spike/{goodsId}")
+    public Result getNew(@PathVariable Long goodsId){
+        Result result = iSpikeService.getPartNews(goodsId);
+        return result;
+    }
 }

@@ -116,6 +116,7 @@ public class RedisUtil {
         try {
             if(time>0){
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+                System.out.println(time);
             }else{
                 set(key, value);
             }

@@ -1,6 +1,5 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
-import com.fdj.nicemallbackend.common.domain.SortConsts;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.domain.VerifyConsts;
 import com.fdj.nicemallbackend.common.utils.RedisUtil;
@@ -16,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -70,11 +66,6 @@ public class SpikeServiceImpl extends ServiceImpl<SpikeMapper, Spike> implements
 
     @Autowired
     SortListTypeMapper sortListTypeMapper;
-
-
-
-
-
 
 
     /**
@@ -137,12 +128,15 @@ public class SpikeServiceImpl extends ServiceImpl<SpikeMapper, Spike> implements
     }
 
     /**
-     *
+     *获得需要修改的商品的部分原信息，方便进行降价
      * @param goodsId
      * @return
      */
- /*   @Override
+    @Override
     public Result getPartNews(Long goodsId) {
-        goodsMapper.selectPart();
-    }*/
+        Spikes spikes = goodsMapper.selectPart(goodsId);
+        spikes.setStartTime(null);
+        spikes.setEndTime(null);
+        return new Result().success(spikes,"查询到了!");
+    }
 }

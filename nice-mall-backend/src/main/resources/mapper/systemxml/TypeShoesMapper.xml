@@ -4,21 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeShoes">
-        <id column="shoes_id" property="shoesId" />
-        <result column="goods_id" property="goodsId" />
-        <result column="shoes_size" property="shoesSize" />
-        <result column="shoes_color" property="shoesColor" />
-        <result column="shoes_season" property="shoesSeason" />
-        <result column="shoes_place" property="shoesPlace" />
-        <result column="shoes_material" property="shoesMaterial" />
-        <result column="image_show" property="imageShow" />
-        <result column="image_detail" property="imageDetail" />
+        <id column="shoes_id" property="shoesId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="shoes_size" property="shoesSize"/>
+        <result column="shoes_color" property="shoesColor"/>
+        <result column="shoes_season" property="shoesSeason"/>
+        <result column="shoes_place" property="shoesPlace"/>
+        <result column="shoes_material" property="shoesMaterial"/>
+        <result column="image_show" property="imageShow"/>
+        <result column="image_detail" property="imageDetail"/>
     </resultMap>
     <insert id="save">
-        insert into type_shoes values(NULL,#{goodsId} ,#{shoesSize} ,#{shoesColor} ,#{shoesSeason} ,#{shoesPlace} ,#{shoesMaterial},#{imageShow} ,#{imageDetail}  )
+        insert into type_shoes
+        values (NULL, #{goodsId}, #{shoesSize}, #{shoesColor}, #{shoesSeason}, #{shoesPlace}, #{shoesMaterial},
+                #{imageShow}, #{imageDetail})
     </insert>
     <select id="selectByGoodsId" resultMap="BaseResultMap">
-        select * from type_shoes where goods_id = #{goodsId}
+        select *
+        from type_shoes
+        where goods_id = #{goodsId}
     </select>
 
 </mapper>

@@ -22,6 +22,11 @@ spring:
         max-wait: 10000
     timeout: 0
 
+  #开启p6spy打印功能
+  dynamic:
+    p6spy: true
+
+
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath:mapper/*/*.xml
@@ -40,3 +45,7 @@ mybatis:
 
 debug: true
 
+#开启p6spy打印功能
+spring:
+  datasource:
+    dy

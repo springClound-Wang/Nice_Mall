@@ -4,21 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Spike">
-        <id column="spike_id" property="spikeId" />
-        <result column="goods_id" property="goodsId" />
-        <result column="goods_type_id" property="goodsTypeId" />
-        <result column="business_id" property="businessId" />
-        <result column="pre_price" property="prePrice" />
-        <result column="spike_price" property="spikePrice" />
-        <result column="spike_number" property="spikeNumber" />
-        <result column="spike_stock_number" property="spikeStockNumber" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
-        <result column="spike_state" property="spikeState" />
-        <result column="create_time" property="createTime" />
+        <id column="spike_id" property="spikeId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_type_id" property="goodsTypeId"/>
+        <result column="business_id" property="businessId"/>
+        <result column="pre_price" property="prePrice"/>
+        <result column="spike_price" property="spikePrice"/>
+        <result column="spike_number" property="spikeNumber"/>
+        <result column="spike_stock_number" property="spikeStockNumber"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="spike_state" property="spikeState"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
     <insert id="save">
-        insert into m_spike values (NULL,#{goodsId} ,#{goodsTypeId} ,#{businessId},#{prePrice} ,#{spikePrice} ,#{spikeNumber} ,#{spikeStockNumber} ,#{startTime} ,#{endTime} ,1,NOW())
+        insert into m_spike
+        values (NULL, #{goodsId}, #{goodsTypeId}, #{businessId}, #{prePrice}, #{spikePrice}, #{spikeNumber},
+                #{spikeStockNumber}, #{startTime}, #{endTime}, 1, NOW())
     </insert>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.fdj.nicemallbackend.system.mapper;
 
 import com.fdj.nicemallbackend.system.dto.Findgoods;
+import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,4 +32,5 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     Goods selectAllById(Long goodsId);
 
 
+    Spikes selectPart(Long goodsId);
 }

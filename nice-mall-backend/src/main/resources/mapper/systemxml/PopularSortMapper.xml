@@ -4,16 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.PopularSort">
-        <id column="popular_id" property="popularId" />
-        <result column="image_main_id" property="imageMainId" />
-        <result column="type_name" property="typeName" />
-        <result column="image_details" property="imageDetails" />
+        <id column="popular_id" property="popularId"/>
+        <result column="image_main_id" property="imageMainId"/>
+        <result column="type_name" property="typeName"/>
+        <result column="image_details" property="imageDetails"/>
     </resultMap>
     <insert id="save">
-        insert into m_popular_sort values (NULL,#{imageMainId} ,#{typeName} ,#{imageDetails} )
+        insert into m_popular_sort
+        values (NULL, #{imageMainId}, #{typeName}, #{imageDetails})
     </insert>
     <select id="selectByImageMainId" resultType="com.fdj.nicemallbackend.system.dto.HotSort">
-        select type_name,image_details from m_popular_sort where image_main_id=#{imageMainId}
+        select type_name, image_details
+        from m_popular_sort
+        where image_main_id = #{imageMainId}
     </select>
 
 

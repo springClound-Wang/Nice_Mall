@@ -20,5 +20,5 @@ public interface ISpikeService extends IService<Spike> {
 
     Result addSpikes(List<Spikes> lists);
 
-//    Result getPartNews(Long goodsId);
+    Result getPartNews(Long goodsId);
 }

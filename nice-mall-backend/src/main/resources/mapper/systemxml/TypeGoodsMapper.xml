@@ -4,24 +4,33 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeGoods">
-        <result column="sort_id" property="sortId" />
-        <result column="sort_list_name_id" property="sortListNameId" />
-        <result column="sort_list_type_id" property="sortListTypeId" />
-        <result column="goods_id" property="goodsId" />
+        <result column="sort_id" property="sortId"/>
+        <result column="sort_list_name_id" property="sortListNameId"/>
+        <result column="sort_list_type_id" property="sortListTypeId"/>
+        <result column="goods_id" property="goodsId"/>
     </resultMap>
     <insert id="save">
-        insert into m_type_goods values (#{sortId} ,#{sortListNameId} ,#{sortListTypeId} ,#{goodsId})
+        insert into m_type_goods
+        values (#{sortId}, #{sortListNameId}, #{sortListTypeId}, #{goodsId})
     </insert>
     <select id="selectBytypeId" resultType="java.lang.Long">
-        select goods_id from m_type_goods where sort_list_type_id = #{listTypeId}
+        select goods_id
+        from m_type_goods
+        where sort_list_type_id = #{listTypeId}
     </select>
     <select id="selectByListNameId" resultType="java.lang.Long">
-        select goods_id from m_type_goods where sort_list_name_id  = #{listNameId}
+        select goods_id
+        from m_type_goods
+        where sort_list_name_id = #{listNameId}
     </select>
     <select id="selectBySortId" resultType="java.lang.Long">
-        select goods_id from m_type_goods where sort_id = #{sortId}
+        select goods_id
+        from m_type_goods
+        where sort_id = #{sortId}
     </select>
     <select id="selectByGoodsId" resultMap="BaseResultMap">
-        select * from m_type_goods where goods_id = #{goodsId}
+        select *
+        from m_type_goods
+        where goods_id = #{goodsId}
     </select>
 </mapper>

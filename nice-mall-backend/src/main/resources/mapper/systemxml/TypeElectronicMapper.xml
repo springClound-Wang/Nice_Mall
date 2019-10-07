@@ -4,24 +4,29 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.TypeElectronic">
-        <id column="electronic_id" property="electronicId" />
-        <result column="goods_id" property="goodsId" />
-        <result column="electronic_color" property="electronicColor" />
-        <result column="electronic_format" property="electronicFormat" />
-        <result column="electronic_system" property="electronicSystem" />
-        <result column="electronic_double_card" property="electronicDoubleCard" />
-        <result column="electronic_resolution" property="electronicResolution" />
-        <result column="electronic_front" property="electronicFront" />
-        <result column="electronic_backend" property="electronicBackend" />
-        <result column="electronic_screen_size" property="electronicScreenSize" />
-        <result column="phone_fitting" property="phoneFitting" />
-        <result column="image_show" property="imageShow" />
-        <result column="image_detail" property="imageDetail" />
+        <id column="electronic_id" property="electronicId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="electronic_color" property="electronicColor"/>
+        <result column="electronic_format" property="electronicFormat"/>
+        <result column="electronic_system" property="electronicSystem"/>
+        <result column="electronic_double_card" property="electronicDoubleCard"/>
+        <result column="electronic_resolution" property="electronicResolution"/>
+        <result column="electronic_front" property="electronicFront"/>
+        <result column="electronic_backend" property="electronicBackend"/>
+        <result column="electronic_screen_size" property="electronicScreenSize"/>
+        <result column="phone_fitting" property="phoneFitting"/>
+        <result column="image_show" property="imageShow"/>
+        <result column="image_detail" property="imageDetail"/>
     </resultMap>
     <insert id="save">
-        insert into type_electronic values(NULL,#{goodsId} ,#{electronicColor} ,#{electronicFormat} ,#{electronicSystem} ,#{electronicDoubleCard} ,#{electronicResolution} ,#{electronicFront} ,#{electronicBackend} ,#{electronicScreenSize} ,#{phoneFitting},#{imageShow} ,#{imageDetail})
+        insert into type_electronic
+        values (NULL, #{goodsId}, #{electronicColor}, #{electronicFormat}, #{electronicSystem}, #{electronicDoubleCard},
+                #{electronicResolution}, #{electronicFront}, #{electronicBackend}, #{electronicScreenSize},
+                #{phoneFitting}, #{imageShow}, #{imageDetail})
     </insert>
     <select id="selectByGoodsId" resultMap="BaseResultMap">
-        select * from type_electronic where goods_id = #{goodsId}
+        select *
+        from type_electronic
+        where goods_id = #{goodsId}
     </select>
 </mapper>

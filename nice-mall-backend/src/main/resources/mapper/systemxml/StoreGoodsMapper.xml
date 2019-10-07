@@ -4,18 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.StoreGoods">
-        <id column="business_id" property="businessId" />
-        <result column="goods_id" property="goodsId" />
-        <result column="store_goods_number" property="storeGoodsNumber" />
-        <result column="goods_sales_volume" property="goodsSalesVolume" />
+        <id column="business_id" property="businessId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="store_goods_number" property="storeGoodsNumber"/>
+        <result column="goods_sales_volume" property="goodsSalesVolume"/>
     </resultMap>
     <insert id="save">
-        insert into m_store_goods values(#{businessId} ,#{goodsId,jdbcType=BIGINT} ,#{storeGoodsNumber} ,#{goodsSalesVolume,jdbcType=BIGINT} )
+        insert into m_store_goods
+        values (#{businessId}, #{goodsId,jdbcType=BIGINT}, #{storeGoodsNumber}, #{goodsSalesVolume,jdbcType=BIGINT})
     </insert>
     <select id="selectBygoodsId" resultMap="BaseResultMap">
-        select * from m_store_goods where goods_id = #{goodsId}
+        select *
+        from m_store_goods
+        where goods_id = #{goodsId}
     </select>
     <select id="selectBybusinessId" resultMap="BaseResultMap">
-        select * from m_store_goods where business_id = #{id}
+        select *
+        from m_store_goods
+        where business_id = #{id}
     </select>
 </mapper>
