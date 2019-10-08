@@ -44,8 +44,3 @@ mybatis:
     map-underscore-to-camel-case: true
 
 debug: true
-
-#开启p6spy打印功能
-spring:
-  datasource:
-    dy

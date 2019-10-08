@@ -101,18 +101,24 @@ public class CommodityController {
 
     /**
      * 商品疯抢
-     * @param lists
+     * @param map
      * @return
      */
     @PostMapping("/spike")
-    public Result addSpike(@RequestBody List<Spikes> lists){
+    public Result addSpike(@RequestBody Map<String,Object> map){
+        List<Spikes> lists = (List<Spikes>) map.get("modifyGoodsList");
         Result result = iSpikeService.addSpikes(lists);
         return result;
     }
 
 
-    @GetMapping("/spike/{goodsId}")
-    public Result getNew(@PathVariable Long goodsId){
+    /**
+     * 修改商品信息时候，获取商品的部分信息
+     * @param goodsId
+     * @return
+     */
+    @GetMapping("/spike")
+    public Result getNew(@RequestParam (value = "goodsId") Long goodsId){
         Result result = iSpikeService.getPartNews(goodsId);
         return result;
     }

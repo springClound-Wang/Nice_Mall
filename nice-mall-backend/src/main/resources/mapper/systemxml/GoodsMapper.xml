@@ -45,10 +45,15 @@
         where goods_id = #{goodsId}
     </select>
     <select id="selectPart" resultMap="SpikeNeedResult">
-        select goods_cur_price, goods_pre_price, store_goods_number
+        select m_goods.goods_id,
+               m_goods.goods_cur_price,
+               m_goods.goods_pre_price,
+               NULL,
+               NULL,
+               m_store_goods.store_goods_number
         from m_goods,
              m_store_goods
         where m_goods.goods_id = #{goodsId}
-          and m_store_goods.goods_id = #{goodsId}
+          and m_store_goods.goods_id = m_goods.goods_id
     </select>
 </mapper>
