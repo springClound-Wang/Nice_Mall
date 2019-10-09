@@ -105,8 +105,8 @@ public class CommodityController {
      * @return
      */
     @PostMapping("/spike")
-    public Result addSpike(@RequestBody Map<String,Object> map){
-        List<Spikes> lists = (List<Spikes>) map.get("modifyGoodsList");
+    public Result addSpike(@RequestBody Map<String,List<Spikes>> map){
+        List<Spikes> lists = map.get("modifyGoodsList");
         Result result = iSpikeService.addSpikes(lists);
         return result;
     }

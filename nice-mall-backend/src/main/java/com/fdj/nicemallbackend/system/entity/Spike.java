@@ -91,6 +91,9 @@ public class Spike extends Model<Spike> {
         return this.spikeId;
     }
 
+    public Spike(){
+    }
+
     public Spike(Long goodsId,Integer goodsTypeId,Long businessId,BigDecimal prePrice,BigDecimal spikePrice,Long spikeNumber,Long spikeStockNumber,LocalDateTime startTime,LocalDateTime endTime){
         this.goodsId=goodsId;
         this.goodsTypeId=goodsTypeId;

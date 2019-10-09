@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.dto;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @Created by xns
  */
 @Data
-public class GoodsDetail<T> {
+public class GoodsDetail<T> implements Serializable {
     Goods goodsMain;
 
     String storeGoods;

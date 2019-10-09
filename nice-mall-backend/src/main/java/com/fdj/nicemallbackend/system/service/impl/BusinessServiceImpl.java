@@ -6,10 +6,12 @@ import com.fdj.nicemallbackend.system.entity.*;
 import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fdj.nicemallbackend.system.service.ISpikeService;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,9 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 
     @Autowired
     SortMapper sortMapper;
+
+    @Autowired
+    SpikeMapper spikeMapper;
 
 
     /**
@@ -91,15 +96,25 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
      */
     @Override
     public List<goodsList> getGoodsList(Long id) {
+        boolean goodsCrazy = false;
         Map<String,Object> map = new HashMap<>();
         Business business = businessMapper.selectByuserId(id);
         List<goodsList> lists = new ArrayList<>();
         List<StoreGoods> storeGoods = storeGoodsMapper.selectBybusinessId(business.getBusinessId());
         for(int i=0;i<storeGoods.size();i++) {
+            goodsCrazy = false;
+            List<Spike> spike = spikeMapper.selectByGoodsId(storeGoods.get(i).getGoodsId());
+            for(int j=0;j<spike.size();j++) {
+                if (spike.get(j) != null) {
+                    if (LocalDateTime.now().isBefore(spike.get(j).getEndTime())) {
+                        goodsCrazy = true;
+                    }
+                }
+            }
             Goods goods = goodsMapper.selectAllById(storeGoods.get(i).getGoodsId());
             TypeGoods typeGoods = typeGoodsMapper.selectByGoodsId(storeGoods.get(i).getGoodsId());
             Sort sort = sortMapper.selectBySortId(typeGoods.getSortId());
-            goodsList goodslist = new goodsList(sort.getSortName(),goods.getGoodsId(), goods.getGoodsName(), goods.getImageMain(), goods.getGoodsPrePrice(), goods.getGoodsCurPrice(), goods.getGoodsBrand(), storeGoods.get(i).getStoreGoodsNumber(),false,false);
+            goodsList goodslist = new goodsList(sort.getSortName(),goods.getGoodsId(), goods.getGoodsName(), goods.getImageMain(), goods.getGoodsPrePrice(), goods.getGoodsCurPrice(), goods.getGoodsBrand(), storeGoods.get(i).getStoreGoodsNumber(),false,goodsCrazy);
             lists.add(goodslist);
         }
         return lists;

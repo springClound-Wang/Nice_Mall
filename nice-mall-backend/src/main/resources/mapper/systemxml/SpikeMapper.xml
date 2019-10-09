@@ -22,5 +22,10 @@
         values (NULL, #{goodsId}, #{goodsTypeId}, #{businessId}, #{prePrice}, #{spikePrice}, #{spikeNumber},
                 #{spikeStockNumber}, #{startTime}, #{endTime}, 1, NOW())
     </insert>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select *
+        from m_spike
+        where goods_id = #{goodsId}
+    </select>
 
 </mapper>
