@@ -47,7 +47,7 @@
                     }
 
                 }).catch(err => {
-                    // this.$router.push('/not_found');
+                    this.$router.push('/not_found');
                 })
             },
             change(e) {

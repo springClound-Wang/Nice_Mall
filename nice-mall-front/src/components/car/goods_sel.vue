@@ -164,7 +164,7 @@
                 this.$http.get('/getcarlist?userId=1').then(res => {
                     this.sel_data = res.data;
                 }).catch(err => {
-                    console.log(err);
+                  this.$message.error("查询订单失败");
                 })
             },
             handleClick(tab, event) {

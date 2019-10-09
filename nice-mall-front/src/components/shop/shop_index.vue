@@ -160,19 +160,19 @@
             <el-row>
                 <el-col :span="5" v-for="(item, index) in goods" :key="index">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover">
-                        <img src="../../assets/image/goods1.jpg" class="image">
+                        <img :src="item.imageMain" class="image">
                         <div style="padding: 14px;">
-                            <div class="goods_name">{{item.goods_name}}</div>
+                            <div class="goods_name">{{item.goodsName}}</div>
                             <div class="bottom clearfix">
-                                <el-tag type="info" class="time">￥{{item.goods_price}}</el-tag>
+                                <el-tag type="info" class="time">￥{{item.goodsCurPrice}}</el-tag>
                                 <div class="btn_all">
                                     <el-button type="primary" icon="el-icon-edit" circle
                                                style=" float: right;margin: -10px 20px 0 10px;"
-                                               @click="handleModifyGoods(item.goods_id)"></el-button>
+                                               @click="handleModifyGoods(item.goodsId)"></el-button>
                                     <el-button  type="danger" icon="el-icon-delete"
                                                 style="float: right;margin-top: -10px !important;"
                                                 circle
-                                                @click="handleDeleteGoods(item.goods_id)"></el-button>
+                                                @click="handleDeleteGoods(item.goodsId)"></el-button>
                                 </div>
                             </div>
                         </div>
@@ -182,16 +182,16 @@
             <el-dialog title="修改商品信息" :visible.sync="dialogFormVisible">
             <el-form :model="form" class="form_modify">
               <el-form-item label="商品名称" :label-width="formLabelWidth">
-                <el-input v-model="form.goods_name" autocomplete="off"></el-input>
+                <el-input v-model="form.goodsName" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="商品原价" :label-width="formLabelWidth">
-                <el-input v-model="form.goods_price" autocomplete="off"></el-input>
+                <el-input v-model="form.goodsPrePrice" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="商品现价" :label-width="formLabelWidth">
-                <el-input v-model="form.goods_price" autocomplete="off"></el-input>
+                <el-input v-model="form.goodsCurPrice" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="商品库存" :label-width="formLabelWidth">
-                <el-input v-model="form.goods_num" autocomplete="off"></el-input>
+                <el-input v-model="form.storeGoodsNumber" autocomplete="off"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -205,115 +205,119 @@
 
 <script>
 
-    export default {
-        name: 'home',
-        data() {
-            return {
-              dialogFormVisible: false,
-              form: {
-                goods_id:null,
-                goods_name: null,
-                goods_price:null,
-                goods_num:null
-              },
-              formLabelWidth: '120px',
-              pickerOptions: {
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            let start = new Date();
-                            start.setFullYear(2018);
-                            start.setMonth(10);
-                            start.setDate(1);
-                            end.setTime(start.getTime() + 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一月',
-                        onClick(picker) {
-                            const end = new Date();
-                            let start = new Date();
-                            start.setFullYear(2018);
-                            start.setMonth(10);
-                            start.setDate(1);
-                            end.setTime(start.getTime() + 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
-                },
-              orderCountDate: '',
-              goods:'',
-              modifyList:[],
-            }
+  export default {
+    name: 'home',
+    data() {
+      return {
+        dialogFormVisible: false,
+        form: {
+          goodsId:null,
+          goodsName: null,
+          goodsCurPrice:null,
+          goodsPrePrice:null,
+          storeGoodsNumber:null
         },
-        created(){
-            this.initOrderCountDate();
-            this.getTypeGoodsList();
-        },
-        methods:{
-            //时间
-            initOrderCountDate(){
-                let start = new Date();
-                start.setFullYear(2019);
-                start.setMonth(8);
-                start.setDate(1);
-                const end = new Date();
-                end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 7);
-                this.orderCountDate=[start,end];
-            },
-            //请求所有商品
-            getTypeGoodsList() {
-                this.$http.get('/getallgoods').then(res => {
-                    this.goods = res.data.goods;
-                }).catch(err => {
-                    console.log(err);
-                })
-            },
-            //删除商品
-            handleDeleteGoods(id){
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
-                        params: {goodsId:id},
-                        headers: {Authorization: window.localStorage.getItem('token')}
-                    }).then(res =>{
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!',
-                            // message: res.data.message
-                        });
-                    }).catch(err =>{
-
-                    })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-
-            },
-            //修改商品
-            handleModifyGoods(goods_id){
-              this.dialogFormVisible = true;
-              for(let i=0;i<this.goods.length;i++){
-                if(this.goods[i].goods_id=== goods_id){
-                  this.form = this.goods[i];
-                }
-              }
-            },
-            //确认修改商品信息
-            handleModifyAll(){
-              this.dialogFormVisible = false;
-              this.modifyList.push(this.form);
-              console.log(this.modifyList)
+        formLabelWidth: '120px',
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              let start = new Date();
+              start.setFullYear(2018);
+              start.setMonth(10);
+              start.setDate(1);
+              end.setTime(start.getTime() + 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
             }
+          }, {
+            text: '最近一月',
+            onClick(picker) {
+              const end = new Date();
+              let start = new Date();
+              start.setFullYear(2018);
+              start.setMonth(10);
+              start.setDate(1);
+              end.setTime(start.getTime() + 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        orderCountDate: '',
+        goods:'',
+        modifyList:[],
+      }
+    },
+    created(){
+      this.initOrderCountDate();
+      this.getTypeGoodsList();
+    },
+    methods:{
+      //时间
+      initOrderCountDate(){
+        let start = new Date();
+        start.setFullYear(2019);
+        start.setMonth(8);
+        start.setDate(1);
+        const end = new Date();
+        end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 7);
+        this.orderCountDate=[start,end];
+      },
+      //请求所有商品
+      getTypeGoodsList() {
+        this.$http.get('http://120.78.64.17:8086/nice-mall-backend/buss/getgoods/'+window.localStorage.getItem('userId'), {
+          params: {},
+          headers: {Authorization: window.localStorage.getItem('token')}
+        }).then(res=>{
+          this.goods  = res.data.data;
+        }).catch(err=>{
+          console.log(err);
+        })
+      },
+      //删除商品
+      handleDeleteGoods(id){
+        this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
+            params: {goodsId:id},
+            headers: {Authorization: window.localStorage.getItem('token')}
+          }).then(res =>{
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+              // message: res.data.message
+            });
+          }).catch(err =>{
+
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+      },
+      //修改商品
+      handleModifyGoods(goods_id){
+        this.dialogFormVisible = true;
+        for(let i=0;i<this.goods.length;i++){
+          if(this.goods[i].goodsId=== goods_id){
+            this.form = this.goods[i];
+          }
         }
+      },
+      //确认修改商品信息
+      handleModifyAll(){
+        this.dialogFormVisible = false;
+        this.modifyList.push(this.form);
+        console.log(this.modifyList)
+      }
     }
+  }
 </script>
 
 <style scoped>

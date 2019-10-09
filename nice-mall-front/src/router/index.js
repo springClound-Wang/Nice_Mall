@@ -18,6 +18,7 @@ import home from '../components/container/home'; //首页
 import goods_list from '../components/container/goods_list'; //商品按大类型
 import goods_detail from '../components/container/goods_detail'; //商品详情
 import goods_item from  '../components/container/goods_item';//商品小类型
+import goods_seckill from '../components/container/goods_seckill';//秒杀
 
 
 import other_container from '../components/car/other_container'//新导航内容
@@ -41,14 +42,9 @@ import person_address from '../components/personal/person_address'
 
 //404
 import not_found from '../components/404';
-
-
-
-import hello from '../components/HelloWorld';
 export default new Router({
   mode: 'history',
   routes: [
-    {path:'/hello',name:'hello',component:hello},
     {
       path:'/',
       component:container,
@@ -58,6 +54,7 @@ export default new Router({
         {path:'goods_list',name:'goods_list',component:goods_list},
         {path:'goods_detail',name:'goods_detail',component:goods_detail},
         {path:'goods_item',name:'goods_item',component:goods_item},
+        {path:'goods_seckill',name:'goods_seckill',component:goods_seckill},
         {path:'not_found',name:'not_found',component:not_found} //404
       ]
     },

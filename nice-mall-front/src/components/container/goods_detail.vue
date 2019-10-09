@@ -23,12 +23,19 @@
             </div>
             <div class="goods_details_price">
                 <div>
-                    <span style="margin-left: 20px">疯抢价</span> <span style="font-size: 32px">￥{{goodsCurPrice}}</span>
+                    <span style="margin-left: 20px">折后价</span> <span style="font-size: 32px">￥{{goodsCurPrice}}</span>
                 </div>
                 <div>
-                    <span style="margin:0  20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsPrePrice}}</span>
+                    <span style="margin:20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsPrePrice}}</span>
+                    <span class="seckill">
+                      <countDown v-if="seckillFlag" startTime='10000' endTime="50000" :callback="callback" endText="活动已结束"/>
+                    </span>
                 </div>
             </div>
+            <!--<div>-->
+              <!--<div style="display: inline-block;padding: 10px 0">已抢购</div>-->
+              <!--<el-progress :text-inside="true" :stroke-width="17" :percentage="50" status="exception"></el-progress>-->
+            <!--</div>-->
             <div class="goods_details_size" v-if="this.size">
                 <span>尺码</span>
                 <button  v-for="item in size" class="btn btn-default" @click="chooseSize">{{item}}</button>
@@ -37,17 +44,15 @@
                 <span>颜色</span>
                 <button v-for="item in color" class="btn btn-default" @click="chooseSize">{{item}}</button>
             </div>
-            <br>
             <div class="goods_details_size" v-if="this.electronic_format">
               <span>规格</span>
               <button v-for="item in electronic_format" class="btn btn-default" @click="chooseSize">{{item}}</button>
             </div>
-            <br>
             <div class="goods_details_num">
                <span>数量</span>
                 <span @click="handleCountAdd">+</span><span>{{goods_num}}</span><span @click="handleCountLess">-</span>
             </div>
-            <div class="goods_details_buy">
+            <div class="goods_details_buy" :class="{goods_details_end_buy:!seckillFlag}">
                 <button @click="handleAddCar">加入购物车</button>
                 <button @click="handleBuy">立即购买</button>
             </div>
@@ -299,8 +304,12 @@
     </div>
 </template>
 <script>
+import countDown from '../tools/count_down';
 export default {
     name:'goods_detail.vue',
+    components: {
+      countDown
+    },
     data(){
         return{
             electronic_format:'',
@@ -323,6 +332,7 @@ export default {
             imageShow:[],
             storeGoods:'',
 
+            seckillFlag:true //TODO 秒杀 标志
         }
     },
     created(){
@@ -357,20 +367,24 @@ export default {
         // TODO  加入购物车
         handleAddCar(){
             if(!this.goods_size){
-                alert('请先选择商品尺码！');
+                this.$message.warning('请先选择商品尺码！');
             }
             else{
-                this.$http.post('/addcar',{
-                    userId:1,
+                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
+                    userId:window.localStorage.getItem('userId'),
                     goodsId:this.$route.query.id,
+                    goodsColor:this.color,
                     goodsNum:this.goods_num,
-                    goodsSize:this.goods_size
+                    goodsSize:this.size
+                }, {
+                  headers:{Authorization: window.localStorage.getItem('token')}
                 }).then(res=>{
-                    console.log(res)
+                  this.$message.success('成功加入购物车');
+                  console.log(res);
                 }).catch(err=>{
-                    console.log(err)
-                })
-            }
+                  this.$message.error("加入购物车失败，请重试")
+                });
+              }
         },
 
         //ToDO 立即购买
@@ -385,6 +399,11 @@ export default {
             car_goods_price:this.goodsCurPrice
           }];
           this.$router.push({path:'/other_container/goods_order',query:{select_data:JSON.stringify(data)}});
+        },
+
+        callback(){
+              alert('秒杀已结束');
+              this.seckillFlag = false;
         },
         //选择规格尺寸
         chooseSize(e){
@@ -402,7 +421,10 @@ export default {
         //数量++
         handleCountAdd(){
             if(this.goods_num <5) this.goods_num++;
-            else {this.goods_num =5; alert("限购5件");}
+            else {
+              this.goods_num =5;
+              this.$message.warning("限购5件");
+            }
         },
         //数量--
         handleCountLess(){
@@ -658,25 +680,36 @@ export default {
         font-size: 16px;
         border: 1px solid #cccccc;
         border-radius: 0 !important;
+        cursor: pointer;
     }
 
     /*加入购物车 立即购买*/
-    .goods_details_buy{
+    .goods_details_buy,.goods_details_end_buy{
         margin-top: 60px;
     }
     .goods_details_buy button{
       width: 150px;
       color: white;
       padding: 10px 0;
-      background: -webkit-gradient(linear, left top, right top, from(#f1366d), to(#fe5745));
       background: linear-gradient(to right, #f1366d, #fe5745);
+      margin-right: 4%;
+      font-size: 16px;
+      font-weight: bolder;
+      margin-bottom: 10px;
+      border: none;
+    }
+    /*秒杀结束*/
+    .goods_details_end_buy button{
+      width: 150px;
+      color: white;
+      padding: 10px 0;
+      background: #afafaf;
       margin-right: 10px;
       font-size: 16px;
       font-weight: bolder;
       margin-bottom: 10px;
       border: none;
     }
-
     /*底部其他信息  客服*/
     .goods_details_other{
         font-size: 15px;
@@ -727,5 +760,16 @@ export default {
         top: 0;
         left: 0;
     }
+   /*秒杀*/
+    .seckill{
+      float: right;
+      font-size: 20px;
+      margin-right: 10px;
+      color: #fe5745;
+      font-weight: bolder;
+    }
+
+</style>
+<style>
 
 </style>

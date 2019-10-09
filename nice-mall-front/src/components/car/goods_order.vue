@@ -4,6 +4,7 @@
             <thead>
             <tr>
                 <td>精选特卖</td>
+                <td>颜色</td>
                 <td>单价</td>
                 <td>数量</td>
                 <td>小计</td>
@@ -18,6 +19,7 @@
                         <div style="margin-top: 10px">尺码：M</div>
                     </div>
                 </td>
+                <td>红色</td>
                 <td>￥{{item.car_goods_price}}</td>
                 <td>
                     <div class="goods_details_num" >
@@ -83,7 +85,7 @@ export default {
         {
             let sum = 0;
             this.all_money = 0.00;
-            console.log(this.order_data);
+            // console.log(this.order_data);
             this.order_data.forEach((item, index) => {
                 sum += parseInt(this.order_data[index].car_goods_price) * this.order_data[index].car_goods_num;
             });
@@ -116,7 +118,7 @@ export default {
         handleCountAdd(item){
             console.log(item.car_goods_num);
             if(item.car_goods_num <5) item.car_goods_num++;
-            else {item.car_goods_num = 5; alert("限购5件");}
+            else {item.car_goods_num = 5; this.$message.warning("限购5件");}
         },
         //数量--
         handleCountLess(item){

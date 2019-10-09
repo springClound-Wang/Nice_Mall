@@ -68,19 +68,25 @@
                       trigger="click">
                       <el-form ref="form" :model="curGoods">
                         <el-form-item label="商品现价" class="modify_item">
-                          <el-input v-model="curGoods.goodsPrePrice"></el-input>
+                          <el-input v-model="curGoods.goodsCurPrice"></el-input>
                         </el-form-item>
                         <el-form-item label="商品原价" class="modify_item">
-                          <el-input v-model="curGoods.goodsCurPrice"></el-input>
+                          <el-input v-model="curGoods.goodsPrePrice"></el-input>
                         </el-form-item>
                         <el-form-item label="商品库存" class="modify_item">
                           <el-input v-model="curGoods.storeGoodsNumber"></el-input>
                         </el-form-item>
                         <el-form-item label="开始时间" class="modify_item">
-                          <el-time-picker placeholder="选择开始时间" v-model="curGoods.startTime"></el-time-picker>
+                          <el-time-picker placeholder="选择开始时间" type="date"
+                                          @change="getTime"
+                                          v-model="curGoods.startTime">
+                          </el-time-picker>
                         </el-form-item>
                         <el-form-item label="结束时间" class="modify_item">
-                          <el-time-picker placeholder="选择结束时间" v-model="curGoods.endTime"></el-time-picker>
+                          <el-time-picker placeholder="选择结束时间" type="date"
+                                          @change="getTime"
+                                          v-model="curGoods.endTime">
+                          </el-time-picker>
                         </el-form-item>
                       </el-form>
                       <el-button slot="reference" plain @click="handleGetCurGoods(scope.row.goodsId)" class="modifyCrazy"
@@ -104,37 +110,43 @@
 </template>
 <script>
     export default {
+        inject:['reload'],
         data() {
             return {
-                goodsRecommend:false,
-                goodsCrazy:false,
+                value4: [new Date(2019, 12, 10, 8, 40), new Date(2019, 12, 10, 9, 40)],
+                value5: [new Date(2019, 21, 10, 8, 40), new Date(2019, 12, 10, 9, 40)],
                 goodsList:[],
                 modifyGoodsList:[], //TODO 修改之后的疯抢商品信息
                 getCurList:[],  //TODO 请求当前疯抢请求返回所有的商品集合
                 curGoods:{}, //TODO 请求当前疯抢修改的商品
+                rulesForm:{
+                  FlightTime:new Date()
+                }
             }
         },
         created() {
           this.handleGetGoods()
         },
-
         computed: {
           //计算 修改的按钮
           goodsModifyList(){
-            let goodsRecommendList = [];
+            // let goodsRecommendList = [];
             let goodsCrazyList = [];
             this.goodsList.forEach((item)=>{
-              if(item.goodsRecommend === true){
-                goodsRecommendList.push(parseInt(item.goodsId));
-              }
+              // if(item.goodsRecommend === true){
+              //   goodsRecommendList.push(parseInt(item.goodsId));
+              // }
               if(item.goodsCrazy === true){
                 goodsCrazyList.push(parseInt(item.goodsId));
               }
             });
-            return [ goodsCrazyList,goodsRecommendList];
+            return goodsCrazyList;
           },
         },
         methods: {
+          getTime(val){
+            return new Date(val).getTime()
+          },
           handleGetGoods(){
             this.$http.get('http://120.78.64.17:8086/nice-mall-backend/buss/getgoods/'+window.localStorage.getItem('userId'), {
               params: {},
@@ -147,48 +159,53 @@
           },
           //TODO 请求 当前商品的信息
           handleGetCurGoods(goodsId){
-            console.log(goodsId);
-            this.curGoods = {
-              goodsId:goodsId,
-              goodsCurPrice:455,
-              goodsPrePrice:344,
-              goodsCount:10000,
-              startTime:'',
-              endTime:''
-            };
-            this.getCurList.push(this.curGoods);
-            let [ goodsCrazyList,goodsRecommendList ]  = this.goodsModifyList;
-            //得到选定的疯抢商品 进行 商品信息的修改
-            for(let i=0;i<goodsCrazyList.length;i++){
-              for(let j=0;j<this.getCurList.length;j++){
-                if(goodsCrazyList[i] === parseInt(this.getCurList[j].goodsId)){
-                  this.modifyGoodsList.push(this.getCurList[j]);
+            this.$http.get('http://120.78.64.17:8086/nice-mall-backend/buss/spike',{
+              params:{
+                goodsId:goodsId
+              },
+              headers:{
+                Authorization: window.localStorage.getItem('token')
+              }
+            }).then(res=>{
+              this.curGoods = res.data.data;
+              this.getCurList.push(this.curGoods);
+              let obj = {};
+              this.getCurList = this.getCurList.reduce(function(item, next) {
+                obj[next.goodsId] ? '' : obj[next.goodsId] = true && item.push(next);
+                return item;
+              }, []);
+
+              let goodsCrazyList  = this.goodsModifyList;
+              console.log(this.goodsModifyList);
+              //得到选定的疯抢商品 进行 商品信息的修改
+              for(let i=0;i< goodsCrazyList.length;i++){
+                for(let j=0;j<this.getCurList.length;j++){
+                  if(goodsCrazyList[i] === parseInt(this.getCurList[j].goodsId)){
+                    this.modifyGoodsList.push(this.getCurList[j]);
+                  }
                 }
               }
-            }
-            //对象数组去重
-            let obj = {};
+              //对象数组去重
+              obj = {};
               this.modifyGoodsList = this.modifyGoodsList.reduce(function(item, next) {
                 obj[next.goodsId] ? '' : obj[next.goodsId] = true && item.push(next);
                 return item;
               }, []);
+            }).catch(err=>{
+              this.$message.error('此商品请求失败');
+            });
           },
           //TODO 得到修改的 id 数组 发送请求
           handleSubmit(){
-            let [ goodsCrazyList,goodsRecommendList ]  = this.goodsModifyList;
-            console.log(goodsRecommendList);
-            console.log(goodsCrazyList);
-            console.log(this.modifyGoodsList);
-            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/addgoods',{
-              goodsRecommendList:goodsRecommendList,
-              goodsCrazyList:goodsCrazyList,
+            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/spike',{
               modifyGoodsList:this.modifyGoodsList
             },{
               headers:{Authorization: window.localStorage.getItem('token')}
             }).then(res=>{
-
+                this.$message.success(res.data.message);
+                this.reload();
             }).catch(err=>{
-
+              this.$message.error('修改失败');
             })
           }
         }

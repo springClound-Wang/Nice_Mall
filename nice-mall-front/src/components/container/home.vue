@@ -19,31 +19,31 @@
             </div>
             <div class="goods-one">
                 <span class="goods-title"> 今日推荐 Nice好物</span>
-                <div class="goods-item"  v-for="item in goods" :key="item.goods_id"
+                <div class="goods-item"  v-for="item in recommendList" :key="item.goodsId"
                      @mouseenter="item_enter" @mouseleave="item_leave">
-                    <router-link :to="'/goods_detail?id='+item.goods_id" >
-                        <img src="../../assets/image/goods1.jpg" class="goods-img"/>
+                    <router-link :to="'/goods_detail?id='+item.goodsId" >
+                        <img :src="item.imageMain" class="goods-img"/>
                         <div class="goods-desc">
-                            <span class="goods-name">{{item.goods_name}}</span><br>
+                            <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
+                            <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
                         </div>
                     </router-link>
                 </div>
             </div>
             <div class="goods-two">
                 <span class="goods-title"> 超级秒杀 3折封顶</span>
-                <div class="goods-item"  v-for="item in goods" :key="item.goods_id"
+                <div class="goods-item"  v-for="item in spikeList" :key="item.goodsId"
                      @mouseenter="item_enter" @mouseleave="item_leave">
-                    <router-link :to="'/goods_detail?id='+item.goods_id" >
-                        <img src="../../assets/image/goods2.jpg" class="goods-img"/>
-                        <div class="goods-desc">
-                            <span class="goods-name">{{item.goods_name}}</span><br>
-                            <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goods_price}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goods_orgprice}}</span>
-                        </div>
+                    <router-link :to="'/goods_detail?id='+item.goodsId" >
+                      <img :src="item.imageMain" class="goods-img"/>
+                      <div class="goods-desc">
+                        <span class="goods-name">{{item.goodsName}}</span><br>
+                        <span class="price-desc">心动价</span>
+                        <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                        <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
+                      </div>
                     </router-link>
                 </div>
             </div>
@@ -53,18 +53,18 @@
                 <p>精选专区</p>
             </div>
 
-            <div class="goods-select" v-for="(item,index) in goodsSelect" :key="item.goods_type_id">
-                <router-link :to="'/goods_list?type='+item.all_type_name">
+            <div class="goods-select" v-for="(item,index) in  typeEntry" :key="item.entryId">
+                <router-link :to="'/goods_list?type='+item.entryName">
                     <div>
-                        <img :src="goods_type_img[index]" @mouseenter="enter"
+                        <img :src="item.entryImage" @mouseenter="enter"
                              @mouseleave="leave" class="type_img"/>
                         <div class="select-into">
                             <span class="iconfont icon-xinbaniconshangchuan-"></span>
                             <span>进入选购</span>
                         </div>
                     </div>
-                    <div class="select_name">{{item.type_title}}</div>
-                    <span class="select_desc">{{item.type_desc}}</span><span>折封顶</span>
+                    <div class="select_name">{{item.entryTitle}}</div>
+                    <span class="select_desc">{{item.entryDiscount}}</span><span>折封顶</span>
                 </router-link>
             </div>
         </div>
@@ -78,18 +78,9 @@
         name: "home.vue",
         data(){
             return{
-                goodsSelect:'',
-                goods:'',
-                goods_type_img:[
-                  '@/assets/image/select1.jpg',
-                  '@/assets/image/select2.jpg',
-                  '../../../src/assets/image/select3.jpg',
-                  '../../../src/assets/image/select4.jpg',
-                  '../../../src/assets/image/select5.jpg',
-                  '../../../src/assets/image/select6.jpg',
-                  '../../../src/assets/image/select7.jpg',
-                  '../../../src/assets/image/select8.jpg',
-                ]
+                recommendList:[],
+                spikeList:[],
+                typeEntry :[]
             }
         },
         created(){
@@ -98,9 +89,10 @@
         methods:{
             //发请求
             getTypeGoodsList(){
-                this.$http.get('/home').then(res=>{
-                    this.goodsSelect = res.data.goodsSelect;
-                    this.goods = res.data.goods;
+                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/').then(res=>{
+                    this.recommendList = res.data.data.recommendList;
+                    this.spikeList = res.data.data.spikeList;
+                    this.typeEntry = res.data.data.typeEntry
                 }).catch(err=>{
                     console.log(err);
                 })
@@ -139,7 +131,7 @@
     #home-container{
         width: 100%;
         margin: 0 auto;
-        min-width: 1260px;
+        min-width: 1360px;
     }
 
     /*分区标题*/
@@ -206,13 +198,12 @@
     .goods-img{
         width: 100%;
         height: 205px;
-        border-bottom: 1px solid #c6c3c2;
     }
     .goods-desc{
         width: 95%;
         height: 60px;
         z-index: 200;
-        margin:5px;
+        margin:1px;
     }
     .price-desc{
         display: inline-block;
@@ -307,6 +298,7 @@
         position: relative;
         width: 90%;
         margin: 10px auto;
+        min-width: 1360px;
     }
 
 </style>

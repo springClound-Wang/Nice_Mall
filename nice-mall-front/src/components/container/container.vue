@@ -47,7 +47,7 @@
                         </div>
                 </li>
                 <li><router-link to="/home" @click.native="flushCom" >首页</router-link></li>
-                <li>秒杀</li>
+                <li><router-link to="/goods_seckill" @click.native="flushCom">秒杀</router-link></li>
                 <li><router-link to="/goods_list?type=女装" @click.native="flushCom">女装</router-link></li>
                 <li><router-link to="/goods_list?type=男装" @click.native="flushCom">男装</router-link></li>
                 <li><router-link to="/goods_list?type=母婴" @click.native="flushCom">母婴</router-link></li>

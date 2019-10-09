@@ -41,6 +41,7 @@
                 <tr>
                     <td class="goods_pay_td">Nice 发货订单</td>
                     <td>尺码</td>
+                    <td>颜色</td>
                     <td>单价</td>
                     <td>数量</td>
                 </tr>
@@ -50,6 +51,7 @@
                         <span class="car_goods_name">{{item.car_goods_name}}</span>
                     </td>
                     <td>{{item.car_goods_size}}</td>
+                    <td>红色</td>
                     <td>¥ {{item.car_goods_price}}</td>
                     <td>{{item.car_goods_num}}</td>
                 </tr>

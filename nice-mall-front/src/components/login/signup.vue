@@ -72,7 +72,7 @@ export  default {
                     this.$message.success(res.data.message); //请求成功后的处理函数
                     this.$router.push({path:'/login_sign/login_phone'});
                 }).catch(err => {     //请求失败后的处理函数
-                    console.log(err);
+                  this.$message.error("注册失败")
                 });
             }
         },

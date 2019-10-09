@@ -1,9 +1,4 @@
 <template>
-  <!--<div id="app">-->
-    <!--<img src="assets/image/logo.png">-->
-    <!--<button @click="handleReload">刷新</button>-->
-    <!--<router-view  v-if="isRouterAlive"/>-->
-  <!--</div>-->
   <div id="app">
     <!--导航-->
     <div id="header-container">

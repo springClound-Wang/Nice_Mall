@@ -5,11 +5,13 @@
         <div id="hot-type-sort">
             <div class="hot-select">热门选择</div>
             <ul style="padding: 10px;">
-                <li v-for="(item ,index) in hot_type" :key="index"
+              <li v-for="(item ,index) in hot_type" :key="index"
                     @mouseenter="list_change" @mouseleave="list_nochange">
+                  <router-link :to="{path:'/goods_item',query: {goodsname:item.typeName,urls:'home/'}}" @click.native="flushCom">
                     <img :src="item.imageDetails" width="120" height="90"/><br>
                     <span>{{item.typeName}}</span>
-                </li>
+                  </router-link>
+              </li>
             </ul>
         </div>
 
