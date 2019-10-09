@@ -4,6 +4,7 @@ import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
+import com.fdj.nicemallbackend.system.service.IMixService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import com.fdj.nicemallbackend.system.service.impl.GoodsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class HomeController {
 
     @Autowired
     IGoodsService goodsService;
+
+    @Autowired
+    IMixService iMixService;
 
     /**
      * 获取商品分类
@@ -105,9 +109,13 @@ public class HomeController {
         return res;
     }
 
+    /**
+     * 获取首页的三组大数据
+     * @return
+     */
     @GetMapping("/")
     public Result homePage(){
-
-        return new Result().success("获取数据成功!!");
+        Result result = iMixService.getHomePage();
+        return result;
     }
 }

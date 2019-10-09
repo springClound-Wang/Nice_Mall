@@ -17,6 +17,15 @@
         <result column="spike_state" property="spikeState"/>
         <result column="create_time" property="createTime"/>
     </resultMap>
+
+    <resultMap id="PartResultMap" type="com.fdj.nicemallbackend.system.dto.Findgoods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="image_main" property="imageMain"/>
+        <result column="pre_price" property="goodsPrePrice"/>
+        <result column="spike_price" property="goodsCurPrice"/>
+    </resultMap>
+
     <insert id="save">
         insert into m_spike
         values (NULL, #{goodsId}, #{goodsTypeId}, #{businessId}, #{prePrice}, #{spikePrice}, #{spikeNumber},
@@ -28,4 +37,11 @@
         where goods_id = #{goodsId}
     </select>
 
+    <select id="selectLimit" resultMap="PartResultMap">
+        select m_spike.goods_id, goods_name, image_main, m_spike.pre_price, m_spike.spike_price
+        from m_goods,
+             m_spike
+        where m_spike.goods_id = m_goods.goods_id
+        limit #{offset} ,#{limit}
+    </select>
 </mapper>

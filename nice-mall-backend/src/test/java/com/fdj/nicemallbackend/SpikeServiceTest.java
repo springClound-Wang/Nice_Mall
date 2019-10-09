@@ -3,18 +3,14 @@ package com.fdj.nicemallbackend;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.dto.goodsList;
-import com.fdj.nicemallbackend.system.entity.Spike;
 import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.fdj.nicemallbackend.system.service.ISpikeService;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

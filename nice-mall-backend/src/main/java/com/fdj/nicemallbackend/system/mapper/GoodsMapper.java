@@ -6,6 +6,7 @@ import com.fdj.nicemallbackend.system.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Set;
@@ -33,4 +34,14 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
 
     Spikes selectPart(Long goodsId);
+
+    /**
+     * 获取三条随机商品作为推荐
+     * 跳过offset行，取limit条数据
+     * @return
+     */
+    List<Findgoods> selectLimit(@Param("offset") int offset,@Param("limit") int limit);
+
+    @Select("select count(*) from m_goods")
+    Integer getCount();
 }

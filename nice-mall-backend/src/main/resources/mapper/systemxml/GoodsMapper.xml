@@ -56,4 +56,9 @@
         where m_goods.goods_id = #{goodsId}
           and m_store_goods.goods_id = m_goods.goods_id
     </select>
+    <select id="selectLimit" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price
+        from m_goods
+        LIMIT #{offset},#{limit}
+    </select>
 </mapper>
