@@ -653,6 +653,9 @@ export default {
                             {
                                 value: '卫衣',
                                 label: '卫衣'
+                            },{
+                                value: '外套',
+                                label: '外套'
                             }, {
                                 value: '大衣',
                                 label: '大衣'
@@ -734,8 +737,8 @@ export default {
                         value: '深口单鞋',
                         label: '深口单鞋'
                     }, {
-                        value: '高跟鞋',
-                        label: '高跟鞋'
+                        value: '靴子',
+                        label: '靴子'
                     }]
                 },{
                     value: '女休闲鞋',
@@ -799,6 +802,9 @@ export default {
                     }, {
                       value: '运动鞋',
                       label: '运动鞋'
+                    }, {
+                      value: '靴子',
+                      label: '靴子'
                     }]
                 }, {
                     value: '女童鞋',
@@ -846,6 +852,9 @@ export default {
                     }, {
                         value: '双肩包',
                         label: '双肩包'
+                    }, {
+                        value: '斜挎包',
+                        label: '斜挎包'
                     }, {
                         value: '真皮包',
                         label: '真皮包'
@@ -907,6 +916,12 @@ export default {
                     }, {
                         value: '华为荣耀',
                         label: '华为荣耀'
+                    }, {
+                        value: '华为',
+                        label: '华为'
+                    },  {
+                        value: '三星',
+                        label: '三星'
                     }, {
                         value: '联想',
                         label: '联想'
@@ -1233,7 +1248,7 @@ export default {
                                 goodsPrePrice: this.goodsPrePrice,
                                 goodsPlace: this.goodsPlace,
                                 storeGoodsNumber:this.storeGoodsNumber,
-                                clothesColor: typeof this.clothesColor=== 'object'?this.clothesColor.join(''):this.clothesColor,
+                                clothesColor: typeof this.clothesColor=== 'object'?this.clothesColor.join(','):this.clothesColor,
                                 imageMain: this.imageMain,
                                 imageShow: this.imageShow,
                                 imageDetail: this.imageDetail,
@@ -1267,7 +1282,7 @@ export default {
                                 goodsCurPrice: this.goodsCurPrice,
                                 goodsPrePrice: this.goodsPrePrice,
                                 goodsPlace: this.goodsPlace,
-                                shoesColor: typeof this.shoesColor=== 'object'?this.shoesColor.join(''):this.shoesColor,
+                                shoesColor: typeof this.shoesColor=== 'object'?this.shoesColor.join(','):this.shoesColor,
                                 imageMain: this.imageMain,
                                 imageShow: this.imageShow,
                                 imageDetail: this.imageDetail,
@@ -1306,7 +1321,7 @@ export default {
                                 imageMain: this.imageMain,
                                 imageShow: this.imageShow,
                                 imageDetail: this.imageDetail,
-                                packageColor: typeof this.packageColor === 'object'?this.packageColor.join(''):this.packageColor,
+                                packageColor: typeof this.packageColor === 'object'?this.packageColor.join(','):this.packageColor,
                                 packageSize: this.packageSize,
                                 packageSash: this.packageSash,
                                 packageSex: this.packageSex,
@@ -1344,7 +1359,7 @@ export default {
                                 imageMain: this.imageMain,
                                 imageShow: this.imageShow,
                                 imageDetail: this.imageDetail,
-                                electronicColor: typeof this.electronicColor === 'object'?this.electronicColor.join(''):this.electronicColor,
+                                electronicColor: typeof this.electronicColor === 'object'?this.electronicColor.join(','):this.electronicColor,
                                 electronicFormat: this.electronicFormat,
                                 electronicSystem: this.electronicSystem,
                                 electronicDoubleCard: this.electronicDoubleCard,

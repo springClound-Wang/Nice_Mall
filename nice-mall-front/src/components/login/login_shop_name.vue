@@ -67,7 +67,7 @@
                             return;
                         }
                     }).catch(err => {                 //请求失败后的处理函数
-                        console.log(err)
+                      this.$message.error("登录失败")
                     })
                 }
 

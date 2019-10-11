@@ -9,6 +9,7 @@
                     <li>尺码</li>
                     <li>单价</li>
                     <li>数量</li>
+                    <li>颜色</li>
                     <li>小计</li>
                     <li>操作</li>
                 </ul>
@@ -27,8 +28,9 @@
                     <li>{{item.car_goods_size}}</li>
                     <li>¥ {{item.car_goods_price}}</li>
                     <li>{{item.car_goods_num}}</li>
+                    <li>红色</li>
                     <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                    <li><el-button type="primary" plain style="margin: 30% 0 0 15% !important;">删除</el-button></li>
+                    <li><el-button type="primary" plain style="margin: 30% 0 0 15% !important;" @click="handleDeleteCar(item.car_goods_id)">删除</el-button></li>
                     </label>
                 </ul>
             </div>
@@ -100,6 +102,21 @@ export default {
                 this.all_money = 0.00;
             }
 
+        },
+        //TODO 删除购物车的某条信息   ？=
+        handleDeleteCar(id){
+          this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/logout',{
+              params:{
+                userId:window.localStorage.getItem('userId'),
+                carId:id
+              },
+              headers: {Authorization: window.localStorage.getItem('token')}
+            }).then(res => {
+            this.$message.success('删除成功');
+            console.log(res.data);
+          }).catch(err => {
+            this.$message.error('删除失败');
+          });
         },
         //TODO 发出请求 得到购物车 数据：
         getCarGoodsList() {
@@ -210,7 +227,7 @@ export default {
     }
 
     .car_nav_list li{
-        width: 14%;
+        width: 11%;
         position: relative;
         height: 40px;
         float: left;
@@ -223,7 +240,7 @@ export default {
         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
     }
     .car_goods_item li{
-        width: 14%;
+        width: 11%;
         position: relative;
         height: 150px;
         line-height: 150px;
