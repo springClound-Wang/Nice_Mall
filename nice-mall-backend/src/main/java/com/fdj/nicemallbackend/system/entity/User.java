@@ -31,11 +31,17 @@ public class User extends Model<User> {
 
     private String userName;
 
+    private String userTrueName;
+
     private String userPassword;
 
     private String userSex;
 
     private String userTelephone;
+
+    private String userBirth;
+
+    private String userAddress;
 
     private String userAvatar;
 

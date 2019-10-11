@@ -28,6 +28,6 @@ public class HomePageTest {
     @Test
     public void getHomePage_test(){
         Result result= iMixService.getHomePage();
-        System.out.println(((Map<String,Object>)result.getData()).get("spikeList"));
+        System.out.println(((Map<String,Object>)result.getData()).get("typeEntry"));
     }
 }

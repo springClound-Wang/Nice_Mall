@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author xns
@@ -32,23 +32,25 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 通过用户名查询信息
+     *
      * @param username
      * @return
      */
     @Override
-    public User getUser(String username){
-       return userMapper.findByName(username);
+    public User getUser(String username) {
+        return userMapper.findByName(username);
     }
 
     /**
      * 检验验证码并注册(暂且默认验证码可以随便填写且正确)
+     *
      * @param telephone
      * @param password
      */
     @Override
-    public Boolean regist(String telephone, String password,String code) {
+    public Boolean regist(String telephone, String password, String code) {
         Boolean flag = true;
-        User user  = new User();
+        User user = new User();
         user.setUserName(RandomUtil.achieveName(userMapper.selectAllName()));
         user.setUserPassword(password);
         user.setUserSex(User.SEX_UNKNOW);
@@ -73,7 +75,7 @@ public class UserServiceImpl implements IUserService {
     public List<User> getAllUser() {
         List<User> users = new ArrayList<>();
         users = userMapper.selectAll();
-        for(int i=0;i<users.size();i++){
+        for (int i = 0; i < users.size(); i++) {
             users.get(i).setUserPassword("---------");
         }
         return users;

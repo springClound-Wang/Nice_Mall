@@ -6,9 +6,12 @@
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.User">
         <id column="user_id" property="userId"/>
         <result column="user_name" property="userName"/>
+        <result column="user_true_name" property="userTrueName"/>
         <result column="user_password" property="userPassword"/>
         <result column="user_sex" property="userSex"/>
         <result column="user_telephone" property="userTelephone"/>
+        <result column="user_birth" property="userBirth"/>
+        <result column="user_address" property="userTrueName"/>
         <result column="user_avatar" property="userAvatar"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
@@ -23,7 +26,8 @@
         from m_user
     </select>
     <insert id="insertsave">
-        insert into m_user
+        insert into m_user(user_id, user_name, user_password, user_sex, user_telephone, user_avatar, create_time,
+                           modify_time)
         values (NUll, #{userName}, #{userPassword}, #{userSex}, #{userTelephone}, #{userAvatar}, NOW(), NOW())
     </insert>
     <select id="findByPhone" resultMap="BaseResultMap">
