@@ -14,7 +14,7 @@ public interface IPersonalService {
      * 修改个人信息
      * @param user
      */
-    void changeNew(User user);
+    void changeNew(User user,int flag);
 
     /**
      * 获取个人信息

@@ -23,4 +23,7 @@ public class Rolelist extends Model<Rolelist> {
     private Long userId;
 
     private Integer roleId;
+
+    public Rolelist(){
+    }
 }

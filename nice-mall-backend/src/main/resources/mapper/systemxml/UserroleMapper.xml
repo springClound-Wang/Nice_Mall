@@ -13,6 +13,7 @@
         where user_id = #{userId}
     </select>
     <insert id="save">
-        insert into m_user_role values (#{userId} #{roleId} )
+        insert into m_user_role
+        values (#{userId},#{roleId})
     </insert>
 </mapper>

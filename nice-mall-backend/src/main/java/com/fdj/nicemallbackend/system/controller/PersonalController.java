@@ -44,10 +44,12 @@ public class PersonalController {
      */
     @PutMapping("/change")
     public Result changePersonalInformation(@RequestBody Map<String,Object> map){
+        int flag=0;
         Result res;
         List<String> images = (List<String>)map.get("userAvatar");
-        String image = images.get(0);
         if(images.size()!=0) {
+            flag=1;
+            String image = images.get(0);
             OssuploadUtil ossuploadUtil = new OssuploadUtil();
             res = ossuploadUtil.oneuploadReturnUrlToPoint(image, "mall/images/Avatar/");
         }else{
@@ -56,7 +58,7 @@ public class PersonalController {
         if(res.isStatus()){
             String userAvatar = (String)res.getData();
             User user = new User(Long.valueOf(String.valueOf(map.get("userId"))),(String)map.get("userName"),(String)map.get("userTrueName"),userAvatar,(String)map.get("userSex"),(String)map.get("userBirth"),(String)map.get("userAddress"));
-            iPersonalService.changeNew(user);
+            iPersonalService.changeNew(user,flag);
         }else{
             log.error("图片上传服务器失败!");
             return new Result().fail("更新失败!");
