@@ -20,7 +20,7 @@
                 <el-input v-model="ruleForm.phoneNum" placeholder="请输入手机号码"></el-input>
             </el-form-item>
             <el-form-item class="form_item">
-                <el-button type="primary" @click="submitForm('ruleForm')" >保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 15%" >保存</el-button>
                 <el-checkbox v-model="tacitAddress" style="margin-left: 22%;">设为默认地址</el-checkbox>
             </el-form-item>
         </el-form>
@@ -158,7 +158,9 @@
     }
 </script>
 <style>
-
+    .form_item{
+      margin-left: 0;
+    }
     #person_info .el-button {
        width: 90px;
        margin-bottom:20px;
@@ -183,18 +185,13 @@
         border-color: #409EFF;
          margin-top: 0;
     }
-    /*.el-form-item__content textarea{*/
-      /*width: 100%;*/
-      /*font-size: 13px;*/
-      /*margin-bottom: 30px;*/
-      /*font-family: 'Arial';*/
-      /*padding-top: 5px;*/
-      /*border-radius: 3px;*/
-      /*padding: 5px;*/
-      /*border: 1px solid #d9d9d9;*/
-    /*}*/
-    /*textarea::-webkit-input-placeholder {*/
-      /*!* WebKit browsers *!*/
-      /*color: #cccccc !important;*/
-    /*}*/
+    #person_info .el-form-item__content {
+      line-height: 40px;
+      width: 400px;
+      position: absolute;
+      font-size: 14px;
+      height: 40px;
+      display: inline-block;
+      margin-left: 0;
+    }
 </style>

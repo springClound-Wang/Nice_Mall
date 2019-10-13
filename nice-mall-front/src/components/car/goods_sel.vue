@@ -43,7 +43,10 @@
                             <li>交易操作</li>
                         </ul>
                         <ul v-for="(item,index) in sel_data" class="sel_item">
-                            <li class="order_item"><span>订单号：1213232424</span></li><br>
+                            <li class="order_item">
+                              <span>订单号：1213232424</span>
+                              <span style="position: absolute;left: 85%;color: #f1b447;font-size: 15px">30分钟后订单过期</span>
+                            </li><br>
                             <li class="first_td">
                                 <img :src="item.car_goods_img" class="order_img"/>
                                 <span>{{item.car_goods_name}}</span>

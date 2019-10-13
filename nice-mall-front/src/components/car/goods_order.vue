@@ -16,10 +16,10 @@
                     <img :src="item.car_goods_img" class="order_img"/>
                     <div class="carslist_name">
                         {{item.car_goods_name}}<br>
-                        <div style="margin-top: 10px">尺码：M</div>
+                        <div style="margin-top: 10px">尺码：{{item.car_goods_size}}</div>
                     </div>
                 </td>
-                <td>红色</td>
+                <td>{{item.car_goods_color}}</td>
                 <td>￥{{item.car_goods_price}}</td>
                 <td>
                     <div class="goods_details_num" >

@@ -42,7 +42,7 @@
             </div>
             <div class="goods_details_size" v-if="this.color">
                 <span>颜色</span>
-                <button v-for="item in color" class="btn btn-default" @click="chooseSize">{{item}}</button>
+                <button v-for="item in color" class="btn btn-default" @click="chooseColor">{{item}}</button>
             </div>
             <div class="goods_details_size" v-if="this.electronic_format">
               <span>规格</span>
@@ -324,6 +324,7 @@ export default {
             goodsDetail:null,
             goodsMain:null,
             goods_size:'',
+            goods_color:'',
             goodsFlag:'clothesUpWoman',
             goodsType:'clothes',
             color :[],
@@ -373,9 +374,9 @@ export default {
                 this.$http.post('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
                     userId:window.localStorage.getItem('userId'),
                     goodsId:this.$route.query.id,
-                    goodsColor:this.color,
+                    goodsColor:this.goods_color,
                     goodsNum:this.goods_num,
-                    goodsSize:this.size
+                    goodsSize:this.goods_size
                 }, {
                   headers:{Authorization: window.localStorage.getItem('token')}
                 }).then(res=>{
@@ -394,6 +395,7 @@ export default {
             car_goods_id:this.$route.query.id,
             car_goods_num:this.goods_num,
             car_goods_size:this.goods_size,
+            car_goods_color:this.goods_color,
             car_goods_img :this.imageMain,
             car_goods_name:this.goodsName,
             car_goods_price:this.goodsCurPrice
@@ -417,6 +419,20 @@ export default {
             });
             e.target.style.backgroundColor = ' #fa5f62';
             e.target.style.color = 'white'
+        },
+        //选择颜色
+        chooseColor(e){
+          this.goods_color =e.target.innerText;
+          console.log(this.goods_size);
+          let all = e.target.parentElement.childNodes;
+          all.forEach(function (item) {
+            if(item.nodeName === 'BUTTON') {
+              item.style.backgroundColor = 'white';
+              item.style.color = '';``
+            }
+          });
+          e.target.style.backgroundColor = ' #fa5f62';
+          e.target.style.color = 'white'
         },
         //数量++
         handleCountAdd(){
