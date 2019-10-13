@@ -100,7 +100,7 @@ public class CommodityController {
 
 
     /**
-     * 商品疯抢
+     * 添加疯抢商品
      * @param map
      * @return
      */

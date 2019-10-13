@@ -25,8 +25,26 @@ public class OssuploadUtil {
     }
 
     /**
+     * 上传图片到指定的文件夹
+     * @param file
+     * @param filedir
+     * @return
+     * @throws Exception
+     */
+    public String updateHead(MultipartFile file,String filedir) throws Exception {
+        if (file == null || file.getSize() <= 0) {
+            throw new Exception("file不能为空");
+        }
+        OSSClientUtil ossClient = new OSSClientUtil();
+        ossClient.changeFiledir(filedir);
+        String name = ossClient.uploadImg2Oss(file);
+        String imgUrl = ossClient.getImgUrl(name);
+        String[] split = imgUrl.split("\\?");
+        return split[0];
+    }
+
+    /**
      * 上传多张图片，然后拼接所有的url
-     *
      * @param image
      * @return
      */
@@ -67,6 +85,25 @@ public class OssuploadUtil {
             e.printStackTrace();
             return new Result().fail("图片上传失败!!!");
         }
+        return new Result().success(url, "图片上传成功");
+    }
+
+    /**
+     * 上传一张图片到是定文件将夹
+     *
+     * @param image
+     * @return
+     */
+    public Result oneuploadReturnUrlToPoint(String image,String filedir) {
+        String url;
+        MultipartFile file = Base64tTransformUtil.base64ToMultipart(image);
+        try {
+            url = this.updateHead(file,filedir);
+            System.out.println("图片路径: " + url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result().fail("图片上传失败!!!");
+    }
         return new Result().success(url, "图片上传成功");
     }
 }

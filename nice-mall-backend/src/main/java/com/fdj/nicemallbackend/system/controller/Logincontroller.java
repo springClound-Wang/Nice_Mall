@@ -101,6 +101,7 @@ public class Logincontroller {
         Map<String,Object> resInfo = new HashMap<>();
         resInfo.put("userid",user.getUserId());
         resInfo.put("username",user.getUserName());
+        resInfo.put("userAvatar",user.getUserAvatar());
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
@@ -134,6 +135,7 @@ public class Logincontroller {
         Map<String,Object> resInfo = new HashMap<>();
         resInfo.put("userid",user.getUserId());
         resInfo.put("username",user.getUserName());
+        resInfo.put("userAvatar",user.getUserAvatar());
         resInfo.put("token",token);
         resInfo.put("exipreTime",jwtToken.getExipreAt());
         this.savetoRedis(jwtToken,request);
@@ -167,6 +169,12 @@ public class Logincontroller {
     }
 
 
+    /**
+     * 保存token去redis
+     * @param token
+     * @param request
+     * @throws Exception
+     */
     private void savetoRedis(JWTToken token, HttpServletRequest request) throws Exception{
         String ip = IPUtil.getIpAddr(request);
         redisUtil.set(VerifyConsts.TOKEN_CACHE_PREFIX+token.getToken()+ StringPool.DOT+ip,token.getToken(),shiroProperties.getJwtTimeOut());

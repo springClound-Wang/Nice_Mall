@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author xns
  * @since 2019-08-16
@@ -23,7 +20,7 @@ import java.time.LocalDateTime;
 public class User extends Model<User> {
 
     public static final String SEX_UNKNOW = "保密";
-    public static final String DEFAULT_AVATAR = "default.jpg";
+    public static final String DEFAULT_AVATAR = "http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/Avatar/1570964480364.jpeg";
     private static final long serialVersionUID=1L;
 
     @TableId(value = "user_id", type = IdType.AUTO)
@@ -48,4 +45,17 @@ public class User extends Model<User> {
     private LocalDateTime createTime;
 
     private LocalDateTime modifyTime;
+
+    public User(){
+    }
+
+    public User(Long userId, String userName, String userTrueName, String userAvatar, String userSex, String userBirth, String userAddress) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userTrueName = userTrueName;
+        this.userAvatar=userAvatar;
+        this.userSex=userSex;
+        this.userBirth=userBirth;
+        this.userAddress=userAddress;
+    }
 }

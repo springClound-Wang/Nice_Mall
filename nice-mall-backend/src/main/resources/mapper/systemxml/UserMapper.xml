@@ -39,4 +39,28 @@
         select *
         from m_user
     </select>
+    <update id="updateById">
+        update m_user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name=#{userName} ,
+            </if>
+            <if test="userTrueName != null and userTrueName != ''">
+                user_true_name = #{userTrueName} ,
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                user_avatar = #{userAvatar} ,
+            </if>
+            <if test="userSex != null and userSex != ''">
+                user_sex=#{userSex} ,
+            </if>
+            <if test="userBirth != null and userBirth != ''">
+                user_birth = #{userBirth} ,
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                user_address = #{userAddress}
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
 </mapper>
