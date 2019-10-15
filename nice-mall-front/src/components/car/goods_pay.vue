@@ -51,7 +51,7 @@
                         <span class="car_goods_name">{{item.car_goods_name}}</span>
                     </td>
                     <td>{{item.car_goods_size}}</td>
-                    <td>红色</td>
+                    <td>{{item.car_goods_color}}</td>
                     <td>¥ {{item.car_goods_price}}</td>
                     <td>{{item.car_goods_num}}</td>
                 </tr>

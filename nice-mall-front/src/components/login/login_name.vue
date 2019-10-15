@@ -61,8 +61,9 @@
                             window.localStorage["username"] = res.data.data.username;
                             window.localStorage['isshop'] = res.data.data.isshop;
                             window.localStorage['logintime'] = new Date().getTime();
+                            window.localStorage['userAvatar']= res.data.data.userAvatar;
                             this.$router.push({path: '/#/home'});
-                          window.location.reload();
+                            window.location.reload();
                         }
                         else {
                             return;

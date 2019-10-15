@@ -122,10 +122,15 @@ export default {
         /*text-align: center;*/
         min-height: 200px;
     }
+    #all_goods_list:after{
+      content: '';
+      clear: both;
+      display: block;
+    }
     .goods-item{
         width:18%;
         background: #ffffff;
-        display: inline-block;
+        float: left;
         position: relative;
         top:0;
         margin: 20px 14px 20px 10px;

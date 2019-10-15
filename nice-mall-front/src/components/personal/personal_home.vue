@@ -6,7 +6,7 @@
             <el-col :span="10">
                 <div class="block">
                     <el-image style="width: 135px;height: 130px;margin-left: 25px;border: 1px solid #eae8e8"
-                              src="./src/image/header.jpg"></el-image>
+                              :src="userAvatar"></el-image>
                 </div>
                 <el-menu
                         default-active="2"
@@ -75,7 +75,7 @@
         name:'personal_home.vue',
         data(){
             return{
-
+              userAvatar:window.localStorage.getItem('userAvatar')
             }
         },
         methods:{

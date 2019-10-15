@@ -13,7 +13,7 @@
             <div class="pic_list_box">
                 <div class="pic_item" v-show="imageHeader.length<2" >
                     <div v-for="(src,index) in imageHeader" :key="index"
-                         @mouseenter="delShow" @mouseleave="delHide">
+                         @mouseenter="delShow" @mouseleave="delHide" class="icon">
                         <img :src="src" width="80" height="80" alt srcset class="img_list">
                         <span class="del_img" @click="deleteImg(index,imageHeader)">×</span>
                     </div>
@@ -29,14 +29,14 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="生日" required prop="birth" class="form_item">
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birth" style="width: 100%;"></el-date-picker>
+                <el-input type="date" placeholder="选择日期" v-model="ruleForm.birth" style="width: 100%;"></el-input>
             </el-form-item>
             <el-form-item label="居住地" prop="address"  class="form_item">
                 <el-input v-model="ruleForm.address" placeholder="省/市/ 区/县 镇/街道"></el-input>
             </el-form-item>
             <hr>
             <el-form-item style="margin: 40px 0 " class="form_item">
-                <el-button type="primary" @click="submitForm('ruleForm')" style="float:left;width: 100px;margin-left: 30%;">立即修改</el-button>
+                <el-button type="primary" @click="submitForm" style="float:left;width: 100px;margin-left: 30%;">立即修改</el-button>
                 <el-button @click="resetForm('ruleForm')" style="position: absolute;top: 0;left: 70%;">重置</el-button>
             </el-form-item>
         </el-form>
@@ -44,6 +44,7 @@
 </template>
 <script>
     export default {
+        inject:['reload'],
         data() {
             return {
                 imageHeader:[],
@@ -59,7 +60,7 @@
                 rules: {
                     petname: [
                         { required: true, message: '请输入昵称', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 1 到 8 个字符', trigger: 'blur' }
+                        { min: 1, max: 8, message: '长度在 1 到 8 个字符', trigger: 'blur' }
                     ],
                     truename: [
                         { required: true, message: '请输入真实姓名', trigger: 'blur' },
@@ -76,6 +77,9 @@
                     ],
                 }
             };
+        },
+        created(){
+            this.getPersonInfo();
         },
         methods: {
             changeMainImage() {
@@ -112,15 +116,44 @@
             deleteImg(index, objImgArray) {
                 objImgArray.splice(index, 1);
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+            //查询信息
+            getPersonInfo(){
+              this.$http.get('http://120.78.64.17:8086/nice-mall-backend/personal/getdata',{
+                params:{
+                  userId:window.localStorage.getItem('userId')
+                },
+                headers:{Authorization: window.localStorage.getItem('token')}
+              }).then(res=>{
+                this.ruleForm.petname = res.data.data.userName;
+                this.ruleForm.truename = res.data.data.userTrueName;
+                this.ruleForm.address = res.data.data.address;
+                this.ruleForm.birth = res.data.data.userBirth;
+                this.ruleForm.sex = res.data.data.userSex;
+                this.ruleForm.address = res.data.data.userAddress;
+                window.localStorage.setItem("userAvatar",res.data.data.userAvatar);
+                window.localStorage.setItem("username",res.data.data.userName);
+              }).catch(err=>{
+                this.$message.error('查询个人信息失败！')
+              })
+            },
+            //提交修改
+            submitForm() {
+                this.$http.put('http://120.78.64.17:8086/nice-mall-backend/personal/change',{
+                  userId:window.localStorage.getItem('userId'),
+                  userName:this.ruleForm.petname,
+                  userTrueName:this.ruleForm.truename,
+                  userSex:this.ruleForm.sex,
+                  userBirth:this.ruleForm.birth,
+                  userAvatar:this.imageHeader,
+                  userAddress:this.ruleForm.address
+                },{
+                  headers:{Authorization: window.localStorage.getItem('token')}
+                }).then(res =>{
+                    this.$message.success(res.data.message);
+                    window.location.reload();
+                }).catch(err=>{
+                  this.$message.success(err.data.message);
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
@@ -213,7 +246,7 @@
       right: 10px;
       display: none;
       opacity: 1;
-      top: 7px;
+      top: 0;
       z-index: 1000;
       color: #fe0e09;
     }
@@ -248,5 +281,15 @@
       display: inline-block;
       width: 100%;
     }
-
+    .icon{
+      width: 150px;
+      height: 150px;
+      position: relative;
+      margin-left: 10%;
+    }
+    .icon img{
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
 </style>

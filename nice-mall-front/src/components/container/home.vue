@@ -26,7 +26,7 @@
                         <div class="goods-desc">
                             <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                            <span style="margin: 0 2px">￥{{item.goodsCurPrice}}</span>
                             <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
                         </div>
                     </router-link>
@@ -41,7 +41,7 @@
                       <div class="goods-desc">
                         <span class="goods-name">{{item.goodsName}}</span><br>
                         <span class="price-desc">心动价</span>
-                        <span style="margin: 0 10px">￥{{item.goodsCurPrice}}</span>
+                        <span style="margin: 0 2px">￥{{item.goodsCurPrice}}</span>
                         <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
                       </div>
                     </router-link>
@@ -200,7 +200,7 @@
         height: 205px;
     }
     .goods-desc{
-        width: 95%;
+        width: 100%;
         height: 60px;
         z-index: 200;
         margin:1px;

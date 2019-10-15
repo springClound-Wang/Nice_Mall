@@ -68,7 +68,7 @@
                     </div>
                     <div class="hide-right-nav">
                         <div style="margin-top: 20px;">
-                            <img src="../../assets/image/head.jpg" style="border: 1px solid #cccccc;border-radius:5px;width: 50px;height: 50px "/>
+                            <img :src="userAvatar" style="border: 1px solid #cccccc;border-radius:5px;width: 50px;height: 50px "/>
                         </div>
                         <router-link :to="url"><span v-text="isLogin" @click="isLoginTo"></span></router-link>
                         <div class="hide-con">
@@ -116,7 +116,8 @@
                 url:'/login_sign/login', //登录
                 search:'', //搜索
                 routerAlive:true,
-                goods_type_list:'' //类型列表
+                goods_type_list:'',//类型列表
+                userAvatar:window.localStorage.getItem('userAvatar')
              }
         },
         created(){

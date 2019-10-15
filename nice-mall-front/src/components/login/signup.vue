@@ -51,11 +51,6 @@ export  default {
         },
         //注册
         handleSignUp(){
-            let datas = {
-                telephone:this.phoneNum,
-                password:this.password,
-                code:this.code
-            };
             if(!this.enterAsscess()){
                 return;
             }
@@ -68,11 +63,15 @@ export  default {
                 return;
             }
             else{
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/register',datas).then(res => {
+                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/register',{
+                  telephone:this.phoneNum,
+                  password:this.password,
+                  code:this.code
+                }).then(res => {
                     this.$message.success(res.data.message); //请求成功后的处理函数
                     this.$router.push({path:'/login_sign/login_phone'});
                 }).catch(err => {     //请求失败后的处理函数
-                  this.$message.error("注册失败")
+                  this.$message.error(err.data.message)
                 });
             }
         },
@@ -88,7 +87,7 @@ export  default {
                     this.timer = setInterval(() => {
                         if (this.count > 0 && this.count <= 60) {
                             this.count--;
-                            console.log(this.count)
+                            // console.log(this.count)
                         } else {
                             this.show = true;
                             clearInterval(this.timer);

@@ -66,7 +66,7 @@
           <li @mouseenter="show(5)" @mouseleave="hide">
             <router-link :to="url" class="link" >
               <span class="iconfont icon-user"></span>
-              <span style="font-size: 17px" v-text="isLogin" ></span>
+              <span style="font-size: 17px" v-text="isLogin" @click="handleIsLogin"></span>
             </router-link>
             <div class="item" :class="{itemHover:itemIndex===5}" v-if="isExit">
               <ul class="list" style="width: 100px">
@@ -112,22 +112,13 @@ export default {
   created(){
     this.isLoginTime(); //检测登录过期
     this.isLoginTo();
-    this.countADD();
   },
   methods:{
-    countADD(){
-      setInterval(()=>{
-        this.count++;
-      },1000)
-    },
     reload () {
       this.isRouterAlive = false;
       this.$nextTick(function () {
         this.isRouterAlive = true;
       })
-    },
-    handleReload(){
-      this.reload();
     },
     show(index) {
       this.itemIndex = index;
@@ -139,12 +130,21 @@ export default {
     isLoginTo() {
       //若已经登录 则导航切换到去个人中心  且 显示退出登录
       if (this.isLogin === window.localStorage.getItem('username')) {
+        this.isLogin =window.localStorage.getItem('username');
         this.isExit = true;
         this.url = '/personal_home/person_info'
       }
       else {
         this.isExit = false;
         this.url = '/login_sign/login_phone'
+      }
+    },
+    handleIsLogin(){
+      if(window.localStorage.getItem('userId')){
+        this.url = '/personal_home/person_info';
+      }
+      else{
+        this.url =  '/login_sign/login_phone'
       }
     },
     //判断登录过期 时间
@@ -181,6 +181,7 @@ export default {
       window.localStorage.removeItem('username');
       window.localStorage.removeItem('isshop');
       window.localStorage.removeItem('logintime');
+      window.localStorage.removeItem('userAvatar');
       this.$router.push({path: '/login_sign/login_phone'});
     },
     //我的店铺
