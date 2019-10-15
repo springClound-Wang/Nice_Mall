@@ -2,6 +2,7 @@ package com.fdj.nicemallbackend.system.controller;
 
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
 import com.fdj.nicemallbackend.system.entity.User;
 import com.fdj.nicemallbackend.system.service.IPersonalService;
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +65,16 @@ public class PersonalController {
             return new Result().fail("更新失败!");
         }
         return new Result().success("信息修改成功!");
+    }
+
+    /**
+     * 添加收货地址信息
+     * @param receiptAddress
+     * @return
+     */
+    @PostMapping("/address")
+    public Result addReceiptAddress(@RequestBody ReceiptAddress receiptAddress){
+        Result result = iPersonalService.addAddress(receiptAddress);
+        return result;
     }
 }

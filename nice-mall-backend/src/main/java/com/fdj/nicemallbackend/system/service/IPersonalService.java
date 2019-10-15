@@ -1,6 +1,7 @@
 package com.fdj.nicemallbackend.system.service;
 
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
 import com.fdj.nicemallbackend.system.entity.User;
 
 /**
@@ -22,4 +23,11 @@ public interface IPersonalService {
      * @return
      */
     Result getPersonal(Long userId);
+
+    /**
+     * 添加收货地址
+     * @param receiptAddress
+     * @return
+     */
+    Result addAddress(ReceiptAddress receiptAddress);
 }

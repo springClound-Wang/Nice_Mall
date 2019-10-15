@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.ReceiptAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.ReceiptAddress">
+        <id column="address_id" property="addressId"/>
+        <result column="userId" property="userId"/>
+        <result column="receipt_name" property="receiptName"/>
+        <result column="receipt_area" property="receiptArea"/>
+        <result column="detail_address" property="detailAddress"/>
+        <result column="postal_code" property="postalCode"/>
+        <result column="receipt_phone" property="receiptPhone"/>
+        <result column="spare_phone" property="sparePhone"/>
+        <result column="receipt_time" property="receiptTime"/>
+        <result column="is_default" property="isDefault"/>
+    </resultMap>
+    <insert id="save" parameterType="com.fdj.nicemallbackend.system.entity.ReceiptAddress">
+        insert into m_receipt_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                user_id,receipt_name,
+            <if test="receiptArea != null and receiptArea != ''">
+                receipt_area,
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                detail_address,
+            </if>
+            <if test="postalCode != null and postalCode != ''">
+                postal_code,
+            </if>
+            <if test="receiptPhone != null and receiptPhone != ''">
+                receipt_phone,
+            </if>
+            <if test="sparePhone != null and sparePhone != ''">
+                spare_phone,
+            </if>
+            <if test="receiptTime != null and receiptTime != ''">
+                receipt_time,
+            </if>
+            <if test="isDefault != null">
+                is_default,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+                #{userId,jdbcType=BIGINT},#{receiptName,jdbcType=VARCHAR},
+            <if test="receiptArea != null and receiptArea != ''">
+                #{receiptArea,jdbcType=VARCHAR},
+            </if>
+            <if test="detailAddress != null and detailAddress != ''">
+                #{detailAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null and postalCode != ''">
+                #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="receiptPhone != null and receiptPhone != ''">
+                #{receiptPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="sparePhone != null and sparePhone != ''">
+                #{sparePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="receiptTime != null and receiptTime != ''">
+                #{receiptTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefault != null">
+                #{isDefault,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

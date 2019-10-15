@@ -2,7 +2,9 @@ package com.fdj.nicemallbackend.system.service.impl;
 
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
 import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.mapper.ReceiptAddressMapper;
 import com.fdj.nicemallbackend.system.mapper.UserMapper;
 import com.fdj.nicemallbackend.system.service.IPersonalService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,9 @@ public class PersonalServiceImpl implements IPersonalService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    ReceiptAddressMapper receiptAddressMapper;
 
     /**
      * 修改 个人信息
@@ -43,5 +48,20 @@ public class PersonalServiceImpl implements IPersonalService {
     public Result getPersonal(Long userId) {
         User user = userMapper.selectByuserId(userId);
         return new Result().success(user,"查询成功");
+    }
+
+    /**
+     * 添加收货地址
+     * @param receiptAddress
+     * @return
+     */
+    @Override
+    public Result addAddress(ReceiptAddress receiptAddress) {
+        if(receiptAddressMapper.save(receiptAddress)!=0){
+            return new Result().success("插入成功!");
+        }
+        else{
+            return new Result().fail("插入失败");
+        }
     }
 }
