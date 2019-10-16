@@ -30,4 +30,11 @@ public interface IPersonalService {
      * @return
      */
     Result addAddress(ReceiptAddress receiptAddress);
+
+    /**
+     * 获取所添加的所有地址信息
+     * @param userId
+     * @return
+     */
+    Result getAllAddress(Long userId);
 }

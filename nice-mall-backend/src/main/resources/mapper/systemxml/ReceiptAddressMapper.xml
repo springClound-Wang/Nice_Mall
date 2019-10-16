@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.ReceiptAddress">
         <id column="address_id" property="addressId"/>
-        <result column="userId" property="userId"/>
+        <result column="user_id" property="userId"/>
         <result column="receipt_name" property="receiptName"/>
         <result column="receipt_area" property="receiptArea"/>
         <result column="detail_address" property="detailAddress"/>
@@ -66,5 +66,8 @@
             </if>
         </trim>
     </insert>
+    <select id="selectByuserId" resultMap="BaseResultMap">
+        select * from m_receipt_address where user_id = #{userId}
+    </select>
 
 </mapper>

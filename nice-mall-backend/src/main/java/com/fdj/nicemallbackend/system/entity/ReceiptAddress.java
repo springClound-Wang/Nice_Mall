@@ -32,7 +32,7 @@ public class ReceiptAddress extends Model<ReceiptAddress> {
     /**
      * 用户id
      */
-    @TableField("userId")
+    @TableField("user_id")
     private Long userId;
 
     /**

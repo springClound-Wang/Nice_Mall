@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Classname PersonalServiceImpl
@@ -58,10 +61,26 @@ public class PersonalServiceImpl implements IPersonalService {
     @Override
     public Result addAddress(ReceiptAddress receiptAddress) {
         if(receiptAddressMapper.save(receiptAddress)!=0){
-            return new Result().success("插入成功!");
+            return new Result().success("添加成功!");
         }
         else{
-            return new Result().fail("插入失败");
+            return new Result().fail("添加失败");
+        }
+    }
+
+    /**
+     * 获取添加的所有收货地址
+     * @param userId
+     * @return
+     */
+    @Override
+    public Result getAllAddress(Long userId) {
+        List<ReceiptAddress> addresses = receiptAddressMapper.selectByuserId(userId);
+        if(addresses.isEmpty()){
+            return new Result().fail("暂时没有地址信息");
+        }
+        else{
+            return new Result().success(addresses,"获取地址成功!");
         }
     }
 }

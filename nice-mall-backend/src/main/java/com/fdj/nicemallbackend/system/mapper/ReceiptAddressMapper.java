@@ -3,6 +3,9 @@ package com.fdj.nicemallbackend.system.mapper;
 import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +19,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ReceiptAddressMapper extends BaseMapper<ReceiptAddress> {
 
     int save(ReceiptAddress receiptAddress);
+
+    List<ReceiptAddress> selectByuserId(Long userId);
 }

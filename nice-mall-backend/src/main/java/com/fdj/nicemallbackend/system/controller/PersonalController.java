@@ -77,4 +77,15 @@ public class PersonalController {
         Result result = iPersonalService.addAddress(receiptAddress);
         return result;
     }
+
+    /**
+     * 用户获取所有的地址
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getaddr")
+    public Result getAddress(@RequestParam Long userId){
+         Result result = iPersonalService.getAllAddress(userId);
+         return result;
+    }
 }
