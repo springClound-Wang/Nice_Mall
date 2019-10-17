@@ -4,6 +4,7 @@ import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fdj.nicemallbackend.system.entity.ShopCart;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -44,4 +45,5 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     @Select("select count(*) from m_goods")
     Integer getCount();
+
 }

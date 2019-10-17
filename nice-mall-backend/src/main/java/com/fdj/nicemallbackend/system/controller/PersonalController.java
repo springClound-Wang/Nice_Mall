@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.controller;
 
+import com.fdj.nicemallbackend.common.authenication.Jwt_Get;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.ReceiptAddress;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -87,5 +89,18 @@ public class PersonalController {
     public Result getAddress(@RequestParam Long userId){
          Result result = iPersonalService.getAllAddress(userId);
          return result;
+    }
+
+
+    /**
+     * 删除某个收货地址
+     * @param addressId
+     * @return
+     */
+    @DeleteMapping("/deladdr")
+    public Result deleteAddress(@RequestParam Long addressId, HttpServletRequest request){
+        System.out.println("用户id"+Jwt_Get.getUser(request));
+        Result result = iPersonalService.deleteAddr(addressId);
+        return result;
     }
 }

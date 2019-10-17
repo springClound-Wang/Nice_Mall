@@ -7,8 +7,10 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fdj.nicemallbackend.common.properties.ShiroProperties;
 import com.fdj.nicemallbackend.common.utils.SpringContextUtil;
+import com.fdj.nicemallbackend.common.utils.TokenUtil;
+import com.fdj.nicemallbackend.system.entity.User;
 import lombok.extern.slf4j.Slf4j;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -51,7 +53,6 @@ public class JWTUtil {
 
     /**
      * 从 token中获取用户
-     *
      * @return token中包含的用户
      */
 
@@ -64,6 +65,7 @@ public class JWTUtil {
             return null;
         }
     }
+
 
 
     /**

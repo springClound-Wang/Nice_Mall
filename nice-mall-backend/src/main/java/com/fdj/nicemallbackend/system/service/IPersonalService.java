@@ -37,4 +37,6 @@ public interface IPersonalService {
      * @return
      */
     Result getAllAddress(Long userId);
+
+    Result deleteAddr(Long addressId);
 }

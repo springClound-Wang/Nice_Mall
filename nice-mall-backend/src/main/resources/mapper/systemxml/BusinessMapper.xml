@@ -44,6 +44,14 @@
                 #{businessAddress}, NOW())
     </insert>
     <select id="selectByBussinessId" resultMap="BaseResultMap">
-        select * from m_business where business_id=#{businessId}
+        select *
+        from m_business
+        where business_id = #{businessId}
+    </select>
+    <select id="selectByGoodsId" resultMap="BaseResultMap">
+        select *
+        from m_business,m_store_goods
+        where m_store_goods.goods_id = #{goodsId}
+          and business_id = m_store_goods.business_id
     </select>
 </mapper>

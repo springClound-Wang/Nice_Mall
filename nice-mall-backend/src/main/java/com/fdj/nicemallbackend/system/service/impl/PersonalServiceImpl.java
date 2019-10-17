@@ -83,4 +83,18 @@ public class PersonalServiceImpl implements IPersonalService {
             return new Result().success(addresses,"获取地址成功!");
         }
     }
+
+    /**
+     * 根据地址id删除地址
+     * @param addressId
+     * @return
+     */
+    @Override
+    public Result deleteAddr(Long addressId) {
+        if(receiptAddressMapper.deleteByaddressId(addressId)!=0){
+            return new Result().success("删除成功!!");
+        }else{
+            return new Result().fail("删除失败!!");
+        }
+    }
 }

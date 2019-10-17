@@ -45,6 +45,8 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private IRolelistService iRolelistService;
 
+
+
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JWTToken;
@@ -88,7 +90,7 @@ public class ShiroRealm extends AuthorizingRealm {
         // 这里的token是从JWTFilter的executeLogin方法传递过来的，已经经过了解密,简直藏的太深了，看源码要耐心
         String token = (String) authenticationToken.getCredentials();
 
-        // 从redis里获取这个 token
+
         HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
         //获取请求的用户的ip
         String ip = IPUtil.getIpAddr(request);
@@ -98,6 +100,7 @@ public class ShiroRealm extends AuthorizingRealm {
         try {
             /**
              * 改过
+             * 从redis里获取这个 token
              */
             encryptTokenInRedis = (String) redisUtil.get(VerifyConsts.TOKEN_CACHE_PREFIX + encryptToken + StringPool.DOT+ ip);
         } catch (Exception ignore) {

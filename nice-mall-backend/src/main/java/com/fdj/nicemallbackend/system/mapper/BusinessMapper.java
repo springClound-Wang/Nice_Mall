@@ -60,4 +60,6 @@ public interface BusinessMapper extends BaseMapper<Business> {
     void insertShop(Business business);
 
     Business selectByBussinessId(Long businessId);
+
+    Business selectByGoodsId(Long goodsId);
 }
