@@ -13,6 +13,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @Classname ShoppingCartServiceImpl
@@ -49,12 +53,12 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         String key = KEY_PREFIX+user.getUserId();
         //判断redis中是否已经存在该商品
         BoundHashOperations<String,Object,Object> cartMap = redisTemplate.boundHashOps(key);
-        Boolean haskey = cartMap.hasKey(goodsId.toString());
+        Boolean haskey = cartMap.hasKey(goodsId.toString()+shopCart.getGoodsColor()+shopCart.getGoodsSize());
         //存在
         if(haskey){
-            String shoppingcart = cartMap.get(goodsId.toString()).toString();
+            String shoppingcart = cartMap.get(goodsId.toString()+shopCart.getGoodsColor()+shopCart.getGoodsSize()).toString();
             shopCart = JsonUtils.parse(shoppingcart,ShopCart.class);
-            shopCart.setGoodsNum(shopCart.getGoodsNum()+num);
+            shopCart.setGoodsNum(shopCart.getGoodsNum() + num);
         }
         else{
             //补全购物车信息
@@ -66,7 +70,29 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
             shopCart.setTotalPrice(shopCart.getGoodsPrice().multiply(BigDecimal.valueOf(shopCart.getGoodsNum())));
         }
         //存入
-        cartMap.put(goodsId.toString(),JsonUtils.serialize(shopCart));
+        cartMap.put(goodsId.toString()+shopCart.getGoodsColor()+shopCart.getGoodsSize(),JsonUtils.serialize(shopCart));
         return new Result().success("添加成功!!");
+    }
+
+    /**
+     * 获取购物车中的所有商品
+     * @param userId
+     * @return
+     */
+    @Override
+    public Result getAllCart(Long userId) {
+        List<ShopCart> shopCarts = new ArrayList<>();
+        String key = KEY_PREFIX+userId;
+        if(redisTemplate.hasKey(key)){
+            BoundHashOperations<String,Object,Object> cartMap = redisTemplate.boundHashOps(key);
+            List<Object> cartStrs = cartMap.values();
+            if(cartStrs.isEmpty()){
+                return new Result().fail("未查到任何商品");
+            }
+            shopCarts = cartStrs.stream().map(shopCart->JsonUtils.parse(shopCart.toString(),ShopCart.class)).collect(Collectors.toList());
+            return new Result().success(shopCarts,"查到了!");
+        }else{
+            return new Result().fail("未查到，快去添加商品到购物车吧");
+        }
     }
 }

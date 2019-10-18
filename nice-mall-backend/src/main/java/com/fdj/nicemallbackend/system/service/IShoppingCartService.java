@@ -15,4 +15,6 @@ public interface IShoppingCartService {
      * @return
      */
     Result addCart(ShopCart shopCart);
+
+    Result getAllCart(Long userId);
 }

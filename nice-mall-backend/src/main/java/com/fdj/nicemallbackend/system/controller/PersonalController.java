@@ -28,6 +28,9 @@ public class PersonalController {
     @Autowired
     IPersonalService iPersonalService;
 
+    @Autowired
+    Jwt_Get jwt_get;
+
 
     /**
      * 获取个人信息
@@ -99,7 +102,7 @@ public class PersonalController {
      */
     @DeleteMapping("/deladdr")
     public Result deleteAddress(@RequestParam Long addressId, HttpServletRequest request){
-        System.out.println("用户id"+Jwt_Get.getUser(request));
+        System.out.println("用户id"+jwt_get.getUser(request));
         Result result = iPersonalService.deleteAddr(addressId);
         return result;
     }

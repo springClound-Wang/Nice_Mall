@@ -11,7 +11,7 @@
         <result column="user_sex" property="userSex"/>
         <result column="user_telephone" property="userTelephone"/>
         <result column="user_birth" property="userBirth"/>
-        <result column="user_address" property="userTrueName"/>
+        <result column="user_address" property="userAddress"/>
         <result column="user_avatar" property="userAvatar"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
