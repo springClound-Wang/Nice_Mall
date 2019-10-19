@@ -1,68 +1,79 @@
 <template>
-    <div id="hot_container">
-        <el-card shadow="never">
-            <div class="title">热门分类管理</div>
-            <div class="content">
-                <span>热门类型:</span> &nbsp;&nbsp;
-                <div class="upload_type">
-                    <el-select v-model="uploadType" placeholder="请选择" value="">
-                        <el-option
-                                v-for="item in uploadTypeList"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="toast_img_message" v-show="!uploadType">
-                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                    <span v-text="toastMsg"></span>
-                </div>
-                <div class="type_img">上传主类型的图片</div>
-                <input type="file" accept="image/*" @change="changeMainImage" ref="avatarInputMain" style="display:none">
-                <div class="pic_list_box">
-                    <div class="pic_list" v-show="imageMains.length<2">
-                        <div v-for="(src,index) in imageMains" :key="index"
-                             @mouseenter="delShow" @mouseleave="delHide">
-                            <img :src="src" width="80" height="80" alt srcset class="img_list">
-                            <span class="del_img" @click="deleteMainImg(index,imageMains)">×</span>
-                        </div>
-                        <div class="upload_img" v-show="imageMains.length < 1">
-                            <span class="upload_btn" @click="upLoadMains">+</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="type_img">输入类型及其图片：<span style="font-size: 12px;color: red">(不少于十个)</span></div>
-                <input type="file" accept="image/*" @change="changeDetailImage" ref="avatarInputDetail"
-                       style="display: none">
-                <div class="pic_list_box">
-                    <div class="pic_list" v-show="imageDetails.length<11">
-                        <div v-for="(item,index) in imageDetails" :key="index">
-                            <div @mouseenter="delShow" @mouseleave="delHide">
-                                <img :src="item" width="80" height="80" alt srcset class="img_list">
-                                <span class="del_img" @click="deleteImg(index,imageDetails,ruleForm.typename)">×</span>
-                            </div>
-                            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
-                                     class="demo-ruleForm">
-                                <el-form-item label="" prop="typename">
-                                    <el-input v-model="ruleForm.typename[index]" placeholder="请输入对应类型" style="width: 150px !important;"></el-input>
-                                </el-form-item>
-                            </el-form>
-                        </div>
-                        <div class="upload_img" v-show="imageDetails.length < 10">
-                            <span class="upload_btn" @click="upLoadDetails">+</span>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-            <el-button type="primary" @click="submitForm" style="float: right;margin-bottom: 20px">上传<i
-                    class="el-icon-upload el-icon--right"></i></el-button>
-
-        </el-card>
+  <div>
+    <div style="padding: 20px;">
+      <el-breadcrumb separator-class="el-icon-arrow-right" >
+        <el-breadcrumb-item >首页</el-breadcrumb-item>
+        <el-breadcrumb-item>商品</el-breadcrumb-item>
+        <el-breadcrumb-item>热门分类</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <hr>
+    <div id="hot_container">
+      <el-card shadow="never">
+        <div class="title">热门分类管理</div>
+        <div class="content">
+          <span>热门类型:</span> &nbsp;&nbsp;
+          <div class="upload_type">
+            <el-select v-model="uploadType" placeholder="请选择" value="">
+              <el-option
+                v-for="item in uploadTypeList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+          <div class="toast_img_message" v-show="!uploadType">
+            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+            <span v-text="toastMsg"></span>
+          </div>
+          <div class="type_img">上传主类型的图片</div>
+          <input type="file" accept="image/*" @change="changeMainImage" ref="avatarInputMain" style="display:none">
+          <div class="pic_list_box">
+            <div class="pic_list" v-show="imageMains.length<2">
+              <div v-for="(src,index) in imageMains" :key="index"
+                   @mouseenter="delShow" @mouseleave="delHide">
+                <img :src="src" width="80" height="80" alt srcset class="img_list">
+                <span class="del_img" @click="deleteMainImg(index,imageMains)">×</span>
+              </div>
+              <div class="upload_img" v-show="imageMains.length < 1">
+                <span class="upload_btn" @click="upLoadMains">+</span>
+              </div>
+            </div>
+          </div>
+          <div class="type_img">输入类型及其图片：<span style="font-size: 12px;color: red">(不少于十个)</span></div>
+          <input type="file" accept="image/*" @change="changeDetailImage" ref="avatarInputDetail"
+                 style="display: none">
+          <div class="pic_list_box">
+            <div class="pic_list" v-show="imageDetails.length<11">
+              <div v-for="(item,index) in imageDetails" :key="index">
+                <div @mouseenter="delShow" @mouseleave="delHide">
+                  <img :src="item" width="80" height="80" alt srcset class="img_list">
+                  <span class="del_img" @click="deleteImg(index,imageDetails,ruleForm.typename)">×</span>
+                </div>
+                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"
+                         class="demo-ruleForm">
+                  <el-form-item label="" prop="typename">
+                    <el-input v-model="ruleForm.typename[index]" placeholder="请输入对应类型" style="width: 150px !important;"></el-input>
+                  </el-form-item>
+                </el-form>
+              </div>
+              <div class="upload_img" v-show="imageDetails.length < 10">
+                <span class="upload_btn" @click="upLoadDetails">+</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <el-button type="primary" @click="submitForm" style="float: right;margin-bottom: 20px">上传<i
+          class="el-icon-upload el-icon--right"></i></el-button>
+
+      </el-card>
+    </div>
+  </div>
+
 </template>
 <script>
 export default {
@@ -193,7 +204,7 @@ export default {
                 this.$message.error('请输入完整类型');
                 return;
             }
-            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addpopular',{
+            this.$http.post('/buss/addpopular',{
                 imageDetails:this.imageDetails,
                 imageMains:this.imageMains,
                 uploadType:this.uploadType,

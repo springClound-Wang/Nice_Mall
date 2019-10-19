@@ -1,564 +1,579 @@
 <template>
-    <div id="curd_container">
-        <!--侧导航-->
-        <div class="write_process">
-            <div class="write_icon">
-                <div :class="{cur_icon:cur_show1,pre_icon:pre_show1}" v-text="one_icon"></div>
-                <div :class="{cur_icon:cur_show1,pre_icon:pre_show1}">填写商品信息</div>
-            </div>
-            <div class="write_icon">
-                <div :class="{cur_icon:cur_show2,pre_icon:pre_show2}" v-text="two_icon"></div>
-                <div :class="{cur_icon:cur_show2,pre_icon:pre_show2}">填写商品属性</div>
-            </div>
-            <div class="write_icon">
-                <div :class="{cur_icon:cur_show3,pre_icon:pre_show3}"  v-text="three_icon"></div>
-                <div :class="{cur_icon:cur_show3,pre_icon:pre_show3}">提交商品信息</div>
-            </div>
-            <div class="write_border"></div>
-        </div>
-        <mt-tab-container v-model="active_public" class="tab">
-            <mt-tab-container-item id="public">
-               <form class="form" @submit.prevent="onSubmit">
-                   <fieldset>
-                       <div class="clothes_info">
-                           <div class="text_item">
-                               <span><i>*</i>商品类型：</span>
-                               <div class="block select">
-                                   <el-cascader :options="options" clearable v-model="goodsType" @change="handleSelect"></el-cascader>
-                               </div>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsName">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span><i>*</i>商品名：</span>
-                               <input type="text" value="" placeholder="请输入商品名字" v-model="goodsName" aria-required="true"/>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsDesc">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span><i>*</i>商品描述：</span>
-                               <textarea rows="3" cols="6" placeholder="请输入商品描述" v-model="goodsDesc"></textarea>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsBrand">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span><i>*</i>品牌：</span>
-                               <input type="text" value="" placeholder="请输入商品品牌" v-model="goodsBrand"/>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsCurPrice">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span>销售价：</span>
-                               <input type="number" value="" placeholder="请输入商品现价" v-model="goodsCurPrice"/>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsPrePrice">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span>市场价：</span>
-                               <input type="number" value="0" placeholder="请输入商品原价" v-model="goodsPrePrice"/>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!goodsPlace">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span>商品产地：</span>
-                               <input type="text" value="" placeholder="请输入商品产地" v-model="goodsPlace"/>
-                           </div>
-                           <div class="text_item">
-                               <div class="toast_message" v-show="!storeGoodsNumber">
-                                   <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                   <span v-text="toastMsg"></span>
-                               </div>
-                               <span>库存量：</span>
-                               <input type="number" value="" placeholder="请输入库存量"  v-model="storeGoodsNumber" />
-                           </div>
-                           <div class="btn_box">
-                                <button class="handlebtn" @click.self="nextTwo">下一步，填写商品属性</button>
-                           </div>
-                       </div>
-                   </fieldset>
-               </form>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="sort">
-                <form class="form" @submit.prevent="onSubmit">
-                    <fieldset>
-                        <mt-tab-container v-model="active">
-                            <mt-tab-container-item id="clothes">
-                                <div class="clothes_info">
-                                    <div class="text_item">
-                                        <div class="toast_more_message" v-show="clothesSize.length <= 0" >
-                                            <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -5px;"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="toast_title">衣服尺码：</span>
-                                        <el-checkbox-group v-model="clothesSize">
-                                            <el-checkbox label="均码"></el-checkbox>
-                                            <el-checkbox label="XS"></el-checkbox>
-                                            <el-checkbox label="S"></el-checkbox>
-                                            <el-checkbox label="M"></el-checkbox>
-                                            <el-checkbox label="L"></el-checkbox>
-                                            <el-checkbox label="XL"></el-checkbox>
-                                            <el-checkbox label="XXL"></el-checkbox>
-                                            <el-checkbox label="XXL"></el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                    <div class="text_item">
-                                        <div class="toast_more_message" v-show="clothesColor.length <= 0">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="toast_title" >衣服颜色：</span>
-                                        <el-checkbox-group v-model="clothesColor">
-                                            <el-checkbox label="黑色"></el-checkbox>
-                                            <el-checkbox label="白色"></el-checkbox>
-                                            <el-checkbox label="卡其色"></el-checkbox>
-                                            <el-checkbox label="红色"></el-checkbox>
-                                            <el-checkbox label="粉色"></el-checkbox>
-                                            <el-checkbox label="杏色"></el-checkbox>
-                                            <el-checkbox label="绿色"></el-checkbox>
-                                            <el-checkbox label="黄色"></el-checkbox>
-                                            <el-checkbox label="紫色"></el-checkbox>
-                                            <el-checkbox label="蓝色"></el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                  <br>
-                                    <span>补充颜色：</span>
-                                    <input type="text" value="" v-model="clothesColor" placeholder="补充输入颜色"/>
-                                    <br>
-                                  <br>
-                                    <div class="toast_check_message" v-show="!clothesSeason">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -7px;"></span>
-                                        <span v-text="toastMsg" style="margin-left: 7px;"></span>
-                                    </div>
-                                    <span>适用季节：</span>
-                                    <div class="select">
-                                        <el-select v-model="clothesSeason" placeholder="请选择" value="">
-                                            <el-option
-                                                    v-for="item in clothesSeasonOptions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                  <br>
-                                    <div class="toast_check_message" v-show="!clothesPerson">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -7px;"></span>
-                                        <span v-text="toastMsg" style="margin-left: 7px;"></span>
-                                    </div>
-                                    <span>适用人群：</span>
-                                    <div class="select">
-                                        <el-select v-model="clothesPerson" placeholder="请选择" value="">
-                                            <el-option
-                                                    v-for="item in clothesPersonOptions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                </div><br>
-                            </mt-tab-container-item>
-                            <mt-tab-container-item id="shoes">
-                                <div class="shoes_info">
-                                    <div class="text_item">
-                                        <div class="toast_more_message" v-show="shoesSize.length <= 0">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="toast_title">鞋子尺码：</span>
-                                        <el-checkbox-group v-model="shoesSize">
-                                            <el-checkbox label="25"></el-checkbox>
-                                            <el-checkbox label="26"></el-checkbox>
-                                            <el-checkbox label="27"></el-checkbox>
-                                            <el-checkbox label='28'></el-checkbox>
-                                            <el-checkbox label="29"></el-checkbox>
-                                            <el-checkbox label="30"></el-checkbox>
-                                            <el-checkbox label="31"></el-checkbox>
-                                            <el-checkbox label="32"></el-checkbox>
-                                            <el-checkbox label="33"></el-checkbox>
-                                            <el-checkbox label="34"></el-checkbox>
-                                            <el-checkbox label="35"></el-checkbox>
-                                            <el-checkbox label="36"></el-checkbox>
-                                            <el-checkbox label="37"></el-checkbox>
-                                            <el-checkbox label="38"></el-checkbox>
-                                            <el-checkbox label="39"></el-checkbox>
-                                            <el-checkbox label="40"></el-checkbox>
-                                            <el-checkbox label="41"></el-checkbox>
-                                            <el-checkbox label="42"></el-checkbox>
-                                            <el-checkbox label="43"></el-checkbox>
-                                            <el-checkbox label="44"></el-checkbox>
-                                            <el-checkbox label="45"></el-checkbox>
-                                            <el-checkbox label="46"></el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_more_message" v-show="shoesColor.length <= 0">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="toast_title">鞋子颜色：</span>
-                                        <el-checkbox-group v-model="shoesColor">
-                                            <el-checkbox label="黑色"></el-checkbox>
-                                            <el-checkbox label="白色"></el-checkbox>
-                                            <el-checkbox label="卡其色"></el-checkbox>
-                                            <el-checkbox label="棕色"></el-checkbox>
-                                            <el-checkbox label="杏色"></el-checkbox>
-                                            <el-checkbox label="黑白色"></el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                    <div v-show="!shoesColor">
-                                        <span>补充颜色：</span>
-                                        <input type="text" value="" v-model="shoesColor" placeholder="补充输入颜色"/>
-                                    </div>
-                                    <br>
-
-                                    <div class="toast_check_message" v-show="!shoesSeason">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                        <span v-text="toastMsg"></span>
-                                    </div>
-                                    <span>适用季节：</span>
-                                    <div class="select">
-                                        <el-select v-model="shoesSeason" placeholder="请选择" value="">
-                                            <el-option
-                                                    v-for="item in shoesSeasonOptions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                    <br>
-
-                                    <div class="toast_check_message" v-show="!shoesPlace">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                        <span v-text="toastMsg"></span>
-                                    </div>
-                                    <span>适用场合：</span>
-                                    <div class="select">
-                                        <el-select v-model="shoesPlace" placeholder="请选择" value="">
-                                            <el-option
-                                                    v-for="item in shoesPlaceOptions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                    <br>
-                                    <div class="toast_check_message" v-show="!shoesMaterial">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                        <span v-text="toastMsg"></span>
-                                    </div>
-                                    <span>鞋子材质：</span>
-                                    <div class="select">
-                                        <el-select v-model="shoesMaterial" placeholder="请选择" value="">
-                                            <el-option
-                                                    v-for="item in shoesMaterialOptions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                            </el-option>
-                                        </el-select>
-                                    </div>
-                                    <br>
-
-                                </div>
-                            </mt-tab-container-item>
-                            <mt-tab-container-item id="package">
-                                    <div class="shoes_info">
-                                        <div class="text_item">
-                                            <div class="toast_more_message" v-show="packageSize.length <= 0">
-                                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                                <span v-text="toastMsg"></span>
-                                            </div>
-                                            <span class="toast_title">包包尺寸：</span>
-                                            <el-checkbox-group v-model="packageSize">
-                                                <el-checkbox label="均码"></el-checkbox>
-                                                <el-checkbox label="大"></el-checkbox>
-                                                <el-checkbox label="中"></el-checkbox>
-                                                <el-checkbox label="小"></el-checkbox>
-                                            </el-checkbox-group>
-                                        </div>
-                                        <br>
-                                        <div class="text_item">
-                                            <div class="toast_more_message" v-show="packageColor.length <= 0">
-                                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                                <span v-text="toastMsg"></span>
-                                            </div>
-                                            <span class="toast_title">包包颜色：</span>
-                                            <el-checkbox-group v-model="packageColor">
-                                                <el-checkbox label="黑色"></el-checkbox>
-                                                <el-checkbox label="白色"></el-checkbox>
-                                                <el-checkbox label="卡其色"></el-checkbox>
-                                                <el-checkbox label="棕色"></el-checkbox>
-                                                <el-checkbox label="卡其色"></el-checkbox>
-                                                <el-checkbox label="杏色"></el-checkbox>
-                                                <el-checkbox label="黄色"></el-checkbox>
-                                                <el-checkbox label="绿色"></el-checkbox>
-                                                <el-checkbox label="蓝色"></el-checkbox>
-                                                <el-checkbox label="棕红色"></el-checkbox>
-                                            </el-checkbox-group>
-                                        </div>
-                                        <br>
-                                        <span>补充颜色：</span>
-                                        <input type="text" value="" v-model="packageColor" placeholder="补充输入颜色"/>
-                                        <br>
-                                        <div class="toast_radio_message" v-show="!packageSash">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <div style="margin-top: 10px">
-                                          <span >有无肩带：</span>
-                                          <el-radio v-model="packageSash" label="有">有</el-radio>
-                                          <el-radio v-model="packageSash" label="无">无</el-radio>
-                                        </div>
-                                        <br>
-                                        <div class="toast_radio_message" v-show="!packageSex">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <div style="margin-top: 10px">
-                                          <span>适用性别：</span>
-                                          <el-radio v-model="packageSex" label="男">男</el-radio>
-                                          <el-radio v-model="packageSex" label="女">女</el-radio>
-                                        </div>
-                                        <br>
-                                        <div class="text_item">
-                                            <div class="toast_message input_message" v-show="!packageWeight" >
-                                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                                <span v-text="toastMsg"></span>
-                                            </div>
-                                            <span>包包重量：</span>
-                                            <input type="number" value=""  v-model="packageWeight"/>
-                                        </div>
-
-                                        <div class="toast_check_message" v-show="!packageSeason">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span>适用季节：</span>
-                                        <div class="select">
-                                            <el-select v-model="packageSeason" placeholder="请选择" value="">
-                                                <el-option
-                                                        v-for="item in packageSeasonOptions"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </div>
-                                        <br>
-                                        <div class="toast_check_message" v-show="!packageMaterial">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span>包包材质：</span>
-                                        <div class="select">
-                                            <el-select v-model="packageMaterial" placeholder="请选择" value="">
-                                                <el-option
-                                                        v-for="item in packageMaterialOptions"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </div>
-                                </div>
-                            </mt-tab-container-item>
-                            <mt-tab-container-item id="electronic">
-                                <div class="electronic_info">
-
-                                    <div class="phone_color">
-                                        <div class="text_item">
-                                            <div class="toast_more_message" v-show="electronicColor.length <= 0">
-                                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                                <span v-text="toastMsg"></span>
-                                            </div>
-                                            <span class="toast_title">手机颜色：</span>
-                                            <el-checkbox-group v-model="electronicColor">
-                                            <el-checkbox label="黑色"></el-checkbox>
-                                            <el-checkbox label="白色"></el-checkbox>
-                                            <el-checkbox label="银色"></el-checkbox>
-                                            <el-checkbox label="香槟金"></el-checkbox>
-                                            <el-checkbox label="深空灰"></el-checkbox>
-                                            <el-checkbox label="红色"></el-checkbox>
-                                            <el-checkbox label="玫瑰金"></el-checkbox>
-                                            <el-checkbox label="渐变色"></el-checkbox>
-                                        </el-checkbox-group>
-                                        </div>
-                                        <br>
-                                        <span>补充颜色：</span>
-                                        <input type="text" value="" v-model="electronicColor" placeholder="补充输入颜色"/>
-                                    </div>
-                                  <br>
-                                    <div class="text_item">
-                                        <div class="toast_more_message" v-show="electronicFormat.length <= 0">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="toast_title">手机规格：</span>
-                                        <el-checkbox-group v-model="electronicFormat">
-                                            <el-checkbox label="8GB+128GB"></el-checkbox>
-                                            <el-checkbox label="8GB+256GB"></el-checkbox>
-                                            <el-checkbox label="4GB+128GB"></el-checkbox>
-                                            <el-checkbox label="8GB+64GB"></el-checkbox>
-                                            <el-checkbox label="4GB+64GB"></el-checkbox>
-                                            <el-checkbox label="4GB+32GB"></el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                    <br>
-                                    <div class="toast_radio_message" v-show="!electronicSystem" style="left: 40%">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                        <span v-text="toastMsg"></span>
-                                    </div>
-                                    <div style="margin-top: 10px">
-                                      <span>手机系统：</span>
-                                      <el-radio v-model="electronicSystem" label="苹果（IOS）">苹果（IOS）</el-radio>
-                                      <el-radio v-model="electronicSystem" label="安卓（Android）">安卓（Android）</el-radio>
-                                    </div>
-                                    <br>
-
-                                    <div class="toast_radio_message" v-show="!electronicDoubleCard" style="left: 30%">
-                                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                        <span v-text="toastMsg"></span>
-                                    </div>
-                                    <div  style="margin-top: 10px">
-                                      <span>支持双卡：</span>
-                                      <el-radio v-model="electronicDoubleCard" label="支持">支持</el-radio>
-                                      <el-radio v-model="electronicDoubleCard" label="不支持">不支持</el-radio>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_message input_message" v-show="!electronicResolution">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg" ></span>
-                                        </div>
-                                        <span>手机分辨率：</span>
-                                        <input type="text" value="" v-model="electronicResolution" placeholder="请输入分辨率"/>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_message input_message" v-show="!electronicFront" >
-                                            <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span>前置摄像头：</span>
-                                        <input type="text" value="" v-model="electronicFront" placeholder="请输入前置摄像头像素"/>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_message input_message" v-show="!electronicBackend">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span>后置摄像头：</span>
-                                        <input type="text" value="" v-model="electronicBackend" placeholder="请输入后置摄像头像素"/>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_message input_message" v-show="!electronicScreenSize">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span>屏幕尺寸：</span>
-                                        <input type="text" value="" v-model="electronicScreenSize" placeholder="请输入屏幕尺寸"/>
-                                    </div>
-                                    <br>
-                                    <div class="text_item">
-                                        <div class="toast_message input_message" v-show="!phoneFitting">
-                                            <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
-                                            <span v-text="toastMsg"></span>
-                                        </div>
-                                        <span class="phone_fitting" style="width: auto">手机配置：</span>
-                                        <textarea rows="4" v-model="phoneFitting" placeholder="请输入手机配置"></textarea>
-                                    </div>
-                                    <br>
-                                </div>
-                            </mt-tab-container-item>
-                        </mt-tab-container>
-                        <div style="margin-top: 25px">
-                            <span class="show_img" style="margin-left: 0">主宣传图:</span>
-                            <div class="toast_img_message" v-show="imageMain.length <= 0">
-                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                <span v-text="toastMsg"></span>
-                            </div>
-                            <input type="file" accept="image/*" @change="changeMainImage" ref="avatarInputMain" style="display:none">
-                            <div class="pic_list_box">
-                                <div class="pic_list" v-show="imageMain.length<2" >
-                                    <div v-for="(src,index) in imageMain" :key="index"
-                                         @mouseenter="delShow" @mouseleave="delHide">
-                                        <img :src="src" width="80" height="80" alt srcset>
-                                        <span class="del_img" @click="deleteImg(index,imageMain)">×</span>
-                                    </div>
-                                    <div class="upload_img" v-show="imageMain.length < 1" >
-                                        <span class="upload_btn" @click="upLoadMain" >+</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <span class="show_img">展示图:</span>
-                            <div class="toast_img_message" v-show="imageShow.length <= 0">
-                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                <span v-text="toastMsg"></span>
-                            </div>
-                            <input type="file" accept="image/*" @change="changeShowImage" ref="avatarInputShow" style="display:none">
-                            <div class="pic_list_box">
-                                <div class="pic_list" v-show="imageShow.length<6" >
-                                    <div v-for="(item,index) in imageShow" :key="index"
-                                         @mouseenter="delShow" @mouseleave="delHide">
-                                        <img :src="item" width="80" height="80" alt srcset>
-                                        <span class="del_img" @click="deleteImg(index,imageShow)">×</span>
-                                    </div>
-                                    <div class="upload_img" v-show="imageShow.length < 5" >
-                                        <span class="upload_btn" @click="upLoadShow" >+</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <br>
-                            <span class="show_img">详情图:</span>
-                            <div class="toast_img_message" v-show="imageDetail.length <= 0">
-                                <span class="iconfont icon-jinggao" v-if="icon_show"></span>
-                                <span v-text="toastMsg"></span>
-                            </div>
-                            <input type="file" accept="image/*" @change="changeDetailImage" ref="avatarInputDetail" style="display: none">
-                            <div class="pic_list_box">
-                                <div class="pic_list" v-show="imageDetail.length<6" >
-                                    <div v-for="(item,index) in imageDetail" :key="index"
-                                         @mouseenter="delShow" @mouseleave="delHide">
-                                        <img :src="item" width="80" height="80" alt srcset>
-                                        <span class="del_img" @click="deleteImg(index,imageDetail)">×</span>
-                                    </div>
-                                    <div class="upload_img" v-show="imageDetail.length < 5" >
-                                        <span class="upload_btn" @click="upLoadDetail" >+</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="btn_box">
-                            <button @click="nextOne" class="handlebtn">上一步，填写商品信息</button>
-                            <button @click="submitInfo" class="handlebtn">提交商品信息</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </mt-tab-container-item>
-
-        </mt-tab-container>
+  <div>
+    <div style="padding: 20px;">
+      <el-breadcrumb separator-class="el-icon-arrow-right" >
+        <el-breadcrumb-item >首页</el-breadcrumb-item>
+        <el-breadcrumb-item>商品</el-breadcrumb-item>
+        <el-breadcrumb-item>添加商品</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <hr>
+    <div id="curd_container">
+      <!--侧导航-->
+      <div class="write_process">
+        <div class="write_icon">
+          <div :class="{cur_icon:cur_show1,pre_icon:pre_show1}" v-text="one_icon"></div>
+          <div :class="{cur_icon:cur_show1,pre_icon:pre_show1}">填写商品信息</div>
+        </div>
+        <div class="write_icon">
+          <div :class="{cur_icon:cur_show2,pre_icon:pre_show2}" v-text="two_icon"></div>
+          <div :class="{cur_icon:cur_show2,pre_icon:pre_show2}">填写商品属性</div>
+        </div>
+        <div class="write_icon">
+          <div :class="{cur_icon:cur_show3,pre_icon:pre_show3}"  v-text="three_icon"></div>
+          <div :class="{cur_icon:cur_show3,pre_icon:pre_show3}">提交商品信息</div>
+        </div>
+        <div class="write_border"></div>
+      </div>
+      <mt-tab-container v-model="active_public" class="tab">
+        <mt-tab-container-item id="public">
+          <form class="form" @submit.prevent="onSubmit">
+            <fieldset>
+              <div class="clothes_info">
+                <div class="text_item">
+                  <span><i>*</i>商品类型：</span>
+                  <div class="block select">
+                    <el-cascader
+                      :options="options"
+                      clearable
+                      v-model="goodsType"
+                      @change="handleSelect"></el-cascader>
+                  </div>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsName">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span><i>*</i>商品名：</span>
+                  <input type="text" value="" placeholder="请输入商品名字" v-model="goodsName" aria-required="true"/>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsDesc">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span><i>*</i>商品描述：</span>
+                  <textarea rows="3" cols="6" placeholder="请输入商品描述" v-model="goodsDesc"></textarea>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsBrand">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span><i>*</i>品牌：</span>
+                  <input type="text" value="" placeholder="请输入商品品牌" v-model="goodsBrand"/>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsCurPrice">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span>销售价：</span>
+                  <input type="number" value="" placeholder="请输入商品现价" v-model="goodsCurPrice"/>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsPrePrice">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span>市场价：</span>
+                  <input type="number" value="0" placeholder="请输入商品原价" v-model="goodsPrePrice"/>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!goodsPlace">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span>商品产地：</span>
+                  <input type="text" value="" placeholder="请输入商品产地" v-model="goodsPlace"/>
+                </div>
+                <div class="text_item">
+                  <div class="toast_message" v-show="!storeGoodsNumber">
+                    <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                    <span v-text="toastMsg"></span>
+                  </div>
+                  <span>库存量：</span>
+                  <input type="number" value="" placeholder="请输入库存量"  v-model="storeGoodsNumber" />
+                </div>
+                <div class="btn_box">
+                  <button class="handlebtn" @click.self="nextTwo">下一步，填写商品属性</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="sort">
+          <form class="form" @submit.prevent="onSubmit">
+            <fieldset>
+              <mt-tab-container v-model="active">
+                <mt-tab-container-item id="clothes">
+                  <div class="clothes_info">
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="clothesSize.length <= 0" >
+                        <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -5px;"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">衣服尺码：</span>
+                      <el-checkbox-group v-model="clothesSize">
+                        <el-checkbox label="均码"></el-checkbox>
+                        <el-checkbox label="XS"></el-checkbox>
+                        <el-checkbox label="S"></el-checkbox>
+                        <el-checkbox label="M"></el-checkbox>
+                        <el-checkbox label="L"></el-checkbox>
+                        <el-checkbox label="XL"></el-checkbox>
+                        <el-checkbox label="XXL"></el-checkbox>
+                        <el-checkbox label="XXL"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="clothesColor.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title" >衣服颜色：</span>
+                      <el-checkbox-group v-model="clothesColor">
+                        <el-checkbox label="黑色"></el-checkbox>
+                        <el-checkbox label="白色"></el-checkbox>
+                        <el-checkbox label="卡其色"></el-checkbox>
+                        <el-checkbox label="红色"></el-checkbox>
+                        <el-checkbox label="粉色"></el-checkbox>
+                        <el-checkbox label="杏色"></el-checkbox>
+                        <el-checkbox label="绿色"></el-checkbox>
+                        <el-checkbox label="黄色"></el-checkbox>
+                        <el-checkbox label="紫色"></el-checkbox>
+                        <el-checkbox label="蓝色"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <br>
+                    <span>补充颜色：</span>
+                    <input type="text" value="" v-model="clothesColor" placeholder="补充输入颜色"/>
+                    <br>
+                    <br>
+                    <div class="toast_check_message" v-show="!clothesSeason">
+                      <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -7px;"></span>
+                      <span v-text="toastMsg" style="margin-left: 7px;"></span>
+                    </div>
+                    <span>适用季节：</span>
+                    <div class="select">
+                      <el-select v-model="clothesSeason" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in clothesSeasonOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <br>
+                    <div class="toast_check_message" v-show="!clothesPerson">
+                      <span class="iconfont icon-jinggao" v-if="icon_show" style="top: -7px;"></span>
+                      <span v-text="toastMsg" style="margin-left: 7px;"></span>
+                    </div>
+                    <span>适用人群：</span>
+                    <div class="select">
+                      <el-select v-model="clothesPerson" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in clothesPersonOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div><br>
+                </mt-tab-container-item>
+                <mt-tab-container-item id="shoes">
+                  <div class="shoes_info">
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="shoesSize.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">鞋子尺码：</span>
+                      <el-checkbox-group v-model="shoesSize">
+                        <el-checkbox label="25"></el-checkbox>
+                        <el-checkbox label="26"></el-checkbox>
+                        <el-checkbox label="27"></el-checkbox>
+                        <el-checkbox label='28'></el-checkbox>
+                        <el-checkbox label="29"></el-checkbox>
+                        <el-checkbox label="30"></el-checkbox>
+                        <el-checkbox label="31"></el-checkbox>
+                        <el-checkbox label="32"></el-checkbox>
+                        <el-checkbox label="33"></el-checkbox>
+                        <el-checkbox label="34"></el-checkbox>
+                        <el-checkbox label="35"></el-checkbox>
+                        <el-checkbox label="36"></el-checkbox>
+                        <el-checkbox label="37"></el-checkbox>
+                        <el-checkbox label="38"></el-checkbox>
+                        <el-checkbox label="39"></el-checkbox>
+                        <el-checkbox label="40"></el-checkbox>
+                        <el-checkbox label="41"></el-checkbox>
+                        <el-checkbox label="42"></el-checkbox>
+                        <el-checkbox label="43"></el-checkbox>
+                        <el-checkbox label="44"></el-checkbox>
+                        <el-checkbox label="45"></el-checkbox>
+                        <el-checkbox label="46"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="shoesColor.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">鞋子颜色：</span>
+                      <el-checkbox-group v-model="shoesColor">
+                        <el-checkbox label="黑色"></el-checkbox>
+                        <el-checkbox label="白色"></el-checkbox>
+                        <el-checkbox label="卡其色"></el-checkbox>
+                        <el-checkbox label="棕色"></el-checkbox>
+                        <el-checkbox label="杏色"></el-checkbox>
+                        <el-checkbox label="黑白色"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <div v-show="!shoesColor">
+                      <span>补充颜色：</span>
+                      <input type="text" value="" v-model="shoesColor" placeholder="补充输入颜色"/>
+                    </div>
+                    <br>
+
+                    <div class="toast_check_message" v-show="!shoesSeason">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <span>适用季节：</span>
+                    <div class="select">
+                      <el-select v-model="shoesSeason" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in shoesSeasonOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <br>
+
+                    <div class="toast_check_message" v-show="!shoesPlace">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <span>适用场合：</span>
+                    <div class="select">
+                      <el-select v-model="shoesPlace" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in shoesPlaceOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <br>
+                    <div class="toast_check_message" v-show="!shoesMaterial">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <span>鞋子材质：</span>
+                    <div class="select">
+                      <el-select v-model="shoesMaterial" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in shoesMaterialOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <br>
+
+                  </div>
+                </mt-tab-container-item>
+                <mt-tab-container-item id="package">
+                  <div class="shoes_info">
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="packageSize.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">包包尺寸：</span>
+                      <el-checkbox-group v-model="packageSize">
+                        <el-checkbox label="均码"></el-checkbox>
+                        <el-checkbox label="大"></el-checkbox>
+                        <el-checkbox label="中"></el-checkbox>
+                        <el-checkbox label="小"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="packageColor.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">包包颜色：</span>
+                      <el-checkbox-group v-model="packageColor">
+                        <el-checkbox label="黑色"></el-checkbox>
+                        <el-checkbox label="白色"></el-checkbox>
+                        <el-checkbox label="卡其色"></el-checkbox>
+                        <el-checkbox label="棕色"></el-checkbox>
+                        <el-checkbox label="卡其色"></el-checkbox>
+                        <el-checkbox label="杏色"></el-checkbox>
+                        <el-checkbox label="黄色"></el-checkbox>
+                        <el-checkbox label="绿色"></el-checkbox>
+                        <el-checkbox label="蓝色"></el-checkbox>
+                        <el-checkbox label="棕红色"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <br>
+                    <span>补充颜色：</span>
+                    <input type="text" value="" v-model="packageColor" placeholder="补充输入颜色"/>
+                    <br>
+                    <div class="toast_radio_message" v-show="!packageSash">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <div style="margin-top: 10px">
+                      <span >有无肩带：</span>
+                      <el-radio v-model="packageSash" label="有">有</el-radio>
+                      <el-radio v-model="packageSash" label="无">无</el-radio>
+                    </div>
+                    <br>
+                    <div class="toast_radio_message" v-show="!packageSex">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <div style="margin-top: 10px">
+                      <span>适用性别：</span>
+                      <el-radio v-model="packageSex" label="男">男</el-radio>
+                      <el-radio v-model="packageSex" label="女">女</el-radio>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!packageWeight" >
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span>包包重量：</span>
+                      <input type="number" value=""  v-model="packageWeight"/>
+                    </div>
+
+                    <div class="toast_check_message" v-show="!packageSeason">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <span>适用季节：</span>
+                    <div class="select">
+                      <el-select v-model="packageSeason" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in packageSeasonOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <br>
+                    <div class="toast_check_message" v-show="!packageMaterial">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <span>包包材质：</span>
+                    <div class="select">
+                      <el-select v-model="packageMaterial" placeholder="请选择" value="">
+                        <el-option
+                          v-for="item in packageMaterialOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </div>
+                  </div>
+                </mt-tab-container-item>
+                <mt-tab-container-item id="electronic">
+                  <div class="electronic_info">
+
+                    <div class="phone_color">
+                      <div class="text_item">
+                        <div class="toast_more_message" v-show="electronicColor.length <= 0">
+                          <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                          <span v-text="toastMsg"></span>
+                        </div>
+                        <span class="toast_title">手机颜色：</span>
+                        <el-checkbox-group v-model="electronicColor">
+                          <el-checkbox label="黑色"></el-checkbox>
+                          <el-checkbox label="白色"></el-checkbox>
+                          <el-checkbox label="银色"></el-checkbox>
+                          <el-checkbox label="香槟金"></el-checkbox>
+                          <el-checkbox label="深空灰"></el-checkbox>
+                          <el-checkbox label="红色"></el-checkbox>
+                          <el-checkbox label="玫瑰金"></el-checkbox>
+                          <el-checkbox label="渐变色"></el-checkbox>
+                        </el-checkbox-group>
+                      </div>
+                      <br>
+                      <span>补充颜色：</span>
+                      <input type="text" value="" v-model="electronicColor" placeholder="补充输入颜色"/>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_more_message" v-show="electronicFormat.length <= 0">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="toast_title">手机规格：</span>
+                      <el-checkbox-group v-model="electronicFormat">
+                        <el-checkbox label="8GB+128GB"></el-checkbox>
+                        <el-checkbox label="8GB+256GB"></el-checkbox>
+                        <el-checkbox label="4GB+128GB"></el-checkbox>
+                        <el-checkbox label="8GB+64GB"></el-checkbox>
+                        <el-checkbox label="4GB+64GB"></el-checkbox>
+                        <el-checkbox label="4GB+32GB"></el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                    <br>
+                    <div class="toast_radio_message" v-show="!electronicSystem" style="left: 40%">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <div style="margin-top: 10px">
+                      <span>手机系统：</span>
+                      <el-radio v-model="electronicSystem" label="苹果（IOS）">苹果（IOS）</el-radio>
+                      <el-radio v-model="electronicSystem" label="安卓（Android）">安卓（Android）</el-radio>
+                    </div>
+                    <br>
+
+                    <div class="toast_radio_message" v-show="!electronicDoubleCard" style="left: 30%">
+                      <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                      <span v-text="toastMsg"></span>
+                    </div>
+                    <div  style="margin-top: 10px">
+                      <span>支持双卡：</span>
+                      <el-radio v-model="electronicDoubleCard" label="支持">支持</el-radio>
+                      <el-radio v-model="electronicDoubleCard" label="不支持">不支持</el-radio>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!electronicResolution">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg" ></span>
+                      </div>
+                      <span>手机分辨率：</span>
+                      <input type="text" value="" v-model="electronicResolution" placeholder="请输入分辨率"/>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!electronicFront" >
+                        <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span>前置摄像头：</span>
+                      <input type="text" value="" v-model="electronicFront" placeholder="请输入前置摄像头像素"/>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!electronicBackend">
+                        <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span>后置摄像头：</span>
+                      <input type="text" value="" v-model="electronicBackend" placeholder="请输入后置摄像头像素"/>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!electronicScreenSize">
+                        <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span>屏幕尺寸：</span>
+                      <input type="text" value="" v-model="electronicScreenSize" placeholder="请输入屏幕尺寸"/>
+                    </div>
+                    <br>
+                    <div class="text_item">
+                      <div class="toast_message input_message" v-show="!phoneFitting">
+                        <span class="iconfont icon-jinggao" v-if="icon_show" ></span>
+                        <span v-text="toastMsg"></span>
+                      </div>
+                      <span class="phone_fitting" style="width: auto">手机配置：</span>
+                      <textarea rows="4" v-model="phoneFitting" placeholder="请输入手机配置"></textarea>
+                    </div>
+                    <br>
+                  </div>
+                </mt-tab-container-item>
+              </mt-tab-container>
+              <div style="margin-top: 25px">
+                <span class="show_img" style="margin-left: 0">主宣传图:</span>
+                <div class="toast_img_message" v-show="imageMain.length <= 0">
+                  <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                  <span v-text="toastMsg"></span>
+                </div>
+                <input type="file" accept="image/*" @change="changeMainImage" ref="avatarInputMain" style="display:none">
+                <div class="pic_list_box">
+                  <div class="pic_list" v-show="imageMain.length<2" >
+                    <div v-for="(src,index) in imageMain" :key="index"
+                         @mouseenter="delShow" @mouseleave="delHide">
+                      <img :src="src" width="80" height="80" alt srcset>
+                      <span class="del_img" @click="deleteImg(index,imageMain)">×</span>
+                    </div>
+                    <div class="upload_img" v-show="imageMain.length < 1" >
+                      <span class="upload_btn" @click="upLoadMain" >+</span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <span class="show_img">展示图:</span>
+                <div class="toast_img_message" v-show="imageShow.length <= 0">
+                  <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                  <span v-text="toastMsg"></span>
+                </div>
+                <input type="file" accept="image/*" @change="changeShowImage" ref="avatarInputShow" style="display:none">
+                <div class="pic_list_box">
+                  <div class="pic_list" v-show="imageShow.length<6" >
+                    <div v-for="(item,index) in imageShow" :key="index"
+                         @mouseenter="delShow" @mouseleave="delHide">
+                      <img :src="item" width="80" height="80" alt srcset>
+                      <span class="del_img" @click="deleteImg(index,imageShow)">×</span>
+                    </div>
+                    <div class="upload_img" v-show="imageShow.length < 5" >
+                      <span class="upload_btn" @click="upLoadShow" >+</span>
+                    </div>
+                  </div>
+
+                </div>
+                <br>
+                <span class="show_img">详情图:</span>
+                <div class="toast_img_message" v-show="imageDetail.length <= 0">
+                  <span class="iconfont icon-jinggao" v-if="icon_show"></span>
+                  <span v-text="toastMsg"></span>
+                </div>
+                <input type="file" accept="image/*" @change="changeDetailImage" ref="avatarInputDetail" style="display: none">
+                <div class="pic_list_box">
+                  <div class="pic_list" v-show="imageDetail.length<6" >
+                    <div v-for="(item,index) in imageDetail" :key="index"
+                         @mouseenter="delShow" @mouseleave="delHide">
+                      <img :src="item" width="80" height="80" alt srcset>
+                      <span class="del_img" @click="deleteImg(index,imageDetail)">×</span>
+                    </div>
+                    <div class="upload_img" v-show="imageDetail.length < 5" >
+                      <span class="upload_btn" @click="upLoadDetail" >+</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="btn_box">
+                <button @click="nextOne" class="handlebtn">上一步，填写商品信息</button>
+                <button @click="submitInfo" class="handlebtn">提交商品信息</button>
+              </div>
+            </fieldset>
+          </form>
+        </mt-tab-container-item>
+
+      </mt-tab-container>
+    </div>
+  </div>
+
 </template>
 <script>
 export default {
@@ -1238,7 +1253,7 @@ export default {
                             return;
                         }else {
                             this.$message.success('正在添加，请耐心等候...');
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
+                            this.$http.post('/buss/addgoods', {
                                 userId:window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1273,7 +1288,7 @@ export default {
                             return;
                         }else {
                             this.$message.success('正在添加，请耐心等候...');
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
+                            this.$http.post('/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1308,7 +1323,7 @@ export default {
                             return;
                         }else {
                             this.$message.success('正在添加，请耐心等候...');
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
+                            this.$http.post('/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,
@@ -1346,7 +1361,7 @@ export default {
                             return;
                         }else {
                             this.$message.success('正在添加，请耐心等候...');
-                            this.$http.post('http://120.78.64.17:8086/nice-mall-backend/buss/addgoods', {
+                            this.$http.post('/buss/addgoods', {
                                 userId: window.localStorage.getItem('userId'),
                                 goodsType: this.goodsType,
                                 goodsName: this.goodsName,

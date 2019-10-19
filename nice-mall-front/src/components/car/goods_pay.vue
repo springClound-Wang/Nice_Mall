@@ -7,13 +7,13 @@
                     :class="choose === index ? 'choose_address':''" @click="chooseAddress(index)">
                         <div class="address-left">
                             <div class="buy-address-detail">
-                                <span>{{item.name}} </span>
-                                <span>{{item.telephone}}</span>
+                                <span>{{item.receiptName}} </span>
+                                <span>{{item.receiptPhone}}</span>
                             </div>
                             <div class="default-address">
                                 <span class="buy-line-title">收货地址：</span>
                                 <span class="buy-address">
-                                    {{item.address}}
+                                    {{item.receiptArea}}&nbsp;&nbsp;{{item.detailAddress}}
                                 </span>
                             </div>
                             <span class="default" :class="choose === index ? 'deftip':''" @click="chooseTacit(index)">设为默认</span>
@@ -23,15 +23,16 @@
                             <div class="handle">
                                 <a href="#">编辑</a>
                                 <span>|</span>
-                                <a href="" onclick="delClick(this);">删除</a>
+                                <a href="" @click="delAddress(item.addressId)">删除</a>
                             </div>
                         </div>
                     </li>
+                    <li class="createaddress" title="新增地址">
+                      <span @click="showPopup" style="margin-top: 15px;display: block;">+</span>
+                      <popup v-show="isPopupVisible" @close="closePopup"></popup>
+                    </li>
             </ul>
-            <div class="createaddress" title="新增地址">
-                <span @click="showPopup">+</span>
-                <popup v-show="isPopupVisible" @close="closePopup"></popup>
-            </div>
+
         </div>
         <div class="pay_title">商品清单
             <router-link to="/other_container/goods_car"><span>返回购物车修改商品</span></router-link>
@@ -45,15 +46,15 @@
                     <td>单价</td>
                     <td>数量</td>
                 </tr>
-                <tr v-for="(item,index) in pay_data" :key="item.car_goods_id">
+                <tr v-for="(item,index) in pay_data" :key="item.goodsId">
                     <td  class="goods_pay_td">
-                        <img :src="item.car_goods_img"/>
-                        <span class="car_goods_name">{{item.car_goods_name}}</span>
+                        <img :src="item.imageMain"/>
+                        <span class="car_goods_name">{{item.goodsName}}</span>
                     </td>
-                    <td>{{item.car_goods_size}}</td>
-                    <td>{{item.car_goods_color}}</td>
-                    <td>¥ {{item.car_goods_price}}</td>
-                    <td>{{item.car_goods_num}}</td>
+                    <td>{{item.goodsSize}}</td>
+                    <td>{{item.goodsColor}}</td>
+                    <td>¥ {{item.goodsPrice}}</td>
+                    <td>{{item.goodsNum}}</td>
                 </tr>
             </table>
             <div class="pay_desc">
@@ -85,17 +86,27 @@
                     <span>收货人: {{username}} {{telephone}}</span>
                 </div>
                 <div class="pay_money">
-                    <button @click="handleBuy">提交订单</button>
+                    <el-button type="text" @click="open">提交订单</el-button>
                 </div>
             </div>
         </div>
+        <el-dialog title="确认支付商品" :visible.sync="dialogFormVisible" >
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="exitBuy">取 消</el-button>
+            <el-button type="primary" @click="toBuy">确 定</el-button>
+          </div>
+        </el-dialog>
     </div>
 </template>
 <script>
 import popup from '../tools/popup.vue';
 export default {
+    inject:['reload'],
     components: {
         popup
+    },
+    created(){
+        this.getAddress();
     },
     data(){
         return{
@@ -106,32 +117,43 @@ export default {
             toaddress:'',
             username:'',
             telephone:'',
+            dialogFormVisible: false,
             choose:-1, //选择
             isTacit:-1, //是否设置成默认地址
-            address:[
-                {
-                    address_id:1,
-                    name:'李丹',
-                    telephone:'1223323232',
-                    address:'吉林省 长春市 南关区 卫星广场财富领域5A16室'
-                },
-                {
-                    address_id:2,
-                    name:'王二',
-                    telephone:'1223323232',
-                    address:'吉林省 长春市 南关区 卫星广场财富领域5A16室'
-                }
-            ]
+            address:[]  //地址数组
         }
     },
     methods:{
-
+        getAddress(){
+          this.$http.get('/personal/getaddr',{
+            params:{userId:window.localStorage.getItem('userId')},
+            headers: {Authorization: window.localStorage.getItem('token')}
+          }).then(res=>{
+            this.address = res.data.data;
+          }).catch(err=>{
+            this.$message.error(err.data.message);
+          })
+        },
         //选择地址
         chooseAddress(index){
             this.choose = index;
-            this.toaddress = this.address[index].address;
-            this.username = this.address[index].name;
-            this.telephone = this.address[index].telephone;
+            this.toaddress = this.address[index].receiptArea+this.address[index].detailAddress;
+            this.username = this.address[index].receiptName;
+            this.telephone = this.address[index].receiptPhone;
+        },
+        //TODO 删除地址
+        delAddress(addressId){
+          this.$http.delete('/personal/deladdr',{
+            params:{
+              addressId:addressId
+            },
+            headers:{Authorization: window.localStorage.getItem('token')}
+          }).then(res=>{
+            this.$message.success(res.data.message);
+            this.reload();
+          }).catch(err=>{
+            this.$message.error(err.data.message)
+          })
         },
         chooseTacit(index){
             this.isTacit = index;
@@ -142,19 +164,75 @@ export default {
         closePopup(){
             this.isPopupVisible = false
         },
-        //支付购买
-        handleBuy(){
-            this.$http.post('/buy',{
-                userId:1,
-                goodsId:this.$route.query.id,
-                goodsNum:this.goods_num,
-                goodsSize:this.goods_size
-            }).then(res=>{
-                console.log(res)
-            }).catch(err=>{
-                console.log(err)
-            })
+        //todo 支付订单
+        open() {
+          if(!window.localStorage.getItem('userId')){
+            this.$message.error('请先登录');
+            return;
+          }
+          if(!this.toaddress){
+            this.$message.error('请先选择地址');
+            return;
+          }
+          else{
+            this.dialogFormVisible = true;
+            this.$confirm('是否确认支付?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '购买成功!'
+              });
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消购买'
+              });
+            });
+          }
+
         },
+        // TODO 购买失败  发送订单 信息 未支付
+        exitBuy(){
+          this.dialogFormVisible = false;
+          this.$http.post('/deletegoods', {
+            payData:this.pay_data,
+            payMoney:this.pay_money,
+            toAddress:this.toaddress,
+            receiptName:this.username,
+            receiptPhone:this.telephone,
+            payStatus: 'unPaid'
+          }, {
+            headers: {Authorization: window.localStorage.getItem('token')}
+          }).then(res => {
+
+          }).catch(err => {
+
+          });
+        },
+        toBuy(){
+          // TODO 购买成功  发送订单 信息 已支付
+          this.dialogFormVisible = true;
+          this.$http.post('/deletegoods', {
+            payData:this.pay_data,
+            payMoney:this.pay_money,
+            toAddress:this.toaddress,
+            receiptName:this.username,
+            receiptPhone:this.telephone,
+            payStatus: 'paid'
+          }, {
+            headers: {Authorization: window.localStorage.getItem('token')}
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: '购买成功!',
+            });
+          }).catch(err => {
+
+          })
+        }
     }
 
 }
@@ -167,13 +245,21 @@ export default {
     .address,.goods,.pay{
         position: relative;
         width: 96%;
+        min-height: 200px;
         margin: 0 auto;
     }
     .address ul{
         display: inline-block;
     }
+    .address ul:after{
+        content: '';
+        clear: both;
+        display: block;
+    }
     .address li{
         position: relative;
+        float: left;
+        margin-top: 5px;
     }
     /*标题*/
     .pay_title{
@@ -194,8 +280,8 @@ export default {
     /*默认地址样式*/
     .addresslist,.createaddress{
         display: inline-block;
-        width: 252px;
-        height: 151px;
+        width: 258px;
+        height: 150px;
         margin-right: 10px;
         padding: 10px;
         border: 1px solid #dbdbdb;
@@ -213,7 +299,7 @@ export default {
     }
     /*新增地址*/
     .createaddress{
-        position: absolute;
+        /*position: absolute;*/
         font-size: 80px;
         font-weight: bolder;
         color: #cccccc;
@@ -230,6 +316,7 @@ export default {
         right: 5px;
         padding: 2px 3px;
         background: #dddddd;
+        cursor: pointer;
     }
     .address-left {
         width: 100%;
@@ -310,13 +397,15 @@ export default {
     }
     .pay-type div:nth-child(2){
         position: absolute;
-        top: 23px;
+        top: 20px;
+        left: 40px;
         font-size: 16px;
         color: black;
     }
     .pay-type div:nth-child(3){
         position: relative;
-        left:8%
+        left: 11%;
+        margin-top: 10px;
     }
     .pay_order{
         position: relative;
@@ -357,4 +446,26 @@ export default {
         width: 250px;
         margin-left: 20px;
     }
+</style>
+<style>
+  #pay-container .el-dialog__wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    margin: 0;
+    background: rgba(96, 96, 96, 0.5);
+  }
+  #pay-container .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 30%;
+  }
 </style>

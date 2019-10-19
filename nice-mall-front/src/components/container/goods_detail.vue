@@ -17,7 +17,7 @@
         </div>
         <div class="goods_details_desc">
             <div class="goods_details_desc_title">
-                <span>{{goodsMain.goodsBrand}}</span>
+                <span>{{goodsBrand}}</span>
                 <span>{{goodsName}}</span>
                 <span>{{goodsDesc}}</span>
             </div>
@@ -210,13 +210,13 @@
             <!--衣服-->
             <table border="1" class="second_table" v-show="this.goodsType === 'clothes'">
                 <tr>
-                    <th>适用季节:</th><td>{{goodsDetail.clothesSeason}}</td><th>款式：</th><td>正常</td>
+                    <th>适用季节:</th><td>{{clothesSeason}}</td><th>款式：</th><td>正常</td>
                 </tr>
                 <tr>
-                    <th>适用人群：</th><td>{{goodsDetail.clothesPerson}}</td><th>衣长：</th><td>常规</td>
+                    <th>适用人群：</th><td>{{clothesPerson}}</td><th>衣长：</th><td>常规</td>
                 </tr>
                 <tr>
-                    <th>版型：</th><td>宽松</td><th>面料：</th><td>棉</td>
+                    <th>版型：</th><td>宽松</td><th>品牌</th><td>{{goodsBrand}}</td>
                 </tr>
                 <tr>
                     <th>商品名称：</th><td>{{goodsName}}</td><th>产地：</th><td>{{goodsPlace}}</td>
@@ -225,7 +225,7 @@
             <!--鞋子-->
             <table border="1" class="second_table" v-show="this.goodsType === 'shoes'">
                 <tr>
-                    <th>适用季节:</th><td>{{goodsDetail.shoesSeason}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
+                    <th>适用季节:</th><td>{{goodsDetail.shoesSeason}}</td><th>品牌：</th><td>{{goodsBrand}}</td>
                 </tr>
                 <tr>
                     <th>适用场合：</th><td>{{goodsDetail.shoesPlace}}</td><th>产地：</th><td>{{goodsPlace}}</td>
@@ -252,7 +252,7 @@
             <!--电子产品-->
             <table border="1" class="second_table" v-show="this.goodsType === 'electronic'">
                 <tr>
-                    <th>规格:</th><td>{{goodsMain.electronicFormat}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
+                    <th>规格:</th><td>{{goodsMain.electronicFormat}}</td><th>品牌：</th><td>{{goodsBrand}}</td>
                 </tr>
                 <tr>
                     <th>系统：</th><td>{{goodsMain.electronicSystem}}</td><th>产地：</th><td>{{goodsPlace}}</td>
@@ -313,16 +313,16 @@ export default {
     data(){
         return{
             electronic_format:'',
-
+            goodsDetail:null,
+            goodsMain:null,
             imageMain:'',
             goodsName:'',
             goodsDesc:'',
             goodsPlace:'',
             goodsCurPrice:'',
             goodsPrePrice:'',
+            goodsBrand:'',
             goods_num:1,
-            goodsDetail:null,
-            goodsMain:null,
             goods_size:'',
             goods_color:'',
             goodsFlag:'clothesUpWoman',
@@ -342,38 +342,43 @@ export default {
     methods:{
         // TODO 请求当前商品的详情数据
         getGoodsDetails(){
-          this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/showone/'+this.$route.query.id,{
+          this.$http.get('/home/showone/'+this.$route.query.id,{
                 params: {},
                 headers: {Authorization: window.localStorage.getItem('token')}
             }).then(res=>{
+              this.goodsDetail= res.data.data.goodsDetail;
+              this.goodsMain = res.data.data.goodsMain;
               this.imageMain = res.data.data.goodsMain.imageMain;
               this.goodsName = res.data.data.goodsMain.goodsName;
               this.goodsDesc = res.data.data.goodsMain.goodsDesc;
               this.goodsPlace = res.data.data.goodsMain.goodsPlace;
               this.goodsCurPrice = res.data.data.goodsMain.goodsCurPrice;
               this.goodsPrePrice = res.data.data.goodsMain.goodsPrePrice;
+              this.goodsBrand = res.data.data.goodsMain.goodsBrand;
+              this.clothesSeason = res.data.data.goodsDetail.clothesSeason;
+              this.clothesPerson = res.data.data.goodsDetail.clothesPerson;
               this.goodsFlag = res.data.data.goodsFlag;
               this.goodsType = res.data.data.goodsType;
-              this.goodsDetail= res.data.data.goodsDetail;
-              this.goodsMain = res.data.data.goodsMain;
               this.color = res.data.data.color;
               this.size = res.data.data.size;
               this.imageDetail = res.data.data.imageDetail;
               this.imageShow = res.data.data.imageShow;
               this.storeGoods = res.data.data.storeGoods
           }).catch(err=>{
-              // this.$router.push('/not_found');
+              this.$router.push('/not_found');
           })
         },
         // TODO  加入购物车
         handleAddCar(){
-            if(!this.goods_size){
-                this.$message.warning('请先选择商品尺码！');
+            if(!this.goods_size || !this.goods_color){
+                this.$message.warning('请先选择商品尺码和颜色！');
+                return;
             }
             else{
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
+                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/cart/join', {
                     userId:window.localStorage.getItem('userId'),
                     goodsId:this.$route.query.id,
+                    goodsPrice:this.goodsCurPrice,
                     goodsColor:this.goods_color,
                     goodsNum:this.goods_num,
                     goodsSize:this.goods_size
@@ -390,15 +395,19 @@ export default {
 
         //ToDO 立即购买
         handleBuy(){
+          if(!this.goods_size || !this.goods_color){
+            this.$message.warning('请先选择商品尺码和颜色！');
+            return;
+          }
           let data = [{
-            user_id:1,
-            car_goods_id:this.$route.query.id,
-            car_goods_num:this.goods_num,
-            car_goods_size:this.goods_size,
-            car_goods_color:this.goods_color,
-            car_goods_img :this.imageMain,
-            car_goods_name:this.goodsName,
-            car_goods_price:this.goodsCurPrice
+            goodsId:this.$route.query.id,
+            goodsNum:this.goods_num,
+            goodsSize:this.goods_size,
+            goodsColor:this.goods_color,
+            imageMain:this.imageMain,
+            goodsName:this.goodsName,
+            goodsPrice:this.goodsCurPrice,
+            totalPrice:this.goods_num*this.goodsCurPrice
           }];
           this.$router.push({path:'/other_container/goods_order',query:{select_data:JSON.stringify(data)}});
         },

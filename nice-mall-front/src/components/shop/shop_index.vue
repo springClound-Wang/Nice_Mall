@@ -265,7 +265,7 @@
       },
       //请求所有商品
       getTypeGoodsList() {
-        this.$http.get('http://120.78.64.17:8086/nice-mall-backend/buss/getgoods/'+window.localStorage.getItem('userId'), {
+        this.$http.get('/buss/getgoods/'+window.localStorage.getItem('userId'), {
           params: {},
           headers: {Authorization: window.localStorage.getItem('token')}
         }).then(res=>{
@@ -281,7 +281,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/deletegoods', {
+          this.$http.delete('/deletegoods', {
             params: {goodsId:id},
             headers: {Authorization: window.localStorage.getItem('token')}
           }).then(res =>{

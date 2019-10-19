@@ -42,7 +42,7 @@ export  default {
             }
             else{
                 let that = this;
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/phone',{
+                this.$http.post('/login/phone',{
                     telephone: this.phoneNum,
                     password: this.password
                 }).then(res => {                   //请求成功后的处理函数

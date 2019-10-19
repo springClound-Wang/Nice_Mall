@@ -47,7 +47,7 @@
                 }
                 else{
                     let that =this;
-                    this.$http.post('http://120.78.64.17:8086/nice-mall-backend/login/name',datas).then(res => {                   //请求成功后的处理函数
+                    this.$http.post('/login/name',datas).then(res => {                   //请求成功后的处理函数
                         that.$message({
                             message:res.data.message,
                             type:'success',

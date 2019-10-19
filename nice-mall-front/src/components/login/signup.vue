@@ -63,7 +63,7 @@ export  default {
                 return;
             }
             else{
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/register',{
+                this.$http.post('/register',{
                   telephone:this.phoneNum,
                   password:this.password,
                   code:this.code

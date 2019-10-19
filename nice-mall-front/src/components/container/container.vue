@@ -144,7 +144,7 @@
             },
             //发出请求
             getTypeGoodsList(){
-                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort').then(res=>{
+                this.$http.get('/home/sort').then(res=>{
                     this.goods_type_list = res.data.data;
                 }).catch(err=>{
                     console.log(err);

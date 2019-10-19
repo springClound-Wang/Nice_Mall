@@ -13,24 +13,25 @@
                     <li>小计</li>
                     <li>操作</li>
                 </ul>
-                <ul v-for="(item,index) in car_data " :key="item.car_goods_id" class="car_goods_item">
-                    <label :for="item.car_goods_id" class="select" @click="selectedMoney()">
+                <ul v-for="(item,index) in car_data " :key="item.goodsId" class="car_goods_item">
+                    <label :for="item.goodsId" class="select" @click="selectedMoney()">
                     <input type="checkbox" v-model="selected" class="checked"
-                        :value="item.car_goods_id" :id="item.car_goods_id">
+                        :value="item.goodsId" :id="item.goodsId">
                     <li class="car_shop_title">
                         <span class="iconfont icon-icon4" style="font-size: 18px;color: #f17374"></span>
-                        <span style="margin-left: 4%">敬爱的旧爱店铺</span>
+                        <span style="margin-left: 4%">{{item.storeName}}</span>
                     </li><br>
                     <li class="first_td">
-                        <img :src="item.car_goods_img" class="order_img"/>
-                        <span>{{item.car_goods_name}}</span>
+                        <img :src="item.imageMain" class="order_img"/>
+                        <span>{{item.goodsName}}</span>
                     </li>
-                    <li>{{item.car_goods_size}}</li>
-                    <li>¥ {{item.car_goods_price}}</li>
-                    <li>{{item.car_goods_num}}</li>
+                    <li>{{item.goodsSize}}</li>
+                    <li>¥ {{item.goodsPrice}}</li>
+                    <li>{{item.goodsNum}}</li>
                     <li>红色</li>
-                    <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                    <li><el-button type="primary" plain style="margin: 30% 0 0 15% !important;" @click="handleDeleteCar(item.car_goods_id)">删除</el-button></li>
+                    <li>￥{{item.totalPrice}}</li>
+                    <li><el-button type="primary" plain style="margin: 30% 0 0 15% !important;"
+                                   @click="handleDeleteCar(item.goodsId,item.goodsColor,item.goodsSize)">删除</el-button></li>
                     </label>
                 </ul>
             </div>
@@ -46,7 +47,6 @@
                 <li>移入收藏夹</li>
             </ul>
             <div class="account_all">
-                <!--<span>合计：￥{{all_money}}</span>-->
                 <span>合计：￥{{all_money}}</span>
                 <button @click="handleToCount">结算</button>
             </div>
@@ -55,11 +55,13 @@
 </template>
 <script>
 export default {
+    inject:['reload'],
     data(){
       return{
           selected:[],
           car_data:'',
           all_money:0.00,
+          select_data:[]
       }
     },
     computed:{
@@ -76,7 +78,7 @@ export default {
             this.all_money = 0.00;
             checkObj.forEach((item,index)=>{
                 if(item.checked){ // 将未勾选的checkbox选项push到绑定数组中
-                    sum += parseInt(this.car_data[index].car_goods_price )* this.car_data[index].car_goods_num;
+                    sum += parseInt(this.car_data[index].totalPrice);
                 }
             });
             this.all_money = sum;
@@ -93,7 +95,7 @@ export default {
                 //全选结算价钱
                 let sum =0;
                 for(let i=0;i<this.selected.length;i++){
-                    sum+= parseInt(this.car_data[i].car_goods_price )* this.car_data[i].car_goods_num
+                    sum+= parseInt(this.car_data[i].totalPrice)
                 }
                 this.all_money = sum;
 
@@ -104,54 +106,62 @@ export default {
 
         },
         //TODO 删除购物车的某条信息   ？=
-        handleDeleteCar(id){
-          this.$http.delete('http://120.78.64.17:8086/nice-mall-backend/logout',{
+        handleDeleteCar(id,color,size){
+          this.$http.delete('/cart/del',{
               params:{
-                userId:window.localStorage.getItem('userId'),
-                carId:id
+                goodsId:id,
+                goodsColor:color,
+                goodsSize:size
               },
-              headers: {Authorization: window.localStorage.getItem('token')}
-            }).then(res => {
+              headers: {'Authorization':window.localStorage.getItem('token') }
+          }).then(res => {
             this.$message.success('删除成功');
-            console.log(res.data);
+            this.reload();
           }).catch(err => {
             this.$message.error('删除失败');
           });
         },
         //TODO 发出请求 得到购物车 数据：
         getCarGoodsList() {
-            this.$http.get('/getcarlist?userId=1').then(res => {
-                this.car_data = res.data;
+            this.$http.get('/cart/gain',{
+              params:{},
+              headers:{Authorization: window.localStorage.getItem('token')}
+            }).then(res => {
+                this.car_data = res.data.data;
+                if(!this.car_data){
+                  this.$message.success('您的购物车暂时还没有数据');
+                }
             }).catch(err => {
-                console.log(err);
+                this.$message.error('查询失败');
             })
+
         },
         //数量++
         handleCountAdd(item){
-            console.log(item.car_goods_num);
-            if(item.car_goods_num <5) item.car_goods_num++;
-            else {item.car_goods_num =5; alert("限购5件");}
+            console.log(item.goodsNum);
+            if(item.goodsNum <5) item.goodsNum++;
+            else {item.goodsNum =5; alert("限购5件");}
         },
         //数量--
         handleCountLess(item){
-            if(item.car_goods_num >0) item.car_goods_num--;
-            else item.car_goods_num = 0;
+            if(item.goodsNum >0) item.goodsNum--;
+            else item.goodsNum = 0;
         },
         // TODO 结算 将选中的数据发给下一个组件 进行确认结算
         handleToCount(){
 
-            let select_data =[];
-            for(let i=0;i< this.selected.length ;i++){
-                this.selected[i] = parseInt(this.selected[i]) -1;
-                select_data.push(this.car_data[this.selected[i]]);
+            for(let i=0;i< this.car_data.length ;i++){
+                if(this.car_data[i].goodsId === parseInt(this.selected[i])){
+                  this.select_data.push(this.car_data[i]);
+                }
             }
-            if(select_data.length === 0){
+            if(this.select_data.length === 0){
               this.$message.error("请选择商品！");
               return;
             }
             this.$router.push({
                     path:"/other_container/goods_order",
-                    query: {select_data:JSON.stringify(select_data)}
+                    query: {select_data:JSON.stringify(this.select_data)}
                 })
         }
     }
@@ -187,11 +197,11 @@ export default {
         display: inline-block;
         position: absolute;
         top: 23%;
-        left: 20%;
+        left: 12%;
     }
     .select input{
         position: absolute;
-        left: 2%;
+        left: 0;
         top: 45%;
         border: 1px solid #dddee1;
         border-radius: 50%;
@@ -259,7 +269,7 @@ export default {
     .first_td span{
         width: 58%;
         float: left;
-        margin: 9% 9% 5% 50%;
+        margin: 9% 9% 5% 40%;
         line-height: 30px !important;
         text-align: left;
     }
