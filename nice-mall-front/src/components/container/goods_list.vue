@@ -54,7 +54,7 @@ export default {
     methods:{
         //发请求：
         getTypeGoodsList(){
-         this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/sort/'+this.$route.query.type).then(res=>{
+         this.$http.get('/home/sort/'+this.$route.query.type).then(res=>{
              this.goodsStatus = res.data.status; //商品数据状态
              this.hot_type = res.data.data.hotType;
              this.goods = res.data.data.goods;

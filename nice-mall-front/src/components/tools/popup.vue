@@ -11,27 +11,23 @@
             <div class="popup-body">
                 <form name="body" @submit.prevent="onSubmit">
                     <span><i>*</i>收货人: </span>
-                    <input type="text" size="15" value="" name="name" placeholder="收货人姓名"/><br>
+                    <input type="text" size="15" value="" v-model="receiptName" name="name" placeholder="收货人姓名"/><br>
                     <span><i>*</i>手机号码: </span>
-                    <input type="text" class="phone" size="15" value="" name="telephone" placeholder="请填写手机号码"/><br>
+                    <input type="text" class="phone" size="15" value="" v-model="receiptPhone" name="telephone" placeholder="请填写手机号码"/><br>
                     <span><i>&nbsp;&nbsp;</i>备用号码: </span>
-                    <input type="text" class="phone" size="15" value="" name="othertelephone" placeholder="手机号/固定号码"/><br>
+                    <input type="text" class="phone" size="15" value="" v-model="sparePhone" name="othertelephone" placeholder="手机号/固定号码"/><br>
                     <span><i>*</i>收货时间: </span>
-                    <select name="time">
-                        <option value="one">周一至周日均可收货</option>
+                    <select name="time" v-model="receiptTime">
+                        <option value="one" selected>周一至周日均可收货</option>
                         <option value="two">周六日、节假日均可收货</option>
                         <option value="three">周一至周五收货</option>
                     </select><br>
+                    <span><i>*</i>邮政编码: </span>
+                    <input type="text" name="address" value="" v-model="postalCode" placeholder="请填写邮政编码"><br>
                     <span><i>*</i>所在地区: </span>
-                    <input type="text" name="address" value="" placeholder="省/直辖市 市 县/区 乡镇/街道"><br>
+                    <input type="text" name="address" value="" v-model=" receiptArea" placeholder="省/直辖市 市 县/区 乡镇/街道"><br>
                     <span><i>*</i>详细地址: </span>
-                    <input type="text" name="addressinfo" value="" placeholder="请填写详细地址"><br>
-                    <div class="radio_item">
-                      <span><i>*</i>地址类型: </span>
-                      <input type="radio" name="addresstype" value="家庭" checked>家庭
-                      <input type="radio" name="addresstype" value="公司">公司
-                      <input type="radio" name="addresstype" value="其他">其他
-                    </div>
+                    <input type="text" name="addressinfo" v-model="detailAddress" value="" placeholder="请填写详细地址"><br>
 
                     <div class="btn-submit">
                         <button class="btn-green" @click="addAddress">保存</button>
@@ -45,7 +41,19 @@
 
 <script>
     export default {
+        inject:['reload'],
         name: 'popup',
+        data(){
+          return{
+            receiptName:"",
+            receiptArea:'',
+            detailAddress:'',
+            postalCode:'',
+            receiptPhone:'',
+            sparePhone:'',
+            receiptTime:''
+          }
+        },
         methods:{
             close (){
                 this.$emit('close');
@@ -55,7 +63,23 @@
             },
             // TODO  发送请求  添加地址 然后 关闭弹框  刷新页面
             addAddress(){
-
+                this.$http.post('/personal/address',{
+                  userId:window.localStorage.getItem('userId'),
+                  receiptName:this.receiptName,
+                  receiptArea:this.receiptArea,
+                  detailAddress:this.detailAddress,
+                  postalCode:this.postalCode,
+                  receiptPhone:this.receiptPhone,
+                  sparePhone:this.sparePhone,
+                  receiptTime:this.receiptTime
+                }, {
+                    headers: {Authorization: window.localStorage.getItem('token')}
+                }).then(res=>{
+                    this.close();
+                    this.reload();
+                }).catch(err=>{
+                    this.$message.success(err.data.message);
+                })
             }
         }
 

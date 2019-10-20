@@ -6,9 +6,6 @@
                      class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
                 <el-menu-item index="1" >
                     <template>
-                        <!--<el-radio-group v-model="isCollapse">-->
-                            <!--<el-radio-button :label="false"></el-radio-button>-->
-                        <!--</el-radio-group>-->
                         <i class="iconfont icon-qiyemenhu" :label="false"></i>
                         <router-link to="/shop_home/shop_index"><span>首页</span></router-link>
                     </template>
@@ -34,7 +31,9 @@
                         <i class="iconfont icon-dingdan"></i>
                         <span slot="title">订单</span>
                     </template>
-                    <el-menu-item index="3-1"><i class="iconfont icon-liebiao"></i>订单列表</el-menu-item>
+                    <el-menu-item index="3-1">
+                      <router-link to="/shop_home/shop_order"><i class="iconfont icon-liebiao"></i>订单列表</router-link>
+                    </el-menu-item>
                     <el-menu-item index="3-2"><i class="iconfont icon-shezhi"></i>订单设置</el-menu-item>
                     <el-menu-item index="3-3"><i class="iconfont icon-tuihuofenlei"></i>退货申请处理</el-menu-item>
                     <el-menu-item index="3-4"><i class="iconfont icon-shenqing"></i>退货原因设置</el-menu-item>
@@ -52,20 +51,9 @@
             </el-menu>
         </div>
         <div class="shop_home_content">
-            <div style="padding: 20px;">
-                <!--<el-radio-group v-model="isCollapse" style="display: inline-block">-->
-                    <!--<el-radio-button :label="true">首页</el-radio-button>-->
-                <!--</el-radio-group>-->
-                <el-breadcrumb separator-class="el-icon-arrow-right" >
-                    <el-breadcrumb-item >首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>商品</el-breadcrumb-item>
-                    <el-breadcrumb-item>添加商品</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <hr>
-            <transition name="el-zoom-in-center">
-                 <router-view></router-view>
-            </transition>
+          <transition name="el-zoom-in-center">
+            <router-view></router-view>
+          </transition>
         </div>
     </div>
 
@@ -131,6 +119,12 @@
         margin-right: 10px;
         font-size: 21px;
         color: #666767;
+    }
+    .el-breadcrumb {
+      font-size: 15px;
+      line-height: 1;
+      font-weight: bold;
+      margin-left: -10px;
     }
 </style>
 

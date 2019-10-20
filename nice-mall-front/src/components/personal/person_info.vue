@@ -118,7 +118,7 @@
             },
             //查询信息
             getPersonInfo(){
-              this.$http.get('http://120.78.64.17:8086/nice-mall-backend/personal/getdata',{
+              this.$http.get('/personal/getdata',{
                 params:{
                   userId:window.localStorage.getItem('userId')
                 },
@@ -138,7 +138,7 @@
             },
             //提交修改
             submitForm() {
-                this.$http.put('http://120.78.64.17:8086/nice-mall-backend/personal/change',{
+                this.$http.put('/personal/change',{
                   userId:window.localStorage.getItem('userId'),
                   userName:this.ruleForm.petname,
                   userTrueName:this.ruleForm.truename,

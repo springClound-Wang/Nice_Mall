@@ -155,7 +155,7 @@ export default {
                 this.toastMsg = '';
                 this.icon_show = false;
                 this.$message.success('信息已提交');
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/business/createshop',
+                this.$http.post('/business/createshop',
                     {
                         userId:window.localStorage.getItem('userId'),
                         storeName:this.storeName,

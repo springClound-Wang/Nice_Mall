@@ -19,7 +19,7 @@
             </div>
             <div class="goods-one">
                 <span class="goods-title"> 今日推荐 Nice好物</span>
-                <div class="goods-item"  v-for="item in recommendList" :key="item.goodsId"
+                <div class="goods-item"  v-for="(item,index) in recommendList" :key="item.goodsId"
                      @mouseenter="item_enter" @mouseleave="item_leave">
                     <router-link :to="'/goods_detail?id='+item.goodsId" >
                         <img :src="item.imageMain" class="goods-img"/>
@@ -34,7 +34,7 @@
             </div>
             <div class="goods-two">
                 <span class="goods-title"> 超级秒杀 3折封顶</span>
-                <div class="goods-item"  v-for="item in spikeList" :key="item.goodsId"
+                <div class="goods-item"  v-for="(item,index) in spikeList" :key="index"
                      @mouseenter="item_enter" @mouseleave="item_leave">
                     <router-link :to="'/goods_detail?id='+item.goodsId" >
                       <img :src="item.imageMain" class="goods-img"/>
@@ -89,7 +89,7 @@
         methods:{
             //发请求
             getTypeGoodsList(){
-                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/home/').then(res=>{
+                this.$http.get('/home/').then(res=>{
                     this.recommendList = res.data.data.recommendList;
                     this.spikeList = res.data.data.spikeList;
                     this.typeEntry = res.data.data.typeEntry

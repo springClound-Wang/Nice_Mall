@@ -26,6 +26,7 @@ import goods_car from '../components/car/goods_car'//购物车
 import goods_pay from '../components/car/goods_pay'; //提交    .
 import goods_order from '../components/car/goods_order'; //结算
 import goods_sel from '../components/car/goods_sel'; //订单
+import order_details from '../components/car/order_details'; //订单详情
 
 import shop_home from '../components/shop/shop_home'; //店铺首页导航
 import shop_create from '../components/shop/shop_create'; //创建店铺
@@ -33,7 +34,7 @@ import shop_curd from '../components/shop/shop_curd'; //添加商品
 import shop_index from  '../components/shop/shop_index'; //店铺首页
 import shop_hot from '../components/shop/shop_hot';//热门分类
 import shop_goods from  '../components/shop/shop_goods'; //商品列表
-
+import shop_order from '../components/shop/shop_order';//订单列表
 
 //个人中心
 import personal_home from '../components/personal/personal_home';
@@ -66,16 +67,19 @@ export default new Router({
         {path:'goods_order',name:'goods_order',component:goods_order}, //结算
         {path:'goods_pay',name:'goods_pay',component:goods_pay}, //去支付
         {path:'goods_sel',component:goods_sel}, //订单
-        {
-          path:'/personal_home',
-          name:'personal_home',
-          component: personal_home,
-          children:[
-            {path:'person_info',name:'person_info',component:person_info},
-            {path:'person_address',name:'person_address',component:person_address},
-            {path:'not_found',component:not_found} //404
-          ]
-        }, //个人中心
+        {path:'order_details',component:order_details},//订单详情
+
+      ]
+    },
+    //个人中心
+    {
+      path:'/personal_home',
+      name:'personal_home',
+      component: personal_home,
+      children:[
+        {path:'person_info',name:'person_info',component:person_info},
+        {path:'person_address',name:'person_address',component:person_address},
+        {path:'not_found',component:not_found} //404
       ]
     },
     //用户
@@ -102,6 +106,7 @@ export default new Router({
         {path:'shop_index',name:'shop_index',component:shop_index},//店铺首页
         {path:'shop_hot',name:'shop_hot',component:shop_hot},//热门分类
         {path:'shop_goods',name:'shop_goods',component:shop_goods},//热门分类
+        {path:'shop_order',name:'shop_order',component:shop_order},//热门分类
       ]
     },
   ]

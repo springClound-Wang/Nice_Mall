@@ -40,7 +40,7 @@
         methods: {
             //发请求：
             getTypeGoodsList() {
-                this.$http.get('http://120.78.64.17:8086/nice-mall-backend/'+this.url+this.goodsname).then(res => {
+                this.$http.get('/'+this.url+this.goodsname).then(res => {
                     this.status = res.data.status;
                     if(res.data.status === true) {
                         this.goods = res.data.data;

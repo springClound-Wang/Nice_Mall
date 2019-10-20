@@ -35,7 +35,7 @@ Vue.prototype.$message = Message;
 
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
-Axios.defaults.baseURL='http://localhost:3030';
+Axios.defaults.baseURL='http://120.78.64.17:8086/nice-mall-backend';
 Vue.config.productionTip = false;
 
 //跳转到页面顶部

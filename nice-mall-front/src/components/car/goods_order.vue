@@ -11,22 +11,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in order_data " :key="item.car_goods_id">
+            <tr v-for="item in order_data " :key="item.goodsId">
                 <td>
-                    <img :src="item.car_goods_img" class="order_img"/>
+                    <img :src="item.imageMain" class="order_img"/>
                     <div class="carslist_name">
-                        {{item.car_goods_name}}<br>
-                        <div style="margin-top: 10px">尺码：{{item.car_goods_size}}</div>
+                        {{item.goodsName}}<br>
+                        <div style="margin-top: 10px">尺码：{{item.goodsSize}}</div>
                     </div>
                 </td>
-                <td>{{item.car_goods_color}}</td>
-                <td>￥{{item.car_goods_price}}</td>
+                <td>{{item.goodsColor}}</td>
+                <td>￥{{item.goodsPrice}}</td>
                 <td>
                     <div class="goods_details_num" >
-                        <span @click="handleCountAdd(item)">+</span><span v-model="item.car_goods_num">{{item.car_goods_num}}</span><span @click="handleCountLess(item)">-</span>
+                        <span @click="handleCountAdd(item)">+</span><span v-model="item.goodsNum">{{item.goodsNum}}</span><span @click="handleCountLess(item)">-</span>
                     </div>
                 </td>
-                <td>￥{{item.car_goods_num*item.car_goods_price}}</td>
+                <td>￥{{item.totalPrice}}</td>
             </tr>
             </tbody>
         </table>
@@ -85,9 +85,8 @@ export default {
         {
             let sum = 0;
             this.all_money = 0.00;
-            // console.log(this.order_data);
             this.order_data.forEach((item, index) => {
-                sum += parseInt(this.order_data[index].car_goods_price) * this.order_data[index].car_goods_num;
+                sum += parseInt(this.order_data[index].goodsPrice) * this.order_data[index].goodsNum;
             });
             this.all_money = sum;
             return this.all_money;
@@ -116,14 +115,14 @@ export default {
         },
         //数量++
         handleCountAdd(item){
-            console.log(item.car_goods_num);
-            if(item.car_goods_num <5) item.car_goods_num++;
-            else {item.car_goods_num = 5; this.$message.warning("限购5件");}
+            console.log(item.goodsNum);
+            if(item.goodsNum <5) item.goodsNum++;
+            else {item.goodsNum = 5; this.$message.warning("限购5件");}
         },
         //数量--
         handleCountLess(item){
-            if(item.car_goods_num >0) item.car_goods_num--;
-            else item.car_goods_num = 0;
+            if(item.goodsNum >0) item.goodsNum--;
+            else item.goodsNum = 0;
         },
         change(e) {
             e.target.style.borderRadius = '5px';
@@ -180,7 +179,7 @@ export default {
         width: 12%;
     }
     thead tr td{
-        padding-left: 7%;
+        padding-left: 6%;
     }
     thead tr td:nth-child(1){
         padding-left: 2%;
@@ -201,6 +200,7 @@ export default {
         margin-left: 20px;
         width: 70px;
         height: 70px;
+        margin-top: 28px;
     }
     .total_pay{
         width: 86%;

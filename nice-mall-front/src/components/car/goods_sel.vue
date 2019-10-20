@@ -6,26 +6,28 @@
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
-                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li style="width:28%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
                             <li>尺码</li>
                             <li>单价</li>
+                            <li>颜色</li>
                             <li>数量</li>
                             <li>实付款</li>
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" class="sel_item">
+                          <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
                             <li class="order_item"><span>订单号：1213232424</span></li><br>
                             <li class="first_td">
-                                <img :src="item.car_goods_img" class="order_img"/>
-                                <span>{{item.car_goods_name}}</span>
+                              <img :src="item.imageMain" class="order_img"/>
+                              <span>{{item.goodsName}}</span>
                             </li>
-                            <li>{{item.car_goods_size}}</li>
-                            <li>¥ {{item.car_goods_price}}</li>
-                            <li>{{item.car_goods_num}}</li>
-                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                            <li class="order_status">等待买家付款<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="warning" plain style="margin-left: 20px">查看详情</el-button></li>
+                            <li>{{item.goodsSize}}</li>
+                            <li>¥ {{item.goodsPrice}}</li>
+                            <li>{{item.goodsColor}}</li>
+                            <li>{{item.goodsNum}}</li>
+                            <li>￥{{item.totalPrice}}</li>
+                            <li class="order_status">等待付款<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button type="success" plain @click="handleGetDetails(item.goodsId)">查看详情</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -34,29 +36,31 @@
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
-                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li style="width:28%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
                             <li>尺码</li>
                             <li>单价</li>
+                            <li>颜色</li>
                             <li>数量</li>
                             <li>实付款</li>
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" class="sel_item">
-                            <li class="order_item">
-                              <span>订单号：1213232424</span>
-                              <span style="position: absolute;left: 85%;color: #f1b447;font-size: 15px">30分钟后订单过期</span>
-                            </li><br>
-                            <li class="first_td">
-                                <img :src="item.car_goods_img" class="order_img"/>
-                                <span>{{item.car_goods_name}}</span>
+                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
+                          <li class="order_item"><span>订单号：1213232424</span></li><br>
+                          <li class="first_td">
+                            <img :src="item.imageMain" class="order_img"/>
+                            <span>{{item.goodsName}}</span>
+                          </li>
+                          <li>{{item.goodsSize}}</li>
+                          <li>¥ {{item.goodsPrice}}</li>
+                          <li>{{item.goodsColor}}</li>
+                          <li>{{item.goodsNum}}</li>
+                          <li>￥{{item.totalPrice}}</li>
+                            <li class="order_status">待付款<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li style="width: 9%;">
+                              <el-button type="danger" plain
+                                          @click="handleToPayOrder(index)">立即付款</el-button>
                             </li>
-                            <li>{{item.car_goods_size}}</li>
-                            <li>¥ {{item.car_goods_price}}</li>
-                            <li>{{item.car_goods_num}}</li>
-                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                            <li class="order_status">待付款<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="danger" plain style="margin-left: 20px">立即付款</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -65,26 +69,28 @@
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
-                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li style="width:28%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
                             <li>尺码</li>
                             <li>单价</li>
+                            <li>颜色</li>
                             <li>数量</li>
                             <li>实付款</li>
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" class="sel_item">
+                          <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
                             <li class="order_item"><span>订单号：1213232424</span></li><br>
                             <li class="first_td">
-                                <img :src="item.car_goods_img" class="order_img"/>
-                                <span>{{item.car_goods_name}}</span>
+                              <img :src="item.imageMain" class="order_img"/>
+                              <span>{{item.goodsName}}</span>
                             </li>
-                            <li>{{item.car_goods_size}}</li>
-                            <li>¥ {{item.car_goods_price}}</li>
-                            <li>{{item.car_goods_num}}</li>
-                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                            <li class="order_status">待发货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="primary" plain style="margin-left: 20px">联系卖家</el-button></li>
+                            <li>{{item.goodsSize}}</li>
+                            <li>¥ {{item.goodsPrice}}</li>
+                            <li>{{item.goodsColor}}</li>
+                            <li>{{item.goodsNum}}</li>
+                            <li>￥{{item.totalPrice}}</li>
+                            <li class="order_status">待发货<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button type="primary" plain>联系卖家</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -93,26 +99,28 @@
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
-                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li style="width:28%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
                             <li>尺码</li>
                             <li>单价</li>
+                            <li>颜色</li>
                             <li>数量</li>
                             <li>实付款</li>
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" class="sel_item">
-                            <li class="order_item"><span>订单号：1213232424</span></li><br>
-                            <li class="first_td">
-                                <img :src="item.car_goods_img" class="order_img"/>
-                                <span>{{item.car_goods_name}}</span>
-                            </li>
-                            <li>{{item.car_goods_size}}</li>
-                            <li>¥ {{item.car_goods_price}}</li>
-                            <li>{{item.car_goods_num}}</li>
-                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                            <li class="order_status">待收货<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button type="info" plain style="margin-left: 20px">查看物流</el-button></li>
+                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
+                          <li class="order_item"><span>订单号：1213232424</span></li><br>
+                          <li class="first_td">
+                            <img :src="item.imageMain" class="order_img"/>
+                            <span>{{item.goodsName}}</span>
+                          </li>
+                          <li>{{item.goodsSize}}</li>
+                          <li>¥ {{item.goodsPrice}}</li>
+                          <li>{{item.goodsColor}}</li>
+                          <li>{{item.goodsNum}}</li>
+                          <li>￥{{item.totalPrice}}</li>
+                            <li class="order_status">待收货<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button type="info" plain>查看物流</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -121,26 +129,28 @@
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
-                            <li style="width: 35%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
+                            <li style="width:28%;text-align: left;padding-left: 15px;">Nice 宝贝</li>
                             <li>尺码</li>
                             <li>单价</li>
+                            <li>颜色</li>
                             <li>数量</li>
                             <li>实付款</li>
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" class="sel_item">
+                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
                             <li class="order_item"><span>订单号：1213232424</span></li><br>
                             <li class="first_td">
-                                <img :src="item.car_goods_img" class="order_img"/>
-                                <span>{{item.car_goods_name}}</span>
+                                <img :src="item.imageMain" class="order_img"/>
+                                <span>{{item.goodsName}}</span>
                             </li>
-                            <li>{{item.car_goods_size}}</li>
-                            <li>¥ {{item.car_goods_price}}</li>
-                            <li>{{item.car_goods_num}}</li>
-                            <li>￥{{item.car_goods_price*item.car_goods_num}}</li>
-                            <li class="order_status">待评价<br><el-link type="primary">订单详情</el-link></li>
-                            <li><el-button  type="success" plain style="margin-left: 20px">立即评价</el-button></li>
+                            <li>{{item.goodsSize}}</li>
+                            <li>¥ {{item.goodsPrice}}</li>
+                            <li>{{item.goodsColor}}</li>
+                            <li>{{item.goodsNum}}</li>
+                            <li>￥{{item.totalPrice}}</li>
+                            <li class="order_status">待评价<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button  type="success" plain>立即评价</el-button></li>
                         </ul>
                     </div>
                 </div>
@@ -155,7 +165,9 @@
             return {
                 activeName: 'first',
                 multipleSelection: [],
-                sel_data:[]
+                sel_data:[],
+                pay_datas:[],
+                pay_moneys:[]
             };
         },
         created(){
@@ -164,14 +176,39 @@
         methods: {
             //TODO 发出请求 得到订单 数据：
             getOrderGoodsList() {
-                this.$http.get('/getcarlist?userId=1').then(res => {
-                    this.sel_data = res.data;
-                }).catch(err => {
-                  this.$message.error("查询订单失败");
-                })
+              this.$http.get('/cart/gain',{
+                params:{},
+                headers:{Authorization: window.localStorage.getItem('token')}
+              }).then(res => {
+                this.sel_data = res.data.data;
+                if(!this.sel_data){
+                  this.$message.success('您暂时好没有订单');
+                }
+              }).catch(err => {
+                this.$message.error('查询失败');
+              })
             },
             handleClick(tab, event) {
                 console.log(tab, event);
+            },
+            // TODO 查看详情
+            handleGetDetails(id){
+              this.$router.push({path:'/other_container/order_details',
+                query:{
+                  orderId:id
+                }
+              })
+            },
+            // TODO 待支付 跳转到支付
+            handleToPayOrder(index){
+              this.pay_datas.push(this.sel_data[index]);
+              this.pay_moneys.push(this.sel_data[index].car_goods_price);
+              this.$router.push({path:'/other_container/goods_pay',
+                query:{
+                  pay_data:JSON.stringify(this.pay_datas),
+                  pay_money:JSON.stringify(this.pay_moneys)
+                }
+              })
             }
         }
     }
@@ -225,7 +262,7 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
     }
     .sel_nav_list ul li:nth-child(1){
-        width: 35%;
+        width: 28%;
     }
     .goods ul:after{
         content: '';
@@ -256,11 +293,11 @@
         left: 0;
     }
     .first_td{
-        width: 35% !important;
+        width: 28% !important;
         line-height: 0;
     }
     .first_td span,.order_status{
-        width: 70%;
+        width: 64%;
         float: right;
         margin-top: 40px;
         line-height: 30px !important;
