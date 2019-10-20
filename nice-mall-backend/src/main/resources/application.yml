@@ -44,3 +44,8 @@ mybatis:
     map-underscore-to-camel-case: true
 
 debug: true
+
+nice:
+  worker:
+    workerId: 1
+    datacenterId: 1

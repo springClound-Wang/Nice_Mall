@@ -1,9 +1,11 @@
 package com.fdj.nicemallbackend.system.mapper;
 
+import com.fdj.nicemallbackend.system.dto.StorageUpdate;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.fdj.nicemallbackend.system.entity.StoreGoods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
     StoreGoods selectBygoodsId(Long goodsId);
 
     List<StoreGoods> selectBybusinessId(Long id);
+
+    void decreaseStock(@Param("storages") List<StorageUpdate> storages);
 }

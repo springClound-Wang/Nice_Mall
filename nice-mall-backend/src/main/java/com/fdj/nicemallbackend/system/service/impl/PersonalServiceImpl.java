@@ -77,7 +77,7 @@ public class PersonalServiceImpl implements IPersonalService {
     public Result getAllAddress(Long userId) {
         List<ReceiptAddress> addresses = receiptAddressMapper.selectByuserId(userId);
         if(addresses.isEmpty()){
-            return new Result().fail("暂时没有地址信息");
+            return new Result().fail(null,"暂时没有数据");
         }
         else{
             return new Result().success(addresses,"获取地址成功!");

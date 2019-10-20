@@ -3,6 +3,8 @@ package com.fdj.nicemallbackend.system.service;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.ShopCart;
 
+import java.util.Map;
+
 /**
  * @Classname IShoppingCartService
  * @Description TODO
@@ -17,4 +19,7 @@ public interface IShoppingCartService {
     Result addCart(ShopCart shopCart);
 
     Result getAllCart(Long userId);
+
+
+    Result delOneCart(Long userId, String goodsColor,String goodsSize,Long goodsId);
 }

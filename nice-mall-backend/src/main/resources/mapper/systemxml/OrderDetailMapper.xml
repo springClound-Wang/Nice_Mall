@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.OrderDetailMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.OrderDetail">
+        <id column="detail_id" property="detailId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_num" property="goodsNum"/>
+        <result column="goods_name" property="goodsNum"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="goods_color" property="goodsColor"/>
+        <result column="goods_size" property="goodsSize"/>
+        <result column="image_main" property="imageMain"/>
+        <result column="store_name" property="storeName"/>
+        <result column="total_price" property="totalPrice"/>
+    </resultMap>
+    <insert id="insertList">
+        insert into m_order_detail values
+        <foreach collection="payData" item="pay" separator=",">
+            (NULL,#{pay.orderId},#{pay.goodsId} ,#{pay.goodsNum} ,#{pay.goodsName} ,#{pay.goodsPrice} ,#{pay.goodsColor}
+            ,#{pay.goodsSize} ,#{pay.imageMain} ,#{pay.storeName} ,#{pay.totalPrice} )
+        </foreach>
+    </insert>
+</mapper>

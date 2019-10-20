@@ -23,4 +23,27 @@
         from m_store_goods
         where business_id = #{id}
     </select>
+    <update id="decreaseStock">
+        update m_store_goods
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="store_goods_number=case" suffix="end,">
+                <foreach collection="storages" item="storage" index="index">
+                    <if test="storage.goodsNum!=null">
+                        when goods_id=#{storage.goodsId} then store_goods_number-#{storage.goodsNum,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="store_sales_volume=case" suffix="end,">
+                <foreach collection="storages" item="storage" index="index">
+                    <if test="storage.goodsNum!=null">
+                        when goods_id=#{storage.goodsId} then store_sales_volume+#{storage.goodsNum,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="storages" separator="or" item="storage" index="index">
+            goods_id=#{storage.goodsNum,jdbcType=INTEGER}
+        </foreach>
+    </update>
 </mapper>

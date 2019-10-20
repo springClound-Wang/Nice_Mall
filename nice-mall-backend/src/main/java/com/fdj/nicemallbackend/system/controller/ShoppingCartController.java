@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @Classname ShoppingCartController
@@ -49,6 +50,18 @@ public class ShoppingCartController {
     public Result getAllCart(HttpServletRequest request){
         Long userId = jwt_get.getUser(request);
         Result result = iShoppingCartService.getAllCart(userId);
+        return result;
+    }
+
+    /**
+     * 删除购物车指定商品
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/del")
+    public Result delOneCart(HttpServletRequest request,@RequestParam String goodsColor,@RequestParam String goodsSize,@RequestParam Long goodsId){
+        Long userId = jwt_get.getUser(request);
+        Result result = iShoppingCartService.delOneCart(userId,goodsColor,goodsSize,goodsId);
         return result;
     }
 }
