@@ -78,5 +78,4 @@ public class OrderDetail extends Model<OrderDetail> {
      * 总价
      */
     private BigDecimal totalPrice;
-
 }

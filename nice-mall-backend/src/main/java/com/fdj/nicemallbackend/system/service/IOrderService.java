@@ -20,4 +20,12 @@ public interface IOrderService extends IService<Order> {
      * @return
      */
     Result createOrder(Order order);
+
+    /**
+     * 下单
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    Result updateOrderStatus(Long orderId, Integer orderStatus);
 }

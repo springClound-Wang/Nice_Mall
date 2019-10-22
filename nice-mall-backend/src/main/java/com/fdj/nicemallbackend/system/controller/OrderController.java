@@ -5,16 +5,16 @@ import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Order;
 import com.fdj.nicemallbackend.system.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author xns
@@ -29,13 +29,44 @@ public class OrderController {
 
     /**
      * 创建订单
+     *
      * @param order
      * @return
      */
     @PostMapping("/create")
-    public Result  createOrder(@RequestBody Order order){
+    public Result createOrder(@RequestBody Order order) {
         Result result = iOrderService.createOrder(order);
         return result;
     }
+
+    /**
+     * 支付
+     * @param map
+     * @return
+     */
+    @PostMapping("/pay")
+    public Result Payment(@RequestBody Map<String,String> map){
+        Result result = new Result();
+        Integer orderStatus = Integer.parseInt(map.get("orderStatus"));
+        if(orderStatus == 0){
+            return result.fail("请在30分钟内支付哦!否则订单会失效哟!");
+        }
+        if(orderStatus == 1){
+            Long orderId = Long.valueOf(map.get("orderId"));
+            result = iOrderService.updateOrderStatus(orderId,orderStatus);
+        }
+        return result;
+    }
+
+    //    /**
+//     * 查询订单
+//     * @param request
+//     * @return
+//     */
+//    @GetMapping("/query")
+//    public Result queryOrder(HttpServletRequest request) {
+//
+//    }
+
 }
 

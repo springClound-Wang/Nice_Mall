@@ -10,9 +10,11 @@ import com.fdj.nicemallbackend.system.entity.User;
 import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,6 +30,7 @@ import java.util.List;
  * @author xns
  * @since 2019-10-20
  */
+@Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
 
@@ -64,7 +67,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderMapper.save(order);
 
         //保存订单状态
-        OrderStatus orderStatus = new OrderStatus(orderId,order.getOrderStatus(),order.getCreateTime());
+        OrderStatus orderStatus = new OrderStatus(orderId,0,order.getCreateTime());
         orderStatusMapper.save(orderStatus);
 
 
@@ -79,7 +82,41 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //批量插入订单详情
         orderDetailMapper.insertList(order.getPayData());
         //更新库存
-        storeGoodsMapper.decreaseStock(lists);
-        return new Result().success(orderId,"下单成功");
+        int isjuge = storeGoodsMapper.decreaseStock(lists);
+        if(isjuge>0) {
+            return new Result().success(orderId, "下单成功");
+        }
+        else{
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return new Result().fail("库存不足，无法下单");
+        }
+    }
+
+    /**
+     * 更新订单状态
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public Result updateOrderStatus(Long orderId, Integer orderStatus) {
+        OrderStatus orderStatus1 = new OrderStatus();
+        orderStatus1.setOrderId(orderId);
+        LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        switch (orderStatus) {
+            case 1:
+                orderStatus1.setPaymentTime(localDateTime);
+                break;
+            case 2:
+                orderStatus1.setDeliveryTime(localDateTime);
+            case 3:
+                orderStatus1.setEndTime(localDateTime);
+        }
+        orderStatus1.setOrderStatus(1);
+        if(orderStatusMapper.updateByOrderId(orderStatus1)<=0){
+            log.error("支付失败，更新出错");
+        }
+        return new Result().success(orderId,"支付成功");
     }
 }
+

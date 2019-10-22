@@ -26,5 +26,5 @@ public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
 
     List<StoreGoods> selectBybusinessId(Long id);
 
-    void decreaseStock(@Param("storage") List<StorageUpdate> storage);
+    Integer decreaseStock(@Param("storage") List<StorageUpdate> storage);
 }
