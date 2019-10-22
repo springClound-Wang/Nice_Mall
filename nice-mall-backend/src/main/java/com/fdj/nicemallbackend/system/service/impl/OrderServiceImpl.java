@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +59,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Long orderId = idWorker.nextId();
         order.setOrderId(orderId);
         order.setUserName(user.getUserName());
+        LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        order.setCreateTime(localDateTime);
         orderMapper.save(order);
 
         //保存订单状态
@@ -64,9 +69,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 
         List<StorageUpdate> lists = new ArrayList<>();
-        StorageUpdate storageUpdate = new StorageUpdate();
         for(OrderDetail orderDetail : order.getPayData()){
             orderDetail.setOrderId(orderId);
+            StorageUpdate storageUpdate = new StorageUpdate();
             storageUpdate.setGoodsId(orderDetail.getGoodsId());
             storageUpdate.setGoodsNum(orderDetail.getGoodsNum());
             lists.add(storageUpdate);
@@ -75,6 +80,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderDetailMapper.insertList(order.getPayData());
         //更新库存
         storeGoodsMapper.decreaseStock(lists);
-        return new Result().success("下单成功");
+        return new Result().success(orderId,"下单成功");
     }
 }

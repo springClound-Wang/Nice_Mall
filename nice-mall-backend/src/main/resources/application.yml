@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/nice_mall?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/nice_mall?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8
     username: root
     password: tian787604
 
