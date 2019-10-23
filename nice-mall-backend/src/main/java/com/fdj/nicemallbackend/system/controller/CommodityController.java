@@ -146,4 +146,18 @@ public class CommodityController {
         }
         return new Result().success(orders,"查询成功!");
     }
+
+    /**
+     * 商家发货修改状态
+     */
+    @PutMapping("/ship")
+    public Result shipGoods(@RequestBody Map<String,Object> map){
+        String res = iOrderService.updateListOrderStatus((List<String>)map.get("orderId"),Integer.parseInt((String)map.get("orderStatus")));
+        if(res == null){
+            return new Result().fail("操作失败！");
+        }
+        else{
+            return new Result().success(res,"发货成功");
+        }
+    }
 }

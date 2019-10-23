@@ -54,16 +54,21 @@ public class OrderController {
      */
     @PostMapping("/pay")
     public Result Payment(@RequestBody Map<String,String> map){
-        Result result = new Result();
+        String res = null;
         Integer orderStatus = Integer.parseInt(map.get("orderStatus"));
         if(orderStatus == 0){
-            return result.fail("请在30分钟内支付哦!否则订单会失效哟!");
+            return new Result().fail("请在30分钟内支付哦!否则订单会失效哟!");
         }
         if(orderStatus == 1){
             String orderId = map.get("orderId");
-            result = iOrderService.updateOrderStatus(orderId,orderStatus);
+            res = iOrderService.updateOrderStatus(orderId,orderStatus);
         }
-        return result;
+        if(res == null){
+           return new Result().fail("支付失败!!");
+        }
+        else{
+            return new Result().success(res,"支付成功!");
+        }
     }
 
      /**

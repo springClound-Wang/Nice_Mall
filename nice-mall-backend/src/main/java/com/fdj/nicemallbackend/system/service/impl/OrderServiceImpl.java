@@ -95,35 +95,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     /**
+     * 设置要更新的状态
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    public OrderStatus setStatus(String orderId,Integer orderStatus){
+        OrderStatus orderStatus1 = new OrderStatus();
+        orderStatus1.setOrderId(orderId);
+        LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        switch (orderStatus) {
+            case 1:
+                orderStatus1.setPaymentTime(localDateTime);
+                break;
+            case 2:
+                orderStatus1.setDeliveryTime(localDateTime);
+                break;
+            case 3:
+                orderStatus1.setEndTime(localDateTime);
+                break;
+            default:
+                log.error("状态不存在!");
+                break;
+        }
+        orderStatus1.setOrderStatus(orderStatus);
+        return orderStatus1;
+    }
+
+    /**
      * 更新订单状态
      * @param orderId
      * @param orderStatus
      * @return
      */
     @Override
-    public Result updateOrderStatus(String orderId, Integer orderStatus) {
-        OrderStatus orderStatus1 = new OrderStatus();
-        orderStatus1.setOrderId(orderId);
-        LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        switch (orderStatus) {
-            case 1:
-                orderStatus1.setOrderStatus(1);
-                orderStatus1.setPaymentTime(localDateTime);
-                break;
-            case 2:
-                orderStatus1.setOrderStatus(2);
-                orderStatus1.setDeliveryTime(localDateTime);
-                break;
-            case 3:
-                orderStatus1.setOrderStatus(3);
-                orderStatus1.setEndTime(localDateTime);
-                break;
-        }
+    public String updateOrderStatus(String orderId, Integer orderStatus) {
+        OrderStatus orderStatus1 = setStatus(orderId,orderStatus);
         if(orderStatusMapper.updateByOrderId(orderStatus1)>0){
-            return new Result().success(orderId,"支付成功");
+            return orderId;
         }else{
-            log.error("支付失败，更新出错");
-            return new Result().fail("支付失败!");
+            log.error("更新出错");
+            return null;
         }
     }
 
@@ -149,6 +161,22 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         lists = orderDetailMapper.selectOneStatusOrder(business.getStoreName(),orderStatus);
         return lists;
+    }
+
+    /**
+     * 批量更新状态
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public String updateListOrderStatus(List<String> orderId,Integer orderStatus) {
+        if (orderStatusMapper.updateByOrderIdList(orderId, orderStatus) > 0) {
+            return "操作成功";
+        } else {
+            log.error("批量更新出错");
+            return null;
+        }
     }
 }
 

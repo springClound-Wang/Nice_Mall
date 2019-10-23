@@ -3,7 +3,10 @@ package com.fdj.nicemallbackend.system.mapper;
 import com.fdj.nicemallbackend.system.entity.OrderStatus;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * @Classname OrderStatusMapper
@@ -27,4 +30,12 @@ public interface OrderStatusMapper {
      */
     @Update("update m_order_status set order_status = #{orderStatus} ,payment_time = #{paymentTime} where order_id = #{orderId}")
     Integer updateByOrderId(OrderStatus orderStatus1);
+
+    /**
+     * 批量更新
+     * @param orderIds
+     * @param orderStatus
+     * @return
+     */
+    Integer updateByOrderIdList(@Param("orderIds") List<String> orderIds, @Param("orderStatus")Integer orderStatus);
 }

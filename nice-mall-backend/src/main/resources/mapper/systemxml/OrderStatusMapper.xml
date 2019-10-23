@@ -10,4 +10,13 @@
         <result column="delivery_time" property="deliveryTime"/>
         <result column="end_time" property="endTime"/>
     </resultMap>
+    <update id="updateByOrderIdList">
+        <foreach collection="orderIds" item="item" index="index" separator=";" open="" close="">
+            update m_order_status
+            <set>
+                order_status = #{orderStatus,jdbcType=INTEGER}
+            </set>
+            where order_id = #{item}
+        </foreach>
+    </update>
 </mapper>

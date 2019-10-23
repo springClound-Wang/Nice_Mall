@@ -25,12 +25,12 @@ public interface IOrderService extends IService<Order> {
     Result createOrder(Order order);
 
     /**
-     * 下单
+     * 更新订单状态
      * @param orderId
      * @param orderStatus
      * @return
      */
-    Result updateOrderStatus(String orderId, Integer orderStatus);
+    String updateOrderStatus(String orderId, Integer orderStatus);
 
     /**
      * 查询所有订单
@@ -46,4 +46,5 @@ public interface IOrderService extends IService<Order> {
      */
     List<orderDto> getOneStatusOrders(Long userId,Integer orderStatus);
 
+    String updateListOrderStatus(List<String> orderId, Integer orderStatus);
 }
