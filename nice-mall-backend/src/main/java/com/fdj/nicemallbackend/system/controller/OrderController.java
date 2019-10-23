@@ -2,14 +2,17 @@ package com.fdj.nicemallbackend.system.controller;
 
 
 import com.fdj.nicemallbackend.system.dto.Result;
+import com.fdj.nicemallbackend.system.dto.orderDto;
 import com.fdj.nicemallbackend.system.entity.Order;
 import com.fdj.nicemallbackend.system.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,15 +61,18 @@ public class OrderController {
         return result;
     }
 
-    //    /**
-//     * 查询订单
-//     * @param request
-//     * @return
-//     */
-//    @GetMapping("/query")
-//    public Result queryOrder(HttpServletRequest request) {
-//
-//    }
-
+     /**
+     * 查询订单
+     * @param request
+     * @return
+     */
+    @GetMapping("/query")
+    public Result queryOrder(HttpServletRequest request) {
+        List<orderDto> orders= iOrderService.queryAll();
+        if(CollectionUtils.isEmpty(orders)){
+            return new Result().fail("暂时无订单数据!!");
+        }
+        return new Result().success(orders,"查询成功!!!");
+    }
 }
 

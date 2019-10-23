@@ -22,4 +22,21 @@
             ,#{pay.goodsSize} ,#{pay.imageMain} ,#{pay.storeName} ,#{pay.totalPrice} )
         </foreach>
     </insert>
+    <select id="selectOneStatusOrder" resultType="com.fdj.nicemallbackend.system.dto.orderDto">
+        select m_order_detail.order_id,
+               goods_name,
+               goods_color,
+               goods_size,
+               goods_num,
+               goods_price,
+               total_price,
+               image_main,
+               order_status,
+               create_time
+        from m_order_detail,
+             m_order_status
+        where m_order_detail.store_name = #{storeName,jdbcType=VARCHAR}
+          and m_order_status.order_status = #{orderStatus,jdbcType=INTEGER}
+          and m_order_detail.order_id = m_order_status.order_id
+    </select>
 </mapper>

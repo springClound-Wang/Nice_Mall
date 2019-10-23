@@ -3,11 +3,10 @@ package com.fdj.nicemallbackend.system.service.impl;
 import com.fdj.nicemallbackend.common.utils.IdWorker;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.StorageUpdate;
-import com.fdj.nicemallbackend.system.entity.Order;
-import com.fdj.nicemallbackend.system.entity.OrderDetail;
-import com.fdj.nicemallbackend.system.entity.OrderStatus;
-import com.fdj.nicemallbackend.system.entity.User;
+import com.fdj.nicemallbackend.system.dto.orderDto;
+import com.fdj.nicemallbackend.system.entity.*;
 import com.fdj.nicemallbackend.system.mapper.*;
+import com.fdj.nicemallbackend.system.service.IBusinessService;
 import com.fdj.nicemallbackend.system.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +47,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     StoreGoodsMapper storeGoodsMapper;
+
+    @Autowired
+    BusinessMapper businessMapper;
 
     /**
      * 创建订单
@@ -117,6 +119,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             log.error("支付失败，更新出错");
         }
         return new Result().success(orderId,"支付成功");
+    }
+
+    /**
+     * 查询所有订单
+     * @return
+     */
+    @Override
+    public List<orderDto> queryAll() {
+        return null;
+    }
+
+    /**
+     * 商家查询订单
+     * @return
+     */
+    @Override
+    public List<orderDto> getOneStatusOrders(Long userId,Integer orderStatus){
+        List<orderDto> lists = new ArrayList<>();
+        Business business = businessMapper.selectByuserId(userId);
+        if(business == null){
+            return lists;
+        }
+        lists = orderDetailMapper.selectOneStatusOrder(business.getStoreName(),orderStatus);
+        return lists;
     }
 }
 

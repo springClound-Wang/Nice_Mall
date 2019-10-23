@@ -1,18 +1,22 @@
 package com.fdj.nicemallbackend.system.controller;
 
+import com.fdj.nicemallbackend.common.authenication.Jwt_Get;
 import com.fdj.nicemallbackend.common.domain.TypeConsts;
 import com.fdj.nicemallbackend.common.utils.OssuploadUtil;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.Spikes;
 import com.fdj.nicemallbackend.system.dto.goodsList;
+import com.fdj.nicemallbackend.system.dto.orderDto;
 import com.fdj.nicemallbackend.system.entity.PopularSort;
 import com.fdj.nicemallbackend.system.entity.SortImage;
 import com.fdj.nicemallbackend.system.entity.Spike;
 import com.fdj.nicemallbackend.system.service.*;
 import com.fdj.nicemallbackend.system.service.impl.BusinessServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +46,11 @@ public class CommodityController {
     @Autowired
     ISpikeService iSpikeService;
 
+    @Autowired
+    IOrderService iOrderService;
+
+    @Autowired
+    Jwt_Get jwt_get;
 
     /**
      * 添加商品
@@ -121,5 +130,20 @@ public class CommodityController {
     public Result getNew(@RequestParam (value = "goodsId") Long goodsId){
         Result result = iSpikeService.getPartNews(goodsId);
         return result;
+    }
+
+    /**
+     * 商家获取某状态的订单
+     * @param request
+     * @return
+     */
+    @GetMapping("/status")
+    public Result getAllUnCertain(HttpServletRequest request,@RequestParam Integer orderStatus){
+        Long userId = jwt_get.getUser(request);
+        List <orderDto> orders = iOrderService.getOneStatusOrders(userId,orderStatus);
+        if(CollectionUtils.isEmpty(orders)){
+            return new Result().fail(null,"暂时没有数据哟");
+        }
+        return new Result().success(orders,"查询成功!");
     }
 }
