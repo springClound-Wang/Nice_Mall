@@ -61,7 +61,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public Result createOrder(Order order) {
         IdWorker idWorker = new IdWorker();
         User user =userMapper.selectByuserId(order.getUserId());
-        Long orderId = idWorker.nextId();
+        String orderId = String.valueOf(idWorker.nextId());
         order.setOrderId(orderId);
         order.setUserName(user.getUserName());
         LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -86,7 +86,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //更新库存
         int isjuge = storeGoodsMapper.decreaseStock(lists);
         if(isjuge>0) {
-            return new Result().success(orderId, "下单成功");
+            return new Result().success(String.valueOf(orderId), "下单成功");
         }
         else{
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -101,24 +101,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return
      */
     @Override
-    public Result updateOrderStatus(Long orderId, Integer orderStatus) {
+    public Result updateOrderStatus(String orderId, Integer orderStatus) {
         OrderStatus orderStatus1 = new OrderStatus();
         orderStatus1.setOrderId(orderId);
         LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         switch (orderStatus) {
             case 1:
+                orderStatus1.setOrderStatus(1);
                 orderStatus1.setPaymentTime(localDateTime);
                 break;
             case 2:
+                orderStatus1.setOrderStatus(2);
                 orderStatus1.setDeliveryTime(localDateTime);
+                break;
             case 3:
+                orderStatus1.setOrderStatus(3);
                 orderStatus1.setEndTime(localDateTime);
+                break;
         }
-        orderStatus1.setOrderStatus(1);
-        if(orderStatusMapper.updateByOrderId(orderStatus1)<=0){
+        if(orderStatusMapper.updateByOrderId(orderStatus1)>0){
+            return new Result().success(orderId,"支付成功");
+        }else{
             log.error("支付失败，更新出错");
+            return new Result().fail("支付失败!");
         }
-        return new Result().success(orderId,"支付成功");
     }
 
     /**

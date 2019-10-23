@@ -27,7 +27,7 @@ public class Order extends Model<Order> {
     /**
      * 订单id
      */
-    private Long orderId;
+    private String orderId;
 
     /**
      * 下单用户id

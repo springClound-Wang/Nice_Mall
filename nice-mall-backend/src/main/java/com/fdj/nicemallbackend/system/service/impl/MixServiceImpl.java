@@ -33,6 +33,15 @@ public class MixServiceImpl implements IMixService {
     @Autowired
     TypeEntryMapper typeEntryMapper;
 
+    private List<Findgoods> getRecommend(Integer num){
+        Integer i = goodsMapper.getCount();
+        Random rand = new Random();
+        if(i<num){
+            i=num;
+        }
+        List<Findgoods> recommendLists = goodsMapper.selectLimit(rand.nextInt(i-num),num);
+        return recommendLists;
+    }
     /**
      * 获取首页的三大组数据,此处因为前端界面的局限，所以显示的三条秒杀商品有可能已经过期
      * @return
@@ -40,10 +49,9 @@ public class MixServiceImpl implements IMixService {
     @Override
     public Result getHomePage() {
         Map map = new HashMap<>();
-        Integer i = goodsMapper.getCount();
         Random rand = new Random();
-        List<Findgoods> recommondLists = goodsMapper.selectLimit(rand.nextInt(i-3),3);
-        map.put("recommendList",recommondLists);
+        List<Findgoods> recommendLists = getRecommend(3);
+        map.put("recommendList",recommendLists);
 
         List<TypeEntry> typeEntry = typeEntryMapper.selectAll();
         map.put("typeEntry",typeEntry);
@@ -58,5 +66,14 @@ public class MixServiceImpl implements IMixService {
         }
         map.put("spikeList",spike);
         return new Result().success(map,"查询成功!");
+    }
+
+    /**
+     * 获取随机商品推荐
+     * @return
+     */
+    @Override
+    public List<Findgoods> getFreeRecommend() {
+        return getRecommend(5);
     }
 }

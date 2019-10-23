@@ -24,7 +24,7 @@ public class OrderStatus extends Model<OrderStatus> {
     /**
      * 订单id
      */
-    private Long orderId;
+    private String orderId;
 
     /**
      * 订单状态 0: 未付款 1:已支付,未发货 2:已发货，待确认 ３：确认，待评价　４：已评价
@@ -55,7 +55,7 @@ public class OrderStatus extends Model<OrderStatus> {
 
     }
 
-    public OrderStatus(Long orderId, Integer orderStatus, LocalDateTime createTime) {
+    public OrderStatus(String orderId, Integer orderStatus, LocalDateTime createTime) {
         this.orderId=orderId;
         this.orderStatus=orderStatus;
         this.createTime = createTime;

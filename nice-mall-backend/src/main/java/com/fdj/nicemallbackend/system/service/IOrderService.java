@@ -30,7 +30,7 @@ public interface IOrderService extends IService<Order> {
      * @param orderStatus
      * @return
      */
-    Result updateOrderStatus(Long orderId, Integer orderStatus);
+    Result updateOrderStatus(String orderId, Integer orderStatus);
 
     /**
      * 查询所有订单

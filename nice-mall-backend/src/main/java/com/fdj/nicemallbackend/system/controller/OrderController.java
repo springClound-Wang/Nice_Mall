@@ -1,9 +1,11 @@
 package com.fdj.nicemallbackend.system.controller;
 
 
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.orderDto;
 import com.fdj.nicemallbackend.system.entity.Order;
+import com.fdj.nicemallbackend.system.service.IMixService;
 import com.fdj.nicemallbackend.system.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +32,9 @@ public class OrderController {
     @Autowired
     IOrderService iOrderService;
 
+    @Autowired
+    IMixService iMixService;
+
     /**
      * 创建订单
      *
@@ -55,7 +60,7 @@ public class OrderController {
             return result.fail("请在30分钟内支付哦!否则订单会失效哟!");
         }
         if(orderStatus == 1){
-            Long orderId = Long.valueOf(map.get("orderId"));
+            String orderId = map.get("orderId");
             result = iOrderService.updateOrderStatus(orderId,orderStatus);
         }
         return result;
@@ -70,9 +75,24 @@ public class OrderController {
     public Result queryOrder(HttpServletRequest request) {
         List<orderDto> orders= iOrderService.queryAll();
         if(CollectionUtils.isEmpty(orders)){
-            return new Result().fail("暂时无订单数据!!");
+            return new Result().fail(null,"暂时无订单数据!!");
         }
         return new Result().success(orders,"查询成功!!!");
+    }
+
+    /**
+     * 获取不定数目的推荐商品
+     * @return
+     */
+    @GetMapping("/recommend")
+    public Result getRecommend(){
+        List <Findgoods> lists = iMixService.getFreeRecommend();
+        if(CollectionUtils.isEmpty(lists)){
+            return new Result().fail(null,"暂时没有推荐商品");
+        }
+        else{
+            return new Result().success(lists,"查询成功!!!");
+        }
     }
 }
 

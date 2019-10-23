@@ -32,7 +32,7 @@ public class OrderDetail extends Model<OrderDetail> {
     /**
      * 关联订单表的id
      */
-    private Long orderId;
+    private String orderId;
 
     /**
      * 商品id

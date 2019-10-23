@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * @Classname orderDto
@@ -57,4 +58,19 @@ public class orderDto {
      * 订单状态
      */
     private Integer orderStatus;
+
+    /**
+     * 收货人姓名
+     */
+    private String receiptName;
+
+    /**
+     * 收货人手机号
+     */
+    private String receiptPhone;
+
+    /**
+     * 收货地址
+     */
+    private String receiptAddress;
 }

@@ -32,11 +32,15 @@
                total_price,
                image_main,
                order_status,
-               create_time
+               receipt_name,
+               receipt_phone,
+               receipt_address
         from m_order_detail,
-             m_order_status
+             m_order_status,
+             m_order
         where m_order_detail.store_name = #{storeName,jdbcType=VARCHAR}
           and m_order_status.order_status = #{orderStatus,jdbcType=INTEGER}
           and m_order_detail.order_id = m_order_status.order_id
+          and m_order_detail.order_id = m_order.order_id
     </select>
 </mapper>

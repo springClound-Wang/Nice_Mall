@@ -1,6 +1,9 @@
 package com.fdj.nicemallbackend.system.service;
 
+import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
+
+import java.util.List;
 
 /**
  * @Classname IMixService
@@ -14,4 +17,11 @@ public interface IMixService {
      * @return
      */
     Result getHomePage();
+
+    /**
+     * 获取不定数目的推荐商品
+     * @return
+     */
+    List<Findgoods> getFreeRecommend();
+
 }
