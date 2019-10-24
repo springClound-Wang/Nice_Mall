@@ -12,11 +12,13 @@ import com.fdj.nicemallbackend.system.entity.SortImage;
 import com.fdj.nicemallbackend.system.entity.Spike;
 import com.fdj.nicemallbackend.system.service.*;
 import com.fdj.nicemallbackend.system.service.impl.BusinessServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import java.util.Map;
  * @Date 19-8-30 上午11:10
  * @Created by xns
  */
+@Slf4j
 @RestController
 @RequestMapping("/buss")
 public class CommodityController {
@@ -144,8 +147,42 @@ public class CommodityController {
         if(CollectionUtils.isEmpty(orders)){
             return new Result().fail(null,"暂时没有数据哟");
         }
+        boolean status = false;
+        switch (orderStatus){
+            case 1:
+                status=false;
+                break;
+            case 2:
+                status=true;
+                break;
+            default:
+                log.error("状态有误，不能识别");
+                break;
+        }
+        for(int i=0;i<orders.size();i++){
+            orders.get(i).setShip(status);
+        }
         return new Result().success(orders,"查询成功!");
     }
+
+
+    /**
+     * 商家获取已发货和未发货的全部订单
+     * @param request
+     * @return
+     */
+    @GetMapping("/allorder")
+    public Result getAllOrder(HttpServletRequest request){
+        Long userId = jwt_get.getUser(request);
+        List <orderDto> orders = iOrderService.getAllStatusOrders(userId);
+        if(CollectionUtils.isEmpty(orders)){
+            return new Result().fail(null,"暂时没有数据哟");
+        }
+        return new Result().success(orders,"查询成功!");
+    }
+
+
+
 
     /**
      * 商家发货修改状态

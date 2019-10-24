@@ -26,4 +26,5 @@ public interface OrderDetailMapper {
      */
     List<orderDto> selectOneStatusOrder(@Param("storeName") String storeName,@Param("orderStatus") Integer orderStatus);
 
+    List<orderDto> selectPartStatusOrder(String storeName);
 }

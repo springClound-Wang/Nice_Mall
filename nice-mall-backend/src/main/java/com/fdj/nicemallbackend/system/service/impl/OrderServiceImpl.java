@@ -178,5 +178,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return null;
         }
     }
+
+    /**
+     * 商家显示发货和未发货订单
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<orderDto> getAllStatusOrders(Long userId) {
+        List<orderDto> lists = new ArrayList<>();
+        Business business = businessMapper.selectByuserId(userId);
+        if(business == null){
+            return lists;
+        }
+        lists = orderDetailMapper.selectPartStatusOrder(business.getStoreName());
+        for(int i=0;i<lists.size();i++){
+            switch (lists.get(i).getOrderStatus()){
+                case 1:
+                    lists.get(i).setShip(false);
+                    break;
+                case 2:
+                    lists.get(i).setShip(true);
+                    break;
+                default:
+                    log.error("状态有误，不能识别");
+                    break;
+            }
+        }
+        return lists;
+    }
 }
 

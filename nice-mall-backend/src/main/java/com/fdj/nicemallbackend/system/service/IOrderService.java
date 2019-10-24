@@ -47,4 +47,6 @@ public interface IOrderService extends IService<Order> {
     List<orderDto> getOneStatusOrders(Long userId,Integer orderStatus);
 
     String updateListOrderStatus(List<String> orderId, Integer orderStatus);
+
+    List<orderDto> getAllStatusOrders(Long userId);
 }

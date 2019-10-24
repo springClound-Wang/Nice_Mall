@@ -17,7 +17,7 @@ public class orderDto {
     /**
      * 订单id
      */
-    private Long orderId;
+    private String orderId;
 
     /**
      * 商品名称
@@ -73,4 +73,9 @@ public class orderDto {
      * 收货地址
      */
     private String receiptAddress;
+
+    /**
+     * 前端需要的一个标志状态的标志
+     */
+    private boolean isShip;
 }
