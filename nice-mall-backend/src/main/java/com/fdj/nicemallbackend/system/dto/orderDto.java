@@ -78,4 +78,9 @@ public class orderDto {
      * 前端需要的一个标志状态的标志
      */
     private boolean isShip;
+
+    /**
+     * 前端需要的状态字段显示
+     */
+    private String statusStr;
 }

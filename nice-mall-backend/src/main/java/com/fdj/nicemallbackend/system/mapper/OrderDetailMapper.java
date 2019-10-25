@@ -27,4 +27,19 @@ public interface OrderDetailMapper {
     List<orderDto> selectOneStatusOrder(@Param("storeName") String storeName,@Param("orderStatus") Integer orderStatus);
 
     List<orderDto> selectPartStatusOrder(String storeName);
+
+    /**
+     * 用户查询某一状态的订单
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    List<orderDto> OneStatusOrderByuserId(@Param("userId") Long userId,@Param("orderStatus") Integer orderStatus);
+
+    /**
+     * 用户查询所有订单
+     * @param userId
+     * @return
+     */
+    List<orderDto> allStatusOrderByuserId(Long userId);
 }

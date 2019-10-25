@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author xns
@@ -53,6 +53,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 创建订单
+     *
      * @param order
      * @return
      */
@@ -60,7 +61,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Transactional
     public Result createOrder(Order order) {
         IdWorker idWorker = new IdWorker();
-        User user =userMapper.selectByuserId(order.getUserId());
+        User user = userMapper.selectByuserId(order.getUserId());
         String orderId = String.valueOf(idWorker.nextId());
         order.setOrderId(orderId);
         order.setUserName(user.getUserName());
@@ -69,12 +70,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderMapper.save(order);
 
         //保存订单状态
-        OrderStatus orderStatus = new OrderStatus(orderId,0,order.getCreateTime());
+        OrderStatus orderStatus = new OrderStatus(orderId, 0, order.getCreateTime());
         orderStatusMapper.save(orderStatus);
 
 
         List<StorageUpdate> lists = new ArrayList<>();
-        for(OrderDetail orderDetail : order.getPayData()){
+        for (OrderDetail orderDetail : order.getPayData()) {
             orderDetail.setOrderId(orderId);
             StorageUpdate storageUpdate = new StorageUpdate();
             storageUpdate.setGoodsId(orderDetail.getGoodsId());
@@ -85,10 +86,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderDetailMapper.insertList(order.getPayData());
         //更新库存
         int isjuge = storeGoodsMapper.decreaseStock(lists);
-        if(isjuge>0) {
+        if (isjuge > 0) {
             return new Result().success(String.valueOf(orderId), "下单成功");
-        }
-        else{
+        } else {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return new Result().fail("库存不足，无法下单");
         }
@@ -96,11 +96,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 设置要更新的状态
+     *
      * @param orderId
      * @param orderStatus
      * @return
      */
-    public OrderStatus setStatus(String orderId,Integer orderStatus){
+    public OrderStatus setStatus(String orderId, Integer orderStatus) {
         OrderStatus orderStatus1 = new OrderStatus();
         orderStatus1.setOrderId(orderId);
         LocalDateTime localDateTime = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -124,53 +125,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 更新订单状态
+     *
      * @param orderId
      * @param orderStatus
      * @return
      */
     @Override
     public String updateOrderStatus(String orderId, Integer orderStatus) {
-        OrderStatus orderStatus1 = setStatus(orderId,orderStatus);
-        if(orderStatusMapper.updateByOrderId(orderStatus1)>0){
+        OrderStatus orderStatus1 = setStatus(orderId, orderStatus);
+        if (orderStatusMapper.updateByOrderId(orderStatus1) > 0) {
             return orderId;
-        }else{
+        } else {
             log.error("更新出错");
             return null;
         }
     }
 
     /**
-     * 查询所有订单
-     * @return
-     */
-    @Override
-    public List<orderDto> queryAll() {
-        return null;
-    }
-
-    /**
      * 商家查询订单
+     *
      * @return
      */
     @Override
-    public List<orderDto> getOneStatusOrders(Long userId,Integer orderStatus){
+    public List<orderDto> getOneStatusOrders(Long userId, Integer orderStatus) {
         List<orderDto> lists = new ArrayList<>();
         Business business = businessMapper.selectByuserId(userId);
-        if(business == null){
+        if (business == null) {
             return lists;
         }
-        lists = orderDetailMapper.selectOneStatusOrder(business.getStoreName(),orderStatus);
+        lists = orderDetailMapper.selectOneStatusOrder(business.getStoreName(), orderStatus);
         return lists;
     }
 
     /**
      * 批量更新状态
+     *
      * @param orderId
      * @param orderStatus
      * @return
      */
     @Override
-    public String updateListOrderStatus(List<String> orderId,Integer orderStatus) {
+    public String updateListOrderStatus(List<String> orderId, Integer orderStatus) {
         if (orderStatusMapper.updateByOrderIdList(orderId, orderStatus) > 0) {
             return "操作成功";
         } else {
@@ -181,6 +176,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 商家显示发货和未发货订单
+     *
      * @param userId
      * @return
      */
@@ -188,17 +184,86 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public List<orderDto> getAllStatusOrders(Long userId) {
         List<orderDto> lists = new ArrayList<>();
         Business business = businessMapper.selectByuserId(userId);
-        if(business == null){
+        if (business == null) {
             return lists;
         }
         lists = orderDetailMapper.selectPartStatusOrder(business.getStoreName());
-        for(int i=0;i<lists.size();i++){
-            switch (lists.get(i).getOrderStatus()){
+        for (int i = 0; i < lists.size(); i++) {
+            switch (lists.get(i).getOrderStatus()) {
                 case 1:
                     lists.get(i).setShip(false);
                     break;
                 case 2:
                     lists.get(i).setShip(true);
+                    break;
+                default:
+                    log.error("状态有误，不能识别");
+                    break;
+            }
+        }
+        return lists;
+    }
+
+    /**
+     * 用户查询某一状态的订单
+     *
+     * @return
+     */
+    @Override
+    public List<orderDto> queryOneStatus(Long userId, Integer orderStatus) {
+        List<orderDto> lists = orderDetailMapper.OneStatusOrderByuserId(userId, orderStatus);
+        String statusStr = null;
+        switch (orderStatus) {
+            case 0:
+                statusStr = "待付款";
+                break;
+            case 1:
+                statusStr = "代发货";
+                break;
+            case 2:
+                statusStr = "待收货";
+                break;
+            case 3:
+                statusStr = "待评价";
+                break;
+            case 4:
+                statusStr = "已评价";
+                break;
+            default:
+                log.error("状态有误，不能识别");
+                break;
+        }
+        for (int i=0;i<lists.size();i++){
+            lists.get(i).setStatusStr(statusStr);
+        }
+        return lists;
+    }
+
+    /**
+     * 用户查询所有的订单
+     *
+     * @return
+     */
+    @Override
+    public List<orderDto> queryAllStatus(Long userId) {
+        List<orderDto> lists = orderDetailMapper.allStatusOrderByuserId(userId);
+        String statusStr = null;
+        for (int i=0;i<lists.size();i++) {
+            switch (lists.get(i).getOrderStatus()) {
+                case 0:
+                    lists.get(i).setStatusStr("待付款");
+                    break;
+                case 1:
+                    lists.get(i).setStatusStr("代发货");
+                    break;
+                case 2:
+                    lists.get(i).setStatusStr("待收货");
+                    break;
+                case 3:
+                    lists.get(i).setStatusStr("待评价");
+                    break;
+                case 4:
+                    lists.get(i).setStatusStr("已评价");
                     break;
                 default:
                     log.error("状态有误，不能识别");

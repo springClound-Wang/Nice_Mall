@@ -1,6 +1,7 @@
 package com.fdj.nicemallbackend.system.controller;
 
 
+import com.fdj.nicemallbackend.common.authenication.Jwt_Get;
 import com.fdj.nicemallbackend.system.dto.Findgoods;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.orderDto;
@@ -34,6 +35,9 @@ public class OrderController {
 
     @Autowired
     IMixService iMixService;
+
+    @Autowired
+    Jwt_Get jwt_get;
 
     /**
      * 创建订单
@@ -72,13 +76,29 @@ public class OrderController {
     }
 
      /**
-     * 查询订单
+     * 用户查询某一状态订单
      * @param request
      * @return
      */
     @GetMapping("/query")
+    public Result queryOrder(HttpServletRequest request,@RequestParam Integer orderStatus) {
+        Long userId = jwt_get.getUser(request);
+        List<orderDto> orders= iOrderService.queryOneStatus(userId,orderStatus);
+        if(CollectionUtils.isEmpty(orders)){
+            return new Result().fail(null,"暂时无订单数据!!");
+        }
+        return new Result().success(orders,"查询成功!!!");
+    }
+
+    /**
+     * 用户查询所有订单
+     * @param request
+     * @return
+     */
+    @GetMapping("/queryall")
     public Result queryOrder(HttpServletRequest request) {
-        List<orderDto> orders= iOrderService.queryAll();
+        Long userId = jwt_get.getUser(request);
+        List<orderDto> orders= iOrderService.queryAllStatus(userId);
         if(CollectionUtils.isEmpty(orders)){
             return new Result().fail(null,"暂时无订单数据!!");
         }

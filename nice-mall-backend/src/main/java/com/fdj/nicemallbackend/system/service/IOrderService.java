@@ -32,11 +32,6 @@ public interface IOrderService extends IService<Order> {
      */
     String updateOrderStatus(String orderId, Integer orderStatus);
 
-    /**
-     * 查询所有订单
-     * @return
-     */
-    List<orderDto> queryAll();
 
     /**
      * 商家查询所有为发货订单
@@ -49,4 +44,19 @@ public interface IOrderService extends IService<Order> {
     String updateListOrderStatus(List<String> orderId, Integer orderStatus);
 
     List<orderDto> getAllStatusOrders(Long userId);
+
+    /**
+     * 用户查询某一状态的订单
+     * @return
+     */
+    List<orderDto> queryOneStatus(Long userId,Integer orderStatus);
+
+
+    /**
+     * 用户查询所有订单
+     * @param userId
+     * @return
+     */
+    List<orderDto> queryAllStatus(Long userId);
+
 }

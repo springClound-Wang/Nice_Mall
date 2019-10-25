@@ -64,4 +64,45 @@
           and m_order_detail.order_id = m_order_status.order_id
           and m_order_detail.order_id = m_order.order_id
     </select>
+    <select id="OneStatusOrderByuserId" resultType="com.fdj.nicemallbackend.system.dto.orderDto">
+        select m_order_detail.order_id,
+               goods_name,
+               goods_color,
+               goods_size,
+               goods_num,
+               goods_price,
+               total_price,
+               image_main,
+               order_status,
+               receipt_name,
+               receipt_phone,
+               receipt_address
+        from m_order_detail,
+             m_order_status,
+             m_order
+        where m_order.user_id = #{userId}
+          and m_order_status.order_status = #{orderStatus,jdbcType=INTEGER}
+          and m_order_detail.order_id = m_order_status.order_id
+          and m_order_detail.order_id = m_order.order_id
+    </select>
+    <select id="allStatusOrderByuserId" resultType="com.fdj.nicemallbackend.system.dto.orderDto">
+        select m_order_detail.order_id,
+               goods_name,
+               goods_color,
+               goods_size,
+               goods_num,
+               goods_price,
+               total_price,
+               image_main,
+               order_status,
+               receipt_name,
+               receipt_phone,
+               receipt_address
+        from m_order_detail,
+             m_order_status,
+             m_order
+        where m_order.user_id = #{userId}
+          and m_order_detail.order_id = m_order_status.order_id
+          and m_order_detail.order_id = m_order.order_id
+    </select>
 </mapper>
