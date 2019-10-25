@@ -19,4 +19,21 @@
             where order_id = #{item}
         </foreach>
     </update>
+    <update id="updateByOrderId">
+        update m_order_status
+        set
+        <if test="orderStatus != null">
+            order_status= #{orderStatus,jdbcType=INTEGER} ,
+        </if>
+        <if test="paymentTime != null">
+            payment_time=#{paymentTime,jdbcType=TIMESTAMP} ,
+        </if>
+        <if test="deliveryTime != null">
+            delivery_time = #{deliveryTime,jdbcType=TIMESTAMP} ,
+        </if>
+        <if test="endTime != null">
+            end_time = #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        where order_id = #{orderId}
+    </update>
 </mapper>

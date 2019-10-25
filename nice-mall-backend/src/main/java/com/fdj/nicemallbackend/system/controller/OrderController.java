@@ -53,70 +53,91 @@ public class OrderController {
 
     /**
      * 支付
+     *
      * @param map
      * @return
      */
     @PostMapping("/pay")
-    public Result Payment(@RequestBody Map<String,String> map){
+    public Result Payment(@RequestBody Map<String, String> map) {
         String res = null;
         Integer orderStatus = Integer.parseInt(map.get("orderStatus"));
-        if(orderStatus == 0){
+        if (orderStatus == 0) {
             return new Result().fail("请在30分钟内支付哦!否则订单会失效哟!");
         }
-        if(orderStatus == 1){
+        if (orderStatus == 1) {
             String orderId = map.get("orderId");
-            res = iOrderService.updateOrderStatus(orderId,orderStatus);
+            res = iOrderService.updateOrderStatus(orderId, orderStatus);
         }
-        if(res == null){
-           return new Result().fail("支付失败!!");
-        }
-        else{
-            return new Result().success(res,"支付成功!");
+        if (res == null) {
+            return new Result().fail("支付失败!!");
+        } else {
+            return new Result().success(res, "支付成功!");
         }
     }
 
-     /**
+
+    /**
+     * 用户确认收货
+     * @param map
+     * @return
+     */
+    @PutMapping("/confirm")
+    public Result confirmReceipt(@RequestBody Map<String, Object> map) {
+        Integer orderStatus = (Integer) map.get("orderStatus");
+        String orderId = (String) map.get("orderId");
+        String res = iOrderService.updateOrderStatus(orderId, orderStatus);
+        if (res == null) {
+            return new Result().fail("确认收货失败!");
+        } else {
+            return new Result().success(res, "确认收货成功!");
+        }
+    }
+
+
+    /**
      * 用户查询某一状态订单
+     *
      * @param request
      * @return
      */
     @GetMapping("/query")
-    public Result queryOrder(HttpServletRequest request,@RequestParam Integer orderStatus) {
+    public Result queryOrder(HttpServletRequest request, @RequestParam Integer orderStatus) {
         Long userId = jwt_get.getUser(request);
-        List<orderDto> orders= iOrderService.queryOneStatus(userId,orderStatus);
-        if(CollectionUtils.isEmpty(orders)){
-            return new Result().fail(null,"暂时无订单数据!!");
+        List<orderDto> orders = iOrderService.queryOneStatus(userId, orderStatus);
+        if (CollectionUtils.isEmpty(orders)) {
+            return new Result().fail(null, "暂时无订单数据!!");
         }
-        return new Result().success(orders,"查询成功!!!");
+        return new Result().success(orders, "查询成功!!!");
     }
 
     /**
      * 用户查询所有订单
+     *
      * @param request
      * @return
      */
     @GetMapping("/queryall")
     public Result queryOrder(HttpServletRequest request) {
         Long userId = jwt_get.getUser(request);
-        List<orderDto> orders= iOrderService.queryAllStatus(userId);
-        if(CollectionUtils.isEmpty(orders)){
-            return new Result().fail(null,"暂时无订单数据!!");
+        List<orderDto> orders = iOrderService.queryAllStatus(userId);
+        if (CollectionUtils.isEmpty(orders)) {
+            return new Result().fail(null, "暂时无订单数据!!");
         }
-        return new Result().success(orders,"查询成功!!!");
+        return new Result().success(orders, "查询成功!!!");
     }
 
     /**
      * 获取不定数目的推荐商品
+     *
      * @return
      */
     @GetMapping("/recommend")
-    public Result getRecommend(){
-        List <Findgoods> lists = iMixService.getFreeRecommend();
-        if(CollectionUtils.isEmpty(lists)){
-            return new Result().fail(null,"暂时没有推荐商品");
-        }
-        else{
-            return new Result().success(lists,"查询成功!!!");
+    public Result getRecommend() {
+        List<Findgoods> lists = iMixService.getFreeRecommend();
+        if (CollectionUtils.isEmpty(lists)) {
+            return new Result().fail(null, "暂时没有推荐商品");
+        } else {
+            return new Result().success(lists, "查询成功!!!");
         }
     }
 }

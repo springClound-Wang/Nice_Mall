@@ -28,7 +28,6 @@ public interface OrderStatusMapper {
      * @param orderStatus1
      * @return
      */
-    @Update("update m_order_status set order_status = #{orderStatus} ,payment_time = #{paymentTime} where order_id = #{orderId}")
     Integer updateByOrderId(OrderStatus orderStatus1);
 
     /**
