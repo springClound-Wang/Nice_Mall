@@ -1,9 +1,11 @@
 package com.fdj.nicemallbackend.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fdj.nicemallbackend.system.dto.orderDto;
 import com.fdj.nicemallbackend.system.entity.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * @Created by xns
  */
 @Mapper
-public interface OrderDetailMapper {
+public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
     void insertList(@Param("payData") List<OrderDetail> payData);
 
@@ -42,4 +44,7 @@ public interface OrderDetailMapper {
      * @return
      */
     List<orderDto> allStatusOrderByuserId(Long userId);
+
+    @Select("select * from m_order_detail where order_id = #{orderId} ")
+    List<OrderDetail> selectByOrderId(String orderId);
 }

@@ -1,5 +1,6 @@
 package com.fdj.nicemallbackend.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.fdj.nicemallbackend.common.utils.IdWorker;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.dto.StorageUpdate;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -270,6 +272,22 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             }
         }
         return lists;
+    }
+
+    /**
+     * 用户获取订单详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Order getOrderDetail(String orderId) {
+        Order order=null;
+        order = orderMapper.selectByOrderId(orderId);
+        List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(orderId);
+        OrderStatus orderStatus = orderStatusMapper.selectByOrderId(orderId);
+        order.setPayData(orderDetails);
+        order.setOrderStatus(orderStatus.getOrderStatus());
+        return order;
     }
 }
 

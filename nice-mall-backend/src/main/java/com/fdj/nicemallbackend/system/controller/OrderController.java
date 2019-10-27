@@ -8,6 +8,7 @@ import com.fdj.nicemallbackend.system.dto.orderDto;
 import com.fdj.nicemallbackend.system.entity.Order;
 import com.fdj.nicemallbackend.system.service.IMixService;
 import com.fdj.nicemallbackend.system.service.IOrderService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -140,5 +141,22 @@ public class OrderController {
             return new Result().success(lists, "查询成功!!!");
         }
     }
+
+    /**
+     * 用户获取订单详情
+     * @param orderId
+     * @return
+     */
+    @GetMapping("/detail")
+    public Result getOrderDetail(@RequestParam String orderId){
+        Order order = iOrderService.getOrderDetail(orderId);
+        if(order!=null){
+            return new Result().success(order,"获取成功");
+        }
+        else{
+            return new Result().fail(null,"订单详情获取失败");
+        }
+    }
+
 }
 

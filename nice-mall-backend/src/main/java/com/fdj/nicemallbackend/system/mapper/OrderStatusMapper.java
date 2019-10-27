@@ -1,10 +1,8 @@
 package com.fdj.nicemallbackend.system.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fdj.nicemallbackend.system.entity.OrderStatus;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -15,7 +13,7 @@ import java.util.List;
  * @Created by xns
  */
 @Mapper
-public interface OrderStatusMapper {
+public interface OrderStatusMapper extends BaseMapper<OrderStatus> {
     /**
      * 保存订单状态
      * @param orderStatuss
@@ -37,4 +35,7 @@ public interface OrderStatusMapper {
      * @return
      */
     Integer updateByOrderIdList(@Param("orderIds") List<String> orderIds, @Param("orderStatus")Integer orderStatus);
+
+    @Select("select * from m_order_status where order_id = #{orderId} ")
+    OrderStatus selectByOrderId(String orderId);
 }

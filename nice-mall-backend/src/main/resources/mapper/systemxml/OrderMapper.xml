@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fdj.nicemallbackend.system.mapper.OrderMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Order">
         <id column="order_id" property="orderId"/>
@@ -15,11 +14,37 @@
         <result column="receipt_phone" property="receiptPhone"/>
         <result column="receipt_address" property="receiptAddress"/>
     </resultMap>
+
+<!--    <resultMap id="AllResultMap" type="com.fdj.nicemallbackend.system.entity.Order">-->
+<!--        <id column="order_id" property="orderId"/>-->
+<!--        <result column="user_id" property="userId"/>-->
+<!--        <result column="user_name" property="userName"/>-->
+<!--        <result column="total_money" property="totalMoney"/>-->
+<!--        <result column="logistics_name" property="logisticsName"/>-->
+<!--        <result column="shipment_number" property="shipmentNumber"/>-->
+<!--        <result column="create_time" property="createTime"/>-->
+<!--        <result column="receipt_name" property="receiptName"/>-->
+<!--        <result column="receipt_phone" property="receiptPhone"/>-->
+<!--        <result column="receipt_address" property="receiptAddress"/>-->
+<!--        <collection property="payData" ofType="com.fdj.nicemallbackend.system.entity.OrderDetail"-->
+<!--                    resultMap="com.fdj.nicemallbackend.system.mapper.OrderDetailMapper.BaseResultMap"/>-->
+<!--        <result column="order_status" property="orderStatus"/>-->
+<!--    </resultMap>-->
+
     <insert id="save">
         insert into m_order (order_id, user_id, user_name, total_money, create_time, receipt_name, receipt_phone,
                              receipt_address)
-        values (#{orderId}, #{userId}, #{userName}, #{totalMoney}, #{createTime} , #{receiptName}, #{receiptPhone},
+        values (#{orderId}, #{userId}, #{userName}, #{totalMoney}, #{createTime}, #{receiptName}, #{receiptPhone},
                 #{receiptAddress})
     </insert>
+<!--    <select id="selectByOrderId" resultMap="AllResultMap">-->
+<!--        select o.*,d.*,s.*-->
+<!--        from m_order o,-->
+<!--             m_order_detail d,-->
+<!--             m_order_status s-->
+<!--        where o.order_id = #{orderId}-->
+<!--          and d.order_id = o.order_id-->
+<!--          and s.order_id = o.order_id-->
+<!--    </select>-->
 
 </mapper>

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
@@ -20,13 +21,14 @@ import java.util.List;
  */
 @Data
 @TableName("m_order")
-public class Order extends Model<Order> {
+public class Order extends Model<Order> implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
      * 订单id
      */
+    @Id
     private String orderId;
 
     /**

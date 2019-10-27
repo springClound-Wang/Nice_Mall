@@ -59,4 +59,10 @@ public interface IOrderService extends IService<Order> {
      */
     List<orderDto> queryAllStatus(Long userId);
 
+    /**
+     * 获取订单详情
+     * @param orderId
+     * @return
+     */
+    Order getOrderDetail(String orderId);
 }

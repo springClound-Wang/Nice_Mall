@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class OrderStatus extends Model<OrderStatus> {
     /**
      * 订单id
      */
+    @Id
     private String orderId;
 
     /**

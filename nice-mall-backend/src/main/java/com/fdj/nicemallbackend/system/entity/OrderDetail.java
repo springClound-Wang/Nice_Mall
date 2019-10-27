@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
@@ -19,7 +20,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName("m_order_detail")
-public class OrderDetail extends Model<OrderDetail> {
+public class OrderDetail extends Model<OrderDetail> implements Serializable{
 
     private static final long serialVersionUID=1L;
 
