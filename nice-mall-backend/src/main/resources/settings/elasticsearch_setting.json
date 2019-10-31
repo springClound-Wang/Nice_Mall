@@ -1,0 +1,33 @@
+{
+  "index": {
+    "analysis": {
+      "analyzer": {
+        "ik_smart_pinyin": {
+          "type": "custom",
+          "tokenizer": "ik_smart",
+          "filter": [
+            "my_pinyin"
+          ]
+        },
+        "ik_max_word_pinyin": {
+          "type": "custom",
+          "tokenizer": "ik_max_word",
+          "filter": [
+            "my_pinyin"
+          ]
+        }
+      },
+      "filter": {
+        "my_pinyin": {
+          "type": "pinyin",
+          "keep_full_pinyin": true,
+          "keep_original": true,
+          "keep_first_letter": true,
+          "keep_joined_full_pinyin": true,
+          "lowercase": true,
+          "remove_duplicated_term": true
+        }
+      }
+    }
+  }
+}

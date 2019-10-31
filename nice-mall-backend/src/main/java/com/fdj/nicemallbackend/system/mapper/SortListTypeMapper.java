@@ -5,6 +5,7 @@ import com.fdj.nicemallbackend.system.entity.SortListType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -27,4 +28,7 @@ public interface SortListTypeMapper extends BaseMapper<SortListType> {
     List<String> selectBysortListNametId(Integer sortListId);
 
     List<Integer> selectPartId(String field);
+
+    @Select("select * from sort_list_type where sort_list_type_id=#{sortListTypeId} ")
+    SortListType selectByTid(Integer sortListTypeId);
 }

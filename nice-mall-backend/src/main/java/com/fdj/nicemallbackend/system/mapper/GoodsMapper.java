@@ -43,7 +43,17 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      */
     List<Findgoods> selectLimit(@Param("offset") int offset,@Param("limit") int limit);
 
+    /**
+     * 获取商品总数
+     * @return
+     */
     @Select("select count(*) from m_goods")
     Integer getCount();
 
+    /**
+     * 查询所有商品
+     * @return
+     */
+    @Select("select * from m_goods")
+    List<Goods> select();
 }

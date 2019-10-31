@@ -60,6 +60,7 @@
             <if test="userAddress != null and userAddress != ''">
                 user_address = #{userAddress}
             </if>
+            user_id = #{userId}
         </set>
         where user_id = #{userId}
     </update>
