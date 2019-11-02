@@ -25,7 +25,7 @@ public class Items {
     @Id
     private Long id;
     /**
-     * 所有需要被搜索的信息，包含标题，分类，描述,
+     * 所有需要被搜索的信息，包含标题，描述,
      */
     @Field(type = FieldType.Text,analyzer = "ik_max_word_pinyin")
     private String all;

@@ -1,15 +1,20 @@
 package com.fdj.nicemallbackend.system.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fdj.nicemallbackend.system.dto.Findgoods;
+import com.fdj.nicemallbackend.system.dto.Items;
 import com.fdj.nicemallbackend.system.dto.Result;
 import com.fdj.nicemallbackend.system.entity.Goods;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.fdj.nicemallbackend.system.service.IMixService;
+import com.fdj.nicemallbackend.system.service.ISearchService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import com.fdj.nicemallbackend.system.service.impl.GoodsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +38,11 @@ public class HomeController {
     @Autowired
     IMixService iMixService;
 
+    @Autowired
+    ISearchService iSearchService;
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     /**
      * 获取商品分类
      * @return
@@ -50,13 +60,21 @@ public class HomeController {
      */
     @GetMapping("/{field}")
     public Result fuzzyQuery(@PathVariable String field){
-        Set<Findgoods> goods = goodsService.findByField(field);
-        if(goods.isEmpty()) {
+        List<Items> items = iSearchService.search(field);
+        if(items.isEmpty()) {
             return new Result().fail("查询失败,无对应的数据!!!");
         }
-        else{
-            return new Result().success(goods, "查询成功!!!");
-        }
+        List<Findgoods> goods = new ArrayList<>();
+        items.forEach(items1 -> {
+            Findgoods findgoods1 = null;
+            try {
+                findgoods1 = MAPPER.readValue(items1.getFindGoods(), Findgoods.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            goods.add(findgoods1);
+        });
+        return new Result().success(goods, "查询成功!!!");
     }
 
     /**

@@ -20,7 +20,8 @@
       "filter": {
         "my_pinyin": {
           "type": "pinyin",
-          "keep_full_pinyin": true,
+          "keep_full_pinyin": false,
+          "keep_separate_first_letter": false,
           "keep_original": true,
           "keep_first_letter": true,
           "keep_joined_full_pinyin": true,
