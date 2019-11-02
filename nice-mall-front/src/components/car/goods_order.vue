@@ -51,15 +51,15 @@
         <div class="other">
             <div class="recommend">推荐</div>
             <div id="all_goods_list">
-                <div class="goods-item" v-for="item in goods" :key="item.goods_id">
+                <div class="goods-item" v-for="item in goods" :key="item.goodsId">
                     <!--点击跳到详情-->
-                    <router-link :to="'/goods_detail?id='+item.goods_id" >
+                    <router-link :to="'/goods_detail?id='+item.goodsId" >
                         <div @mouseenter="change" @mouseleave="nochange" class="goods_item_every">
-                            <img :src="item.goods_img" class="goods-img"/>
+                            <img :src="item.imageMain" class="goods-img"/>
                             <div class="goods-desc">
-                                <span class="goods-name">{{item.goods_name}}</span><br>
+                                <span class="goods-name">{{item.goodsName}}</span><br>
                                 <span class="price-desc">心动价</span>
-                                <span style="margin-left: 10%">￥{{item.goods_price}}</span>
+                                <span style="margin-left: 10%">￥{{item.goodsPrePrice}}</span>
                             </div>
                         </div>
                     </router-link>
@@ -98,8 +98,11 @@ export default {
     methods:{
         //TODO 发请求：推荐
         getOrderGoodsList() {
-            this.$http.get('/getgoodsorder?goodsname').then(res => {
-                this.goods = res.data.goods;
+            this.$http.get('/order/recommend',{
+              params:{},
+              headers:{ Authorization: window.localStorage.getItem('token')}
+            }).then(res => {
+                this.goods = res.data.data;
             }).catch(err => {
                 console.log(err);
             })
@@ -121,8 +124,8 @@ export default {
         },
         //数量--
         handleCountLess(item){
-            if(item.goodsNum >0) item.goodsNum--;
-            else item.goodsNum = 0;
+            if(item.goodsNum >1) item.goodsNum--;
+            else item.goodsNum = 1;
         },
         change(e) {
             e.target.style.borderRadius = '5px';

@@ -8,7 +8,7 @@
               <li v-for="(item ,index) in hot_type" :key="index"
                     @mouseenter="list_change" @mouseleave="list_nochange">
                   <router-link :to="{path:'/goods_item',query: {goodsname:item.typeName,urls:'home/'}}" @click.native="flushCom">
-                    <img :src="item.imageDetails" width="120" height="90"/><br>
+                    <img :src="item.imageDetails" width="115" height="100"/><br>
                     <span>{{item.typeName}}</span>
                   </router-link>
               </li>
@@ -59,8 +59,11 @@ export default {
              this.hot_type = res.data.data.hotType;
              this.goods = res.data.data.goods;
              this.hot_head_img = res.data.data.hotHeadImg;
+             if(res.data.data.hotType === ''){
+               this.$router.push('/not_found');
+             }
          }).catch(err=>{
-             this.$router.push('/not_found');
+           this.$router.push('/not_found');
          })
         },
         change(e){
@@ -95,7 +98,7 @@ export default {
     #hot-type-sort{
         width: 90%;
         margin: 10px auto;
-        border: 1px solid #fa5f62;
+        border: 1.5px solid #fa5f62;
         border-radius: 5px;
     }
     #hot-type-sort ul li{

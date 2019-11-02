@@ -27,7 +27,7 @@
                             <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
                             <span style="margin: 0 2px">￥{{item.goodsCurPrice}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
+                            <span class="cur_price">￥{{item.goodsPrePrice}}</span>
                         </div>
                     </router-link>
                 </div>
@@ -42,7 +42,7 @@
                         <span class="goods-name">{{item.goodsName}}</span><br>
                         <span class="price-desc">心动价</span>
                         <span style="margin: 0 2px">￥{{item.goodsCurPrice}}</span>
-                        <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsPrePrice}}</span>
+                        <span class="cur_price">￥{{item.goodsPrePrice}}</span>
                       </div>
                     </router-link>
                 </div>
@@ -64,9 +64,23 @@
                         </div>
                     </div>
                     <div class="select_name">{{item.entryTitle}}</div>
-                    <span class="select_desc">{{item.entryDiscount}}</span><span>折封顶</span>
+                    <span class="select_desc">{{item.entryDiscount}}</span><span>封顶</span>
                 </router-link>
             </div>
+          <div class="goods-select">
+            <router-link to="/not_found">
+              <div>
+                <img src="http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/entry/1568956839667.jpg" @mouseenter="enter"
+                     @mouseleave="leave" class="type_img"/>
+                <div class="select-into">
+                  <span class="iconfont icon-xinbaniconshangchuan-"></span>
+                  <span>进入选购</span>
+                </div>
+              </div>
+              <div class="select_name">更多</div>
+              <span class="select_desc">更多精品</span><span> 发现身边的美丽</span>
+            </router-link>
+          </div>
         </div>
 
     </div>
@@ -93,6 +107,7 @@
                     this.recommendList = res.data.data.recommendList;
                     this.spikeList = res.data.data.spikeList;
                     this.typeEntry = res.data.data.typeEntry
+                    this.typeEntry.pop();
                 }).catch(err=>{
                     console.log(err);
                 })
@@ -205,11 +220,18 @@
         z-index: 200;
         margin:1px;
     }
+    .cur_price{
+      text-decoration: line-through;
+      color: rgb(109, 109, 114);
+      float: right;
+      margin-right: 15px;
+      margin-top: 5px;
+    }
     .price-desc{
         display: inline-block;
         padding: 5px;
         background-color: #fa5f62;
-        margin: 0 10px 10px 2px;
+        margin: 0 5px 10px 2px;
         color: white;
     }
     .goods-name{

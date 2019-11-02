@@ -66,7 +66,7 @@
           <li @mouseenter="show(5)" @mouseleave="hide">
             <router-link :to="url" class="link" >
               <span class="iconfont icon-user"></span>
-              <span style="font-size: 17px" v-text="isLogin" @click="handleIsLogin"></span>
+              <span style="font-size: 15px" v-text="isLogin" @click="handleIsLogin"></span>
             </router-link>
             <div class="item" :class="{itemHover:itemIndex===5}" v-if="isExit">
               <ul class="list" style="width: 100px">
@@ -128,6 +128,9 @@ export default {
     },
     //登陆后切换导航
     isLoginTo() {
+      if(!window.localStorage.getItem('username')){
+        this.url = '/login_sign/login_phone'
+      }
       //若已经登录 则导航切换到去个人中心  且 显示退出登录
       if (this.isLogin === window.localStorage.getItem('username')) {
         this.isLogin =window.localStorage.getItem('username');
@@ -151,7 +154,7 @@ export default {
     isLoginTime(){
       if(window.localStorage.getItem('logintime')){
         if(new Date().getTime() - window.localStorage.getItem('logintime') > 86400000){
-          this.$message.warning('登录过期');
+          this.$message.warning('登录过期，请重新登录');
           this.removeStorage();
           this.isLogin = '请登录';
           window.location.reload()

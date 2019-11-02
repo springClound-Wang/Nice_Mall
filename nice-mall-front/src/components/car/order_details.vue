@@ -1,25 +1,40 @@
 <template>
-  <div id="pay-container">
-    <div class="pay_title">订单详情</div>
+  <div id="pay-container" v-if="!loading">
+    <div class="pay_title">订单状态<span style="font-size: 16px;"><a style="color:#f14649" href="javascript:history.back(-1)">返回</a></span></div>
     <div class="is_pay">
-      <span>
+      <span v-if="status === 0">
         由于商品未支付 <br>
         30分钟后自动过期<br>
         . . . . . . .
       </span>
+      <span v-if="status === 1">
+        商品已支付 <br>
+        等待发货<br>
+        . . . . . . .
+      </span>
+      <span v-if="status === 2">
+        商品已发货 <br>
+        查看发货详情<br>
+        . . . . . . .
+      </span>
+      <span v-if="status === 3">
+        商品已确认收货 <br>
+        查看交易详情，进行评价<br>
+        . . . . . . .
+      </span>
       <img src="../../assets/image/wait.jpg"/>
     </div>
-    <div class="pay_title">商品清单</div>
+    <div class="pay_title">订单详情</div>
     <div class="goods">
       <table border="1" cellspacing="0" cellpadding="0">
         <tr>
-          <td class="goods_pay_td">Nice 发货订单</td>
+          <td class="goods_pay_td">订单编号：{{orderId}}</td>
           <td>尺码</td>
           <td>颜色</td>
           <td>单价</td>
           <td>数量</td>
         </tr>
-        <tr v-for="(item,index) in order_details" :key="item.goodsId">
+        <tr v-for="(item,index) in pay_data" :key="item.goodsId">
           <td  class="goods_pay_td">
             <img :src="item.imageMain"/>
             <span class="car_goods_name">{{item.goodsName}}</span>
@@ -36,10 +51,10 @@
       <div class="pay_order">
         <div>
           <span>地址信息</span><hr>
-          <span>收货人：刘甜 </span>
-          <span>收件人电话：13259964094</span>
-          <span style="font-size: 19px;"><b style="color: #fe5745">支付：￥20</b> </span>
-          <span>送货至：陕西省西安市长安区</span>
+          <span>收货人：{{order_details.receiptName}}</span>
+          <span>收件人电话：{{order_details.receiptPhone}}</span>
+          <span style="font-size: 19px;"><b style="color: #fe5745">支付：￥{{order_details.totalMoney}}</b> </span>
+          <span>送货至：{{order_details.receiptAddress}}</span>
 
         </div>
       </div>
@@ -47,29 +62,30 @@
   </div>
 </template>
 <script>
-  import popup from '../tools/popup.vue';
   export default {
-    components: {
-      popup
-    },
-    mounted(){
+    created(){
       this.getOrder();
     },
     data(){
       return{
+        loading: false,
         //TODO 前面的组件传过来的orderId
-        orderId:this.$route.query.id,
-        order_details:null  //订单详情
+        orderId:this.$route.query.orderId,
+        status:null,
+        order_details:{},  //订单详情
+        pay_data:null //支付商品详情
       }
     },
     methods:{
       // TODO 得到order信息
       getOrder(){
-        this.$http.get('/personal/getaddr',{
+        this.$http.get('/order/detail',{
           params:{orderId:this.orderId},
           headers: {Authorization: window.localStorage.getItem('token')}
         }).then(res=>{
           this.order_details = res.data.data;
+          this.pay_data = res.data.data.payData;
+          this.status = res.data.data.orderStatus;
         }).catch(err=>{
           this.$message.error(err.data.message);
         })
@@ -131,6 +147,7 @@
   .goods table tr:nth-child(1){
     height: 40px;
     margin-bottom: 10px;
+
   }
   .goods table tr td{
     border: none;
@@ -169,10 +186,13 @@
   .goods_pay_td{
     text-align: left !important;
     margin-left: 10px;
+    padding-left: 5px;
   }
   .car_goods_name{
     position: absolute;
     width: 250px;
     margin-left: 20px;
+    margin-top: 20px;
   }
+
 </style>

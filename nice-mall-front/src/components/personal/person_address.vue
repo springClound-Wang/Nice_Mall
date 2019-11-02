@@ -48,7 +48,7 @@
             <el-table-column
                     prop="receiptArea"
                     label="所在地区"
-                    width="180">
+                    width="174">
             </el-table-column>
             <el-table-column
                     prop="detailAddress"
@@ -121,7 +121,7 @@
         },
         methods: {
             getAddress(){
-              this.$http.get('http://120.78.64.17:8086/nice-mall-backend/personal/getaddr',{
+              this.$http.get('/personal/getaddr',{
                 params:{userId:window.localStorage.getItem('userId')},
                 headers: {Authorization: window.localStorage.getItem('token')}
               }).then(res=>{
@@ -131,7 +131,7 @@
               })
             },
             submitForm() {
-              this.$http.post('http://120.78.64.17:8086/nice-mall-backend/personal/address',{
+              this.$http.post('/personal/address',{
                 userId:window.localStorage.getItem('userId'),
                 receiptName:this.ruleForm.receiptName,
                 receiptArea:this.ruleForm.receiptArea,

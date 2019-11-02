@@ -215,6 +215,7 @@
 </script>
 <style>
     .detail-container {
+        font-family: ahoma,Helvetica,Arial,'宋体',sans-serif;
         width: 100%;
         margin:30px auto;
         position: relative;

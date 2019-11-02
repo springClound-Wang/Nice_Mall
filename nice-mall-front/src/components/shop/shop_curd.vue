@@ -122,8 +122,8 @@
                         <el-checkbox label="M"></el-checkbox>
                         <el-checkbox label="L"></el-checkbox>
                         <el-checkbox label="XL"></el-checkbox>
-                        <el-checkbox label="XXL"></el-checkbox>
-                        <el-checkbox label="XXL"></el-checkbox>
+                        <el-checkbox label="2XL"></el-checkbox>
+                        <el-checkbox label="3XL"></el-checkbox>
                       </el-checkbox-group>
                     </div>
                     <div class="text_item">
@@ -1829,7 +1829,6 @@ export default {
     }
 
 </style>
-
 <style>
   #curd_container .el-input__suffix {
     right: 25px;
