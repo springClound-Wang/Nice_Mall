@@ -12,6 +12,7 @@
         <result column="goods_brand" property="goodsBrand"/>
         <result column="goods_place" property="goodsPlace"/>
         <result column="image_main" property="imageMain"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <resultMap id="SpikeNeedResult" type="com.fdj.nicemallbackend.system.dto.Spikes">
@@ -22,7 +23,7 @@
     <insert id="save" useGeneratedKeys="true" keyProperty="goodsId" keyColumn="goods_id">
         insert into m_goods
         values (NULL, #{goodsName}, #{goodsDesc}, #{goodsPrePrice}, #{goodsCurPrice}, #{goodsBrand}, #{goodsPlace},
-                #{imageMain})
+                #{imageMain} ,NOW())
     </insert>
     <select id="selectFuzzyByfiled" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
         select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price

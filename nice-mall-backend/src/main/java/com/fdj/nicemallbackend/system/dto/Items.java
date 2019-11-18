@@ -28,7 +28,7 @@ public class Items {
      * 所有需要被搜索的信息，包含标题，描述,
      */
     @Field(type = FieldType.Text,analyzer = "ik_max_word_pinyin")
-    private String all;
+    private String strall;
     /**
      * 品牌
      */

@@ -62,7 +62,7 @@ public class SearchServiceImpl implements ISearchService {
         items.setSid2(typeGoods.getSortListNameId());
         items.setSid3(typeGoods.getSortListTypeId());
         items.setBrand(goods.getGoodsBrand());
-        items.setAll(goods.getGoodsName()+" "+goods.getGoodsDesc());
+        items.setStrall(goods.getGoodsName()+" "+goods.getGoodsDesc());
         items.setPrice(goods.getGoodsCurPrice());
         items.setFindGoods(MAPPER.writeValueAsString(goodsMapper.findById(goods.getGoodsId())));
         return items;
@@ -80,7 +80,7 @@ public class SearchServiceImpl implements ISearchService {
         /**
          * 添加查询条件
          */
-        nativeSearchQueryBuilder.withQuery(QueryBuilders.matchQuery("all",field).operator(Operator.AND));
+        nativeSearchQueryBuilder.withQuery(QueryBuilders.matchQuery("strall",field).operator(Operator.AND));
         //添加结果集过滤
         nativeSearchQueryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"findGoods"},null));
         //执行查询获取结果集

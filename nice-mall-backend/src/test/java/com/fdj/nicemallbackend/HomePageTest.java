@@ -45,7 +45,7 @@ public class HomePageTest {
 
     @Test
     public void es_test(){
-        List<Items> items = iSearchService.search("weiyi");
+        List<Items> items = iSearchService.search("孕妇装");
         List<Findgoods> findgoods = new ArrayList<>();
         items.forEach(items1 -> {
             Findgoods findgoods1 = null;

@@ -1,6 +1,8 @@
 package com.fdj.nicemallbackend.system.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -62,6 +64,8 @@ public class Goods extends Model<Goods> {
      * 商品主图片
      */
     private String imageMain;
+
+    private LocalDateTime updateTime;
 
     public Goods(){
     }

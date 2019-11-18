@@ -42,9 +42,13 @@ public class ElasticsearchTest {
 
 
     @Test
-    public void test(){
+    public void testcreate(){
         this.elasticsearchTemplate.createIndex(Items.class);
         this.elasticsearchTemplate.putMapping(Items.class);
+    }
+
+    @Test
+    public void test(){
         //获取所有的商品
         List<Goods> goods = this.goodsMapper.select();
         //处理List<Goods> ==> List<Item>
