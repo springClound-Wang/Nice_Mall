@@ -4,7 +4,7 @@
             <div class="car_goods">
                 <ul class="car_nav_list">
                     <li style="width:29%;text-align: left">
-                        <span style="margin-left: 10px">Nice 宝贝&nbsp;&nbsp;&nbsp; 商品信息</span>
+                        <span style="margin-left: 10px">Nice 宝贝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 商品信息</span>
                     </li>
                     <li>尺码</li>
                     <li>单价</li>
@@ -47,7 +47,7 @@
                 <li>移入收藏夹</li>
             </ul>
             <div class="account_all">
-                <span>合计：￥{{all_money}}</span>
+              <span>合计：<b style="color: #fb6450;font-size: 20px">￥{{all_money}}</b></span>
                 <button @click="handleToCount">结算</button>
             </div>
         </div>
@@ -105,7 +105,7 @@ export default {
             }
 
         },
-        //TODO 删除购物车的某条信息   ？=
+        //删除购物车的某条信息
         handleDeleteCar(id,color,size){
           this.$http.delete('/cart/del',{
               params:{
@@ -121,20 +121,25 @@ export default {
             this.$message.error('删除失败');
           });
         },
-        //TODO 发出请求 得到购物车 数据：
+        //得到购物车 数据
         getCarGoodsList() {
-            this.$http.get('/cart/gain',{
-              params:{},
-              headers:{Authorization: window.localStorage.getItem('token')}
+          if(!window.localStorage.getItem('username')){
+            this.$message.warning('请先登录，再查看购物车');
+            this.$router.push('/login_sign/login_phone');
+          }
+          else {
+            this.$http.get('/cart/gain', {
+              params: {},
+              headers: {Authorization: window.localStorage.getItem('token')}
             }).then(res => {
-                this.car_data = res.data.data;
-                if(!this.car_data){
-                  this.$message.success('您的购物车暂时还没有数据');
-                }
+              this.car_data = res.data.data;
+              if (!this.car_data) {
+                this.$message.success('您的购物车暂时还没有数据');
+              }
             }).catch(err => {
-                this.$message.error('查询失败');
+              this.$message.error('查询失败');
             })
-
+          }
         },
         //数量++
         handleCountAdd(item){
@@ -171,6 +176,7 @@ export default {
     #car_container{
         width: 75%;
         margin: 10px auto;
+        font-family: ahoma,Helvetica,Arial,'宋体',sans-serif;
     }
     .car_content {
         width: 92%;
@@ -243,7 +249,7 @@ export default {
         float: left;
         text-align: center;
         border-left: 1px solid #cfd0d3;
-        font-weight: 500;
+        font-weight: 600;
 
     }
     .car_goods_item:hover{

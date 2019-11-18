@@ -11,8 +11,8 @@
                         <div class="goods-desc">
                             <span class="goods-name">{{item.goodsName}}</span><br>
                             <span class="price-desc">心动价</span>
-                            <span style="margin: 0 10px">￥{{item.goodsPrePrice}}</span>
-                            <span style="text-decoration:line-through;color: #6d6d72">￥{{item.goodsCurPrice}}</span>
+                            <span style="margin: 0;color: #f14649;">￥{{item.goodsPrePrice}}</span>
+                            <span class="cur_price">￥{{item.goodsCurPrice}}</span>
                         </div>
                     </div>
                 </router-link>
@@ -93,7 +93,7 @@
       display: inline-block;
       position: relative;
       top:0;
-      margin: 20px 14px 20px 10px;
+      margin: 20px 12px 20px 10px;
       border-radius: 5px;
       border: 1px solid #e2e2e2;
       box-shadow: 0 0 4px 1px #dedede;
@@ -104,7 +104,7 @@
       /*padding: 5px 10px;*/
     }
     .goods-desc{
-      width: 96%;
+      width: 97%;
       margin: -3px auto;
       height: 60px;
       z-index: 200;
@@ -116,7 +116,7 @@
       display: inline-block;
       padding: 5px;
       background-color: #fa5f62;
-      margin: 0 10px 10px 2px;
+      margin: 0 5px 10px 2px;
       color: white;
     }
     .goods-name{
@@ -125,6 +125,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .cur_price{
+      text-decoration: line-through;
+      color: rgb(109, 109, 114);
+      float: right;
+      margin-right: 15px;
+      margin-top: 5px;
     }
     .goods_title{
       font-size: 18px;

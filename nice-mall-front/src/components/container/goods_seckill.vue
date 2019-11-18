@@ -3,7 +3,7 @@
     <div class="goods_seckill" v-for="(item,index) in goodsSeckill" :key="item.goodsId">
       <router-link :to="'/goods_detail?id='+item.goodsId" >
         <div class="goods_seckill_img">
-          <img src="../../assets/image/4.jpg" />
+          <img :src="item.imgMain" />
         </div>
         <div class="goods_seckill_content">
           <h4>{{item.goodsBrand}}</h4>
@@ -14,7 +14,7 @@
           </div>
           <div class="goods_seckill_crazy">
             <!--<div>已抢购</div>-->
-            <el-progress :text-inside="true" :stroke-width="17" :percentage="50" status="exception"></el-progress>
+            <el-progress :text-inside="true" :stroke-width="16" :percentage="30" status="exception"></el-progress>
           </div>
 
         </div>
@@ -29,25 +29,57 @@ export default {
       goodsSeckill:[
         {
           goodsId:1,
-          goodsName:'【驻颜小金瓶】24K黄金烟酰胺精华液2支装 100ml/支',
+          goodsName:'春户外连帽印花夹克显瘦防晒皮肤衣女式外套薄款透气运动女式风衣',
           goodsBrand:'植美村',
           goodsCurPrice:'58',
           goodsPrePrice:'338',
-          goodsCrazy:'90'
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569752849451.jpeg'
         },   {
           goodsId:3,
-          goodsName:'【驻颜小金瓶】24K黄金烟酰胺精华液2支装 100ml/支',
+          goodsName:'新品牛仔裤新款高腰韩版宽松学生阔腿九分cec直筒裤子',
           goodsBrand:'植美村',
           goodsCurPrice:'58',
           goodsPrePrice:'338',
-          goodsCrazy:'90'
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569756009098.jpeg'
+
         },   {
           goodsId:2,
           goodsName:'【驻颜小金瓶】24K黄金烟酰胺精华液2支装 100ml/支',
           goodsBrand:'植美村',
           goodsCurPrice:'58',
           goodsPrePrice:'338',
-          goodsCrazy:'90'
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569755187867.jpeg'
+
+        },
+        {
+          goodsId:4,
+          goodsName:'春户外连帽印花夹克显瘦防晒皮肤衣女式外套薄款透气运动女式风衣',
+          goodsBrand:'植美村',
+          goodsCurPrice:'58',
+          goodsPrePrice:'338',
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569752849451.jpeg'
+        },   {
+          goodsId:5,
+          goodsName:'新品牛仔裤新款高腰韩版宽松学生阔腿九分cec直筒裤子',
+          goodsBrand:'植美村',
+          goodsCurPrice:'58',
+          goodsPrePrice:'338',
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569755187867.jpeg'
+
+        },   {
+          goodsId:6,
+          goodsName:'【驻颜小金瓶】24K黄金烟酰胺精华液2支装 100ml/支',
+          goodsBrand:'植美村',
+          goodsCurPrice:'58',
+          goodsPrePrice:'338',
+          goodsCrazy:'90',
+          imgMain:'http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569752849451.jpeg'
+
         },
       ]
     }
@@ -120,5 +152,8 @@ export default {
   }
   .goods_seckill_crazy div:nth-child(2){
     width: 75%;
+  }
+  h4{
+    font-size: 15px;
   }
 </style>

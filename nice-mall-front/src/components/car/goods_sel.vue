@@ -2,7 +2,7 @@
 <template>
     <div id="order_container">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="所有订单" name="first">
+            <el-tab-pane label="所有订单" name="first"  >
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
@@ -15,8 +15,11 @@
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                          <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
-                            <li class="order_item"><span>订单号：1213232424</span></li><br>
+                        <ul v-for="(item,index) in sel_data"  class="sel_item">
+                            <li class="order_item">
+                              <span class="order_id">订单编号：{{item.orderId}}</span>
+                              <span class="no_pay_message" v-if="item.statusStr === '待付款'">订单30分钟后自动过期</span>
+                            </li><br>
                             <li class="first_td">
                               <img :src="item.imageMain" class="order_img"/>
                               <span>{{item.goodsName}}</span>
@@ -26,13 +29,16 @@
                             <li>{{item.goodsColor}}</li>
                             <li>{{item.goodsNum}}</li>
                             <li>￥{{item.totalPrice}}</li>
-                            <li class="order_status">等待付款<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
-                            <li style="width: 9%;"><el-button type="success" plain @click="handleGetDetails(item.goodsId)">查看详情</el-button></li>
+                            <li class="order_status" style="margin-top: 5%">{{item.statusStr}}<br></li>
+                            <li style="width: 9%;"><el-button type="success" plain @click="handleGetDetails(item.orderId)">查看详情</el-button></li>
+                        </ul>
+                        <ul v-if="!sel_data" class="no_sel">
+                          <li>! 暂无订单</li>
                         </ul>
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="待付款" name="second">
+            <el-tab-pane label="待付款" name="zero" >
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
@@ -45,8 +51,11 @@
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
-                          <li class="order_item"><span>订单号：1213232424</span></li><br>
+                        <ul v-for="(item,index) in sel_data"  class="sel_item">
+                          <li class="order_item">
+                            <span class="order_id">订单编号：{{item.orderId}}</span>
+                            <span class="no_pay_message">订单30分钟后自动过期</span>
+                          </li><br>
                           <li class="first_td">
                             <img :src="item.imageMain" class="order_img"/>
                             <span>{{item.goodsName}}</span>
@@ -56,16 +65,19 @@
                           <li>{{item.goodsColor}}</li>
                           <li>{{item.goodsNum}}</li>
                           <li>￥{{item.totalPrice}}</li>
-                            <li class="order_status">待付款<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
+                            <li class="order_status">待付款<br><el-link type="primary" @click="handleGetDetails(item.orderId)">订单详情</el-link></li>
                             <li style="width: 9%;">
                               <el-button type="danger" plain
-                                          @click="handleToPayOrder(index)">立即付款</el-button>
+                                          @click="handleToPayOrder(item.orderId)">立即付款</el-button>
                             </li>
+                        </ul>
+                        <ul v-if="!sel_data" class="no_sel">
+                          <li>! 暂无待付款订单</li>
                         </ul>
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="待发货" name="third">
+            <el-tab-pane label="待发货" name="one">
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
@@ -78,8 +90,8 @@
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                          <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
-                            <li class="order_item"><span>订单号：1213232424</span></li><br>
+                          <ul v-for="(item,index) in sel_data"  class="sel_item">
+                            <li class="order_item"><span>订单编号：{{item.orderId}}</span></li><br>
                             <li class="first_td">
                               <img :src="item.imageMain" class="order_img"/>
                               <span>{{item.goodsName}}</span>
@@ -89,13 +101,16 @@
                             <li>{{item.goodsColor}}</li>
                             <li>{{item.goodsNum}}</li>
                             <li>￥{{item.totalPrice}}</li>
-                            <li class="order_status">待发货<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
-                            <li style="width: 9%;"><el-button type="primary" plain>联系卖家</el-button></li>
+                            <li class="order_status">待发货<br><el-link type="primary" @click="handleGetDetails(item.orderId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button type="warning" plain>联系卖家</el-button></li>
+                        </ul>
+                        <ul v-if="!sel_data" class="no_sel">
+                          <li>! 暂无待发货订单</li>
                         </ul>
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="待收货" name="fourth">
+            <el-tab-pane label="待收货" name="second">
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
@@ -108,8 +123,8 @@
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
-                          <li class="order_item"><span>订单号：1213232424</span></li><br>
+                        <ul v-for="(item,index) in sel_data"  class="sel_item">
+                          <li class="order_item"><span>订单编号：{{item.orderId}}</span></li><br>
                           <li class="first_td">
                             <img :src="item.imageMain" class="order_img"/>
                             <span>{{item.goodsName}}</span>
@@ -119,13 +134,16 @@
                           <li>{{item.goodsColor}}</li>
                           <li>{{item.goodsNum}}</li>
                           <li>￥{{item.totalPrice}}</li>
-                            <li class="order_status">待收货<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
-                            <li style="width: 9%;"><el-button type="info" plain>查看物流</el-button></li>
+                            <li class="order_status">待收货<br><el-link type="primary" @click="handleGetDetails(item.orderId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button type="success" plain @click="handleBuiedGoods(item.orderId)">确认收货</el-button></li>
+                        </ul>
+                        <ul v-if="!sel_data" class="no_sel">
+                          <li>! 暂无待收货订单</li>
                         </ul>
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="待评价" name="fifth">
+            <el-tab-pane label="待评价" name="third" >
                 <div class="order_content">
                     <div class="goods">
                         <ul class="sel_nav_list">
@@ -138,8 +156,8 @@
                             <li>交易状态</li>
                             <li>交易操作</li>
                         </ul>
-                        <ul v-for="(item,index) in sel_data" :key="item.goodsId" class="sel_item">
-                            <li class="order_item"><span>订单号：1213232424</span></li><br>
+                        <ul v-for="(item,index) in sel_data"  class="sel_item">
+                            <li class="order_item"><span>订单编号：{{item.orderId}}</span></li><br>
                             <li class="first_td">
                                 <img :src="item.imageMain" class="order_img"/>
                                 <span>{{item.goodsName}}</span>
@@ -149,8 +167,11 @@
                             <li>{{item.goodsColor}}</li>
                             <li>{{item.goodsNum}}</li>
                             <li>￥{{item.totalPrice}}</li>
-                            <li class="order_status">待评价<br><el-link type="primary" @click="handleGetDetails(item.goodsId)">订单详情</el-link></li>
-                            <li style="width: 9%;"><el-button  type="success" plain>立即评价</el-button></li>
+                            <li class="order_status">待评价<br><el-link type="primary" @click="handleGetDetails(item.orderId)">订单详情</el-link></li>
+                            <li style="width: 9%;"><el-button  type="primary" plain>立即评价</el-button></li>
+                        </ul>
+                        <ul v-if="!sel_data" class="no_sel">
+                          <li>! 暂无待评价订单</li>
                         </ul>
                     </div>
                 </div>
@@ -161,37 +182,72 @@
 
 <script>
     export default {
+        inject:['reload'],
         data() {
             return {
                 activeName: 'first',
                 multipleSelection: [],
                 sel_data:[],
-                pay_datas:[],
-                pay_moneys:[]
             };
         },
         created(){
-          this.getOrderGoodsList()
+          this.getOrderData()
         },
         methods: {
-            //TODO 发出请求 得到订单 数据：
-            getOrderGoodsList() {
-              this.$http.get('/cart/gain',{
-                params:{},
+            //发出请求 得到订单 数据
+          getOrderData() {
+              if(!window.localStorage.getItem('username')){
+                this.$message.warning('请先登录，再查询订单');
+                this.$router.push('/login_sign/login_phone');
+              }
+              else{
+                this.$http.get('/order/queryall',{
+                  params:{},
+                  headers:{Authorization: window.localStorage.getItem('token')}
+                }).then(res => {
+                  this.sel_data = res.data.data;
+                }).catch(err => {
+                  this.$message.error('查询失败');
+                })
+              }
+
+            },
+            // todo 确认收货 将id 发送给 后台 后台修改待收货为  待评价
+            handleBuiedGoods(orderId){
+              this.$http.put('/order/confirm',{
+                  orderId:orderId,
+                  orderStatus: 3
+                },{
+                headers:{Authorization: window.localStorage.getItem('token')}
+              }).then(res => {
+                this.$message.success(res.data.message);
+                this.reload();
+              }).catch(err => {
+                this.$message.success(err.data.message)
+              })
+            },
+            //根据点击不同的tab  查看不同的订单
+            handleClick(tab, event) {
+                let orderStatus;
+                console.log(tab.name);
+                if(tab.name === 'first'){
+                  this.getOrderData();
+                  return;
+                }
+              if(tab.name === 'zero')  orderStatus = 0;
+              else if(tab.name === 'one') orderStatus = 1;
+              else if(tab.name === 'second') orderStatus = 2;
+              else if(tab.name === 'third') orderStatus = 3;
+              this.$http.get('/order/query',{
+                params:{orderStatus:orderStatus},
                 headers:{Authorization: window.localStorage.getItem('token')}
               }).then(res => {
                 this.sel_data = res.data.data;
-                if(!this.sel_data){
-                  this.$message.success('您暂时好没有订单');
-                }
               }).catch(err => {
                 this.$message.error('查询失败');
               })
             },
-            handleClick(tab, event) {
-                console.log(tab, event);
-            },
-            // TODO 查看详情
+            // TODO 查看订单详情
             handleGetDetails(id){
               this.$router.push({path:'/other_container/order_details',
                 query:{
@@ -199,17 +255,21 @@
                 }
               })
             },
-            // TODO 待支付 跳转到支付
-            handleToPayOrder(index){
-              this.pay_datas.push(this.sel_data[index]);
-              this.pay_moneys.push(this.sel_data[index].car_goods_price);
-              this.$router.push({path:'/other_container/goods_pay',
-                query:{
-                  pay_data:JSON.stringify(this.pay_datas),
-                  pay_money:JSON.stringify(this.pay_moneys)
-                }
+            // TODO  待付款重新支付订单  发id
+            handleToPayOrder(id){
+              this.$http.post('/order/pay', {
+                orderId:id,
+                orderStatus:"1"
+              }, {
+                headers: {Authorization: window.localStorage.getItem('token')}
+              }).then(res => {
+                this.reload();
+                this.$message.success(res.data.message)
+              }).catch(err => {
+                this.$message.error(err.data.message)
               })
-            }
+            },
+
         }
     }
 </script>
@@ -217,6 +277,7 @@
     #order_container{
         width: 80%;
         margin: 20px auto;
+        font-family: ahoma,Helvetica,Arial,'宋体',sans-serif;
     }
     .order_content{
         width: 96%;
@@ -244,6 +305,7 @@
     .sel_nav_list li{
         width: 10%;
         position: relative;
+        font-weight: 600;
         height: 40px;
         float: left;
         text-align: center;
@@ -288,24 +350,57 @@
         line-height: 35px !important;
         width: 300px;
         margin-left: 20px;
-        text-align: left;
-        top: 0;
-        left: 0;
+    }
+    .no_pay_message{
+      text-align: right;
+      right: 15px;
+      font-weight: bolder;
+      color: #f18343;
+      top: 0;
+    }
+    .order_id{
+      text-align: left;
+      left: 0;
+      top: 0;
     }
     .first_td{
         width: 28% !important;
         line-height: 0;
     }
-    .first_td span,.order_status{
+    .first_td span{
         width: 64%;
         float: right;
-        margin-top: 40px;
+        margin-top: 25px;
         line-height: 30px !important;
         text-align: left;
+    }
+    .order_status{
+      width: 64%;
+      float: right;
+      line-height: 30px !important;
+      text-align: left;
+      color: rgb(95, 147, 229);
+      font-weight: bolder;
+      height: 30px !important;
+      margin-top: 3%;
     }
     .sel_item{
         width: 100%;
     }
+    .no_sel{
+      width: 100%;
+    }
+    .no_sel li{
+      text-align: center;
+      display: block;
+      margin-top: 25px;
+      padding-top: 20px;
+      color: #5f93e5;
+      font-size: 19px;
+      font-weight: bolder;
+      border-top: 1px solid #cccccc;
+    }
+
 </style>
 <style>
   .el-tabs__nav-wrap {
@@ -313,6 +408,10 @@
     position: relative;
     width: 58%;
     margin: 20px auto;
+  }
+  .el-tabs__item:hover {
+    color: #fe5745;
+    cursor: pointer;
   }
   .el-tabs__item {
     padding: 0 20px;
@@ -328,5 +427,6 @@
     position: relative;
     width: 30%;
     text-align: center;
+    font-weight: bolder;
   }
 </style>

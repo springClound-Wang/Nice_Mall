@@ -1,32 +1,32 @@
 <!--商品详情-->
 <template>
-    <div id="detail-container">
+    <div id="detail-container" v-if="!loading">
         <div class="goods_details_img">
             <div id="container"  @mouseenter="viewImage">
                 <div class="leftView">
                     <div class="mask"></div>
-                    <img class="small" :src="this.imageMain">
+                    <img class="small" :src="goodsMain.imageMain">
                 </div>
                 <div class="rightView">
-                    <img class="big" :src="this.imageMain">
+                    <img class="big" :src="goodsMain.imageMain">
                 </div>
             </div>
             <div class="goods_details_img_list">
-                <img  v-for="item in imageShow" :src="item" @click="changeImg"/>
+                <img  v-for="item in goodsMain.imageShow" :src="item" @click="changeImg"/>
             </div>
         </div>
         <div class="goods_details_desc">
             <div class="goods_details_desc_title">
-                <span>{{goodsBrand}}</span>
-                <span>{{goodsName}}</span>
-                <span>{{goodsDesc}}</span>
+                <span>{{goodsMain.goodsBrand}}</span>
+                <span>{{goodsMain.goodsName}}</span>
+                <span>{{goodsMain.goodsDesc}}</span>
             </div>
             <div class="goods_details_price">
                 <div>
-                    <span style="margin-left: 20px">折后价</span> <span style="font-size: 32px">￥{{goodsCurPrice}}</span>
+                    <span style="margin-left: 20px">折后价</span> <span style="font-size: 32px">￥{{goodsMain.goodsCurPrice}}</span>
                 </div>
                 <div>
-                    <span style="margin:20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsPrePrice}}</span>
+                    <span style="margin:20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsMain.goodsPrePrice}}</span>
                     <span class="seckill">
                       <countDown v-if="seckillFlag" startTime='10000' endTime="50000" :callback="callback" endText="活动已结束"/>
                     </span>
@@ -44,7 +44,7 @@
                 <span>颜色</span>
                 <button v-for="item in color" class="btn btn-default" @click="chooseColor">{{item}}</button>
             </div>
-            <div class="goods_details_size" v-if="this.electronic_format">
+            <div class="goods_details_size" v-if="electronic_format">
               <span>规格</span>
               <button v-for="item in electronic_format" class="btn btn-default" @click="chooseSize">{{item}}</button>
             </div>
@@ -81,13 +81,13 @@
                 </div>
                 <hr>
                 <span style="margin-bottom: 10px;display: block">尺码对照表:</span>
-                <table border="1" class="first_table" v-show="this.goodsFlag === 'phone' || this.goodsFlag === 'package'">
+                <table border="1" class="first_table" v-show="goodsFlag === 'phone' || goodsFlag === 'package'">
                   <tr style="background-color: white">
-                    <th>无尺码对照</th>
+                    <th>暂无尺码对照</th>
                   </tr>
                 </table>
                 <!--女装上衣-->
-                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesUpWoman'">
+                <table border="1" class="first_table" v-show="goodsFlag === 'clothesUpWoman'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>下摆围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th>
@@ -116,7 +116,7 @@
                     </tbody>
                 </table>
                 <!--女装裤子-->
-                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesDownWomen'">
+                <table border="1" class="first_table" v-show="goodsFlag === 'clothesDownWomen'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>腰围(cm)</th><th>臀围(cm)</th><th>大腿围(cm)</th><th>裤长(cm)</th>
@@ -142,7 +142,7 @@
                     </tbody>
                 </table>
                 <!--男装上衣-->
-                <table border="1" class="first_table" v-show="this.goodsFlag === 'clothesUpMen'">
+                <table border="1" class="first_table" v-show="goodsFlag === 'clothesUpMen'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>号型	</th><th>胸围(cm)</th><th>衣长(cm)</th><th>袖长(cm)</th><th>胸围(cm)</th>
@@ -171,7 +171,7 @@
                     </tbody>
                 </table>
                 <!--鞋子-->
-                <table border="1" class="first_table" v-show="this.goodsFlag === 'shoes'">
+                <table border="1" class="first_table" v-show="goodsFlag === 'shoes'">
                     <thead>
                     <tr>
                         <th>尺码</th><th>鞋码	</th><th>欧洲码</th><th>美国码</th><th>脚长(mm)</th><th>中国码</th>
@@ -208,54 +208,54 @@
                 <span class="iconfont icon-liebiaodaohang_dongman"></span><span>商品参数 DETAIL</span>
             </div>
             <!--衣服-->
-            <table border="1" class="second_table" v-show="this.goodsType === 'clothes'">
+            <table border="1" class="second_table" v-show="goodsType === 'clothes'">
                 <tr>
-                    <th>适用季节:</th><td>{{clothesSeason}}</td><th>款式：</th><td>正常</td>
+                    <th>适用季节:</th><td>{{goodsDetail.clothesSeason}}</td><th>款式：</th><td>正常</td>
                 </tr>
                 <tr>
-                    <th>适用人群：</th><td>{{clothesPerson}}</td><th>衣长：</th><td>常规</td>
+                    <th>适用人群：</th><td>{{goodsDetail.clothesPerson}}</td><th>衣长：</th><td>常规</td>
                 </tr>
                 <tr>
-                    <th>版型：</th><td>宽松</td><th>品牌</th><td>{{goodsBrand}}</td>
+                    <th>版型：</th><td>宽松</td><th>品牌</th><td>{{goodsMain.goodsBrand}}</td>
                 </tr>
                 <tr>
-                    <th>商品名称：</th><td>{{goodsName}}</td><th>产地：</th><td>{{goodsPlace}}</td>
+                    <th>商品名称：</th><td>{{goodsMain.goodsName}}</td><th>产地：</th><td>{{goodsMain.goodsPlace}}</td>
                 </tr>
             </table >
             <!--鞋子-->
-            <table border="1" class="second_table" v-show="this.goodsType === 'shoes'">
+            <table border="1" class="second_table" v-show="goodsType === 'shoes'">
                 <tr>
-                    <th>适用季节:</th><td>{{goodsDetail.shoesSeason}}</td><th>品牌：</th><td>{{goodsBrand}}</td>
+                    <th>适用季节:</th><td>{{goodsDetail.shoesSeason}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
                 </tr>
                 <tr>
-                    <th>适用场合：</th><td>{{goodsDetail.shoesPlace}}</td><th>产地：</th><td>{{goodsPlace}}</td>
+                    <th>适用场合：</th><td>{{goodsDetail.shoesPlace}}</td><th>产地：</th><td>{{goodsMain.goodsPlace}}</td>
                 </tr>
                 <tr>
-                   <th>材质：</th><td>{{goodsDetail.shoesMaterial}}</td><th>商品名称：</th><td>{{goodsName}}</td>
+                   <th>材质：</th><td>{{goodsDetail.shoesMaterial}}</td><th>商品名称：</th><td>{{goodsMain.goodsName}}</td>
                 </tr>
             </table>
             <!--包包-->
-            <table border="1" class="second_table" v-show="this.goodsType=== 'package'">
+            <table border="1" class="second_table" v-show="goodsType=== 'package'">
                 <tr>
                     <th>适用季节:</th><td>春</td><th>品牌：</th><td>无</td>
                 </tr>
                 <tr>
-                    <th>适用性别：</th><td>{{goodsDetail.packageSex}}</td><th>产地：</th><td>{{goodsPlace}}</td>
+                    <th>适用性别：</th><td>{{goodsDetail.packageSex}}</td><th>产地：</th><td>{{goodsMain.goodsPlace}}</td>
                 </tr>
                 <tr>
                     <th>材质：</th><td>{{goodsDetail.packageMaterial}}</td> <th>重量：</th><td>{{goodsDetail.packageWeight}}</td>
                 </tr>
                 <tr>
-                    <th>商品编号：</th><td>121232300{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsName}}</td>
+                    <th>商品编号：</th><td>121232300{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsMain.goodsName}}</td>
                 </tr>
             </table>
             <!--电子产品-->
             <table border="1" class="second_table" v-show="this.goodsType === 'electronic'">
                 <tr>
-                    <th>规格:</th><td>{{goodsMain.electronicFormat}}</td><th>品牌：</th><td>{{goodsBrand}}</td>
+                    <th>规格:</th><td>{{goodsMain.electronicFormat}}</td><th>品牌：</th><td>{{goodsMain.goodsBrand}}</td>
                 </tr>
                 <tr>
-                    <th>系统：</th><td>{{goodsMain.electronicSystem}}</td><th>产地：</th><td>{{goodsPlace}}</td>
+                    <th>系统：</th><td>{{goodsMain.electronicSystem}}</td><th>产地：</th><td>{{goodsMain.goodsPlace}}</td>
                 </tr>
                 <tr>
                     <th>是否支持双卡：</th><td>{{goodsMain.electronicDoubleCard}}</td> <th>分辨率：</th><td>{{goodsMain.electronicResolution}}</td>
@@ -267,7 +267,7 @@
                     <th>屏幕尺寸：</th><td>{{goodsMain.electronicScreenSize}}</td> <th>配件：</th><td>{{goodsMain.phoneFitting}}</td>
                 </tr>
                 <tr>
-                    <th>商品编号：</th><td>100332322{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsName}}</td>
+                    <th>商品编号：</th><td>100332322{{goodsMain.goodsId}}</td><th>商品名称：</th><td>{{goodsMain.goodsName}}</td>
                 </tr>
             </table>
             <div class="goods_details_title">
@@ -312,9 +312,11 @@ export default {
     },
     data(){
         return{
+
+            loading:false,
             electronic_format:'',
-            goodsDetail:null,
-            goodsMain:null,
+            goodsDetail:{},
+            goodsMain:{},
             imageMain:'',
             goodsName:'',
             goodsDesc:'',
@@ -348,15 +350,6 @@ export default {
             }).then(res=>{
               this.goodsDetail= res.data.data.goodsDetail;
               this.goodsMain = res.data.data.goodsMain;
-              this.imageMain = res.data.data.goodsMain.imageMain;
-              this.goodsName = res.data.data.goodsMain.goodsName;
-              this.goodsDesc = res.data.data.goodsMain.goodsDesc;
-              this.goodsPlace = res.data.data.goodsMain.goodsPlace;
-              this.goodsCurPrice = res.data.data.goodsMain.goodsCurPrice;
-              this.goodsPrePrice = res.data.data.goodsMain.goodsPrePrice;
-              this.goodsBrand = res.data.data.goodsMain.goodsBrand;
-              this.clothesSeason = res.data.data.goodsDetail.clothesSeason;
-              this.clothesPerson = res.data.data.goodsDetail.clothesPerson;
               this.goodsFlag = res.data.data.goodsFlag;
               this.goodsType = res.data.data.goodsType;
               this.color = res.data.data.color;
@@ -375,7 +368,7 @@ export default {
                 return;
             }
             else{
-                this.$http.post('http://120.78.64.17:8086/nice-mall-backend/cart/join', {
+                this.$http.post('/cart/join', {
                     userId:window.localStorage.getItem('userId'),
                     goodsId:this.$route.query.id,
                     goodsPrice:this.goodsCurPrice,
@@ -404,10 +397,11 @@ export default {
             goodsNum:this.goods_num,
             goodsSize:this.goods_size,
             goodsColor:this.goods_color,
-            imageMain:this.imageMain,
-            goodsName:this.goodsName,
-            goodsPrice:this.goodsCurPrice,
-            totalPrice:this.goods_num*this.goodsCurPrice
+            imageMain:this.goodsMain.imageMain,
+            goodsName:this.goodsMain.goodsName,
+            goodsPrice:this.goodsMain.goodsCurPrice,
+            totalPrice:this.goods_num*this.goodsMain.goodsCurPrice,
+            storeName:this.storeGoods
           }];
           this.$router.push({path:'/other_container/goods_order',query:{select_data:JSON.stringify(data)}});
         },
@@ -710,7 +704,7 @@ export default {
 
     /*加入购物车 立即购买*/
     .goods_details_buy,.goods_details_end_buy{
-        margin-top: 60px;
+        margin-top: 50px;
     }
     .goods_details_buy button{
       width: 150px;

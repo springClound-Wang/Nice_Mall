@@ -91,6 +91,8 @@
             </div>
         </div>
         <el-dialog title="确认支付商品" :visible.sync="dialogFormVisible" >
+          <div>订单编号：{{orderId}}</div>
+          <div v-if="isPay" :class="{isSuccess:isSuccess,isFalse:isFalse}" style="">{{payMessage}}</div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="exitBuy">取 消</el-button>
             <el-button type="primary" @click="toBuy">确 定</el-button>
@@ -120,7 +122,12 @@ export default {
             dialogFormVisible: false,
             choose:-1, //选择
             isTacit:-1, //是否设置成默认地址
-            address:[]  //地址数组
+            address:[] , //地址数组
+            orderId:'',
+            isPay:false,
+            payMessage:'', //支付消息的内容
+            isSuccess:false,
+            isFalse:false, //支付 消息提示的样式
         }
     },
     methods:{
@@ -175,6 +182,23 @@ export default {
             return;
           }
           else{
+            // TODO 提交订单
+            this.$http.post('/order/create', {
+              userId:window.localStorage.getItem('userId'),
+              payData:this.pay_data,
+              totalMoney:this.pay_money,
+              receiptAddress:this.toaddress,
+              receiptName:this.username,
+              receiptPhone:this.telephone,
+              orderStatus: "0"
+            }, {
+              headers: {Authorization: window.localStorage.getItem('token')}
+            }).then(res => {
+              this.orderId = res.data.data;
+              console.log(this.orderId);
+            }).catch(err => {
+
+            });
             this.dialogFormVisible = true;
             this.$confirm('是否确认支付?', '提示', {
               confirmButtonText: '确定',
@@ -196,41 +220,40 @@ export default {
         },
         // TODO 购买失败  发送订单 信息 未支付
         exitBuy(){
-          this.dialogFormVisible = false;
-          this.$http.post('/deletegoods', {
-            payData:this.pay_data,
-            payMoney:this.pay_money,
-            toAddress:this.toaddress,
-            receiptName:this.username,
-            receiptPhone:this.telephone,
-            payStatus: 'unPaid'
+          this.$http.post('/order/pay', {
+            orderId:this.orderId,
+            orderStatus: "0"
           }, {
             headers: {Authorization: window.localStorage.getItem('token')}
           }).then(res => {
-
+              this.isPay = true;
+              this.isFalse = true;
+              this.payMessage = res.data.message;
+              setTimeout(()=> {
+                this.dialogFormVisible = false;
+                this.$router.go(-2);
+              },1500);
           }).catch(err => {
-
+            this.$message.error(err.data.message)
           });
         },
         toBuy(){
           // TODO 购买成功  发送订单 信息 已支付
-          this.dialogFormVisible = true;
-          this.$http.post('/deletegoods', {
-            payData:this.pay_data,
-            payMoney:this.pay_money,
-            toAddress:this.toaddress,
-            receiptName:this.username,
-            receiptPhone:this.telephone,
-            payStatus: 'paid'
+          this.$http.post('/order/pay', {
+            orderId:this.orderId,
+            orderStatus:"1"
           }, {
             headers: {Authorization: window.localStorage.getItem('token')}
           }).then(res => {
-            this.$message({
-              type: 'success',
-              message: '购买成功!',
-            });
+            this.isPay = true;
+            this.isSuccess = true;
+            this.payMessage = res.data.message;
+            setTimeout(()=> {
+              this.dialogFormVisible = false;
+              this.$router.go(-2);
+            },1500)
           }).catch(err => {
-
+            this.$message.error(err.data.message)
           })
         }
     }
@@ -445,6 +468,16 @@ export default {
         position: absolute;
         width: 250px;
         margin-left: 20px;
+    }
+    .isSuccess{
+      color: #2dc56d;
+      margin-top:8px;
+      font-size: 16px
+    }
+    .isFalse{
+      color: #f16051;
+      margin-top:8px;
+      font-size: 16px
     }
 </style>
 <style>

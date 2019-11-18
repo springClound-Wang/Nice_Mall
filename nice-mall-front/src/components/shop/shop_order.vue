@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="shop_order">
     <div style="padding: 20px;">
       <el-breadcrumb separator-class="el-icon-arrow-right" >
         <el-breadcrumb-item >首页</el-breadcrumb-item>
@@ -14,6 +14,7 @@
         border
         class="standard-margin"
         ref="goodsTable"
+        style="margin-top: 10px;"
         :data="orderList">
         <el-table-column label="商品图片" width="120" align="center">
           <template slot-scope="scope">
@@ -52,12 +53,12 @@
           <template slot-scope="scope">{{scope.row.receiptPhone}}</template>
         </el-table-column>
         <el-table-column label="收货地址" width="200" align="center">
-          <template slot-scope="scope">{{scope.row.toAddress}}</template>
+          <template slot-scope="scope">{{scope.row.receiptAddress}}</template>
         </el-table-column>
         <el-table-column label="发货" width="" align="center">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.sendOut"
+              v-model="scope.row.ship"
               active-color="#13ce66"
               inactive-color="rgb(173, 176, 184)">
             </el-switch>
@@ -65,7 +66,22 @@
         </el-table-column>
       </el-table>
       <el-button
-        class="btn-add"
+        @click="handleNoShip"
+        size="mini"
+        style="float: left;
+        margin: 20px 0"
+        type="danger" plain>
+        未发货
+      </el-button>
+      <el-button
+        @click="handleShip"
+        size="mini"
+        style="float: left;
+        margin: 20px"
+        type="success" plain>
+        已发货
+      </el-button>
+      <el-button
         @click="handleSubmit"
         size="mini"
         style="float: right;
@@ -73,85 +89,98 @@
         type="primary" plain>
         确认提交
       </el-button>
+
     </el-card>
   </div>
 
 </template>
 <script>
  export default {
+   inject:['reload'],
    data(){
      return{
-       orderList:[
-         {
-           goodsColor: "香槟",
-           goodsId: 6,
-           goodsName: " iPhone XS Max 双卡双待 全网通",
-           goodsNum: 1,
-           goodsPrice: 8499,
-           goodsSize: "8GB+256GB",
-           imageMain: "http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569078094103.jpeg",
-           storeName: "西西比的家",
-           totalPrice: 8499,
-           userId: 4,
-           payMoney: 8668,
-           payStatus: "paid",
-           receiptPhone: "13259964094",
-           toAddress: "陕西省西安市长安区西安邮电大学",
-           receiptName: "小猪佩奇",
-           sendOut:false,
-         },
-         {
-           goodsColor: "香槟",
-           goodsId: 5,
-           goodsName: " iPhone XS Max 双卡双待 全网通",
-           goodsNum: 1,
-           goodsPrice: 8499,
-           goodsSize: "8GB+256GB",
-           imageMain: "http://nice-mall-oss.oss-cn-beijing.aliyuncs.com/mall/images/goods/1569078094103.jpeg",
-           storeName: "西西比的家",
-           totalPrice: 8499,
-           userId: 4,
-           payMoney: 8668,
-           payStatus: "paid",
-           receiptPhone: "13259964094",
-           toAddress: "陕西省西安市长安区西安邮电大学",
-           receiptName: "小猪佩奇",
-           sendOut:false
-         },
-       ],
-       OrderSendList:[], // todo 发货列表
+       orderList:[],
      }
    },
    computed: {
      getSendOutList(){
+       let OrderSend = [];
        this.orderList.forEach((item)=> {
-         if (item.sendOut === true && this.OrderSendList.indexOf(parseInt(item.goodsId)) === -1) {
-           this.OrderSendList.push(parseInt(item.goodsId));
+         console.log(item.ship);
+         if (item.ship === true && OrderSend.indexOf(parseInt(item.orderId)) === -1) {
+           OrderSend.push(item.orderId.toString());
          }
        });
-       return this.OrderSendList;
+       return OrderSend;
      }
    },
+   created(){
+     this.handleGetOrder();
+   },
    methods:{
-     //TODO 得到订单列表
-
-
+     //TODO 得到全部订单列表
+     handleGetOrder(){
+       this.$http.get('/buss/allorder',{
+         params:{ },
+         headers:{ Authorization: window.localStorage.getItem('token')}
+       }).then(res=>{
+         this.orderList = res.data.data
+       }).catch(err=>{
+         this.$message.success(err.data.message)
+       })
+     },
      // TODO 提交选择发货的商品
      handleSubmit(){
-       this.OrderSendList = this.getSendOutList;
-       this.$http.post('/buss/spike',{
-         orderSend:this.OrderSendList
+       this.$http.put('/buss/ship',{
+         orderId:this.getSendOutList, //监听数据变化
+         orderStatus:"2"
        },{
          headers:{ Authorization: window.localStorage.getItem('token')}
        }).then(res=>{
-
+          this.$message.success(res.data.message);
+          this.reload();
        }).catch(err=>{
-
+         this.$message.success(err.data.message)
+       })
+     },
+     //未发货
+     handleNoShip(){
+       this.$http.get('/buss/status',{
+         params:{ orderStatus:1 },
+         headers:{ Authorization: window.localStorage.getItem('token')}
+       }).then(res=>{
+         this.orderList = res.data.data
+       }).catch(err=>{
+         this.$message.success(err.data.message)
+       })
+     },
+     //已发货
+     handleShip(){
+       this.$http.get('/buss/status',{
+         params:{ orderStatus:2 },
+         headers:{ Authorization: window.localStorage.getItem('token')}
+       }).then(res=>{
+         this.orderList = res.data.data
+       }).catch(err=>{
+         this.$message.success(err.data.message)
        })
      }
+
+
+     /*
+      orderStatus：0  未支付
+      orderStatus：1  已支付= 待发货
+      orderStatus：2  已发货 = 待收货 （店铺确认发货）
+      orderStatus：3   待评价 （用户确认收货）
+      */
    }
  }
 </script>
 <style>
-
+  #shop_order{
+    font-family: ahoma,Helvetica,Arial,'宋体',sans-serif;
+  }
+  #shop_order .btn-add {
+    margin: 10px 0;
+  }
 </style>

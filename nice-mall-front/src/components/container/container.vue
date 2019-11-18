@@ -72,7 +72,7 @@
                         </div>
                         <router-link :to="url"><span v-text="isLogin" @click="isLoginTo"></span></router-link>
                         <div class="hide-con">
-                            <div>我的订单</div>
+                          <router-link to="/other_container/goods_sel"><div>我的订单</div></router-link>
                             <div>我的消息</div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
         position: relative;
         text-align: center;
         margin-top: 10px;
-        padding-bottom: 5px;
+        padding: 6px 0;
         font-size: 16px;
     }
     .right-nav ul li:hover{
@@ -215,7 +215,7 @@
         position: absolute;
         right: 0;
         bottom: 10px;
-        padding: 1px 5px;
+        padding: 6px;
         text-align: center;
     }
     .last-icon:hover{
@@ -264,6 +264,7 @@
         font-size: 14px;
         border-right: 1px solid #cccccc;
         display: inline-block;
+        color: #fff;
         margin: 5px;
     }
     .hide-con div:nth-child(2){
