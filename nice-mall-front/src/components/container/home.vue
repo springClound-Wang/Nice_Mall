@@ -3,11 +3,11 @@
         <!--首页轮播图-->
         <div class="swipe">
 
-            <mt-swipe :auto="6000">
+            <mt-swipe :auto="4000">
                 <mt-swipe-item><img src="../../assets/image/bg1.jpg"/></mt-swipe-item>
-                <mt-swipe-item><img src="../../assets/image/bg2.jpg"/></mt-swipe-item>
-                <mt-swipe-item><img src="../../assets/image/bg4.jpg"/></mt-swipe-item>
                 <mt-swipe-item><img src="../../assets/image/bg5.jpg"/></mt-swipe-item>
+                <mt-swipe-item><img src="../../assets/image/bg2.jpg"/></mt-swipe-item>
+                <mt-swipe-item><img src="../../assets/image/bg3.jpg"/></mt-swipe-item>
             </mt-swipe>
         </div>
         <!--<hr>-->
@@ -106,7 +106,7 @@
                 this.$http.get('/home/').then(res=>{
                     this.recommendList = res.data.data.recommendList;
                     this.spikeList = res.data.data.spikeList;
-                    this.typeEntry = res.data.data.typeEntry
+                    this.typeEntry = res.data.data.typeEntry;
                     this.typeEntry.pop();
                 }).catch(err=>{
                     console.log(err);
@@ -154,7 +154,7 @@
         position:relative;
         height:30px;
         line-height: 30px;
-        margin:40px auto;
+        margin:35px auto;
         text-align: center;
     }
     .con i{
@@ -298,7 +298,7 @@
     }
     .mint-swipe img{
         width: 90%;
-        height: 440px;
+        height: 415px;
         position: absolute;
         left:4.5%;
         border: 10px solid #ffffff;
