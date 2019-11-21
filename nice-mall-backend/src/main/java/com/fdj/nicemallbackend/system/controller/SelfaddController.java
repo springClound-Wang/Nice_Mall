@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +31,13 @@ public class SelfaddController {
         TypeEntry typeEntry = new TypeEntry((String)map.get("entryName"),(String)map.get("entryTitle"),(String)image.getData(),(String)map.get("entryDiscount"));
         Result result = iSelfAddService.addEntry(typeEntry);
         return result;
+    }
+
+    @PostMapping("/bigsort")
+    public String upload(@RequestBody Map<String,String> map){
+        OssuploadUtil ossuploadUtil = new OssuploadUtil();
+        Result imageMains = ossuploadUtil.oneuploadReturnUrlToPoint(map.get("image"), "mall/images/sortBig/");
+        return (String)imageMains.getData();
     }
 
 }
