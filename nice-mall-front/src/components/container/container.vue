@@ -68,7 +68,7 @@
                     </div>
                     <div class="hide-right-nav">
                         <div style="margin-top: 20px;">
-                            <img :src="userAvatar" style="border: 1px solid #cccccc;border-radius:5px;width: 50px;height: 50px "/>
+                            <img :src="userAvatar?userAvatar:headImg" style="border: 1px solid #cccccc;border-radius:5px;width: 50px;height: 50px "/>
                         </div>
                         <router-link :to="url"><span v-text="isLogin" @click="isLoginTo"></span></router-link>
                         <div class="hide-con">
@@ -117,7 +117,8 @@
                 search:'', //搜索
                 routerAlive:true,
                 goods_type_list:'',//类型列表
-                userAvatar:window.localStorage.getItem('userAvatar')
+                userAvatar:window.localStorage.getItem('userAvatar'), /*头像*/
+                headImg:'../../src/assets/image/head.jpg'
              }
         },
         created(){
@@ -277,7 +278,7 @@
     /*商品分类下拉菜单*/
     .all_goods_list{
         width: 1210px;
-        height: 470px;
+        height: 445px;
         position: absolute;
         border-top: 1px solid #cccccc;
         background: #fff5ee url("../../assets/image/list_bg.png") no-repeat 100% 100%;
@@ -303,7 +304,7 @@
         display: inline-block;
         position: relative;
         width: 80%;
-        padding: 5px;
+        padding: 4px;
         margin-left: 10px;
         border-bottom: 1px solid #f4edf2;
     }
@@ -426,7 +427,7 @@
     #list{
         border: none;
         width:100%;
-        height: 475px;
+        height: 450px;
         color: white;
         background: linear-gradient(to right, #f1487f, #fe6e5a);
     }

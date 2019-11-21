@@ -3,7 +3,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 //导入 mint-UI组件
-import MintUI from 'mint-ui';
 import '../node_modules/mint-ui/lib/style.css'
 
 import './assets/css/index.css'
