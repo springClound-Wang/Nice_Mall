@@ -40,11 +40,11 @@ public class Jwt_Get {
         System.out.println(loginperson + "***&&&");
         if (iUserService.getUserByphone(loginperson) != null) {
             User user = iUserService.getUserByphone(loginperson);
-            System.out.println(user + "====");
+//            System.out.println(user + "====");
             return user.getUserId();
         } else {
             User user = iUserService.getUser(loginperson);
-            System.out.println(user + "====");
+//            System.out.println(user + "====");
             return user.getUserId();
         }
     }

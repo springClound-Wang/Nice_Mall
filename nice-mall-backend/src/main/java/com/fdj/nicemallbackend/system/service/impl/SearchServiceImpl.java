@@ -49,6 +49,12 @@ public class SearchServiceImpl implements ISearchService {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    /**
+     * 获取es中要存入的商品集
+     * @param goods
+     * @return
+     * @throws JsonProcessingException
+     */
     @Override
     public Items buildGoods(Goods goods) throws JsonProcessingException {
         Items items = new Items();
@@ -68,6 +74,11 @@ public class SearchServiceImpl implements ISearchService {
         return items;
     }
 
+    /**
+     * es搜索
+     * @param field
+     * @return
+     */
     @Override
     public List<Items> search(String field) {
         if(StringUtils.isBlank(field)){

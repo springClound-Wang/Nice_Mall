@@ -55,7 +55,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 创建订单
-     *
      * @param order
      * @return
      */
@@ -97,7 +96,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     /**
-     * 设置要更新的状态
+     * 设置要更新的状态对应的时间
      * @param orderId
      * @param orderStatus
      * @return

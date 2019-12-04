@@ -9,6 +9,7 @@ import com.fdj.nicemallbackend.system.mapper.PopularSortMapper;
 import com.fdj.nicemallbackend.system.mapper.SortImageMapper;
 import com.fdj.nicemallbackend.system.service.IPopularSortService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @author xns
  * @since 2019-09-08
  */
+@Slf4j
 @Service
 public class PopularSortServiceImpl extends ServiceImpl<PopularSortMapper, PopularSort> implements IPopularSortService {
 

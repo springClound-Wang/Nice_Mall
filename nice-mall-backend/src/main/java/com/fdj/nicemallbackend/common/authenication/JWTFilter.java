@@ -45,7 +45,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         boolean match = false;
 
         if (httpServletRequest.getMethod().toUpperCase().equals(RequestMethod.OPTIONS.name())){
-            System.out.println(httpServletRequest.getMethod()+"*&^^&&"+RequestMethod.OPTIONS.name());
+//            System.out.println(httpServletRequest.getMethod()+"*&^^&&"+RequestMethod.OPTIONS.name());
             return true;
         }
 
@@ -62,8 +62,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         }
         System.out.println(httpServletRequest.getMethod()+"*&^^&&"+RequestMethod.OPTIONS.name());
         for (String u : anonUrl) {
-            System.out.println("&&&&"+httpServletRequest.getHeader(TOKEN));
-            System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
+//            System.out.println("&&&&"+httpServletRequest.getHeader(TOKEN));
+//            System.out.println(u+"   *****  "+httpServletRequest.getRequestURI());
             if (pathMatcher.match(u, httpServletRequest.getRequestURI())) {
                 match = true;
             }

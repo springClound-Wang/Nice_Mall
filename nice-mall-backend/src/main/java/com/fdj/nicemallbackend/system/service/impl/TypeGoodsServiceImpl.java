@@ -7,6 +7,7 @@ import com.fdj.nicemallbackend.system.mapper.*;
 import com.fdj.nicemallbackend.system.service.IGoodsService;
 import com.fdj.nicemallbackend.system.service.ITypeGoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @author xns
  * @since 2019-09-02
  */
+@Slf4j
 @Service
 public class TypeGoodsServiceImpl extends ServiceImpl<TypeGoodsMapper, TypeGoods> implements ITypeGoodsService {
 

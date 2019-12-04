@@ -5,6 +5,7 @@ import com.fdj.nicemallbackend.system.entity.TypeEntry;
 import com.fdj.nicemallbackend.system.mapper.TypeEntryMapper;
 import com.fdj.nicemallbackend.system.service.ISelfAddService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @author xns
  * @since 2019-09-18
  */
+@Slf4j
 @Service
 public class SelfAddServiceImpl extends ServiceImpl<TypeEntryMapper, TypeEntry> implements ISelfAddService {
 
