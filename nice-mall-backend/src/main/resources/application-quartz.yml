@@ -1,0 +1,28 @@
+spring:
+  # quartz
+  quartz:
+    #相关属性配置
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: DefaultQuartzScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: false
+            clusterCheckinInterval: 10000
+            #以指示JDBCJobStore将JobDataMaps中的所有值都作为字符串，因此可以作为名称
+            #- 值对存储而不是在BLOB列中以其序列化形式存储更多复杂的对象。
+            #从长远来看，这是更安全的，因为您避免了将非String类序列化为BLOB的类版本问题。
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+
+    # 数据库方式
+    job-store-type: jdbc

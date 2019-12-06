@@ -19,7 +19,6 @@
     </properties>
 
     <dependencies>
-
         <!--阿里云对象存储 start-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
@@ -201,6 +200,18 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

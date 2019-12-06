@@ -288,5 +288,40 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setOrderStatus(orderStatus.getOrderStatus());
         return order;
     }
+
+    /**
+     * 清除过期未支付订单并且释放锁定的库存
+     * @param time
+     */
+    @Override
+    public void clearOverDueOrders(Integer time) {
+        List<OrderStatus> list = orderStatusMapper.selectUnPay();
+        /**
+         * 将超时未支付订单清除
+         */
+        for(OrderStatus orderStatus:list){
+            List<StorageUpdate> lists= new ArrayList<>();
+            if(orderStatus.getCreateTime().plusMinutes(time).isBefore(LocalDateTime.now())){
+                List<OrderDetail> list2 = orderDetailMapper.selectByOrderId(orderStatus.getOrderId());
+                for(OrderDetail orderDetail:list2) {
+                    StorageUpdate storageUpdate = new StorageUpdate();
+                    storageUpdate.setGoodsId(orderDetail.getGoodsId());
+                    storageUpdate.setGoodsNum(orderDetail.getGoodsNum());
+                    lists.add(storageUpdate);
+                }
+                /**
+                 * 取消锁定的库存
+                 */
+                int isjuge = storeGoodsMapper.unlockStock(lists);
+                if (isjuge > 0) {
+                    log.info("解锁成功");
+                } else {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.error("解锁库存失败");
+                }
+                orderStatusMapper.clearTimeOut(orderStatus.getOrderId());
+            }
+        }
+    }
 }
 

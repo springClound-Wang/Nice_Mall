@@ -65,4 +65,9 @@ public interface IOrderService extends IService<Order> {
      * @return
      */
     Order getOrderDetail(String orderId);
+
+    /**
+     * 定时清除过期订单
+     */
+    void clearOverDueOrders(Integer time);
 }

@@ -2,7 +2,6 @@ package com.fdj.nicemallbackend.common.aspect;
 
 import com.sun.istack.internal.logging.Logger;
 import com.xiaoleilu.hutool.json.JSONUtil;
-import net.sf.json.util.JSONUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -61,10 +60,17 @@ public class WebLog {
         startTime.set(System.currentTimeMillis());
     }
 
+    /**
+     * 后置
+     * @param ret
+     * @throws Throwable
+     */
     @AfterReturning(returning = "ret",pointcut = "webLog()")
     public void doAfterReturning(Object ret)throws Throwable{
-        logger.info("返回: "+ JSONUtil.toJsonPrettyStr(ret));
-        logger.info("耗时(毫秒): "+ (System.currentTimeMillis()-startTime.get()));
-        logger.info("====================================================================>");
+        if(!ret.getClass().equals(String.class)) {
+            logger.info("返回: " + JSONUtil.toJsonPrettyStr(ret));
+            logger.info("耗时(毫秒): " + (System.currentTimeMillis() - startTime.get()));
+            logger.info("====================================================================>");
+        }
     }
 }

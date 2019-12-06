@@ -3,6 +3,7 @@ package com.fdj.nicemallbackend.system.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fdj.nicemallbackend.system.entity.OrderStatus;
 import org.apache.ibatis.annotations.*;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -38,4 +39,8 @@ public interface OrderStatusMapper extends BaseMapper<OrderStatus> {
 
     @Select("select * from m_order_status where order_id = #{orderId} ")
     OrderStatus selectByOrderId(String orderId);
+
+    void clearTimeOut(@Param("orderId") String orderId);
+
+    List<OrderStatus> selectUnPay();
 }

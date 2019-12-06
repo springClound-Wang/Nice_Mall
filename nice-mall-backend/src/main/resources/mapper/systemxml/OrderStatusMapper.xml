@@ -35,4 +35,18 @@
         order_id = #{orderId}
         where order_id = #{orderId}
     </update>
+    <select id="selectUnPay" resultMap="BaseResultMap">
+        select *
+        from m_order_status
+        where order_status = 0
+    </select>
+    <delete id="clearTimeOut">
+        delete
+        from m_order,
+             m_order_status,
+             m_order_detail
+        where nice_mall.m_order_status.order_id = nice_mall.m_order.order_id
+          and nice_mall.m_order_status.order_id = nice_mall.m_order_detail.order_id
+          and nice_mall.m_order_status.order_id = #{orderId,jdbcType=BIGINT}
+    </delete>
 </mapper>

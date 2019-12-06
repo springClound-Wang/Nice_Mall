@@ -33,4 +33,14 @@
             where goods_id = #{item.goodsId,jdbcType=BIGINT} and m_store_goods.store_goods_number > 0
         </foreach>
     </update>
+    <update id="unlockStock">
+        <foreach collection="storage" item="item" index="index" separator=";" open="" close="">
+            update m_store_goods
+            <set>
+                store_goods_number = m_store_goods.store_goods_number + #{item.goodsNum,jdbcType=INTEGER},
+                goods_sales_volume = m_store_goods.goods_sales_volume - #{item.goodsNum,jdbcType=INTEGER}
+            </set>
+            where goods_id = #{item.goodsId,jdbcType=BIGINT}
+        </foreach>
+    </update>
 </mapper>

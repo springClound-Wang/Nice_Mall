@@ -37,14 +37,12 @@ public class Jwt_Get {
          */
         String token = TokenUtil.decryptToken(token1);
         String loginperson = JWTUtil.getLoginperson(token);
-        System.out.println(loginperson + "***&&&");
+        log.error(loginperson + "***&&&");
         if (iUserService.getUserByphone(loginperson) != null) {
             User user = iUserService.getUserByphone(loginperson);
-//            System.out.println(user + "====");
             return user.getUserId();
         } else {
             User user = iUserService.getUser(loginperson);
-//            System.out.println(user + "====");
             return user.getUserId();
         }
     }
