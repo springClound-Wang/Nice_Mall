@@ -1,7 +1,7 @@
 package com.fdj.nicemallbackend.common.aspect;
 
-import com.sun.istack.internal.logging.Logger;
 import com.xiaoleilu.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,11 +20,10 @@ import java.util.Arrays;
  * @Date 19-12-4 下午12:21
  * @Created by xns
  */
+@Slf4j
 @Aspect
 @Component
 public class WebLog {
-
-    private Logger logger = Logger.getLogger(getClass());
 
     ThreadLocal<Long> startTime = new ThreadLocal<>();
 
@@ -50,13 +49,13 @@ public class WebLog {
         /**
          * 记录下请求内容
          */
-        logger.info("<====================================================================");
-        logger.info("请求URL: => " + request.getRequestURL().toString());
-        logger.info("请求方式: " + request.getMethod());
-        logger.info("请求来源IP: " + request.getRemoteAddr());
-        logger.info("响应方法: " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        logger.info("请求参数: " + Arrays.toString(joinPoint.getArgs()));
-        logger.info("---------------------------------------------------------------------");
+        log.info("<====================================================================");
+        log.info("请求URL: => " + request.getRequestURL().toString());
+        log.info("请求方式: " + request.getMethod());
+        log.info("请求来源IP: " + request.getRemoteAddr());
+        log.info("响应方法: " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        log.info("请求参数: " + Arrays.toString(joinPoint.getArgs()));
+        log.info("---------------------------------------------------------------------");
         startTime.set(System.currentTimeMillis());
     }
 
@@ -68,12 +67,12 @@ public class WebLog {
     @AfterReturning(returning = "ret",pointcut = "webLog()")
     public void doAfterReturning(Object ret)throws Throwable{
         if(ret == null){
-            logger.info("====================================================================>");
+            log.info("====================================================================>");
         }else {
             if (!ret.getClass().equals(String.class)) {
-                logger.info("返回: " + JSONUtil.toJsonPrettyStr(ret));
-                logger.info("耗时(毫秒): " + (System.currentTimeMillis() - startTime.get()));
-                logger.info("====================================================================>");
+                log.info("返回: " + JSONUtil.toJsonPrettyStr(ret));
+                log.info("耗时(毫秒): " + (System.currentTimeMillis() - startTime.get()));
+                log.info("====================================================================>");
             }
         }
     }

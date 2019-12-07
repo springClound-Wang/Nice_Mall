@@ -1,16 +1,12 @@
 package com.fdj.nicemallbackend.system.controller;
 
-import com.fdj.nicemallbackend.common.job.OrderJob;
 import com.fdj.nicemallbackend.common.job.impl.BaseJob;
 import com.fdj.nicemallbackend.system.entity.JobAndTrigger;
 import com.fdj.nicemallbackend.system.service.IJobAndTriggerService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Pointcut;
 import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -89,10 +85,81 @@ public class JobController {
         return map;
     }
 
+    /**
+     * 暂停
+     * @param jobClassName
+     * @param jobGroupName
+     * @throws Exception
+     */
     @PostMapping("/pausejob")
-    public void pausejob(@RequestParam("jobClassName") String jobClassName,@RequestParam("jobGroupName")String jobGroupName){
-
+    public void pausejob(@RequestParam("jobClassName") String jobClassName,@RequestParam("jobGroupName")String jobGroupName) throws Exception {
+        jobPause(jobClassName,jobGroupName);
     }
+
+    public void jobPause(String jobClassName,String jobGroupName) throws Exception{
+        scheduler.pauseJob(JobKey.jobKey(jobClassName,jobGroupName));
+    }
+
+    /**
+     * 恢复
+     * @param jobClassName
+     * @param jobGroupName
+     * @throws Exception
+     */
+    @PostMapping("/resumejob")
+    public void resumejob(@RequestParam("jobClassName") String jobClassName,@RequestParam("jobGroupName") String jobGroupName) throws Exception{
+        jobresume(jobClassName,jobGroupName);
+    }
+
+    public void jobresume(String jobClassName,String jobGroupName) throws Exception{
+        scheduler.resumeJob(JobKey.jobKey(jobClassName,jobGroupName));
+    }
+
+
+    /**
+     * 修改
+     * @param jobClassName
+     * @param jobGroupName
+     * @param cronExpression
+     * @throws Exception
+     */
+    @PostMapping("/reschedulejob")
+    public void reschedule(@RequestParam("jobClassName")String jobClassName,@RequestParam("jobGroupName")String jobGroupName,@RequestParam("cronExpression")String cronExpression) throws Exception{
+        jobreschedule(jobClassName,jobGroupName,cronExpression);
+    }
+
+    public void jobreschedule(String jobClassName,String jobGroupName,String cronExpression) throws Exception{
+        try{
+            TriggerKey triggerKey = TriggerKey.triggerKey(jobClassName,jobGroupName);
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+
+            CronTrigger trigger = (CronTrigger)scheduler.getTrigger(triggerKey);
+
+            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+
+            scheduler.rescheduleJob(triggerKey,trigger);
+        }catch (SchedulerException e){
+            log.error("更新定时任务失败");
+            throw new Exception("更新定时任务失败");
+        }
+    }
+
+    /**
+     * 删除某job
+     * @param jobClassName
+     * @param jobGroupName
+     * @throws Exception
+     */
+    @PostMapping("/deletejob")
+    public void deletejob(@RequestParam("jobClassName")String jobClassName,@RequestParam("jobGroupName")String jobGroupName)throws Exception{
+        jobdelete(jobClassName,jobGroupName);
+    }
+    public void jobdelete(String jobClassName,String jobGroupName) throws Exception{
+        scheduler.pauseTrigger(TriggerKey.triggerKey(jobClassName,jobGroupName));
+        scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName,jobGroupName));
+        scheduler.deleteJob(JobKey.jobKey(jobClassName,jobGroupName));
+    }
+
 
     public static BaseJob getClass(String classname) throws Exception {
         Class<?> class1 = Class.forName(classname);
