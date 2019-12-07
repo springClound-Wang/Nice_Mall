@@ -24,6 +24,12 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
     private JobAndTriggerMapper jobAndTriggerMapper;
 
 
+    /**
+     * 获取分页结果集
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Override
     public PageInfo<JobAndTrigger> getJobAndTriggerDetails(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);

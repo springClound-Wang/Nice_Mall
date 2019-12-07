@@ -27,7 +27,6 @@ public class JobController {
     private IJobAndTriggerService iJobAndTriggerService;
 
     @Autowired
-//    @Qualifier("Scheduler")
     private Scheduler scheduler;
 
 

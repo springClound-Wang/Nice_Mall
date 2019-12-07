@@ -24,6 +24,11 @@ public class BusinessController {
     @Autowired
     IBusinessService iBusinessService;
 
+    /**
+     * 创建店铺
+     * @param business
+     * @return
+     */
     @PostMapping("/createshop")
     public Result createShop(@RequestBody Business business){
         System.out.println(business.getBusinessAddress()+"****"+business.getBusinessIdentityNumber());

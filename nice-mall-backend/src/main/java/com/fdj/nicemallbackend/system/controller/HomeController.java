@@ -60,7 +60,12 @@ public class HomeController {
      */
     @GetMapping("/{field}")
     public Result fuzzyQuery(@PathVariable String field){
-        List<Items> items = iSearchService.search(field);
+        Set<Findgoods> goods = goodsService.findByField(field);
+        if(goods.isEmpty()) {
+            return new Result().fail("查询失败,无对应的数据!!!");
+        }
+        return new Result().success(goods, "查询成功!!!");
+        /*List<Items> items = iSearchService.search(field);
         if(items.isEmpty()) {
             return new Result().fail("查询失败,无对应的数据!!!");
         }
@@ -74,7 +79,7 @@ public class HomeController {
             }
             goods.add(findgoods1);
         });
-        return new Result().success(goods, "查询成功!!!");
+        return new Result().success(goods, "查询成功!!!");*/
     }
 
     /**

@@ -64,4 +64,6 @@ public class ElasticsearchTest {
         //执行新增数据
         this.itemRepository.saveAll(itemList);
     }
+    //rm data/.lock
+    //./bin/logstash -f config/mysql.conf &
 }
