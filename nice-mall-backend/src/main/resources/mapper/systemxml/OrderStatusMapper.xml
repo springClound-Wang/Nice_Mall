@@ -40,13 +40,16 @@
         from m_order_status
         where order_status = 0
     </select>
-    <delete id="clearTimeOut">
-        delete
-        from m_order,
-             m_order_status,
-             m_order_detail
-        where nice_mall.m_order_status.order_id = nice_mall.m_order.order_id
-          and nice_mall.m_order_status.order_id = nice_mall.m_order_detail.order_id
-          and nice_mall.m_order_status.order_id = #{orderId,jdbcType=BIGINT}
+    <delete id="deleteByOrderId">
+        delete from m_order_status where order_id = #{orderId,jdbcType=VARCHAR}
     </delete>
+    <!--    <delete id="clearTimeOut">-->
+<!--        delete-->
+<!--        from m_order,-->
+<!--             m_order_status,-->
+<!--             m_order_detail-->
+<!--        where nice_mall.m_order_status.order_id = #{orderId,jdbcType=VARCHAR}-->
+<!--          and nice_mall.m_order_detail.order_id = nice_mall.m_order_status.order_id-->
+<!--          and  nice_mall.m_order.order_id = nice_mall.m_order_status.order_id-->
+<!--    </delete>-->
 </mapper>

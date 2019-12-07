@@ -2,20 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fdj.nicemallbackend.system.mapper.JobAndTriggerMapper">
 
-    <select id="getJobAndTriggerDetails" resultType="com.fdj.nicemallbackend.system.entity.JobAndTrigger">
-        SELECT
-            QRTZ_JOB_DETAILS.JOB_NAME,
-            QRTZ_JOB_DETAILS.JOB_GROUP,
-            QRTZ_JOB_DETAILS.JOB_CLASS_NAME,
-            QRTZ_TRIGGERS.TRIGGER_NAME,
-            QRTZ_TRIGGERS.TRIGGER_GROUP,
-            QRTZ_CRON_TRIGGERS.CRON_EXPRESSION,
-            QRTZ_CRON_TRIGGERS.TIME_ZONE_ID
-        FROM
-            QRTZ_JOB_DETAILS
-                JOIN QRTZ_TRIGGERS
-                JOIN QRTZ_CRON_TRIGGERS ON QRTZ_JOB_DETAILS.JOB_NAME = QRTZ_TRIGGERS.JOB_NAME
-                AND QRTZ_TRIGGERS.TRIGGER_NAME = QRTZ_CRON_TRIGGERS.TRIGGER_NAME
-                AND QRTZ_TRIGGERS.TRIGGER_GROUP = QRTZ_CRON_TRIGGERS.TRIGGER_GROUP
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.JobAndTrigger">
+        <result column="JOB_NAME" property="JOB_NAME"/>
+        <result column="JOb_GROUP" property="JOB_GROUP"/>
+        <result column="JOB_CLASS_NAME" property="JOB_CLASS_NAME"/>
+        <result column="TRIGGER_NAME" property="TRIGGER_NAME"/>
+        <result column="TRIGGER_GROUP" property="TRIGGER_GROUP"/>
+        <result column="REPEAT_INTERVAL" property="REPEAT_INTERVAL"/>
+        <result column="TIMES_TRIGGERED" property="TIMES_TRIGGERED"/>
+        <result column="CRON_EXPRESSION" property="CRON_EXPRESSION"/>
+        <result column="TIME_ZONE_ID" property="TIME_ZONE_ID"/>
+    </resultMap>
+
+    <select id="getJobAndTriggerDetails" resultMap="BaseResultMap">
+        SELECT QRTZ_JOB_DETAILS.JOB_NAME,
+               QRTZ_JOB_DETAILS.JOB_GROUP,
+               QRTZ_JOB_DETAILS.JOB_CLASS_NAME,
+               QRTZ_TRIGGERS.TRIGGER_NAME,
+               QRTZ_TRIGGERS.TRIGGER_GROUP,
+               QRTZ_CRON_TRIGGERS.CRON_EXPRESSION,
+               QRTZ_CRON_TRIGGERS.TIME_ZONE_ID
+        FROM QRTZ_JOB_DETAILS
+                 JOIN QRTZ_TRIGGERS
+                 JOIN QRTZ_CRON_TRIGGERS ON QRTZ_JOB_DETAILS.JOB_NAME = QRTZ_TRIGGERS.JOB_NAME
+            AND QRTZ_TRIGGERS.TRIGGER_NAME = QRTZ_CRON_TRIGGERS.TRIGGER_NAME
+            AND QRTZ_TRIGGERS.TRIGGER_GROUP = QRTZ_CRON_TRIGGERS.TRIGGER_GROUP
     </select>
 </mapper>

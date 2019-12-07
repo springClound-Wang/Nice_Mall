@@ -40,7 +40,9 @@ public interface OrderStatusMapper extends BaseMapper<OrderStatus> {
     @Select("select * from m_order_status where order_id = #{orderId} ")
     OrderStatus selectByOrderId(String orderId);
 
-    void clearTimeOut(@Param("orderId") String orderId);
+//    void clearTimeOut(@Param("orderId") String orderId);
 
     List<OrderStatus> selectUnPay();
+
+    void deleteByOrderId(String orderId);
 }

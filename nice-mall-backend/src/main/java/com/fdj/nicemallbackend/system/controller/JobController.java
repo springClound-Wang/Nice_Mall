@@ -37,26 +37,36 @@ public class JobController {
 
     /**
      * 添加
+     *
      * @param jobClassName
      * @param jobGroupName
      * @param cronExpression
      * @throws Exception
      */
     @PostMapping("/addjob")
-    public void addjob(@RequestParam(value = "jobClassName")String jobClassName,@RequestParam(value = "jobGroupName")String jobGroupName,@RequestParam(value = "cronExpression")String cronExpression) throws Exception{
-        setJob(jobClassName,jobGroupName,cronExpression);
+    public void addjob(@RequestParam(value = "jobClassName") String jobClassName, @RequestParam(value = "jobGroupName") String jobGroupName, @RequestParam(value = "cronExpression") String cronExpression) throws Exception {
+        setJob(jobClassName, jobGroupName, cronExpression);
     }
 
-    public void setJob(String jobClassName,String jobGroupName,String cronExpression) throws Exception{
+    /**
+     * com.fdj.nicemallbackend.common.job.OrderJob
+     * 0 0/10 * ? * * 每10分钟执行一次
+     *
+     * @param jobClassName
+     * @param jobGroupName
+     * @param cronExpression
+     * @throws Exception
+     */
+    public void setJob(String jobClassName, String jobGroupName, String cronExpression) throws Exception {
         //启动调度器
         scheduler.start();
 
-        JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobClassName,jobGroupName).build();
+        JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobClassName, jobGroupName).build();
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
-        CronTrigger trigger = (CronTrigger) TriggerBuilder.newTrigger().withIdentity(jobClassName,jobGroupName);
+        CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobClassName, jobGroupName).withSchedule(scheduleBuilder).build();
 
         try{
-            scheduler.scheduleJob(jobDetail,trigger);
+        scheduler.scheduleJob(jobDetail, trigger);
         }catch (SchedulerException e){
             log.error("创建定时任务失败");
             throw new Exception("创建定时任务失败");
@@ -65,21 +75,27 @@ public class JobController {
 
     /**
      * 查询
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
     @GetMapping(value = "/queryjob")
-    public Map<String,Object> queryjob(@RequestParam(value = "pageNum")Integer pageNum,@RequestParam(value = "pageSize")Integer pageSize){
-        PageInfo<JobAndTrigger> jobAndTriggerPageInfo = iJobAndTriggerService.getJobAndTriggerDetails(pageNum,pageSize);
-        Map<String,Object> map = new HashMap<>();
-        map.put("JobAndTrigger",jobAndTriggerPageInfo);
-        map.put("number",jobAndTriggerPageInfo.getTotal());
+    public Map<String, Object> queryjob(@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+        PageInfo<JobAndTrigger> jobAndTriggerPageInfo = iJobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("JobAndTrigger", jobAndTriggerPageInfo);
+        map.put("number", jobAndTriggerPageInfo.getTotal());
         return map;
     }
 
-    public static BaseJob getClass(String classname) throws Exception{
+    @PostMapping("/pausejob")
+    public void pausejob(@RequestParam("jobClassName") String jobClassName,@RequestParam("jobGroupName")String jobGroupName){
+
+    }
+
+    public static BaseJob getClass(String classname) throws Exception {
         Class<?> class1 = Class.forName(classname);
-        return (BaseJob)class1.newInstance();
+        return (BaseJob) class1.newInstance();
     }
 }

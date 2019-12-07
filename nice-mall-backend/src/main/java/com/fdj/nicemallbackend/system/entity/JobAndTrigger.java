@@ -1,6 +1,8 @@
 package com.fdj.nicemallbackend.system.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
@@ -11,10 +13,12 @@ import java.math.BigInteger;
  * @Created by xns
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobAndTrigger {
     private String JOB_NAME;
 
-    private String Job_GROUP;
+    private String JOB_GROUP;
 
     private String JOB_CLASS_NAME;
 

@@ -67,10 +67,14 @@ public class WebLog {
      */
     @AfterReturning(returning = "ret",pointcut = "webLog()")
     public void doAfterReturning(Object ret)throws Throwable{
-        if(!ret.getClass().equals(String.class)) {
-            logger.info("返回: " + JSONUtil.toJsonPrettyStr(ret));
-            logger.info("耗时(毫秒): " + (System.currentTimeMillis() - startTime.get()));
+        if(ret == null){
             logger.info("====================================================================>");
+        }else {
+            if (!ret.getClass().equals(String.class)) {
+                logger.info("返回: " + JSONUtil.toJsonPrettyStr(ret));
+                logger.info("耗时(毫秒): " + (System.currentTimeMillis() - startTime.get()));
+                logger.info("====================================================================>");
+            }
         }
     }
 }

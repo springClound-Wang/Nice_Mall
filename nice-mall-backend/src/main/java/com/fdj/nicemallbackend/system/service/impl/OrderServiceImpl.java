@@ -55,6 +55,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 创建订单
+     *
      * @param order
      * @return
      */
@@ -97,6 +98,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 设置要更新的状态对应的时间
+     *
      * @param orderId
      * @param orderStatus
      * @return
@@ -233,7 +235,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 log.error("状态有误，不能识别");
                 break;
         }
-        for (int i=0;i<lists.size();i++){
+        for (int i = 0; i < lists.size(); i++) {
             lists.get(i).setStatusStr(statusStr);
         }
         return lists;
@@ -248,7 +250,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public List<orderDto> queryAllStatus(Long userId) {
         List<orderDto> lists = orderDetailMapper.allStatusOrderByuserId(userId);
         String statusStr = null;
-        for (int i=0;i<lists.size();i++) {
+        for (int i = 0; i < lists.size(); i++) {
             switch (lists.get(i).getOrderStatus()) {
                 case 0:
                     lists.get(i).setStatusStr("待付款");
@@ -275,12 +277,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 用户获取订单详情
+     *
      * @param orderId
      * @return
      */
     @Override
     public Order getOrderDetail(String orderId) {
-        Order order=null;
+        Order order = null;
         order = orderMapper.selectByOrderId(orderId);
         List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(orderId);
         OrderStatus orderStatus = orderStatusMapper.selectByOrderId(orderId);
@@ -291,19 +294,22 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 清除过期未支付订单并且释放锁定的库存
+     *
      * @param time
      */
+
+    @Transactional
     @Override
     public void clearOverDueOrders(Integer time) {
         List<OrderStatus> list = orderStatusMapper.selectUnPay();
         /**
          * 将超时未支付订单清除
          */
-        for(OrderStatus orderStatus:list){
-            List<StorageUpdate> lists= new ArrayList<>();
-            if(orderStatus.getCreateTime().plusMinutes(time).isBefore(LocalDateTime.now())){
+        for (OrderStatus orderStatus : list) {
+            List<StorageUpdate> lists = new ArrayList<>();
+            if (orderStatus.getCreateTime().plusMinutes(time).isBefore(LocalDateTime.now())) {
                 List<OrderDetail> list2 = orderDetailMapper.selectByOrderId(orderStatus.getOrderId());
-                for(OrderDetail orderDetail:list2) {
+                for (OrderDetail orderDetail : list2) {
                     StorageUpdate storageUpdate = new StorageUpdate();
                     storageUpdate.setGoodsId(orderDetail.getGoodsId());
                     storageUpdate.setGoodsNum(orderDetail.getGoodsNum());
@@ -314,12 +320,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                  */
                 int isjuge = storeGoodsMapper.unlockStock(lists);
                 if (isjuge > 0) {
-                    log.info("解锁成功");
+                    orderStatusMapper.deleteByOrderId(orderStatus.getOrderId());
+                    orderDetailMapper.deleteByOrderId(orderStatus.getOrderId());
+                    orderMapper.deleteByOrderId(orderStatus.getOrderId());
+                    log.info(lists + "解锁成功");
                 } else {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     log.error("解锁库存失败");
                 }
-                orderStatusMapper.clearTimeOut(orderStatus.getOrderId());
             }
         }
     }

@@ -2,6 +2,7 @@ package com.fdj.nicemallbackend.system.mapper;
 
 import com.fdj.nicemallbackend.system.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -19,4 +20,7 @@ public interface OrderMapper extends BaseMapper<Order> {
 
     @Select("select * from m_order where order_id = #{orderId} ")
     Order selectByOrderId(String orderId);
+
+    @Delete("delete from m_order where order_id = #{orderId} ")
+    void deleteByOrderId(String orderId);
 }
