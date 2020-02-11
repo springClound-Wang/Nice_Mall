@@ -92,7 +92,7 @@ export default {
     }
     #goods_container >img{
         width: 100%;
-        height: 370px;
+        height: 400px;
     }
     /*分类列表*/
     #hot-type-sort{

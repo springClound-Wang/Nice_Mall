@@ -54,7 +54,7 @@
         <el-table-column label="库存量" width="130" align="center">
           <template slot-scope="scope">￥{{scope.row.storeGoodsNumber}}</template>
         </el-table-column>
-        <el-table-column label="推荐" width="130" align="center">
+        <el-table-column label="推荐" width="80" align="center">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.goodsRecommend"
@@ -105,6 +105,7 @@
 
         </el-table-column>
       </el-table>
+      <div v-show="hasGoods" style="padding: 20px 0 ; text-align: center">!暂无商品</div>
       <el-button
         class="btn-add"
         @click="handleSubmit"
@@ -126,7 +127,7 @@
                 modifyGoodsList:[], //TODO 修改之后的疯抢商品信息
                 getCurList:[],  //TODO 请求当前疯抢请求返回所有的商品集合
                 curGoods:{}, //TODO 请求当前疯抢修改的商品
-
+                hasGoods:false
             }
         },
         created() {
@@ -153,6 +154,9 @@
               params: {},
               headers: {Authorization: window.localStorage.getItem('token')}
             }).then(res=>{
+              if(!res.data.status){
+                this.hasGoods = true
+              }
               this.goodsList = res.data.data;
             }).catch(err=>{
               console.log(err);

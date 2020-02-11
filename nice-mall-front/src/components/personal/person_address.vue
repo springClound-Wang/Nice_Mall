@@ -82,6 +82,7 @@
 </template>
 <script>
     export default {
+      inject:['reload'],
         data() {
             return {
                 tacitAddress:'',//默认地址
@@ -126,6 +127,7 @@
                 headers: {Authorization: window.localStorage.getItem('token')}
               }).then(res=>{
                 this.tableData = res.data.data;
+
               }).catch(err=>{
                 this.$message.error(err.data.message);
               })
@@ -143,6 +145,7 @@
                 headers: {Authorization: window.localStorage.getItem('token')}
               }).then(res=>{
                 this.$message.success(res.data.message);
+                this.reload();
               }).catch(err=>{
                 this.$message.success(err.data.message);
               })

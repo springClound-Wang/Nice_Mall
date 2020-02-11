@@ -82,9 +82,9 @@
     <router-view v-if="isRouterAlive"></router-view>
     <!--底部内容-->
     <footer>
-      阿里巴巴集团|阿里巴巴国际站|阿里巴巴中国站|全球速卖通|淘宝网|天猫|聚划算|一淘|阿里妈妈|飞猪|虾米|阿里云计算|云OS|万网|支付宝|来往 <br>
-      关于淘宝合作伙伴营销中心廉正举报联系客服开放平台诚征英才联系我们网站地图法律声明隐私权政策© 2019 Taobao.com 版权所有<br>
-      网络文化经营许可证：浙网文[2016]0132-032号|增值电信业务经营许可证：浙B2-20080224-1|信息网络传播视听节目许可证：1109364号<br>
+      Nice集团|Nice国际站|Nice中国站|全球速卖通|淘宝网|阿里妈妈|飞猪|虾米|阿里云计算|云OS|万网|支付宝<br>
+      关于Nice合作伙伴营销中心廉正举报联系客服开放平台诚征英才联系我们网站地图法律声明隐私权政策© 2019 Nice.com 版权所有<br>
+      网络文化经营许可证：浙网文[2016]0132-031号|增值电信业务经营许可证：浙B2-20080224-0|信息网络传播视听节目许可证：1109363号<br>
     </footer>
   </div>
 
@@ -214,11 +214,12 @@ export default {
   footer{
     position: relative;
     width: 100%;
-    border-top:1px solid #787671;
+    border-top: 1px solid #cac8c3;
     text-align: center;
     padding: 20px 0;
+    color: #7e7979;
     background: white;
-    height: 150px;
+    height: 100px;
   }
   *{
     margin: 0;

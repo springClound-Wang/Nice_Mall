@@ -157,6 +157,7 @@
                     </el-date-picker>
                 </div>
             </el-row>
+          <div v-show="this.hasGoods" style="text-align: center;padding: 20px 0">!店铺暂无商品</div>
             <el-row>
                 <el-col :span="5" v-for="(item, index) in goods" :key="index">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover">
@@ -167,7 +168,7 @@
                                 <el-tag type="info" class="time">￥{{item.goodsCurPrice}}</el-tag>
                                 <div class="btn_all">
                                     <el-button type="primary" icon="el-icon-edit" circle
-                                               style=" float: right;margin: -10px 20px 0 10px;"
+                                               style=" float: right;margin: -10px 10px 0 10px;"
                                                @click="handleModifyGoods(item.goodsId)"></el-button>
                                     <el-button  type="danger" icon="el-icon-delete"
                                                 style="float: right;margin-top: -10px !important;"
@@ -221,6 +222,7 @@
         orderCountDate: '',
         goods:'',
         modifyList:[],
+        hasGoods:false
       }
     },
     created(){
@@ -244,7 +246,13 @@
           params: {},
           headers: {Authorization: window.localStorage.getItem('token')}
         }).then(res=>{
-          this.goods  = res.data.data;
+          if(!res.data.status){
+            this.goods = [];
+            this.hasGoods = true;
+          }
+          else{
+            this.goods  = res.data.data;
+          }
         }).catch(err=>{
           console.log(err);
         })

@@ -160,6 +160,7 @@ export default {
                   this.select_data.push(this.car_data[i]);
                 }
             }
+            console.log(this.selected,this.car_data);
             if(this.select_data.length === 0){
               this.$message.error("请选择商品！");
               return;

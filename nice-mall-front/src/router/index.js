@@ -68,7 +68,6 @@ export default new Router({
         {path:'goods_pay',name:'goods_pay',component:goods_pay}, //去支付
         {path:'goods_sel',component:goods_sel}, //订单
         {path:'order_details',component:order_details},//订单详情
-
       ]
     },
     //个人中心

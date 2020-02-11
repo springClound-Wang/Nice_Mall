@@ -28,7 +28,7 @@
                 <div>
                     <span style="margin:20px ">原价</span> <span style="font-size: 25px;text-decoration: line-through">￥{{goodsMain.goodsPrePrice}}</span>
                     <span class="seckill">
-                      <countDown v-if="seckillFlag" startTime='10000' endTime="50000" :callback="callback" endText="活动已结束"/>
+                      <!--<countDown v-if="seckillFlag" startTime='10000' endTime="50000" :callback="callback" endText="活动已结束"/>-->
                     </span>
                 </div>
             </div>
@@ -371,7 +371,7 @@ export default {
                 this.$http.post('/cart/join', {
                     userId:window.localStorage.getItem('userId'),
                     goodsId:this.$route.query.id,
-                    goodsPrice:this.goodsCurPrice,
+                    goodsPrice:this.goodsMain.goodsCurPrice,
                     goodsColor:this.goods_color,
                     goodsNum:this.goods_num,
                     goodsSize:this.goods_size

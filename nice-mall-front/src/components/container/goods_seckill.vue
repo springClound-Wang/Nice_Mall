@@ -21,6 +21,7 @@
         </div>
       </router-link>
     </div>
+    <div v-show="hasSeckillGoods" style="text-align: center">! 暂无秒杀商品</div>
   </div>
 </template>
 <script>
@@ -30,7 +31,8 @@ export default {
   },
   data(){
     return{
-      goodsSeckill:[]
+      goodsSeckill:[],
+      hasSeckillGoods:false
     }
   },
   methods:{
@@ -39,9 +41,16 @@ export default {
         params: {},
         headers: {Authorization: window.localStorage.getItem('token')}
       }).then(res=>{
-        this.goodsSeckill  = res.data.data;
+        if(!res.data.status){
+          this.hasSeckillGoods = true;
+          this.goodsSeckill  = [];
+        }
+        else{
+          this.goodsSeckill  = res.data.data;
+        }
+
       }).catch(err=>{
-        console.log(err);
+        this.$router.push('/not_found')
       })
     },
     change(e) {

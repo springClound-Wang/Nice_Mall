@@ -303,7 +303,7 @@
         position: relative;
     }
     .sel_nav_list li{
-        width: 10%;
+        width: 9%;
         position: relative;
         font-weight: 600;
         height: 40px;
