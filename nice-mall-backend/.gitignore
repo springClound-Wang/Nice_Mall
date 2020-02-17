@@ -38,6 +38,5 @@ generator/
 nice_sql/
 application.properties
 OSSClientUtil.java
-readme.md
 /.attach_pid16855
 application.yml
