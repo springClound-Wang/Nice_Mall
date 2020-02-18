@@ -49,10 +49,10 @@
         <el-table-column label="收件人" width="110" align="center">
           <template slot-scope="scope">{{scope.row.receiptName}}</template>
         </el-table-column>
-        <el-table-column label="手机/电话" width="150" align="center">
+        <el-table-column label="手机/电话" width="130" align="center">
           <template slot-scope="scope">{{scope.row.receiptPhone}}</template>
         </el-table-column>
-        <el-table-column label="收货地址" width="200" align="center">
+        <el-table-column label="收货地址" width="150" align="center">
           <template slot-scope="scope">{{scope.row.receiptAddress}}</template>
         </el-table-column>
         <el-table-column label="发货" width="" align="center">
