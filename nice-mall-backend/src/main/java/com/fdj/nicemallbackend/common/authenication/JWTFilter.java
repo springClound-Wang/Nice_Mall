@@ -75,6 +75,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         return false;
     }
 
+    //是否尝试登录,看是否携带token
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -106,7 +107,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 对跨域提供支持
+     * 拦截请求,对跨域提供支持
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

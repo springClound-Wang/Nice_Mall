@@ -112,10 +112,12 @@ public class ShiroRealm extends AuthorizingRealm {
 
         String loginperson = JWTUtil.getLoginperson(token);
 
+        //从解密的token中不能获取用户，则不通过
         if (StringUtils.isBlank(loginperson)) {
             throw new AuthenticationException("token校验不通过");
         }
 
+        //如果能获取
         // 通过用户名查询用户信息
         User user = iUserService.getUser(loginperson);
         if(user == null){
