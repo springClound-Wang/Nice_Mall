@@ -303,7 +303,7 @@ export default {
     /*默认地址样式*/
     .addresslist,.createaddress{
         display: inline-block;
-        width: 258px;
+        min-width: 240px;
         height: 150px;
         margin-right: 10px;
         padding: 10px;

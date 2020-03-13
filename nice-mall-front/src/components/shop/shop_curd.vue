@@ -580,395 +580,7 @@ export default {
     data() {
         return {
             list:[],
-            options:[
-            {
-                value: 'clothes',
-                label: '衣服',
-                children: [
-                    {
-                        value: '女上装',
-                        label: '女上装',
-                        children: [
-                            {
-                                value: 'T恤',
-                                label: 'T恤'
-                            }, {
-                                value: '外套',
-                                label: '外套'
-                            }, {
-                                value: '短外套',
-                                label: '短外套'
-                            }, {
-                                value: '小西装',
-                                label: '小西装'
-                            }, {
-                                value: '风衣',
-                                label: '风衣'
-                            }, {
-                                value: '连衣裙',
-                                label: '连衣裙'
-                            }, {
-                                value: '防晒衣',
-                                label: '防晒衣'
-                            }, {
-                                value: '衬衫',
-                                label: '衬衫'
-                            }, {
-                                value: '卫衣',
-                                label: '卫衣'
-                            }, {
-                                value: '棉衣',
-                                label: '棉衣'
-                            },{
-                                value: '阔腿裤',
-                                label: '阔腿裤'
-                            }, {
-                                value: '雪纺衫',
-                                label: '雪纺衫'
-                            }, {
-                                value: '大衣',
-                                label: '大衣'
-                            }, {
-                                value: '针织衫',
-                                label: '针织衫'
-                            }]
-                    }, {
-                        value: '女下装',
-                        label: '女下装',
-                        children: [
-                            {
-                                value: '休闲裤',
-                                label: '休闲裤'
-                            }, {
-                                value: '半身裙',
-                                label: '半身裙'
-                            }, {
-                                value: '打底裤',
-                                label: '打底裤'
-                            }, {
-                                value: '西装裤',
-                                label: '西装裤'
-                            }, {
-                                value: '牛仔裙',
-                                label: '牛仔裙'
-                            }, {
-                                value: '牛仔裤',
-                                label: '牛仔裤'
-                            }, {
-                                value: '短裤',
-                                label: '短裤'
-                            }, {
-                                value: '阔腿裙',
-                                label: '阔腿裙'
-                            }]
-                    }, {
-                        value: '男上装',
-                        label: '男上装',
-                        children: [
-                            {
-                                value: '卫衣',
-                                label: '卫衣'
-                            },{
-                                value: '外套',
-                                label: '外套'
-                            }, {
-                                value: '大衣',
-                                label: '大衣'
-                            }, {
-                                value: '棉衣',
-                                label: '棉衣'
-                            }, {
-                                value: '毛衣',
-                                label: '毛衣'
-                            }, {
-                                value: '短袖T恤',
-                                label: '短袖T恤'
-                            }]
-                    },
-                    {
-                        value: '男下装',
-                        label: '男下装',
-                        children: [
-                            {
-                                value: '牛仔裤',
-                                label: '牛仔裤'
-                            }, {
-                                value: '运动裤',
-                                label: '运动裤'
-                            }, {
-                                value: '短裤',
-                                label: '短裤'
-                            }, {
-                                value: '西裤',
-                                label: '西裤'
-                            }]
-                    },{
-                        value: '母婴',
-                        label: '母婴',
-                        children: [
-                            {
-                                value: '孕妇上装',
-                                label: '孕妇上装'
-                            }, {
-                                value: '男童装',
-                                label: '男童装'
-                            }, {
-                                value: '女童装',
-                                label: '女童装'
-                            }, {
-                                value: '月子服',
-                                label: '月子服'
-                            }, {
-                                value: '防辐射服',
-                                label: '防辐射服'
-                            }],
-                    }],
-            },
-            {
-                value: 'shoes',
-                label: '鞋子',
-                children: [{
-                    value: '女单鞋',
-                    label: '女单鞋',
-                    children: [{
-                        value: '单鞋',
-                        label: '单鞋'
-                    }, {
-                        value: '厚底鞋',
-                        label: '厚底鞋'
-                    }, {
-                        value: '高跟鞋',
-                        label: '高跟鞋'
-                    }, {
-                        value: '尖头鞋',
-                        label: '尖头鞋'
-                    }, {
-                        value: '平底鞋',
-                        label: '平底鞋'
-                    }, {
-                        value: '浅口单鞋',
-                        label: '浅口单鞋'
-                    }, {
-                        value: '深口单鞋',
-                        label: '深口单鞋'
-                    }, {
-                        value: '靴子',
-                        label: '靴子'
-                    }]
-                },{
-                    value: '女休闲鞋',
-                    label: '女休闲鞋',
-                    children: [{
-                        value: '单鞋',
-                        label: '单鞋'
-                    }, {
-                        value: '内增高',
-                        label: '内增高'
-                    }, {
-                        value: '小白鞋',
-                        label: '小白鞋'
-                    }, {
-                        value: '帆布鞋',
-                        label: '帆布鞋'
-                    }, {
-                        value: '板鞋',
-                        label: '板鞋'
-                    }, {
-                        value: '运动鞋',
-                        label: '运动鞋'
-                    }]
-                }, {
-                    value: '男商务鞋',
-                    label: '男商务鞋',
-                    children: [{
-                        value: '休闲皮鞋',
-                        label: '休闲皮鞋'
-                    }, {
-                        value: '冲孔鞋',
-                        label: '冲孔鞋'
-                    }, {
-                        value: '套脚商务鞋',
-                        label: '套脚商务鞋'
-                    }, {
-                        value: '德比鞋',
-                        label: '德比鞋'
-                    }, {
-                        value: '英伦鞋',
-                        label: '英伦鞋'
-                    }]
-                }, {
-                    value: '男休闲鞋',
-                    label: '男休闲鞋',
-                    children: [{
-                        value: '一脚蹬',
-                        label: '一脚蹬'
-                    }, {
-                        value: '休闲皮鞋',
-                        label: '休闲皮鞋'
-                    }, {
-                        value: '小白鞋',
-                        label: '小白鞋'
-                    }, {
-                        value: '帆布鞋',
-                        label: '帆布鞋'
-                    }, {
-                        value: '豆豆鞋',
-                        label: '豆豆鞋'
-                    }, {
-                      value: '运动鞋',
-                      label: '运动鞋'
-                    }, {
-                      value: '靴子',
-                      label: '靴子'
-                    }]
-                }, {
-                    value: '女童鞋',
-                    label: '女童鞋',
-                    children: [{
-                        value: '儿童休闲鞋',
-                        label: '儿童休闲鞋'
-                    },{
-                        value: '儿童凉拖鞋',
-                        label: '儿童凉拖鞋'
-                    },{
-                        value: '儿童小白鞋',
-                        label: '儿童小白鞋'
-                    }, {
-                        value: '儿童跑鞋',
-                        label: '儿童跑鞋'
-                    }]
-                }, {
-                    value: '男童鞋',
-                    label: '男童鞋',
-                    children: [{
-                        value: '儿童休闲鞋',
-                        label: '儿童休闲鞋'
-                    },{
-                        value: '儿童凉拖鞋',
-                        label: '儿童凉拖鞋'
-                    },{
-                        value: '儿童小白鞋',
-                        label: '儿童小白鞋'
-                    }, {
-                        value: '儿童跑鞋',
-                        label: '儿童跑鞋'
-                    }]
-                }]
-            },
-            {
-                value: 'package',
-                label: '包包',
-                children: [{
-                    value: '女包',
-                    label: '女包',
-                    children: [{
-                        value: '实用大包',
-                        label: '实用大包'
-                    }, {
-                        value: '双肩包',
-                        label: '双肩包'
-                    }, {
-                        value: '斜挎包',
-                        label: '斜挎包'
-                    }, {
-                        value: '真皮包',
-                        label: '真皮包'
-                    }, {
-                        value: '手提包',
-                        label: '手提包'
-                    }, {
-                        value: '单肩包',
-                        label: '单肩包'
-                    }, {
-                        value: '手拿包',
-                        label: '手拿包'
-                    }, {
-                        value: '小方包',
-                        label: '小方包'
-                    }, {
-                        value: '轻便大包',
-                        label: '轻便大包'
-                    }]
-                }, {
-                    value: '男包',
-                    label: '男包',
-                    children: [{
-                        value: '商务公文包',
-                        label: '商务公文包'
-                    }, {
-                        value: '双肩包',
-                        label: '双肩包'
-                    }, {
-                        value: '手拿包',
-                        label: '手拿包'
-                    }, {
-                        value: '男式钱包',
-                        label: '男式钱包'
-                    }, {
-                        value: '腰包',
-                        label: '腰包'
-                    }]
-                }]
-            },
-            {
-                value: 'electronic',
-                label: '电子产品',
-                children: [{
-                    value: '热销手机',
-                    label: '热销手机',
-                    children: [ {
-                        value: '苹果',
-                        label: '苹果'
-                    }, {
-                        value: 'OPPO',
-                        label: 'OPPO'
-                    }, {
-                        value: 'vivo',
-                        label: 'vivo'
-                    }, {
-                        value: '小米',
-                        label: '小米'
-                    }, {
-                        value: '华为荣耀',
-                        label: '华为荣耀'
-                    }, {
-                        value: '华为',
-                        label: '华为'
-                    },  {
-                        value: '三星',
-                        label: '三星'
-                    }, {
-                        value: '联想',
-                        label: '联想'
-                    },{
-                        value: '手机',
-                        label: '手机'
-                    }]
-                }, {
-                    value: '手机配件',
-                    label: '手机配件',
-                    children: [{
-                        value: '原装配件',
-                        label: '原装配件'
-                    }, {
-                        value: '手机保护套',
-                        label: '手机保护套'
-                    }, {
-                        value: '手机存储卡',
-                        label: '手机存储卡'
-                    }, {
-                        value: '手机耳机',
-                        label: '手机耳机'
-                    }, {
-                        value: '拍照配件',
-                        label: '拍照配件'
-                    }, {
-                        value: '移动电源',
-                        label: '移动电源'
-                    }]
-                }]
-            }
-        ],
+            options:[],
             selectedStyle: false,
             active_public: 'public', //公共
             active: 'clothes', //类型
@@ -1188,6 +800,9 @@ export default {
             phoneFitting: ''
         }
     },
+    created(){
+      this.getTypeGoodsList()
+    },
     methods: {
         onSubmit(){
           return false;
@@ -1196,6 +811,33 @@ export default {
             console.log(e[0]);
             this.sel_active = e[0];
         },
+        getTypeGoodsList(){
+        this.$http.get('/home/sort').then(res=>{
+          let arr = res.data.data;
+          console.log(arr);
+          for(let i =0;i<arr.length;i++){
+            this.options.push({
+              value:arr[i].nameList,
+              label:arr[i].nameList,
+              children:arr[i].goodsList.map(item=>{
+                return{
+                  value:item.goodsListName,
+                  label:item.goodsListName,
+                  children:item.goodsAll.map(item1=>{
+                    return{
+                      value:item1,
+                      label:item1,
+                    }
+                  })
+                }
+              })
+            });
+          }
+          console.log(this.options);
+        }).catch(err=>{
+          console.log(err);
+        })
+      },
         nextOne() {
             this.active_public = 'public';
             this.pre_show1 = false;
@@ -1827,7 +1469,21 @@ export default {
         float: left;
         width: auto !important;
     }
-
+    .el-cascader {
+      display: inline-block;
+      position: relative;
+      font-size: 14px;
+      line-height: 40px;
+      width: 48%;
+    }
+    .el-icon-arrow-down {
+      -webkit-transition: -webkit-transform .3s;
+      transition: -webkit-transform .3s;
+      transition: transform .3s,-webkit-transform .3s;
+      font-size: 14px;
+      margin-left: 2px;
+    }
+  
 </style>
 <style>
   #curd_container .el-input__suffix {
@@ -1839,19 +1495,6 @@ export default {
     font-size: 0;
     margin-top: 20px;
   }
-  #curd_container .el-cascader .el-input .el-icon-arrow-down {
-    -webkit-transition: -webkit-transform .3s;
-    transition: -webkit-transform .3s;
-    transition: transform .3s,-webkit-transform .3s;
-    font-size: 14px;
-    margin-left: -10px;
-  }
-  #curd_container .el-input__icon {
-    height: 100%;
-    width: 25px;
-    text-align: center;
-    -webkit-transition: all .3s;
-    transition: all .3s;
-    line-height: 40px;
-  }
+
+
 </style>
