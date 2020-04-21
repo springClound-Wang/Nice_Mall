@@ -312,7 +312,6 @@ export default {
     },
     data(){
         return{
-
             loading:false,
             electronic_format:'',
             goodsDetail:{},

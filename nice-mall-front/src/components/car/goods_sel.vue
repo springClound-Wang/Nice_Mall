@@ -422,7 +422,7 @@
     display: inline-block;
     list-style: none;
     font-size: 18px;
-    font-weight: 500;
+    /*font-weight: 500;*/
     color: #303133;
     position: relative;
     width: 30%;

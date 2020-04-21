@@ -103,7 +103,6 @@ export default {
                 this.selected = [];
                 this.all_money = 0.00;
             }
-
         },
         //删除购物车的某条信息
         handleDeleteCar(id,color,size){
@@ -154,13 +153,14 @@ export default {
         },
         // TODO 结算 将选中的数据发给下一个组件 进行确认结算
         handleToCount(){
+          console.log(this.selected,this.car_data);
 
             for(let i=0;i< this.car_data.length ;i++){
                 if(this.car_data[i].goodsId === parseInt(this.selected[i])){
                   this.select_data.push(this.car_data[i]);
                 }
             }
-            console.log(this.selected,this.car_data);
+
             if(this.select_data.length === 0){
               this.$message.error("请选择商品！");
               return;

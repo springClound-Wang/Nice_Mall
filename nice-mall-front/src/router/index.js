@@ -43,12 +43,16 @@ import person_address from '../components/personal/person_address'
 
 //404
 import not_found from '../components/404';
+
+//测试级联组件
+import cascader from '../components/tools/CasCader'
 export default new Router({
   mode: 'history',
   routes: [
     {
       path:'/',
       component:container,
+      // component:cascader,
       children:[
         {path:'/',redirect:'/home'},
         {path:'home',name:'home',component:home},
